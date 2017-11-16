@@ -28,25 +28,22 @@
 <body>
    
 <div class="container-fluid" style="margin-top:0px;">
-	
     <div class="container">
-    
-    	<label class="h5">welcome : <?php print($userRow['idEmploye']); ?></label>
         <hr />
-        
         <h1>
         <a href="Pageprincipale.php"><span class="glyphicon glyphicon-home"></span> home</a> &nbsp; 
         <a href="profile.php"><span class="glyphicon glyphicon-user"></span> profile</a> &nbsp; 
-		<a href="logout.php?logout=true"><span class="glyphicon glyphicon-log-out"></span>Sign Out</a>
-        
+		<a href="logout.php?logout=true"><span class="glyphicon glyphicon-log-out"></span>Sign Out</a>&nbsp;
+        <a href="Fichepatient.php"><span class=""></span> Fiche Patient</a> &nbsp; 
 		</h1>
        	<hr />
         
         <p class="h4">User Home Page</p> 
-       
-        
-    <p class="blockquote-reverse" style="margin-top:200px;">
-    Programming Blog Featuring Tutorials on PHP, MySQL, Ajax, jQuery, Web Design and More...<br /><br />
+ 
+    <p class="" style="margin-top:5px;">
+	<label class="h5">Bonjour : <?php print($userRow['idEmploye']); ?></label> </br>
+
+    ICI les conneries regardant le gars connecté.
     <a href="http://www.codingcage.com/2015/04/php-login-and-registration-script-with.html">tutorial link</a>
     </p>
     
@@ -54,7 +51,6 @@
 
 </div>
 
-<script src="bootstrap/js/bootstrap.min.js"></script>
 
 </body>
 </html>
