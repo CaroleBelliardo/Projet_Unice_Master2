@@ -100,6 +100,7 @@ INSERT INTO `Departements` (`departement`, `pays`) VALUES ('01','France'),
 ('974','France'),
 ('975','France'),
 ('976','France');
+INSERT INTO `villes` (`ville`, `Departementsdepartement`, `codepostal`) VALUES 
 ( 'ozan',  '01',  '01190'),
 ( 'cormoranche-sur-saone',  '01',  '01290'),
 ( 'plagne-01',  '01',  '01130'),
@@ -36799,4 +36800,4 @@ INSERT INTO `Departements` (`departement`, `pays`) VALUES ('01','France'),
 ( 'tsingoni',  '976',  '97680'),
 ( 'st-barthelemy',  '971',  '97133'),
 ( 'st-martin',  '971',  '97150'),
-( 'st-pierre-et-miquelon',  '975',  '97500'),
+( 'st-pierre-et-miquelon',  '975',  '97500');
