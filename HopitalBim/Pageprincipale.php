@@ -2,20 +2,16 @@
 
 	require_once("session.php");
 	
-	require_once("class.user.php");
-	$auth_user = new USER();
-	
-	
+	require_once("classe.Systeme.php");
+	$auth_user = new Systeme();
 	$user_id = $_SESSION['idEmploye'];
-	
 	$stmt = $auth_user->runQuery("SELECT * FROM CompteUtilisateurs WHERE idEmploye=:user_name");
 	$stmt->execute(array(":user_name"=>$user_id));
-	
-	$userRow=$stmt->fetch(PDO::FETCH_ASSOC);
+	$userRow=$stmt->fetch(PDO::FETCH_ASSOC); 
 
 ?>
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">

@@ -1,7 +1,7 @@
 <?php
 session_start();
-require_once("class.user.php");
-$login = new USER();
+require_once("classe.Systeme.php");
+$login = new Systeme();
 
 if($login->is_loggedin()!="")
 {
@@ -13,7 +13,7 @@ if(isset($_POST['btn-login']))
 	$uname = strip_tags($_POST['txt_uname']);
 	$upass = strip_tags($_POST['txt_password']);
 		
-	if($login->doLogin($uname,$upass))
+	if($login->authentification($uname,$upass))
 	{
 		$login->redirect('Pageprincipale.php');
 	}
@@ -23,7 +23,7 @@ if(isset($_POST['btn-login']))
 	}	
 }
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC ">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />

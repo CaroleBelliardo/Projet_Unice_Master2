@@ -63,7 +63,7 @@ class FICHEPATIENT
 	}
 	
 	
-	public function doLogin($uname,$upass)
+	public function authentification($uname,$upass)
 	{
 		try
 		{

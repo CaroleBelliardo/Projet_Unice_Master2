@@ -2,7 +2,7 @@
 
 require_once('dbconfig.php');
 
-class USER
+class Systeme
 {	
 
 	private $conn; //	private $conn; # acces bdd -- dbconfig.php
@@ -44,7 +44,7 @@ class USER
 	}
 	
 	
-	public function doLogin($uname,$upass) # test si deja connecté
+	public function authentification($uname,$upass) # test si deja connecté
 	{
 		try
 		{
