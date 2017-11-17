@@ -20,7 +20,7 @@ class FICHEPATIENT
 		return $stmt;
 	}
 	
-	public function register($uname,$upass)
+	public function register($text_idAdresse,$text_numero ,$text_rue,$text_CodePostauxcodepostal,$text_numSS,$text_nom ,$text_prenom,$text_dateNaissance,$text_telephone,$text_mail ,$text_sexe,$text_taille,$text_poids,$text_commentaires,$text_AdressesidAdresse)
 	{
 		try
 		{			
@@ -41,7 +41,7 @@ class FICHEPATIENT
 			$stmtpatients->bindparam(":text_numSS", $text_numSS);
 			$stmtpatients->bindparam(":text_nom", $text_nom);
 			$stmtpatients->bindparam(":text_prenom", $text_prenom);
-			$stmtpatients->bindparam(":text_dateNaissance", $text_dateNaissance);
+			$stmtpatients->bindparam(":text_dateNaissance", $text_dateNaissance , PDO::PARAM_STR);
 			$stmtpatients->bindparam(":text_telephone", $text_telephone);
 			$stmtpatients->bindparam(":text_mail", $text_mail);
 			$stmtpatients->bindparam(":text_sexe", $text_sexe);

@@ -5,22 +5,23 @@ require_once('dbconfig.php');
 class USER
 {	
 
-	private $conn;
+	private $conn; //	private $conn; # acces bdd -- dbconfig.php
+
 	
-	public function __construct()
+	public function __construct()# construction -- 1 instance de USER pour acces a bdd **** A Suppr. ****
 	{
 		$database = new Database();
 		$db = $database->dbConnection();
 		$this->conn = $db;
     }
 	
-	public function runQuery($sql)
+	public function runQuery($sql) ## verifie connection avant requete 
 	{
 		$stmt = $this->conn->prepare($sql);
 		return $stmt;
 	}
 	
-	public function register($uname,$upass)
+	public function register($uname,$upass) ## creation compte utilisateur
 	{
 		try
 		{
@@ -36,14 +37,14 @@ class USER
 			
 			return $stmt;	
 		}
-		catch(PDOException $e)
+		catch(PDOException $e) # erreur
 		{
 			echo $e->getMessage();
 		}				
 	}
 	
 	
-	public function doLogin($uname,$upass)
+	public function doLogin($uname,$upass) # test si deja connecté
 	{
 		try
 		{

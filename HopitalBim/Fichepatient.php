@@ -30,11 +30,14 @@
 	$text_commentaires = strip_tags($_POST['text_commentaires']);	
 	$text_AdressesidAdresse = strip_tags($_POST['text_AdressesidAdresse']);	
 	
+	
+	$patient->register($text_idAdresse,$text_numero ,$text_rue,$text_CodePostauxcodepostal,$text_numSS,$text_nom ,$text_prenom,$text_dateNaissance,$text_telephone,$text_mail ,$text_sexe,$text_taille,$text_poids,$text_commentaires,$text_AdressesidAdresse);
+	
 	if($text_numSS=="")	{
 		$error[] = "Il faut fournir un numSS !";	
 	}
 	else if($text_nom=="")	{
-		$error[] = "Il faut un mot de passe !";
+		$error[] = "Il faut un nom !";
 	}
 	// Ajouter autant de elseif que l on veut
 	else
@@ -50,7 +53,7 @@
 			}
 			else
 			{
-				if($user->register($uname,$upass)){	
+				if($patient->register($uname,$upass)){	
 					$user->redirect('sign-up.php?joined');
 				}
 			}
@@ -133,11 +136,25 @@
 			}
 			?>
             <div class="form-group">
-            <input type="text" class="form-control" name="text_idAdresse" placeholder="Enter Username" value="<?php if(isset($error)){echo $uname;}?>" />
-            </div>
-            <div class="form-group">
-            	<input type="password" class="form-control" name="text_idAdresse" placeholder="Enter Password" />
-            </div>
+            <input type="text" class="form-control" name="text_numSS" placeholder="Numero Securité" value="<?php if(isset($error)){echo $uname;}?>" />
+            <input type="text" class="form-control" name="text_nom" placeholder="Nom" value="<?php if(isset($error)){echo $uname;}?>" />
+            <input type="text" class="form-control" name="text_prenom" placeholder="Prénom" value="<?php if(isset($error)){echo $uname;}?>" />
+            <input type="text" class="form-control" name="text_dateNaissance" placeholder="date de naissance" value="<?php if(isset($error)){echo $uname;}?>" />
+            <input type="text" class="form-control" name="text_telephone" placeholder="Numero de telephone" value="<?php if(isset($error)){echo $uname;}?>" />
+            <input type="text" class="form-control" name="text_mail" placeholder="Mail" value="<?php if(isset($error)){echo $uname;}?>" />
+            <input type="text" class="form-control" name="text_sexe" placeholder="Entrer sexe" value="<?php if(isset($error)){echo $uname;}?>" />
+            <input type="text" class="form-control" name="text_taille" placeholder="Entrer taille" value="<?php if(isset($error)){echo $uname;}?>" />
+            <input type="text" class="form-control" name="text_poids" placeholder="Entrer poids en kg " value="<?php if(isset($error)){echo $uname;}?>" />
+            <input type="text" class="form-control" name="text_commentaires" placeholder="Entrer commentaires" value="<?php if(isset($error)){echo $uname;}?>" />
+            <input type="text" class="form-control" name="text_AdressesidAdresse" placeholder="text_AdressesidAdresse" value="<?php if(isset($error)){echo $uname;}?>" />
+            <input type="text" class="form-control" name="text_idAdresse" placeholder="Entrer idadresse" value="<?php if(isset($error)){echo $uname;}?>" />
+            <input type="text" class="form-control" name="text_numero" placeholder="Entrer numero" value="<?php if(isset($error)){echo $uname;}?>" />
+            <input type="text" class="form-control" name="text_rue" placeholder="Entrer rue" value="<?php if(isset($error)){echo $uname;}?>" />
+            <input type="text" class="form-control" name="text_CodePostauxcodepostal" placeholder="Entrer code postal" value="<?php if(isset($error)){echo $uname;}?>" />
+            <input type="text" class="form-control" name="text_AdressesidAdresse" placeholder="adresse id fiche patient" value="<?php if(isset($error)){echo $uname;}?>" />
+			
+			</div>
+
             <div class="clearfix"></div><hr />
             <div class="form-group">
             	<button type="submit" class="btn btn-primary" name="btn-signup">
