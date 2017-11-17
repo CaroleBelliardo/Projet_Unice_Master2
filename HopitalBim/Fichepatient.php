@@ -5,7 +5,7 @@
 	require_once("class.user.php");
 	$auth_user = new USER();
 	$user_id = $_SESSION['idEmploye'];
-	$stmt = $auth_user->runQuery("SELECT * FROM Compteutilisateurs WHERE idEmploye=:user_name");
+	$stmt = $auth_user->runQuery("SELECT * FROM CompteUtilisateurs WHERE idEmploye=:user_name");
 	$stmt->execute(array(":user_name"=>$user_id));
 	$userRow=$stmt->fetch(PDO::FETCH_ASSOC);
 	
@@ -41,7 +41,7 @@
 	{
 		try
 		{
-			$stmt = $user->runQuery("SELECT idEmploye FROM Compteutilisateurs WHERE idEmploye=:uname");
+			$stmt = $user->runQuery("SELECT idEmploye FROM CompteUtilisateurs WHERE idEmploye=:uname");
 			$stmt->execute(array(':uname'=>$uname));
 			$row=$stmt->fetch(PDO::FETCH_ASSOC);
 				

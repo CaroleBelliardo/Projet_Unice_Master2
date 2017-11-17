@@ -67,7 +67,7 @@ class FICHEPATIENT
 	{
 		try
 		{
-			$stmt = $this->conn->prepare("SELECT idEmploye, passwd FROM Compteutilisateurs WHERE idEmploye=:uname");
+			$stmt = $this->conn->prepare("SELECT idEmploye, passwd FROM CompteUtilisateurs WHERE idEmploye=:uname");
 			$stmt->execute(array(':uname'=>$uname));
 			$userRow=$stmt->fetch(PDO::FETCH_ASSOC);
 			if($stmt->rowCount() == 1)
