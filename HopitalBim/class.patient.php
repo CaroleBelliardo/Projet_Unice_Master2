@@ -24,9 +24,9 @@ class FICHEPATIENT
 	{
 		try
 		{			
-			$stmtpatients = $this->conn->prepare("INSERT INTO patients (numSS, nom, prenom, dateNaissance, telephone, mail, sexe, taille, poids, commentaires, AdressesidAdresse) 
+			$stmtpatients = $this->conn->prepare("INSERT INTO Patients (numSS, nom, prenom, dateNaissance, telephone, mail, sexe, taille, poids, commentaires, AdressesidAdresse) 
 		                                               VALUES(:text_numSS, :text_nom, :text_prenom, :text_dateNaissance, :text_telephone, :text_mail, :text_sexe, :text_taille, :text_poids, :text_commentaires, :text_AdressesidAdresse)");
-			$stmtadresse = $this->conn->prepare("INSERT INTO adresses (idAdresse, numero, rue, CodePostauxcodepostal) 
+			$stmtadresse = $this->conn->prepare("INSERT INTO Adresses (idAdresse, numero, rue, CodePostauxcodepostal) 
 		                                               VALUES(:text_idAdresse, :text_numero, :text_rue, :text_CodePostauxcodepostal) ");
 			
 
@@ -67,7 +67,7 @@ class FICHEPATIENT
 	{
 		try
 		{
-			$stmt = $this->conn->prepare("SELECT idEmploye, passwd FROM compteutilisateurs WHERE idEmploye=:uname");
+			$stmt = $this->conn->prepare("SELECT idEmploye, passwd FROM Compteutilisateurs WHERE idEmploye=:uname");
 			$stmt->execute(array(':uname'=>$uname));
 			$userRow=$stmt->fetch(PDO::FETCH_ASSOC);
 			if($stmt->rowCount() == 1)

@@ -26,7 +26,7 @@ if(isset($_POST['btn-signup']))
 	{
 		try
 		{
-			$stmt = $user->runQuery("SELECT idEmploye FROM compteutilisateurs WHERE idEmploye=:uname");
+			$stmt = $user->runQuery("SELECT idEmploye FROM Compteutilisateurs WHERE idEmploye=:uname");
 			$stmt->execute(array(':uname'=>$uname));
 			$row=$stmt->fetch(PDO::FETCH_ASSOC);
 				

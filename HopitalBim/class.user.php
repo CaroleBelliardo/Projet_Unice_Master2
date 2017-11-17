@@ -26,7 +26,7 @@ class USER
 		{
 			$new_password = password_hash($upass, PASSWORD_DEFAULT);
 			
-			$stmt = $this->conn->prepare("INSERT INTO compteutilisateurs(idEmploye,passwd) 
+			$stmt = $this->conn->prepare("INSERT INTO Compteutilisateurs(idEmploye,passwd) 
 		                                               VALUES(:uname, :upass)");
 												  
 			$stmt->bindparam(":uname", $uname);
@@ -47,7 +47,7 @@ class USER
 	{
 		try
 		{
-			$stmt = $this->conn->prepare("SELECT idEmploye, passwd FROM compteutilisateurs WHERE idEmploye=:uname");
+			$stmt = $this->conn->prepare("SELECT idEmploye, passwd FROM Compteutilisateurs WHERE idEmploye=:uname");
 			$stmt->execute(array(':uname'=>$uname));
 			$userRow=$stmt->fetch(PDO::FETCH_ASSOC);
 			if($stmt->rowCount() == 1)
