@@ -14,7 +14,7 @@
 	$userRow=$stmt->fetch(PDO::FETCH_ASSOC);
 	
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -26,31 +26,11 @@
 </head>
 
 <body>
+<?php echo (file_get_contents('./Config/Menupage.php')); ?> 
 
 
+Document de base
 
-<div class="container-fluid" style="margin-top:0px;">
-	
-    <div class="container">
-    
-    	<label class="h5">welcome : <?php print($userRow['idEmploye']); ?></label>
-        <hr />
-        
-        <h1>
-        <a href="Pageprincipale.php"><span class="glyphicon glyphicon-home"></span> home</a> &nbsp; 
-        <a href="profile.php"><span class="glyphicon glyphicon-user"></span> profile</a> &nbsp; 
-		<a href="logout.php?logout=true"><span class="glyphicon glyphicon-log-out"></span>Sign Out</a>
-        
-		</h1>
-       	<hr />
-    </div>
-
-</div>
-
-
-
-
-<script src="bootstrap/js/bootstrap.min.js"></script>
 
 </body>
 </html>

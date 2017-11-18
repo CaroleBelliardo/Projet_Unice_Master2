@@ -103,7 +103,7 @@
     ICI les conneries regardant le gars connecté.
     <a href="http://www.codingcage.com/2015/04/php-login-and-registration-script-with.html">tutorial link</a>
     </p>
-    </div>
+    
 
 </div>
 

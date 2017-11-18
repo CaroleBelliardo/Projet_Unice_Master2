@@ -22,31 +22,23 @@
 </head>
 
 <body>
-   
-<div class="container-fluid" style="margin-top:0px;">
-    <div class="container">
-        <hr />
-        <h1>
-        <a href="Pageprincipale.php"><span class="glyphicon glyphicon-home"></span> home</a> &nbsp; 
-        <a href="profile.php"><span class="glyphicon glyphicon-user"></span> profile</a> &nbsp; 
-		<a href="logout.php?logout=true"><span class="glyphicon glyphicon-log-out"></span>Sign Out</a>&nbsp;
-        <a href="Fichepatient.php"><span class=""></span> Fiche Patient</a> &nbsp; 
-		</h1>
-       	<hr />
-        
-        <p class="h4">User Home Page</p> 
- 
+<?php echo (file_get_contents('./Config/Menupage.php')); ?>
+    
+	<p class="h4">User Home Page</p> 
     <p class="" style="margin-top:5px;">
 	<label class="h5">Bonjour : <?php print($userRow['idEmploye']); ?></label> </br>
 
     ICI les conneries regardant le gars connecté.
-    <a href="http://www.codingcage.com/2015/04/php-login-and-registration-script-with.html">tutorial link</a>
+   
     </p>
     
-    </div>
+    
 
-</div>
+
 
 
 </body>
+
+
+
 </html>
