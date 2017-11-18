@@ -64,7 +64,7 @@ if(isset($_POST['btn-signup']))
 <div class="container">
     	
         <form method="post" class="form-signin">
-            <h2 class="form-signin-heading">Sign up.</h2><hr />
+            <h2 class="form-signin-heading"Ajouter un utilisateur</h2><hr />
             <?php
 			if(isset($error))
 			{
@@ -72,7 +72,7 @@ if(isset($_POST['btn-signup']))
 			 	{
 					 ?>
                      <div class="alert alert-danger">
-                        <i class="glyphicon glyphicon-warning-sign"></i> &nbsp; <?php echo $error; ?>
+                        <i class=""></i> &nbsp; <?php echo $error; ?>
                      </div>
                      <?php
 				}

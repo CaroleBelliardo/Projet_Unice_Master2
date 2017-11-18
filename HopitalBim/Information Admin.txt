@@ -1,1 +1,0 @@
-INSERT INTO `compteutilisateurs` (`idEmploye`, `passwd`) VALUES (' admin', '$2y$10$KkabW3kZ8BuefovG.jZvYuJrAheZVYV6RtcuXGcnRS2YOhwSREc1G')

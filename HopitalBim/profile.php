@@ -26,7 +26,7 @@
 </head>
 
 <body>
-<?php echo (file_get_contents('./Config/Menupage.php')); ?> 
+<?php include ('./Config/Menupage.php'); ?> 
 
 
 Document de base

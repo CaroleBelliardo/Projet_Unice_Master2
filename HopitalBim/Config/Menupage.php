@@ -1,3 +1,5 @@
+<?php $LienSite = 'http://'.$_SERVER['HTTP_HOST'].'/projetm2/HopitalBim/';?> 
+
 <!DOCTYPE html>
 <html>
 <body>
@@ -5,14 +7,12 @@
     <div class="container">
         <hr />
         <h3>
-        <a href="Pageprincipale.php"><span class="glyphicon glyphicon-home"></span> home</a> &nbsp; 
-        <a href="profile.php"><span class="glyphicon glyphicon-user"></span> profile</a> &nbsp; 
-		
-		
-        <a href="Fichepatient.php"><span class=""></span> Fiche Patient</a> &nbsp; 
-		<a href="logout.php?logout=true"><span class=""></span>Deconnection</a>&nbsp;
+		<a href="<?php echo $LienSite ?>Pageprincipale.php">Home</a> &nbsp; 
+		<a href="<?php echo $LienSite ?>profile.php">profile</a> &nbsp; 
+		<a href="<?php echo $LienSite ?>Maintenance.php">Maintenance</a> &nbsp; 
+		<a href="<?php echo $LienSite ?>logout.php?logout=true">Deconnection</a> &nbsp; 
 		</h3>
        	<hr />
-    
 </body>
 </html>
+
