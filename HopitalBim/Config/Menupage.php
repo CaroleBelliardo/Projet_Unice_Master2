@@ -8,7 +8,7 @@
         <hr />
         <h3>
 		<a href="<?php echo $LienSite ?>Pageprincipale.php">Home</a> &nbsp; 
-		<a href="<?php echo $LienSite ?>profile.php">profile</a> &nbsp; 
+		<a href="<?php echo $LienSite ?>Patient.php">Patient</a> &nbsp; 
 		<a href="<?php echo $LienSite ?>Maintenance.php">Maintenance</a> &nbsp; 
 		<a href="<?php echo $LienSite ?>logout.php?logout=true">Deconnection</a> &nbsp; 
 		</h3>

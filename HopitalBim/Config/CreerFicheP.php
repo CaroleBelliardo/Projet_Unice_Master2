@@ -39,7 +39,7 @@
 	else if($text_nom=="")	{
 		$error[] = "Il faut un nom !";
 	}
-	// Ajouter autant de elseif que l on veut
+	// Ajouter autant de elseif que l on veut pour gerer les erreurs 
 	else
 	{
 		try
@@ -81,7 +81,7 @@
 <body>
 <?php include ('../Config/Menupage.php'); ?>
 
-    <p class="h4">User Home Page</p> 
+    <p class="h4">Session : <?php print($userRow['idEmploye']); ?></p> 
     <p class="" style="margin-top:5px;">
 	<label class="h5">Bonjour : <?php print($userRow['idEmploye']); ?></label> </br>
 
