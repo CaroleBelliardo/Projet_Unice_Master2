@@ -1,6 +1,8 @@
 <!--TODO :
 - Supprimer la requete extractReq --=extractReq2
 - requete = tableau
+- nomattribut = creneau.incomp
+
 -->
 
 <?php
@@ -41,7 +43,7 @@
 		while ($temp2 =  $inReq-> fetch(PDO::FETCH_ASSOC))
 		{
 			$tempo=$intab[$temp2["ServicesnomService"]];
-			array_push($tempo, [$manip=>$temp2["COUNT(*)"]]);
+			$tempo[$manip] = $temp2["COUNT(*)"];
 			$intab[$temp2["ServicesnomService"]] = $tempo;
 		}
 		return($intab);
@@ -108,10 +110,10 @@
             AND t1.EmployesCompteUtilisateursidEmploye = t2.EmployesCompteUtilisateursidEmploye)
 			Group by EmployesCompteUtilisateursidEmploye');
 $test=extractReq($req_nbDemandeParService,"nb_Interventions");
-$test2=extractReq2($test,$req_nbDemandeURGParService,"nb_InterventionsUrgentes");
+$a_info=extractReq2($test,$req_nbDemandeURGParService,"nb_InterventionsUrgentes");
 //$test3=extractReq2($test,$req_nbDemandeURGParService,"IncompatibilitePatho");
-$test4=extractReq3($test2,$reqMedPatient);
-Dumper ($test4);
+//$a_info2=extractReq3($a_info,$reqMedPatient);
+Dumper ($a_info);
 
 //echo ("\n***\n"); \\ MANQUE ATTRIBUT SUR TABLE *** 
 //var_dump($req_nbDemandeINCParService->fetch());
@@ -133,7 +135,8 @@ while ($Services =  $service-> fetchColumn())
 		array_push ($a,$Services); 
 	}
 
-
+$service->closeCursor(); // Termine le traitement de la requête
+$var1= ['nb_Interventions' ,'nb_InterventionsUrgentes' ];//,'nb incompatibilité','!!',
 // **************************  AFFICHAGE PAGE ********************************************   
 ?>
 
@@ -150,86 +153,59 @@ while ($Services =  $service-> fetchColumn())
 
 <body>
     <?php include ('./Config/Menupage.php');?> 
-<table>
-	<?php foreach ($a_services as $service)
-	{
-	?>	<tr>
-		<?php foreach ($col as $test2[$service])
+
+<table  BORDER="1",ALIGN="CENTER", VALIGN="MIDDLE " >
+	<tr><th>Service</th>
+	<?php
+		foreach ($var1 as $colonne=>$value)
 		{
-			echo  $test2[$service][$col];
-		?>
+	?>
+			<th> <?php echo $value ?></th>
+	<?php
+		}
+	?>
+	</tr>	
+	<?php
+		foreach ($a_services as $row=>$col)
+		{
+	?>
+		<tr><td><?php echo $row ?></td>
+	<?php
+			foreach ($var1 as $colonne=>$value)
+			{
+	?>
+			<td>
+	<?php
+				if (array_key_exists($row,$a_info))
+				{
+					if (array_key_exists($value,$a_info[$row]))
+					{
+						echo $value;
+						echo $a_info[$row][$value];
+					}
+					else
+					{
+					echo "0";
+					}
+				// Dumper ($a_info[$row][$value]);//.$row.'colonne'.$val;
+				}
+				else
+				{
+					echo "0";
+				}
+
+	?> 
+			</td>
+	<?php
+			} 
+	?>		
 		</tr>
-	}
-	}
+	<?php
+		} 
+	?>
+	</table>
+
 	
-	 <th> <?php ?></th> 
-</table>	
-
-
-
-
-
-
-    <p>
-    <?php
-        foreach ($a_services as  $Services=>$value)
-        {
-		?>
-        <strong>Services</strong> : <?php echo( $Services); ?><br
-       </p>
-    
-    <?php
-        }
-$service->closeCursor(); // Termine le traitement de la requête
-?>
-
-<!---->-->
-<!--//-->
-<!--//-->
-<!--//function html_table($data = array())-->
-<!--//{-->
-<!--//    $rows = array();-->
-<!--//    foreach ($data as $row) {-->
-<!--//        $cells = array();-->
-<!--//        foreach ($row as $cell) {-->
-<!--//            $cells[] = "<td>{$cell}</td>";-->
-<!--//        }-->
-<!--//        $rows[] = "<tr>" . implode('', $cells) . "</tr>";-->
-<!--//    }-->
-<!--//    return "<table class='hci-table'>" . implode('', $rows) . "</table>";-->
-<!--//}-->
-<!--//-->
-<!--//-->
-<!--//echo html_table($test2);-->
-<!---->
-<!--//-->
-<!--//    function build_table($array){-->
-<!--//    // start table-->
-<!--//    $html = '<table>';-->
-<!--//    // header row-->
-<!--//    $html .= '<tr>';-->
-<!--//    foreach($array[0] as $key=>$value){-->
-<!--//            $html .= '<th>' . htmlspecialchars($key) . '</th>';-->
-<!--//        }-->
-<!--//    $html .= '</tr>';-->
-<!--//-->
-<!--//    // data rows-->
-<!--//    foreach( $array as $key=>$value){-->
-<!--//        $html .= '<tr>';-->
-<!--//        foreach($value as $key2=>$value2){-->
-<!--//            $html .= '<td>' . htmlspecialchars($value2) . '</td>';-->
-<!--//        }-->
-<!--//        $html .= '</tr>';-->
-<!--//    }-->
-<!--//-->
-<!--//    // finish table and return it-->
-<!--//-->
-<!--//    $html .= '</table>';-->
-<!--//    return $html;-->
-<!--//}-->
-<!--//-->
-<!--//$array=$test2;-->
-<!--<!--//echo build_table($array);-->
-
+	
 </body>
 </html>
