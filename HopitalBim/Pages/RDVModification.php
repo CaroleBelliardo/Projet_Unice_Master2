@@ -9,9 +9,6 @@
 	$stmt->execute(array(":user_name"=>$user_id));
 	$userRow=$stmt->fetch(PDO::FETCH_ASSOC);
 	
-
-	
-	
 	require_once('../class.patient.php');
 	$patient = new FICHEPATIENT();
 	if(isset($_POST['btn-signup']))
@@ -111,7 +108,9 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-
+<link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen"> 
+<link href="../bootstrap/css/bootstrap-theme.min.css" rel="stylesheet" media="screen"> 
+<link rel="stylesheet" href="../style.css" type="text/css"  />
 <title>Bonjour</title>
 </head>
 

@@ -1,36 +1,40 @@
 <?php $LienSite = 'http://'.$_SERVER['HTTP_HOST'].'/projetm2/HopitalBim/';?> 
-
-<!DOCTYPE html>
-<html>
-<body>
-<div class="container-fluid" style="margin-top:0px;">
-    <div class="container">
-        <hr />
-        <h3>
-		<a href="<?php echo $LienSite ?>Pageprincipale.php">Home</a> &nbsp; 
-		<a href="<?php echo $LienSite ?>Patient.php">Patient</a> &nbsp; 
-		<a href="<?php echo $LienSite ?>Maintenance.php">Maintenance</a> &nbsp; 
-		<a href="<?php echo $LienSite ?>logout.php?logout=true">Deconnection</a> &nbsp; 
-		</h3>
-       	<hr />
-</body>
-
 <!DOCTYPE html>
 <html>
 <head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
-.dropbtn {
-    background-color: #4CAF50;
-    color: white;
-    padding: 16px;
+.navbar {
+    overflow: hidden;
+    background-color: #333;
+    font-family: Arial;
+}
+
+.navbar a {
+    float: left;
     font-size: 16px;
-    border: none;
-    cursor: pointer;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
 }
 
 .dropdown {
-    position: relative;
-    display: inline-block;
+    float: left;
+    overflow: hidden;
+}
+
+.dropdown .dropbtn {
+    font-size: 16px;    
+    border: none;
+    outline: none;
+    color: white;
+    padding: 14px 16px;
+    background-color: inherit;
+}
+
+.navbar a:hover, .dropdown:hover .dropbtn {
+    background-color: red;
 }
 
 .dropdown-content {
@@ -43,40 +47,75 @@
 }
 
 .dropdown-content a {
+    float: none;
     color: black;
     padding: 12px 16px;
     text-decoration: none;
     display: block;
+    text-align: left;
 }
 
-.dropdown-content a:hover {background-color: #f1f1f1}
+.dropdown-content a:hover {
+    background-color: #ddd;
+}
 
 .dropdown:hover .dropdown-content {
     display: block;
 }
 
-.dropdown:hover .dropbtn {
-    background-color: #3e8e41;
-}
 </style>
 </head>
 <body>
 
-<h2>Hoverable Dropdown</h2>
-<p>Move the mouse over the button to open the dropdown menu.</p>
-
-<div class="dropdown">
-  <button class="dropbtn">Dropdown</button>
-  <div class="dropdown-content">
-    <a href="#">Link 1</a>
-    <a href="#">Link 2</a>
-    <a href="#">Link 3</a>
-  </div>
+<div class="navbar">
+	<div class="dropdown">
+		<button class="dropbtn">Patient 
+			<i class="fa fa-caret-down"></i>
+		</button>
+		<div class="dropdown-content">
+		  <a href="<?php echo $LienSite ?>Pages/FichePatientCreer.php">Création</a>
+		  <a href="<?php echo $LienSite ?>Pages/FichePatientModifier.php">Modification</a>
+		</div>
+	</div>
+	<div class="dropdown">
+		<button class="dropbtn">Planning 
+			<i class="fa fa-caret-down"></i>
+		</button>
+		<div class="dropdown-content">
+		  <a href="<?php echo $LienSite ?>Pages/PlanningModifier.php">Gestion</a>
+		</div>
+	</div>
+	<div class="dropdown">
+		<button class="dropbtn">Services 
+			<i class="fa fa-caret-down"></i>
+		</button>
+		<div class="dropdown-content">
+		  <a href="<?php echo $LienSite ?>Pages/ServiceCreer.php">Création</a>
+		  <a href="<?php echo $LienSite ?>Pages/ServiceModifier.php">Modification</a>
+		  <a href="<?php echo $LienSite ?>Pages/ServiceSupprimer.php">Suppression</a>
+		</div>
+	</div>
+	<div class="dropdown">
+		<button class="dropbtn">Compte Utilisateur 
+			<i class="fa fa-caret-down"></i>
+		</button>
+		<div class="dropdown-content">
+		  <a href="<?php echo $LienSite ?>Pages/CompteUtilCreer.php">Création</a>
+		  <a href="<?php echo $LienSite ?>Pages/CompteUtilModifier.php">Modification</a>
+		  <a href="<?php echo $LienSite ?>Pages/CompteUtilSupprimer.php">Suppresion</a>
+		</div>
+	</div>
+	<div class="dropdown">
+		<button class="dropbtn">Verification 
+			<i class="fa fa-caret-down"></i>
+		</button>
+		<div class="dropdown-content">
+		  <a href="<?php echo $LienSite ?>Pages/VerificationSynthese.php">Synthèse des demandes</a>
+		  <a href="<?php echo $LienSite ?>Pages/VerificationNotification.php">Notifications</a>
+		</div>
+	</div>
+	<a href="<?php echo $LienSite ?>logout.php?logout=true">Déconnection</a>
 </div>
 
 </body>
 </html>
-
-
-</html>
-
