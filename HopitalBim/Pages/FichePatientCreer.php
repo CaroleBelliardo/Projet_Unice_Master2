@@ -1,5 +1,9 @@
 <?php
-
+function Dumper ($var){ // affichage des valeurs des variables tableaux
+		echo '<pre>';
+		var_dump($var);
+		echo '</pre>';
+	}
 	require_once("../session.php");
 	
 	require_once("../classe.Systeme.php");
@@ -10,7 +14,9 @@
 	$userRow=$stmt->fetch(PDO::FETCH_ASSOC);
 	
 
-	
+	$var = $auth_user  -> runQuery( "SELECT ville FROM Villes");
+	 $var->execute();
+	Dumper ($var->fetch()) ;
 	
 	require_once('../class.patient.php');
 	$patient = new FICHEPATIENT();

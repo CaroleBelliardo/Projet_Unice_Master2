@@ -5,7 +5,7 @@ require_once('dbconfig.php');
 class Systeme
 {	
 
-	private $conn; //	private $conn; # acces bdd -- dbconfig.php
+	public $conn; //	private $conn; # acces bdd -- dbconfig.php
 
 	
 	public function __construct()# construction -- 1 instance de USER pour acces a bdd **** A Suppr. ****

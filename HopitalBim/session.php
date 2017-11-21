@@ -1,7 +1,7 @@
 <?php
 
 	session_start();
-	
+	unset($_SESSION["session"]); // Si l'utilisateur ferme la page alors la session est detruite.
 	require_once 'classe.Systeme.php';
 	$session = new Systeme();
 	
@@ -12,3 +12,5 @@
 		// session no set redirects to login page
 		$session->redirect('Pageprincipale.php');
 	}
+	
+	?>
