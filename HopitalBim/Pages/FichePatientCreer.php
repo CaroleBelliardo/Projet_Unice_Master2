@@ -81,7 +81,7 @@
 					else
 					{
 					$patient->ajouterville($text_ville,$text_departement,$text_codepostal);
-					$auth_user->redirect('CreerFicheP.php?Valide');
+					$auth_user->redirect('FichePatientCreer.php?Valide');
 					}
 			}
 			else

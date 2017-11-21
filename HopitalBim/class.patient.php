@@ -20,61 +20,7 @@ class FICHEPATIENT
 		return $stmt;
 	}
 	
-	public function register($text_idAdresse,$text_numero ,$text_rue,$text_CodePostauxcodepostal,$text_numSS,$text_nom ,$text_prenom,$text_dateNaissance,$text_telephone,$text_mail ,$text_sexe,$text_taille,$text_poids,$text_commentaires,$text_AdressesidAdresse)
-	{
-		try
-		{			
-			$stmtpatients = $this->conn->prepare("INSERT INTO Patients (numSS, nom, prenom, dateNaissance, telephone, mail, sexe, taille, poids, commentaires, AdressesidAdresse) 
-		                                               VALUES(:text_numSS, :text_nom, :text_prenom, :text_dateNaissance, :text_telephone, :text_mail, :text_sexe, :text_taille, :text_poids, :text_commentaires, :text_idAdresse)");
-			$stmtadresse = $this->conn->prepare("INSERT INTO Adresses (idAdresse, numero, rue, CodePostauxcodepostal) 
-		                                               VALUES(:text_idAdresse, :text_numero, :text_rue, :text_codepostal) ");
-			
-			$stmtville = $this->conn->prepare("INSERT INTO Villes (ville, Departementsdepartement, codepostal) 
-													VALUES (:text_ville, :text_departement, :text_codepostal)" );
-			
-			
-			$stmtdepartements = $this->conn->prepare("INSERT INTO Departements (departement, pays) 
-														VALUES (:text_departement, :text_pays) ");
-			
 
-			$stmtdepartements->bindparam(":text_departement", $text_departement);
-			$stmtdepartements->bindparam(":text_pays", $text_pays);
-			
-			$stmtville->bindparam(":text_ville", $text_ville);
-			$stmtville->bindparam(":text_departement", $text_departement);
-			$stmtville->bindparam(":text_codepostal", $text_codepostal);
-	
-			$stmtadresse->bindparam(":text_idAdresse", $text_idAdresse);
-			$stmtadresse->bindparam(":text_numero", $text_numero);
-			$stmtadresse->bindparam(":text_rue", $text_rue);
-			$stmtadresse->bindparam(":text_codepostal", $text_codepostal);
-			
-			$stmtpatients->bindparam(":text_numSS", $text_numSS);
-			$stmtpatients->bindparam(":text_nom", $text_nom);
-			$stmtpatients->bindparam(":text_prenom", $text_prenom);
-			$stmtpatients->bindparam(":text_dateNaissance", $text_dateNaissance , PDO::PARAM_STR);
-			$stmtpatients->bindparam(":text_telephone", $text_telephone);
-			$stmtpatients->bindparam(":text_mail", $text_mail);
-			$stmtpatients->bindparam(":text_sexe", $text_sexe);
-			$stmtpatients->bindparam(":text_taille", $text_taille);
-			$stmtpatients->bindparam(":text_poids", $text_poids);
-			$stmtpatients->bindparam(":text_commentaires", $text_commentaires);
-			$stmtpatients->bindparam(":text_idAdresse", $text_idAdresse);
-
-			$stmtdepartements->execute();
-			$stmtville->execute();
-			$stmtadresse->execute();	
-			$stmtpatients->execute();	
-
-			return array($stmtville, $stmtadresse, $stmtpatients );	
-		}
-		catch(PDOException $e)
-		{
-			echo $e->getMessage();
-		}				
-	}
-	
-	
 	public function ajouterdepartements($text_departement,$text_pays )
 	{
 		try

@@ -6,9 +6,8 @@
 -->
 
 <?php
-
-	require_once("session.php");
-	require_once("classe.Systeme.php");
+	require_once("../session.php");
+	require_once("../classe.Systeme.php");
 //  $auth_user = new Systeme();
 //	$user_id = $_SESSION['idEmploye'];
 //	$stmt = $auth_user->runQuery("SELECT * FROM CompteUtilisateurs WHERE idEmploye=:user_name");
@@ -152,7 +151,7 @@ $var1= ['nb_Interventions' ,'nb_InterventionsUrgentes' ];//,'nb incompatibilité
 </head>
 
 <body>
-    <?php include ('./Config/Menupage.php');?> 
+    <?php include ('../Config/Menupage.php');?> 
 
 <table  BORDER="1",ALIGN="CENTER", VALIGN="MIDDLE " >
 	<tr><th>Service</th>
