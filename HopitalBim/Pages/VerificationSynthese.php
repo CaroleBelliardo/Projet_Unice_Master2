@@ -2,27 +2,21 @@
 - Supprimer la requete extractReq --=extractReq2
 - requete = tableau
 - nomattribut = creneau.incomp
+- rendez-vous annulés 
+- ajour header 
 
 -->
 
 <?php
 	require_once("../session.php");
 	require_once("../classe.Systeme.php");
-//  $auth_user = new Systeme();
+	$auth_user = new Systeme();
+	$bdd=$auth_user->conn;
 //	$user_id = $_SESSION['idEmploye'];
 //	$stmt = $auth_user->runQuery("SELECT * FROM CompteUtilisateurs WHERE idEmploye=:user_name");
 //	$stmt->execute(array(":user_name"=>$user_id));
 //	$userRow=$stmt->fetch(PDO::FETCH_ASSOC); 
    
-    try // connnection à la base de donnée
-    {
-        $bdd = new PDO('mysql:host=localhost;dbname=bdd;charset=utf8', 'root', '');
-    }
-    catch (Exception $e)
-    {
-            die("Erreur : " . $e->getMessage());
-    }
-    
 	
 	function Dumper ($var){ // affichage des valeurs des variables tableaux
 		echo '<pre>';
@@ -65,7 +59,7 @@
     $nb_totalInterv = $totalInterv->rowCount();
     $totalIntervUrg = $bdd-> query('SELECT * FROM CreneauxInterventions WHERE niveauUrgence != 0'); 
     $nb_totalIntervUrg = $totalIntervUrg->rowCount();
-	$totalIncomp = $bdd-> query('SELECT * FROM CreneauxInterventions WHERE incompDecte != 0'); 
+	//$totalIncomp = $bdd-> query('SELECT * FROM CreneauxInterventions WHERE incompDecte != 0'); 
     $nb_totalIncomp =0;// $totalIncomp->rowCount();
 
 // --- Detail PAR service
@@ -90,11 +84,11 @@
             WHERE CreneauxInterventions.EmployesCompteUtilisateursidEmploye = Employes.CompteUtilisateursidEmploye
             AND niveauUrgence != 0
             GROUP BY Employes.ServicesnomService');
-    $req_nbDemandeINCParService=$bdd ->query('SELECT Employes.ServicesnomService, COUNT(*)
-            FROM CreneauxInterventions NATURAL JOIN Employes
-            WHERE CreneauxInterventions.EmployesCompteUtilisateursidEmploye = Employes.CompteUtilisateursidEmploye
-            AND incompDetect !=0
-            GROUP BY Employes.ServicesnomService');
+ //   $req_nbDemandeINCParService=$bdd ->query('SELECT Employes.ServicesnomService, COUNT(*)
+ //           FROM CreneauxInterventions NATURAL JOIN Employes
+ //           WHERE CreneauxInterventions.EmployesCompteUtilisateursidEmploye = Employes.CompteUtilisateursidEmploye
+ //           AND incompDetect !=0
+ //           GROUP BY Employes.ServicesnomService');
 // retourne liste (medecin + patient) pour lequels il a plus d'une demande ( ligne avec h ou j dif)
 // avec niveau urgent
     $reqMedPatient = $bdd ->query ('SELECT ServicesnomService, EmployesCompteUtilisateursidEmploye, PatientnumSS
@@ -179,7 +173,6 @@ $var1= ['nb_Interventions' ,'nb_InterventionsUrgentes' ];//,'nb incompatibilité
 				{
 					if (array_key_exists($value,$a_info[$row]))
 					{
-						echo $value;
 						echo $a_info[$row][$value];
 					}
 					else
