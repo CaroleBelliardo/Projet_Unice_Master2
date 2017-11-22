@@ -67,6 +67,8 @@ CREATE TABLE Services (
   nomService                  varchar(20) NOT NULL, 
   telephone                   varchar(15), 
   mail                        varchar(60), 
+  horaire_ouverture          varchar(5), # Format 08:00
+  horaire_fermeture          varchar(5), # Format 18:00
   LocalisationServicesidLocalisation varchar(10), 
   PRIMARY KEY (nomService),
   FOREIGN KEY (LocalisationServicesidLocalisation) REFERENCES LocalisationServices (idLocalisation) ON DELETE SET NULL ON UPDATE CASCADE );
