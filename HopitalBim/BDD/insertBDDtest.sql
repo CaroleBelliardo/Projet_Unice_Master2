@@ -1,3 +1,5 @@
+# Insert SQL pour test
+
 INSERT INTO `LocalisationServices` (`idLocalisation`, `batiment`, `aile`, `etage`, `porte`) VALUES ('Ba214', 'B', 'a', '2', '14');
 INSERT INTO `LocalisationServices` (`idLocalisation`, `batiment`, `aile`, `etage`, `porte`) VALUES ('Ba218', 'B', 'a', '2', '18');
 INSERT INTO `LocalisationServices` (`idLocalisation`, `batiment`, `aile`, `etage`, `porte`) VALUES ('Ca-111', 'C', 'a', '-1', '11');
