@@ -1,10 +1,15 @@
 <?php
-function Dumper ($var){ // affichage des valeurs des variables tableaux // a supprimer bientot
-		echo '<pre>';
-		var_dump($var);
-		echo '</pre>';
-	} // fonction qui permet d afficher les requetes sql et donc permet de jouer avec les données 
+	// fonction qui permet d afficher les requetes sql et donc permet de jouer avec les données 
+	/*  A FAIRE : 
+		- verif des types des entrées
+		- que le num secu soit pas inferieur a 15 caractere
+		- champs html du departement et du pays afficher une liste ( plutot que de le taper) 
+		- les includes a faire.
+		- changer les echo 
+		
 	
+	
+	*/
 	require_once("../Session.php"); // requis pour se connecter la base de donnée 
 	
 	require_once("../classe.Systeme.php"); // va permettre d effectuer les requettes sql en orienté objet.
@@ -235,7 +240,7 @@ function Dumper ($var){ // affichage des valeurs des variables tableaux // a sup
 			
             <div class="form-group" >
             <input type="text" class="form-control" name="text_numSS" placeholder="Numero Securité Sociale :" value="<?php if(isset($error)){echo $text_numSS;}?>" /><br>
-            <input type="text" class="form-control" name="text_nom" placeholder="Nom :" value="<?php if(isset($error)){echo $text_nom;}?>" /><br>
+            <input type="text" class="form-control" name="text_nom" pattern="[A-Za-z]" title="Nom invalide, " placeholder="Nom :" value="<?php if(isset($error)){echo $text_nom;}?>" /><br>
             <input type="text" class="form-control" name="text_prenom" placeholder="Prénom :" value="<?php if(isset($error)){echo $text_prenom;}?>" /><br>
             <input type="date" class="form-control" name="text_dateNaissance" placeholder="" value="<?php if(isset($error)){echo $text_dateNaissance;}?>" /><br>
             <input type="text" class="form-control" name="text_telephone" placeholder="Numero de telephone :" value="<?php if(isset($error)){echo $text_telephone;}?>" /><br>
