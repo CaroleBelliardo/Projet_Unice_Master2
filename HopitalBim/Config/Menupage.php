@@ -77,14 +77,7 @@
 		  <a href="<?php echo $LienSite ?>Pages/FichePatientModifier.php">Modification</a>
 		</div>
 	</div>
-	<div class="dropdown">
-		<button class="dropbtn">Planning 
-			<i class="fa fa-caret-down"></i>
-		</button>
-		<div class="dropdown-content">
-		  <a href="<?php echo $LienSite ?>Pages/PlanningModifier.php">Gestion</a>
-		</div>
-	</div>
+	<a href="<?php echo $LienSite ?>Pages/Planning.php">Planning</a>
 	<div class="dropdown">
 		<button class="dropbtn">Services 
 			<i class="fa fa-caret-down"></i>

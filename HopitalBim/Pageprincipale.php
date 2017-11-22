@@ -1,6 +1,6 @@
 <?php
 
-	require_once('Session.php');
+	require_once('session.php');
 	
 	require_once("classe.Systeme.php");
 	$auth_user = new Systeme();
