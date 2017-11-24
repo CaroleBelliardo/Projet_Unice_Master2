@@ -1,21 +1,21 @@
 # Insert SQL pour test
 
-INSERT INTO `LocalisationServices` (`idLocalisation`, `batiment`, `aile`, `etage`, `porte`) VALUES ('Ba214', 'B', 'a', '2', '14');
-INSERT INTO `LocalisationServices` (`idLocalisation`, `batiment`, `aile`, `etage`, `porte`) VALUES ('Ba218', 'B', 'a', '2', '18');
-INSERT INTO `LocalisationServices` (`idLocalisation`, `batiment`, `aile`, `etage`, `porte`) VALUES ('Ca-111', 'C', 'a', '-1', '11');
-INSERT INTO `LocalisationServices` (`idLocalisation`, `batiment`, `aile`, `etage`, `porte`) VALUES ('Cc144', 'C', 'c', '1', '44');
-INSERT INTO `LocalisationServices` (`idLocalisation`, `batiment`, `aile`, `etage`, `porte`) VALUES ('Ae0105', 'A', 'e', '0', '105');
+INSERT INTO `LocalisationServices` (`idLocalisation`, `batiment`, `aile`, `etage`) VALUES (NULL, 'B', 'a', '2');
+INSERT INTO `LocalisationServices` (`idLocalisation`, `batiment`, `aile`, `etage`) VALUES (NULL, 'B', 'a', '2');
+INSERT INTO `LocalisationServices` (`idLocalisation`, `batiment`, `aile`, `etage`) VALUES (NULL, 'C', NULL, '-1');
+INSERT INTO `LocalisationServices` (`idLocalisation`, `batiment`, `aile`, `etage`) VALUES (NULL, 'C', 'c', '1');
+INSERT INTO `LocalisationServices` (`idLocalisation`, `batiment`, `aile`, `etage`) VALUES (NULL, 'A', 'e', '0');
 
-INSERT INTO `Services` (`nomService`, `telephone`, `mail`, `LocalisationServicesidLocalisation`) VALUES ('Imagerie', '0492071873', 'imagerie@hopitalbim.fr', 'Ba214');
-INSERT INTO `Services` (`nomService`, `telephone`, `mail`, `LocalisationServicesidLocalisation`) VALUES ('Gériatrie', '0492769548', 'geriatrie@hopitalbim.fr', 'Ba218');
-INSERT INTO `Services` (`nomService`, `telephone`, `mail`, `LocalisationServicesidLocalisation`) VALUES ('Pneumologie', '0492794516', 'pneumologie@hopitalbim.fr', 'Ca-111');
-INSERT INTO `Services` (`nomService`, `telephone`, `mail`, `LocalisationServicesidLocalisation`) VALUES ('Informatique', '0492798271', 'servicesinfo@hopitalbim.fr', 'Cc144');
-INSERT INTO `Services` (`nomService`, `telephone`, `mail`, `LocalisationServicesidLocalisation`) VALUES ('Cardiologie', '0492112589', 'cardiologie@hopitalbim.fr', 'Ae0105');
+INSERT INTO `Services` (`nomService`, `telephone`, `mail`,`horaire_ouverture`,`horaire_fermeture`,`LocalisationServicesidLocalisation`) VALUES ('Imagerie', '0492071873', 'imagerie@hopitalbim.fr','08:00','17:00', '1');
+INSERT INTO `Services` (`nomService`, `telephone`, `mail`,`horaire_ouverture`,`horaire_fermeture`, `LocalisationServicesidLocalisation`) VALUES ('Gériatrie', '0492769548', 'geriatrie@hopitalbim.fr','06:00','17:00', '2');
+INSERT INTO `Services` (`nomService`, `telephone`, `mail`,`horaire_ouverture`,`horaire_fermeture`, `LocalisationServicesidLocalisation`) VALUES ('Pneumologie', '0492794516', 'pneumologie@hopitalbim.fr','08:00','18:00', '3');
+INSERT INTO `Services` (`nomService`, `telephone`, `mail`,`horaire_ouverture`,`horaire_fermeture`, `LocalisationServicesidLocalisation`) VALUES ('Informatique', '0492798271', 'servicesinfo@hopitalbim.fr','10:00','17:00', '4');
+INSERT INTO `Services` (`nomService`, `telephone`, `mail`,`horaire_ouverture`,`horaire_fermeture`, `LocalisationServicesidLocalisation`) VALUES ('Cardiologie', '0492112589', 'cardiologie@hopitalbim.fr','07:30','18:30', '5');
 
-INSERT INTO `CompteUtilisateurs` (`idEmploye`, `passwd`) VALUES ('lm2561', '$2y$10$aAQcmkz0AlBv3kX/bOFb3t.K5VsfrPs7B8kxMGxu1lp2mFuw//SfC') ; 
-INSERT INTO `CompteUtilisateurs` (`idEmploye`, `passwd`) VALUES ('ly1245', '$2y$10$gXQcmgz7JlZs3kX/aOFb3r.K2XdsfXs5V9kxXGxu1ol2mVuw//SfC') ; 
-INSERT INTO `CompteUtilisateurs` (`idEmploye`, `passwd`) VALUES ('cm1474', '$1y$10$aZZghjz4RlRr3kX/pOCb3t.K5VdsfPs1V5kxJGxu1ju2mFuw//SfC') ; 
-INSERT INTO `CompteUtilisateurs` (`idEmploye`, `passwd`) VALUES ('fd7898', '$7y$10$aXQcmkz7JlRy3kX/tORb3o.K3VszsPs5V5kxMXxu1np2mFuw//SfC') ; 
+INSERT INTO `CompteUtilisateurs` (`idEmploye`, `passwd`) VALUES ('lm25610', '$2y$10$aAQcmkz0AlBv3kX/bOFb3t.K5VsfrPs7B8kxMGxu1lp2mFuw//SfC') ; 
+INSERT INTO `CompteUtilisateurs` (`idEmploye`, `passwd`) VALUES ('ly12454', '$2y$10$gXQcmgz7JlZs3kX/aOFb3r.K2XdsfXs5V9kxXGxu1ol2mVuw//SfC') ; 
+INSERT INTO `CompteUtilisateurs` (`idEmploye`, `passwd`) VALUES ('cm14743', '$1y$10$aZZghjz4RlRr3kX/pOCb3t.K5VdsfPs1V5kxJGxu1ju2mFuw//SfC') ; 
+INSERT INTO `CompteUtilisateurs` (`idEmploye`, `passwd`) VALUES ('fd78980', '$7y$10$aXQcmkz7JlRy3kX/tORb3o.K3VszsPs5V5kxMXxu1np2mFuw//SfC') ; 
 
 INSERT INTO `Departements` (`departement`, `pays`) VALUES ('01','France'),('02','France'),('03','France'),('04','France'),('05','France'),('06','France'),
 ('07','France'),('08','France'),('09','France'),('10','France'),('11','France'),('12','France'),('13','France'),('14','France'),('15','France'),('16','France'),
@@ -41,15 +41,15 @@ INSERT INTO `CodesPostaux` (`villes`, `Departementsdepartement`, `codepostal`, `
 INSERT INTO `CodesPostaux` (`villes`, `Departementsdepartement`, `codepostal`, `Departementspays`) VALUES ('Nanterre', '92', '92200', 'France');
 
 INSERT INTO `Adresses` (`idAdresse`, `numero`, `rue`, `CodesPostauxvilles`) VALUES (NULL, '11', 'rue_prince_maurice', 'Nice'), (NULL, '112', 'rue paul ricard', 'Nice');
-INSERT INTO `Adresses` (`idAdresse`, `numero`, `rue`, `CodesPostauxvilles`) VALUES (NULL, '45', 'Place Bichot', 'Sevran'), (NULL, '78', 'rue nicolas II', 'Grasse');
-INSERT INTO `Adresses` (`idAdresse`, `numero`, `rue`, `CodesPostauxvilles`) VALUES (NULL, '111', 'Boulevard Garnier', 'Nice'), (NULL, '78', 'rue Georges Clemenceau', 'Grasse');
-INSERT INTO `Adresses` (`idAdresse`, `numero`, `rue`, `CodesPostauxvilles`) VALUES (NULL, '171', 'avenue Lamartine', 'Sevran'), (NULL, '7', 'Rue du Malonat', 'Nice');
-INSERT INTO `Adresses` (`idAdresse`, `numero`, `rue`, `CodesPostauxvilles`) VALUES (NULL, '87', 'rue michel vaillant', 'Draguignan'), (NULL, '14', 'Georges Clemenceau', 'Draguignan');
-INSERT INTO `Adresses` (`idAdresse`, `numero`, `rue`, `CodesPostauxvilles`) VALUES (NULL, '47', 'rue de Lyon', 'Paris'), (NULL, '112', 'avenue Foch', 'Paris');
-INSERT INTO `Adresses` (`idAdresse`, `numero`, `rue`, `CodesPostauxvilles`) VALUES (NULL, '58', 'boulevard Vallier', 'Lyon'), (NULL, '78', 'rue Trachard', 'Paris');
-INSERT INTO `Adresses` (`idAdresse`, `numero`, `rue`, `CodesPostauxvilles`) VALUES (NULL, '5', 'Boulevard Jurard', 'Lyon'), (NULL, '78', 'Boulevard De Gaulle', 'Cassis');
-INSERT INTO `Adresses` (`idAdresse`, `numero`, `rue`, `CodesPostauxvilles`) VALUES (NULL, '11', 'avenue Bonaparte', 'Lille'), (NULL, '7', 'Rue de Paris', 'Nice');
-INSERT INTO `Adresses` (`idAdresse`, `numero`, `rue`, `CodesPostauxvilles`) VALUES (NULL, '99', 'Route de Rivesalte', 'Nanterre'), (NULL, '14', 'Impasse Léon Ballanger', 'Lille');
+INSERT INTO `Adresses` (`idAdresse`, `numero`, `rue`, `CodesPostauxvilles`) VALUES (NULL, '45', 'place bichot', 'Sevran'), (NULL, '78', 'rue nicolas II', 'Grasse');
+INSERT INTO `Adresses` (`idAdresse`, `numero`, `rue`, `CodesPostauxvilles`) VALUES (NULL, '111', 'Boulevard Garnier', 'Nice'), (NULL, '78', 'rue georges clemenceau', 'Grasse');
+INSERT INTO `Adresses` (`idAdresse`, `numero`, `rue`, `CodesPostauxvilles`) VALUES (NULL, '171', 'avenue lamartine', 'Sevran'), (NULL, '7', 'rue du malonat', 'Nice');
+INSERT INTO `Adresses` (`idAdresse`, `numero`, `rue`, `CodesPostauxvilles`) VALUES (NULL, '87', 'rue michel vaillant', 'Draguignan'), (NULL, '14', 'georges clemenceau', 'Draguignan');
+INSERT INTO `Adresses` (`idAdresse`, `numero`, `rue`, `CodesPostauxvilles`) VALUES (NULL, '47', 'rue de lyon', 'Paris'), (NULL, '112', 'avenue foch', 'Paris');
+INSERT INTO `Adresses` (`idAdresse`, `numero`, `rue`, `CodesPostauxvilles`) VALUES (NULL, '58', 'boulevard vallier', 'Lyon'), (NULL, '78', 'rue trachard', 'Paris');
+INSERT INTO `Adresses` (`idAdresse`, `numero`, `rue`, `CodesPostauxvilles`) VALUES (NULL, '5', 'boulevard jurard', 'Lyon'), (NULL, '78', 'boulevard de gaulle', 'Cassis');
+INSERT INTO `Adresses` (`idAdresse`, `numero`, `rue`, `CodesPostauxvilles`) VALUES (NULL, '11', 'avenue bonaparte', 'Lille'), (NULL, '7', 'rue de paris', 'Nice');
+INSERT INTO `Adresses` (`idAdresse`, `numero`, `rue`, `CodesPostauxvilles`) VALUES (NULL, '99', 'route de rivesalte', 'Nanterre'), (NULL, '14', 'impasse léon ballanger', 'Lille');
 
 INSERT INTO `Patients` (`numSS`, `nom`, `prenom`, `dateNaissance`, `telephone`, `mail`, `sexe`, `taille_cm`, `poids_kg`, `commentaires`, `AdressesidAdresse`) VALUES ('193040608833380', 'Pagnol', 'Marcel', '1993-04-20', '0493968228', 'marcelloudu06@hotmail.fr', 'M', '184', '86', 'fracture du genou en faisant du ski', '1');
 INSERT INTO `Patients` (`numSS`, `nom`, `prenom`, `dateNaissance`, `telephone`, `mail`, `sexe`, `taille_cm`, `poids_kg`, `commentaires`, `AdressesidAdresse`) VALUES ('178854747412138', 'Pagnol', 'Marcel', '1978-07-10', '0493968333', 'pagnolm@free.fr', 'M', '178', '71', 'infection virale', '2');
@@ -58,29 +58,39 @@ INSERT INTO `Patients` (`numSS`, `nom`, `prenom`, `dateNaissance`, `telephone`, 
 INSERT INTO `Patients` (`numSS`, `nom`, `prenom`, `dateNaissance`, `telephone`, `mail`, `sexe`, `taille_cm`, `poids_kg`, `commentaires`, `AdressesidAdresse`) VALUES ('289886784555147', 'Lotito', 'Sarah', '1989-08-07', '0493555228', 'sarah.lotito6@hotmail.fr', 'F', '163', '55', 'fragilité aux cervicales', '5');
 
 INSERT INTO `Employes` (`CompteUtilisateursidEmploye`, `nom`, `prenom`, `telephone`, `mail`, `ServicesnomService`, `AdressesidAdresse`) VALUES ('Admin', 'Marcelin', 'Lionel', '0675732947', 'lionel.marcelin@hopitalbim.fr', 'Informatique', '6');
-INSERT INTO `Employes` (`CompteUtilisateursidEmploye`, `nom`, `prenom`, `telephone`, `mail`, `ServicesnomService`, `AdressesidAdresse`) VALUES ('lm2561', 'Lotard', 'Marie', '0645467898', 'marie.lotard@hopitalbim.fr', 'Gériatrie', '7');
-INSERT INTO `Employes` (`CompteUtilisateursidEmploye`, `nom`, `prenom`, `telephone`, `mail`, `ServicesnomService`, `AdressesidAdresse`) VALUES ('ly1245', 'Lio', 'Yang', '0678451228', 'yang.lio@hopitalbim.fr', 'Imagerie', '8');
-INSERT INTO `Employes` (`CompteUtilisateursidEmploye`, `nom`, `prenom`, `telephone`, `mail`, `ServicesnomService`, `AdressesidAdresse`) VALUES ('cm1474', 'Cohen', 'David', '0698946525', 'david.cohen@hopitalbim.fr', 'Gériatrie', '9');
-INSERT INTO `Employes` (`CompteUtilisateursidEmploye`, `nom`, `prenom`, `telephone`, `mail`, `ServicesnomService`, `AdressesidAdresse`) VALUES ('fd7898', 'Filippi', 'Didier', '0677441215', 'filippi@hopitalbim.fr', 'Pneumologie', '10');
+INSERT INTO `Employes` (`CompteUtilisateursidEmploye`, `nom`, `prenom`, `telephone`, `mail`, `ServicesnomService`, `AdressesidAdresse`) VALUES ('lm25610', 'Lotard', 'Marie', '0645467898', 'marie.lotard@hopitalbim.fr', 'Gériatrie', '7');
+INSERT INTO `Employes` (`CompteUtilisateursidEmploye`, `nom`, `prenom`, `telephone`, `mail`, `ServicesnomService`, `AdressesidAdresse`) VALUES ('ly12454', 'Lio', 'Yang', '0678451228', 'yang.lio@hopitalbim.fr', 'Imagerie', '8');
+INSERT INTO `Employes` (`CompteUtilisateursidEmploye`, `nom`, `prenom`, `telephone`, `mail`, `ServicesnomService`, `AdressesidAdresse`) VALUES ('cm14743', 'Cohen', 'David', '0698946525', 'david.cohen@hopitalbim.fr', 'Gériatrie', '9');
+INSERT INTO `Employes` (`CompteUtilisateursidEmploye`, `nom`, `prenom`, `telephone`, `mail`, `ServicesnomService`, `AdressesidAdresse`) VALUES ('fd78980', 'Filippi', 'Didier', '0677441215', 'filippi@hopitalbim.fr', 'Pneumologie', '10');
 
 INSERT INTO `ChefServices` (`EmployesCompteUtilisateursidEmploye`, `ServicesnomService`) VALUES ('Admin', 'Informatique');
-INSERT INTO `ChefServices` (`EmployesCompteUtilisateursidEmploye`, `ServicesnomService`) VALUES ('lm2561', 'Gériatrie');
-INSERT INTO `ChefServices` (`EmployesCompteUtilisateursidEmploye`, `ServicesnomService`) VALUES ('fd7898', 'Pneumologie');
+INSERT INTO `ChefServices` (`EmployesCompteUtilisateursidEmploye`, `ServicesnomService`) VALUES ('lm25610', 'Gériatrie');
+INSERT INTO `ChefServices` (`EmployesCompteUtilisateursidEmploye`, `ServicesnomService`) VALUES ('fd78980', 'Pneumologie');
 
-INSERT INTO `Pathologies` (`idPatho`, `nomPathologie`, `origine`, `souche`, `developpement`, `transmission`, `precautions`) VALUES ('GrippeA12', 'GrippeA', 'virale', 'H1N1', 'aigue', 'orale', 'mettre un masque');
-INSERT INTO `Pathologies` (`idPatho`, `nomPathologie`, `origine`, `souche`, `developpement`, `transmission`, `precautions`) VALUES ('MPOC4', 'bronchite ', 'viro-bactérienne', 'inconnue', 'chronique', NULL, 'éviter exposition à des substances irritantes');
-INSERT INTO `Pathologies` (`idPatho`, `nomPathologie`, `origine`, `souche`, `developpement`, `transmission`, `precautions`) VALUES ('CardioVasculaire12', 'myocardiopathie', NULL, NULL, 'chronique', NULL, 'myocardiopathie ischémique');
-INSERT INTO `Pathologies` (`idPatho`, `nomPathologie`, `origine`, `souche`, `developpement`, `transmission`, `precautions`) VALUES ('Cancerbronchopulmonaire1', 'Adénocarcinome', NULL, NULL, NULL, NULL, 'cancer bronchopulmonaire à petites cellules');
-INSERT INTO `Pathologies` (`idPatho`, `nomPathologie`, `origine`, `souche`, `developpement`, `transmission`, `precautions`) VALUES ('IRA2.9', 'pneumonie', 'bactérienne', 'Mycoplasma pneumonia', 'aigue', 'aeroportée', 'mettre un masque, se laver les mains régulièrement');
+INSERT INTO `Pathologies` (`idPatho`, `nomPathologie`, `indication`, `precautions`) VALUES (NULL, 'Grippe', 'H1N1', 'mettre un masque');
+INSERT INTO `Pathologies` (`idPatho`, `nomPathologie`, `indication`, `precautions`) VALUES (NULL, 'Bronchite ', 'chronique', 'éviter exposition à des substances irritantes');
+INSERT INTO `Pathologies` (`idPatho`, `nomPathologie`, `indication`, `precautions`) VALUES (NULL, 'Myocardiopathie', 'extrinsèque', NULL);
+INSERT INTO `Pathologies` (`idPatho`, `nomPathologie`, `indication`, `precautions`) VALUES (NULL, 'Adénocarcinome', 'pulmonaire', NULL);
+INSERT INTO `Pathologies` (`idPatho`, `nomPathologie`, `indication`, `precautions`) VALUES (NULL, 'Pneumonie', DEFAULT, 'mettre un masque, se laver les mains régulièrement');
 
-INSERT INTO `Interventions` (`idIntervention`, `acte`, `ServicesnomService`) VALUES ('TransCoeur', 'Transplantation', 'Cardiologie'), ('OperationFemurD', 'Operation', 'Gériatrie'), ('HospPoumonsDG', 'Hospitalisation', 'Pneumologie'), ('IRMTete', 'IRM', 'Imagerie'), ('RadioPoignetD', 'Radiologie', 'Imagerie');
+INSERT INTO `Interventions` (`idIntervention`, `acte`, `indication`, `ServicesnomService`) VALUES (NULL, 'Transplantation','cardiaque','Cardiologie'), 
+(NULL, 'Operation','fémur','Gériatrie'), 
+(NULL, 'Hospitalisation',DEFAULT, 'Pneumologie'),
+(NULL, 'IRM', 'thorax','Imagerie'), 
+(NULL, 'Radiologie','main','Imagerie');
 
 # Pour les floats, il faut mettre des '.' et non pas des ','
-INSERT INTO `Tarifications` (`InterventionsidIntervention`, `tarif`) VALUES ('HospPoumonsDG', '76'), ('IRMTete', '134.4'), ('OperationFemurD', '132.0'), ('RadioPoignetD', '15'), ('TransCoeur', '434');
+INSERT INTO `Tarifications` (`InterventionsidIntervention`, `tarif_euros`) VALUES ('1', '76'), 
+('2', '134.4'), ('3', '132.0'), ('4', '15'), ('5', '434');
 
-INSERT INTO `InterventionsPatho` (`PathologiesidPatho`, `InterventionsidIntervention`, `niveauUrgenceMax`, `niveauUrgenceMin`) VALUES ('IRA2.9', 'HospPoumonsDG', '3', '1'), ('CardioVasculaire12', 'TransCoeur', '3', '3'), ('GrippeA12', 'HospPoumonsDG', '2', '1'), ('Cancerbronchopulmonaire1', 'HospPoumonsDG', 'NULL', 'NULL'), ('MPOC4', 'HospPoumonsDG', '1', '2');
+INSERT INTO `InterventionsPatho` (`PathologiesidPatho`, `InterventionsidIntervention`, `niveauUrgenceMax`, `niveauUrgenceMin`) VALUES ('1', '3', NULL, NULL), 
+('2', '4', NULL, NULL), 
+('3', '1', NULL, NULL), 
+('4', '3', NULL, NULL), 
+('5', '3', NULL, NULL);
 
-INSERT INTO `CreneauxInterventions` (`date_rdv`, `heure`, `InterventionsidIntervention`, `niveauUrgence`, `statut`, `pathologie`, `commentaires`, `VerifCoherencePathologieRef`, `PatientsnumSS`, `EmployesCompteUtilisateursidEmploye`) VALUES ('2017-11-01', '03:00:00', 'TransCoeur', '3', 'realisee', 'Cardiomyopathie', 'Transplantation cardiaque a 3h du matin. Très Urgent', '?????????', '178945687887447', 'cm1474'), ('2017-11-02', '12:30:00', 'HospPoumonsDG', '3', 'annulée', 'Pneumonie', 'Patient décédé', NULL, '289886784555147', 'lm2561');
-INSERT INTO `CreneauxInterventions` (`date_rdv`, `heure`, `InterventionsidIntervention`, `niveauUrgence`, `statut`, `pathologie`, `commentaires`, `VerifCoherencePathologieRef`, `PatientsnumSS`, `EmployesCompteUtilisateursidEmploye`) VALUES ('2017-11-04', '15:00:00', 'IRMTete', '1', 'reportée', 'Céphalée', 'le patient n\'a plus mal à la tête', NULL, '178854747412138', 'cm1474');
+INSERT INTO `CreneauxInterventions` (`date_rdv`, `heure_rdv`, `InterventionsidIntervention`, `niveauUrgence`, `statut`, `pathologie`, `commentaires`, `VerifCoherencePathoUrgences`, `PatientsnumSS`, `EmployesCompteUtilisateursidEmploye`) VALUES ('2017-11-01', '03:00:00', '1', '3', 'r', 'Cardiomyopathie', 'Transplantation cardiaque à 3h du matin. Très Urgent', NULL, '178945687887447', 'cm14743'), 
+('2017-11-02', '12:30:00', '3', '3', 'a', 'Pneumonie', 'Patient décédé', 'OUI', '289886784555147', 'lm25610'),
+('2017-11-04', '15:00:00', '4', '1', DEFAULT, NULL, 'le patient a mal aux niveau des côtes', NULL, '178854747412138', 'cm14743');
 
 
