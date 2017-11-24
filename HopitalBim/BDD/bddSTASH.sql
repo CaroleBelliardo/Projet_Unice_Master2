@@ -14,7 +14,7 @@ CREATE TABLE Departements (
   departement varchar(3) NOT NULL,  # Contraintes majuscule pour les lettres -> 06 / corse : 2A / 974 
   pays        varchar(25) NOT NULL, # France 
   PRIMARY KEY (departement, pays));  
- 
+
 # Table Codes postaux  
 CREATE TABLE CodesPostaux ( 
   villes                 varchar(150) NOT NULL, # Nice // 1ère lettre maj 
@@ -59,11 +59,10 @@ CREATE TABLE CompteUtilisateurs (
    
 # Table indiquant la localisation de chaque service de l'hopital (= bureau d'accueil du service) 
 CREATE TABLE LocalisationServices (   
-  idLocalisation varchar(10) NOT NULL, # Ba214 // B + a + 2 + 14 // batiment + aile + etage + porte 
+  idLocalisation int(8) NOT NULL AUTO_INCREMENT, # 1
   batiment       varchar(15) NOT NULL, # Majuscule 
   aile           varchar(10),          # Minuscule 
-  etage          varchar(2),           # si c'est en sous-sol "-1" accepté.  
-  porte          varchar(5),  
+  etage          varchar(2),           # si c'est en sous-sol "-1" accepté.   
   PRIMARY KEY (idLocalisation)); 
  
 # Table regroupant tous les services présents dans l'hôpital 
@@ -71,7 +70,9 @@ CREATE TABLE Services (
   nomService                  varchar(20) NOT NULL, # Imagerie // Maj en 1ère lettre 
   telephone                   varchar(15),  
   mail                        varchar(60),  
-  LocalisationServicesidLocalisation varchar(10),   # idLocalisation : Ba214 
+  horaire_ouverture           char(5), # format 08:00
+  horaire_fermeture           char(5), # format 18:00
+  LocalisationServicesidLocalisation int(8),   # cf idLocalisation : 1
   PRIMARY KEY (nomService), 
   FOREIGN KEY (LocalisationServicesidLocalisation) REFERENCES LocalisationServices (idLocalisation) ON DELETE SET NULL ON UPDATE CASCADE ); 
   
