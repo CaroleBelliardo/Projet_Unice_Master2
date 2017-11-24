@@ -13,7 +13,6 @@
 	$stmt->execute(array(":user_name"=>$user_id)); // la meme 
 	$userRow=$stmt->fetch(PDO::FETCH_ASSOC); // permet d afficher l identifiant du gars sur la page, ce qui faudrai c est le nom
 	
-
 	if(isset($_POST['btn-signup']))
 {
  // ici je pense faire un include de $dep a $adresse tout foutre dans un seul et meme document car c est chiant a regarder 
@@ -102,26 +101,6 @@
 								$ajoutpatient->bindparam(":rechercheidadresse", $rechercheidadresse);
 								$ajoutpatient->execute();									
 								//-------------
-								$rechercheidadresse = $auth_user->runQuery( "SELECT idAdresse FROM Adresses 
-																					WHERE numero=:text_numero 
-																					AND rue=:text_rue 
-																					AND CodesPostauxvilles=:text_ville" ); 
-								$rechercheidadresse->execute(array('text_numero'=>$text_numero,'text_rue'=>$text_rue, 'text_ville'=>$text_ville));
-								$row=$rechercheidadresse->fetch(PDO::FETCH_ASSOC);
-								$rechercheidadresse =$row["idAdresse"];
-								$ajoutpatient = $auth_user->conn->prepare("INSERT INTO Patients (numSS, nom, prenom, dateNaissance, telephone, mail, sexe, taille_cm, poids_kg, commentaires, AdressesidAdresse) 
-														VALUES (:text_numSS, :text_nom, :text_prenom, :text_dateNaissance, :text_telephone, :text_mail, :text_sexe, :text_taille, :text_poids, :text_commentaires, :rechercheidadresse)");
-								$ajoutpatient->bindparam(":text_numSS", $text_numSS );
-								$ajoutpatient->bindparam(":text_nom", $text_nom);
-								$ajoutpatient->bindparam(":text_prenom", $text_prenom);
-								$ajoutpatient->bindparam(":text_dateNaissance", $text_dateNaissance);
-								$ajoutpatient->bindparam(":text_telephone", $text_telephone);
-								$ajoutpatient->bindparam(":text_mail", $text_mail);
-								$ajoutpatient->bindparam(":text_sexe", $text_sexe);
-								$ajoutpatient->bindparam(":text_taille", $text_taille);
-								$ajoutpatient->bindparam(":text_poids", $text_poids);
-								$ajoutpatient->bindparam(":text_commentaires", $text_commentaires);
-								$ajoutpatient->bindparam(":rechercheidadresse", $rechercheidadresse);
 								$auth_user->redirect('FichePatientCreer.php?Valide');
 							}	
 							else
@@ -142,7 +121,7 @@
 							$row=$rechercheidadresse->fetch(PDO::FETCH_ASSOC);
 							$rechercheidadresse =$row["idAdresse"];
 							$ajoutpatient = $auth_user->conn->prepare("INSERT INTO Patients (numSS, nom, prenom, dateNaissance, telephone, mail, sexe, taille_cm, poids_kg, commentaires, AdressesidAdresse) 
-													VALUES (:text_numSS, :text_nom, :text_prenom, :text_dateNaissance, :text_telephone, :text_mail, :text_sexe, :text_taille, :text_poids, :text_commentaires, :rechercheidadresse)");
+														VALUES (:text_numSS, :text_nom, :text_prenom, :text_dateNaissance, :text_telephone, :text_mail, :text_sexe, :text_taille, :text_poids, :text_commentaires, :rechercheidadresse)");
 							$ajoutpatient->bindparam(":text_numSS", $text_numSS );
 							$ajoutpatient->bindparam(":text_nom", $text_nom);
 							$ajoutpatient->bindparam(":text_prenom", $text_prenom);
@@ -154,7 +133,9 @@
 							$ajoutpatient->bindparam(":text_poids", $text_poids);
 							$ajoutpatient->bindparam(":text_commentaires", $text_commentaires);
 							$ajoutpatient->bindparam(":rechercheidadresse", $rechercheidadresse);
+							$ajoutpatient->execute();	
 							$auth_user->redirect('FichePatientCreer.php?Valide');
+
 							}
 					}
 					else
@@ -194,6 +175,7 @@
 					$ajoutpatient->bindparam(":text_poids", $text_poids);
 					$ajoutpatient->bindparam(":text_commentaires", $text_commentaires);
 					$ajoutpatient->bindparam(":rechercheidadresse", $rechercheidadresse);
+					$ajoutpatient->execute();	
 					$auth_user->redirect('FichePatientCreer.php?Valide');
 					}
 			}
@@ -242,6 +224,7 @@
 			$ajoutpatient->bindparam(":text_poids", $text_poids);
 			$ajoutpatient->bindparam(":text_commentaires", $text_commentaires);
 			$ajoutpatient->bindparam(":rechercheidadresse", $rechercheidadresse);
+			$ajoutpatient->execute();	
 			$auth_user-> redirect('FichePatientCreer.php?Valide');
 			
 			}
@@ -306,6 +289,7 @@
             <input type="date" class="form-control" name="text_dateNaissance" placeholder="" value="<?php if(isset($error)){echo $text_dateNaissance;}?>" /><br>
             <input type="text" class="form-control" name="text_telephone" pattern="[0-9]{0-15}" title="Caractère numérique, 15 caractères acceptés"    placeholder="Numero de telephone :" value="<?php if(isset($error)){echo $text_telephone;}?>" /><br>
             <input type="text" class="form-control" name="text_mail" placeholder="Mail :" value="<?php if(isset($error)){echo $text_mail;}?>" /><br>
+			
 			<label   class="form-control" > Sexe :&nbsp;&nbsp;      
 			<input type="radio"  name="text_sexe" value="M" checked="checked"  style="display: inline; !important;"/>Masculin&nbsp;&nbsp;&nbsp;&nbsp;
 			<input type="radio"  name="text_sexe" value="F" style="display: inline;!important;" />Feminin
