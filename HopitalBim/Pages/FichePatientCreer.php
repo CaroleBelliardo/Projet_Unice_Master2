@@ -1,14 +1,8 @@
 <?php
 	// fonction qui permet d afficher les requetes sql et donc permet de jouer avec les données 
 	/*  A FAIRE : 
-		- verif des types des entrées
-		- que le num secu soit pas inferieur a 15 caractere
 		- champs html du departement et du pays afficher une liste ( plutot que de le taper) 
 		- les includes a faire.
-
-		
-	
-	
 	*/
 	require_once("../Session.php"); // requis pour se connecter la base de donnée 
 	
@@ -19,7 +13,6 @@
 	$stmt->execute(array(":user_name"=>$user_id)); // la meme 
 	$userRow=$stmt->fetch(PDO::FETCH_ASSOC); // permet d afficher l identifiant du gars sur la page, ce qui faudrai c est le nom
 	
-
 	if(isset($_POST['btn-signup']))
 {
  // ici je pense faire un include de $dep a $adresse tout foutre dans un seul et meme document car c est chiant a regarder 
@@ -42,7 +35,6 @@
 	$text_taille = strip_tags($_POST['text_taille']);	
 	$text_poids = strip_tags($_POST['text_poids']);	
 	$text_commentaires = strip_tags($_POST['text_commentaires']);	
-	
 		
 	// TEST SI NUMSS deja present
 	$stmt = $auth_user->runQuery("SELECT numSS FROM Patients WHERE numSS=:text_numSS ");
@@ -67,41 +59,32 @@
 		try
 		{
 			/* TEST LE DEPARTEMENT */
-			echo 'test dep : ici on va verifier que le departement est bien recherché <br > ';
 			$stmt = $auth_user->runQuery("SELECT departement,pays FROM Departements WHERE departement=:text_departement AND pays=:text_pays");
 			$stmt->execute(array('text_departement'=>$text_departement, 'text_pays'=>$text_pays));
 			$row=$stmt->fetch(PDO::FETCH_ASSOC);
-			echo 'Le test a eu lieu pour le departement + pays : <br>' ; 
 			if($row['departement']==$text_departement and $row['pays']==$text_pays)  {
 				/* TEST La base de donnée Code postals  */
-				echo 'departement avec pays deja dans la base : <br>';
 				$stmt = $auth_user->runQuery("SELECT villes, Departementsdepartement, codepostal, Departementspays FROM CodesPostaux 
 												WHERE villes=:text_ville AND Departementsdepartement=:text_departement AND codepostal=:text_codepostal AND Departementspays=:text_pays");
 				$stmt->execute(array('text_ville'=>$text_ville,'text_departement'=>$text_departement, 'text_codepostal'=>$text_codepostal,'text_pays'=>$text_pays));
 				$row=$stmt->fetch(PDO::FETCH_ASSOC);
 					if($row['Departementspays']==$text_pays and $row['Departementsdepartement']==$text_departement and $row['codepostal']==$text_codepostal and $row['villes']==$text_ville )  {
-						echo 'departement avec pays et ville et le code postal deja dans la base : <br> ' ; 
 						$stmt = $auth_user->runQuery("SELECT numero, rue, CodesPostauxvilles FROM Adresses 
 														WHERE numero=:text_numero AND rue=:text_rue AND CodesPostauxvilles=:text_ville");
 						$stmt->execute(array('text_numero'=>$text_numero, 'text_rue'=>$text_rue, 'text_ville'=>$text_ville));
 						$row=$stmt->fetch(PDO::FETCH_ASSOC);
-						echo 'test du numero rue et code postaux :';
 							if($row['numero']==$text_numero and $row['rue']==$text_rue and $row['CodesPostauxvilles']==$text_ville )  
 							{
-								echo 'la ville et la rue aussi  existe deja dans le meme dep ville et pays nique sa mere, faut mtn test si le patiet est present' ;
 								// --------- ici recherche de l id de la putin de ville : 
-								echo '1-';
 								$rechercheidadresse = $auth_user->runQuery( "SELECT idAdresse FROM Adresses 
 																					WHERE numero=:text_numero 
 																					AND rue=:text_rue 
 																					AND CodesPostauxvilles=:text_ville" ); 
-								echo '1-';
 								$rechercheidadresse->execute(array('text_numero'=>$text_numero,'text_rue'=>$text_rue, 'text_ville'=>$text_ville));
-								echo '1-';
 								$row=$rechercheidadresse->fetch(PDO::FETCH_ASSOC);
-								echo '1-';
+
 								$rechercheidadresse =$row["idAdresse"];
-								echo '1-';
+
 								$ajoutpatient = $auth_user->conn->prepare("INSERT INTO Patients (numSS, nom, prenom, dateNaissance, telephone, mail, sexe, taille_cm, poids_kg, commentaires, AdressesidAdresse) 
 														VALUES (:text_numSS, :text_nom, :text_prenom, :text_dateNaissance, :text_telephone, :text_mail, :text_sexe, :text_taille, :text_poids, :text_commentaires, :rechercheidadresse)");
 		
@@ -116,37 +99,13 @@
 								$ajoutpatient->bindparam(":text_poids", $text_poids);
 								$ajoutpatient->bindparam(":text_commentaires", $text_commentaires);
 								$ajoutpatient->bindparam(":rechercheidadresse", $rechercheidadresse);
-								$ajoutpatient->execute();
-								
-								echo ('tata <br>');
-												
+								$ajoutpatient->execute();									
 								//-------------
-								$rechercheidadresse = $auth_user->runQuery( "SELECT idAdresse FROM Adresses 
-																					WHERE numero=:text_numero 
-																					AND rue=:text_rue 
-																					AND CodesPostauxvilles=:text_ville" ); 
-								$rechercheidadresse->execute(array('text_numero'=>$text_numero,'text_rue'=>$text_rue, 'text_ville'=>$text_ville));
-								$row=$rechercheidadresse->fetch(PDO::FETCH_ASSOC);
-								$rechercheidadresse =$row["idAdresse"];
-								$ajoutpatient = $auth_user->conn->prepare("INSERT INTO Patients (numSS, nom, prenom, dateNaissance, telephone, mail, sexe, taille_cm, poids_kg, commentaires, AdressesidAdresse) 
-														VALUES (:text_numSS, :text_nom, :text_prenom, :text_dateNaissance, :text_telephone, :text_mail, :text_sexe, :text_taille, :text_poids, :text_commentaires, :rechercheidadresse)");
-								$ajoutpatient->bindparam(":text_numSS", $text_numSS );
-								$ajoutpatient->bindparam(":text_nom", $text_nom);
-								$ajoutpatient->bindparam(":text_prenom", $text_prenom);
-								$ajoutpatient->bindparam(":text_dateNaissance", $text_dateNaissance);
-								$ajoutpatient->bindparam(":text_telephone", $text_telephone);
-								$ajoutpatient->bindparam(":text_mail", $text_mail);
-								$ajoutpatient->bindparam(":text_sexe", $text_sexe);
-								$ajoutpatient->bindparam(":text_taille", $text_taille);
-								$ajoutpatient->bindparam(":text_poids", $text_poids);
-								$ajoutpatient->bindparam(":text_commentaires", $text_commentaires);
-								$ajoutpatient->bindparam(":rechercheidadresse", $rechercheidadresse);
 								$auth_user->redirect('FichePatientCreer.php?Valide');
 							}	
 							else
 							{
 								// Ajout de la rue rue etc dans la base
-								echo 'on est ici : ';
 							$stmtrueville = $auth_user->conn->prepare("INSERT INTO Adresses(idAdresse, numero, rue, CodesPostauxvilles ) 
 															VALUES (DEFAULT, :text_numero, :text_rue ,:text_ville )");		
 							$stmtrueville->bindparam(":text_numero", $text_numero );
@@ -162,7 +121,7 @@
 							$row=$rechercheidadresse->fetch(PDO::FETCH_ASSOC);
 							$rechercheidadresse =$row["idAdresse"];
 							$ajoutpatient = $auth_user->conn->prepare("INSERT INTO Patients (numSS, nom, prenom, dateNaissance, telephone, mail, sexe, taille_cm, poids_kg, commentaires, AdressesidAdresse) 
-													VALUES (:text_numSS, :text_nom, :text_prenom, :text_dateNaissance, :text_telephone, :text_mail, :text_sexe, :text_taille, :text_poids, :text_commentaires, :rechercheidadresse)");
+														VALUES (:text_numSS, :text_nom, :text_prenom, :text_dateNaissance, :text_telephone, :text_mail, :text_sexe, :text_taille, :text_poids, :text_commentaires, :rechercheidadresse)");
 							$ajoutpatient->bindparam(":text_numSS", $text_numSS );
 							$ajoutpatient->bindparam(":text_nom", $text_nom);
 							$ajoutpatient->bindparam(":text_prenom", $text_prenom);
@@ -174,7 +133,9 @@
 							$ajoutpatient->bindparam(":text_poids", $text_poids);
 							$ajoutpatient->bindparam(":text_commentaires", $text_commentaires);
 							$ajoutpatient->bindparam(":rechercheidadresse", $rechercheidadresse);
+							$ajoutpatient->execute();	
 							$auth_user->redirect('FichePatientCreer.php?Valide');
+
 							}
 					}
 					else
@@ -214,6 +175,7 @@
 					$ajoutpatient->bindparam(":text_poids", $text_poids);
 					$ajoutpatient->bindparam(":text_commentaires", $text_commentaires);
 					$ajoutpatient->bindparam(":rechercheidadresse", $rechercheidadresse);
+					$ajoutpatient->execute();	
 					$auth_user->redirect('FichePatientCreer.php?Valide');
 					}
 			}
@@ -262,6 +224,7 @@
 			$ajoutpatient->bindparam(":text_poids", $text_poids);
 			$ajoutpatient->bindparam(":text_commentaires", $text_commentaires);
 			$ajoutpatient->bindparam(":rechercheidadresse", $rechercheidadresse);
+			$ajoutpatient->execute();	
 			$auth_user-> redirect('FichePatientCreer.php?Valide');
 			
 			}
@@ -320,35 +283,17 @@
 			
 			
             <div class="form-group" >
-<<<<<<< Updated upstream
-            <input type="text" class="form-control" name="text_numSS" placeholder="Numero Securité Sociale :" value="<?php if(isset($error)){echo $text_numSS;}?>" /><br>
-            <input type="text" class="form-control" name="text_nom" pattern="[A-Za-z]" title="Nom invalide, " placeholder="Nom :" value="<?php if(isset($error)){echo $text_nom;}?>" /><br>
-            <input type="text" class="form-control" name="text_prenom" placeholder="Prénom :" value="<?php if(isset($error)){echo $text_prenom;}?>" /><br>
-            <input type="date" class="form-control" name="text_dateNaissance" placeholder="" value="<?php if(isset($error)){echo $text_dateNaissance;}?>" /><br>
-            <input type="text" class="form-control" name="text_telephone" placeholder="Numero de telephone :" value="<?php if(isset($error)){echo $text_telephone;}?>" /><br>
-=======
             <input type="text" class="form-control" name="text_numSS" pattern="[0-9]{15}" title="Caractère numérique, 15 caractères acceptés"        placeholder="Numero Securité Sociale :" value="<?php if(isset($error)){echo $text_numSS;}?>" /><br>
             <input type="text" class="form-control" name="text_nom" pattern="[A-Za-z]{1-25}" title="Caractère alphabetique, 25 caractères maximum"     placeholder="Nom :" value="<?php if(isset($error)){echo $text_nom;}?>" /><br>
             <input type="text" class="form-control" name="text_prenom" pattern="[A-Za-z]{1-25}" title="Caractère alphabetique, 25 caractères maximum"  placeholder="Prénom :" value="<?php if(isset($error)){echo $text_prenom;}?>" /><br>
             <input type="date" class="form-control" name="text_dateNaissance" placeholder="" value="<?php if(isset($error)){echo $text_dateNaissance;}?>" /><br>
             <input type="text" class="form-control" name="text_telephone" pattern="[0-9]{0-15}" title="Caractère numérique, 15 caractères acceptés"    placeholder="Numero de telephone :" value="<?php if(isset($error)){echo $text_telephone;}?>" /><br>
->>>>>>> Stashed changes
             <input type="text" class="form-control" name="text_mail" placeholder="Mail :" value="<?php if(isset($error)){echo $text_mail;}?>" /><br>
+			
 			<label   class="form-control" > Sexe :&nbsp;&nbsp;      
 			<input type="radio"  name="text_sexe" value="M" checked="checked"  style="display: inline; !important;"/>Masculin&nbsp;&nbsp;&nbsp;&nbsp;
 			<input type="radio"  name="text_sexe" value="F" style="display: inline;!important;" />Feminin
 			</label><br>			
-<<<<<<< Updated upstream
-            <input type="text" class="form-control" name="text_taille" placeholder="Taille en cm :" value="<?php if(isset($error)){echo $text_taille;}?>" /><br>
-            <input type="text" class="form-control" name="text_poids" placeholder="Poids en kg :" value="<?php if(isset($error)){echo $text_poids;}?>" /><br>
-            <input type="text" class="form-control" name="text_commentaires" placeholder="Entrer commentaires :" value="<?php if(isset($error)){echo $text_commentaires;}?>" /><br>
-            <input type="text" class="form-control" name="text_numero" placeholder="Entrer numero de la rue :" value="<?php if(isset($error)){echo $text_numero;}?>" /><br>
-            <input type="text" class="form-control" name="text_rue" placeholder="Entrer le nom de la rue :" value="<?php if(isset($error)){echo $text_rue;}?>" /><br>
-			<input type="text" class="form-control" name="text_ville" placeholder="Entrer le nom de la ville :" value="<?php if(isset($error)){echo $text_ville;}?>" /><br>
-            <input type="text" class="form-control" name="text_codepostal" placeholder="Entrer le code postal :" value="<?php if(isset($error)){echo $text_codepostal;}?>" /><br>
-            <input type="text" class="form-control" name="text_departement" placeholder="Entrer le departement :" value="<?php if(isset($error)){echo $text_departement;}?>" /><br>
-			<input type="text" class="form-control" name="text_pays" placeholder="Entrer le pays :" value="<?php if(isset($error)){echo $text_pays;}?>" /><br>
-=======
             <input type="text" class="form-control" name="text_taille" pattern="[0-9]{0-3}" title="Caractère numérique, 15 caractères acceptés"        placeholder="Taille en cm :" value="<?php if(isset($error)){echo $text_taille;}?>" /><br>
             <input type="text" class="form-control" name="text_poids"  pattern="[0-9]{0-3}" title="Caractère numérique, 15 caractères acceptés"        placeholder="Poids en kg :" value="<?php if(isset($error)){echo $text_poids;}?>" /><br>
             <input type="text" class="form-control" name="text_commentaires" placeholder="Entrer commentaires :" value="<?php if(isset($error)){echo $text_commentaires;}?>" /><br>
@@ -358,7 +303,7 @@
             <input type="text" class="form-control" name="text_codepostal" pattern="[0-9]{5}" title="Caractère numérique, 5 caractères maximum"       placeholder="Entrer le code postal :" value="<?php if(isset($error)){echo $text_codepostal;}?>" /><br>
             <input type="text" class="form-control" name="text_departement" pattern="[0-9]{2}" title="Caractère numérique, 5 caractères maximum"      placeholder="Entrer le departement :" value="<?php if(isset($error)){echo $text_departement;}?>" /><br>
 			<input type="text" class="form-control" name="text_pays"   pattern="[A-Za-z]{1-25}" title="Caractère alphabetique, 25 caractères maximum" placeholder="Entrer le pays :" value="<?php if(isset($error)){echo $text_pays;}?>" /><br>
->>>>>>> Stashed changes
+
 			</div>
             <div class="clearfix"></div><hr />
             <div class="form-group">
