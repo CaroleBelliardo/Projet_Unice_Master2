@@ -4,7 +4,8 @@
 		- champs html du departement et du pays afficher une liste ( plutot que de le taper) 
 		- les includes a faire.
 	*/
-	require_once("../Session.php"); // requis pour se connecter la base de donnée 
+	
+	require_once("../session.php"); // requis pour se connecter la base de donnée 
 	
 	require_once("../classe.Systeme.php"); // va permettre d effectuer les requettes sql en orienté objet.
 	$auth_user = new Systeme(); // PRIMORDIAL pour les requetes 
@@ -45,15 +46,14 @@
 	//  pour la gestion des erreurs plus bas aussi ajouter un include et tout foutre dans un autre dossier
 	if($text_numSS=="")	{
 		$error[] = "Il faut ajouter un numéro de sécurité sociale"; }
+	 
 	else if ($text_nom==""){
 		$error[] = "Il faut un nom !"; }
 	else if($text_prenom=="")	{
 		$error[] = "Il faut un prénom !"; }
 	// TEST SI NUMSS deja present
 	else if ($row['numSS']==$text_numSS ) {
-		$error[] = "Le patient est deja présent dans la base de donnée"; }
-	// Ajouter autant de elseif que l on veut pour gerer les erreurs  // a mettre dans un fichier + include
-
+		$error[] = "Le patient est deja présent dans la base de donnée"; }   
 	else
 	{
 		try
@@ -106,8 +106,8 @@
 							else
 							{
 								// Ajout de la rue rue etc dans la base
-							$stmtrueville = $auth_user->conn->prepare("INSERT INTO Adresses(idAdresse, numero, rue, CodesPostauxvilles ) 
-															VALUES (DEFAULT, :text_numero, :text_rue ,:text_ville )");		
+							$stmtrueville = $auth_user->conn->prepare("INSERT INTO Adresses( numero, rue, CodesPostauxvilles ) 
+															VALUES ( :text_numero, :text_rue ,:text_ville )");		
 							$stmtrueville->bindparam(":text_numero", $text_numero );
 							$stmtrueville->bindparam(":text_rue", $text_rue);
 							$stmtrueville->bindparam(":text_ville", $text_ville);
@@ -140,7 +140,7 @@
 					}
 					else
 					{
-					$stmtCodepostal = $auth_user->conn->prepare("INSERT INTO CodesPostaux(villes, Departementsdepartement, Departementspays ) 
+					$stmtCodepostal = $auth_user->conn->prepare("INSERT INTO CodesPostaux(villes, Departementsdepartement, codepostal, Departementspays ) 
 															VALUES (:text_ville, :text_departement ,:text_codepostal ,:text_pays)");		
 					$stmtCodepostal->bindparam(":text_departement", $text_departement );
 					$stmtCodepostal->bindparam(":text_pays", $text_pays);
@@ -148,8 +148,8 @@
 					$stmtCodepostal->bindparam(":text_codepostal", $text_codepostal);
 					$stmtCodepostal->execute();
 					//-------------
-					$stmtrueville = $auth_user->conn->prepare("INSERT INTO Adresses(idAdresse, numero, rue, codepostal, CodesPostauxvilles ) 
-															VALUES (DEFAULT, :text_numero, :text_rue ,:text_ville )");		
+					$stmtrueville = $auth_user->conn->prepare("INSERT INTO Adresses( numero, rue, CodesPostauxvilles ) 
+															VALUES ( :text_numero, :text_rue ,:text_ville )");		
 					$stmtrueville->bindparam(":text_numero", $text_numero );
 					$stmtrueville->bindparam(":text_rue", $text_rue);
 					$stmtrueville->bindparam(":text_ville", $text_ville);
@@ -197,7 +197,7 @@
 			$stmtCodepostal->bindparam(":text_codepostal", $text_codepostal);
 			$stmtCodepostal->execute();
 			// --------------------------------- 
-			$stmtrueville = $auth_user->conn->prepare("INSERT INTO Adresses(numero, rue, codepostal, CodesPostauxvilles ) 
+			$stmtrueville = $auth_user->conn->prepare("INSERT INTO Adresses(numero, rue, CodesPostauxvilles ) 
 														VALUES (:text_numero, :text_rue ,:text_ville )");		
 			$stmtrueville->bindparam(":text_numero", $text_numero );
 			$stmtrueville->bindparam(":text_rue", $text_rue);
