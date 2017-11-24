@@ -4,7 +4,6 @@
 - nomattribut = creneau.incomp
 - rendez-vous annulés 
 - ajour header 
-
 -->
 
 <?php
@@ -12,7 +11,6 @@
 	require_once("../classe.Systeme.php");
 	$auth_user = new Systeme();
 	$bdd=$auth_user->conn;
-	
 
 	function Dumper ($var){ // affichage des valeurs des variables tableaux
 		echo '<pre>';
