@@ -1,7 +1,7 @@
 <?php
-
+	//         
 	require_once("../session.php");
-	
+	$heureCourante=date("H:i:s");
 	require_once("../classe.Systeme.php");
 	$auth_user = new Systeme();
 	$user_id = $_SESSION['idEmploye'];
