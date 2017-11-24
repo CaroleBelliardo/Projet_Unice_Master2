@@ -1,4 +1,4 @@
-# Date finale de création : 22-nov-2017 
+# Date finale de création : 24-nov-2017 
 # Type de serveur : MariaDB 
 # Version du serveur : 10.2.21-MariaDB-Source distribution 
 # Version du protocole : 10 
@@ -9,30 +9,23 @@
 # 
 # 
 # 
-# Table départements 
-CREATE TABLE Departements (  
-  departement varchar(3) NOT NULL,  # Contraintes majuscule pour les lettres -> 06 / corse : 2A / 974 
-  pays        varchar(25) NOT NULL, # France 
-  PRIMARY KEY (departement, pays));  
-
-# Table Codes postaux  
-CREATE TABLE CodesPostaux ( 
-  villes                 varchar(150) NOT NULL, # Nice // 1ère lettre maj 
-  Departementsdepartement varchar(3),           # 06   
-  codepostal             char(5),               # 06000 
-  Departementspays       varchar(25),           # France // 1ère lettre maj 
-  PRIMARY KEY (villes), 
-  FOREIGN KEY (Departementsdepartement, Departementspays) REFERENCES Departements (departement, pays) ON DELETE SET NULL ON UPDATE CASCADE ); 
- 
+# Table Villes
+CREATE TABLE Villes ( 
+  idVilles               int(8) NOT NULL AUTO_INCREMENT, #1
+  codepostal             varchar(20),           # 06000
+  nomVilles              varchar(150) NOT NULL, # Nice // 1ère lettre maj 
+  departement            varchar(3),            # 06    
+  pays                    varchar(25),          # France // 1ère lettre maj 
+  PRIMARY KEY (idVilles)); 
+  
 # Table Adresse (pour les patients, les employés et l'hopital - 1ere valeur -)  
 CREATE TABLE Adresses (  
   idAdresse            int(8) NOT NULL AUTO_INCREMENT, # 1 
   numero               varchar(6),                       
   rue                  varchar(100) NOT NULL,          # avenue thiers // tout en minuscule  
-  CodesPostauxvilles    varchar(150),                  # Nice 
+  VillesidVilles       int(8),                  # Nice 
   PRIMARY KEY (idAdresse), 
-  FOREIGN KEY (CodesPostauxvilles) REFERENCES CodesPostaux (villes) ON DELETE SET NULL ON UPDATE CASCADE, 
-  INDEX (CodesPostauxvilles));  
+  FOREIGN KEY (VillesidVilles) REFERENCES Villes (idVilles) ON DELETE SET NULL ON UPDATE CASCADE);  
  
 # Table regroupant les informations relatives aux patients de l'hopital  
 CREATE TABLE Patients (  

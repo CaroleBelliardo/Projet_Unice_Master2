@@ -17,39 +17,27 @@ INSERT INTO `CompteUtilisateurs` (`idEmploye`, `passwd`) VALUES ('ly12454', '$2y
 INSERT INTO `CompteUtilisateurs` (`idEmploye`, `passwd`) VALUES ('cm14743', '$1y$10$aZZghjz4RlRr3kX/pOCb3t.K5VdsfPs1V5kxJGxu1ju2mFuw//SfC') ; 
 INSERT INTO `CompteUtilisateurs` (`idEmploye`, `passwd`) VALUES ('fd78980', '$7y$10$aXQcmkz7JlRy3kX/tORb3o.K3VszsPs5V5kxMXxu1np2mFuw//SfC') ; 
 
-INSERT INTO `Departements` (`departement`, `pays`) VALUES ('01','France'),('02','France'),('03','France'),('04','France'),('05','France'),('06','France'),
-('07','France'),('08','France'),('09','France'),('10','France'),('11','France'),('12','France'),('13','France'),('14','France'),('15','France'),('16','France'),
-('17','France'),('18','France'),('19','France'),('21','France'),('22','France'),('23','France'),('24','France'),('25','France'),('26','France'),('27','France'),
-('28','France'),('29','France'),('2A','France'),('2B','France'),('30','France'),('31','France'),('32','France'),('33','France'),('34','France'),('35','France'),
-('36','France'),('37','France'),('38','France'),('39','France'),('40','France'),('41','France'),('42','France'),('43','France'),('44','France'),('45','France'),
-('46','France'),('47','France'),('48','France'),('49','France'),('50','France'),('51','France'),('52','France'),('53','France'),('54','France'),('55','France'),
-('56','France'),('57','France'),('58','France'),('59','France'),('60','France'),('61','France'),('62','France'),('63','France'),('64','France'),('65','France'),
-('66','France'),('67','France'),('68','France'),('69','France'),('70','France'),('71','France'),('72','France'),('73','France'),('74','France'),('75','France'),
-('76','France'),('77','France'),('78','France'),('79','France'),('80','France'),('81','France'),('82','France'),('83','France'),('84','France'),('85','France'),
-('86','France'),('87','France'),('88','France'),('89','France'),('90','France'),('91','France'),('92','France'),('93','France'),('94','France'),('95','France'),
-('971','France'),('972','France'),('973','France'),('974','France'),('975','France'),('976','France');
+INSERT INTO `Villes` (`idVilles`, `codepostal`, `nomVilles`,`departement`, `pays`) VALUES (NULL, '06000','Nice', '06', 'France');
+INSERT INTO `Villes` (`idVilles`, `codepostal`, `nomVilles`,`departement`, `pays`) VALUES (NULL, '06130','Grasse', '06', 'France');
+INSERT INTO `Villes` (`idVilles`, `codepostal`, `nomVilles`,`departement`, `pays`) VALUES (NULL, '83200','Draguignan', '83', 'France');
+INSERT INTO `Villes` (`idVilles`, `codepostal`, `nomVilles`,`departement`, `pays`) VALUES (NULL, '93270','Sevran', '93', 'France');
+INSERT INTO `Villes` (`idVilles`, `codepostal`, `nomVilles`,`departement`, `pays`) VALUES (NULL, '06700','Cannes', '06', 'France');
+INSERT INTO `Villes` (`idVilles`, `codepostal`, `nomVilles`,`departement`, `pays`) VALUES (NULL, '69200','Lyon', '69', 'France');
+INSERT INTO `Villes` (`idVilles`, `codepostal`, `nomVilles`,`departement`, `pays`) VALUES (NULL, '75000','Paris', '75', 'France');
+INSERT INTO `Villes` (`idVilles`, `codepostal`, `nomVilles`,`departement`, `pays`) VALUES (NULL, '13300','Marseille', '13', 'France');
+INSERT INTO `Villes` (`idVilles`, `codepostal`, `nomVilles`,`departement`, `pays`) VALUES (NULL, '59100','Lille', '59', 'France');
+INSERT INTO `Villes` (`idVilles`, `codepostal`, `nomVilles`,`departement`, `pays`) VALUES (NULL, '92200','Nanterre', '92', 'France');
 
-INSERT INTO `CodesPostaux` (`villes`, `Departementsdepartement`, `codepostal`, `Departementspays`) VALUES ('Nice', '06', '06000', 'France');
-INSERT INTO `CodesPostaux` (`villes`, `Departementsdepartement`, `codepostal`, `Departementspays`) VALUES ('Grasse', '06', '06130', 'France');
-INSERT INTO `CodesPostaux` (`villes`, `Departementsdepartement`, `codepostal`, `Departementspays`) VALUES ('Draguignan', '83', '83200', 'France');
-INSERT INTO `CodesPostaux` (`villes`, `Departementsdepartement`, `codepostal`, `Departementspays`) VALUES ('Sevran', '93', '93270', 'France');
-INSERT INTO `CodesPostaux` (`villes`, `Departementsdepartement`, `codepostal`, `Departementspays`) VALUES ('Cannes', '06', '06700', 'France');
-INSERT INTO `CodesPostaux` (`villes`, `Departementsdepartement`, `codepostal`, `Departementspays`) VALUES ('Lyon', '69', '69200', 'France');
-INSERT INTO `CodesPostaux` (`villes`, `Departementsdepartement`, `codepostal`, `Departementspays`) VALUES ('Paris', '75', '75000', 'France');
-INSERT INTO `CodesPostaux` (`villes`, `Departementsdepartement`, `codepostal`, `Departementspays`) VALUES ('Cassis', '13', '13300', 'France');
-INSERT INTO `CodesPostaux` (`villes`, `Departementsdepartement`, `codepostal`, `Departementspays`) VALUES ('Lille', '59', '59100', 'France');
-INSERT INTO `CodesPostaux` (`villes`, `Departementsdepartement`, `codepostal`, `Departementspays`) VALUES ('Nanterre', '92', '92200', 'France');
-
-INSERT INTO `Adresses` (`idAdresse`, `numero`, `rue`, `CodesPostauxvilles`) VALUES (NULL, '11', 'rue_prince_maurice', 'Nice'), (NULL, '112', 'rue paul ricard', 'Nice');
-INSERT INTO `Adresses` (`idAdresse`, `numero`, `rue`, `CodesPostauxvilles`) VALUES (NULL, '45', 'place bichot', 'Sevran'), (NULL, '78', 'rue nicolas II', 'Grasse');
-INSERT INTO `Adresses` (`idAdresse`, `numero`, `rue`, `CodesPostauxvilles`) VALUES (NULL, '111', 'Boulevard Garnier', 'Nice'), (NULL, '78', 'rue georges clemenceau', 'Grasse');
-INSERT INTO `Adresses` (`idAdresse`, `numero`, `rue`, `CodesPostauxvilles`) VALUES (NULL, '171', 'avenue lamartine', 'Sevran'), (NULL, '7', 'rue du malonat', 'Nice');
-INSERT INTO `Adresses` (`idAdresse`, `numero`, `rue`, `CodesPostauxvilles`) VALUES (NULL, '87', 'rue michel vaillant', 'Draguignan'), (NULL, '14', 'georges clemenceau', 'Draguignan');
-INSERT INTO `Adresses` (`idAdresse`, `numero`, `rue`, `CodesPostauxvilles`) VALUES (NULL, '47', 'rue de lyon', 'Paris'), (NULL, '112', 'avenue foch', 'Paris');
-INSERT INTO `Adresses` (`idAdresse`, `numero`, `rue`, `CodesPostauxvilles`) VALUES (NULL, '58', 'boulevard vallier', 'Lyon'), (NULL, '78', 'rue trachard', 'Paris');
-INSERT INTO `Adresses` (`idAdresse`, `numero`, `rue`, `CodesPostauxvilles`) VALUES (NULL, '5', 'boulevard jurard', 'Lyon'), (NULL, '78', 'boulevard de gaulle', 'Cassis');
-INSERT INTO `Adresses` (`idAdresse`, `numero`, `rue`, `CodesPostauxvilles`) VALUES (NULL, '11', 'avenue bonaparte', 'Lille'), (NULL, '7', 'rue de paris', 'Nice');
-INSERT INTO `Adresses` (`idAdresse`, `numero`, `rue`, `CodesPostauxvilles`) VALUES (NULL, '99', 'route de rivesalte', 'Nanterre'), (NULL, '14', 'impasse léon ballanger', 'Lille');
+INSERT INTO `Adresses` (`idAdresse`, `numero`, `rue`, `VillesidVilles`) VALUES (NULL, '11', 'rue_prince_maurice', '1'), (NULL, '112', 'rue paul ricard', '1');
+INSERT INTO `Adresses` (`idAdresse`, `numero`, `rue`, `VillesidVilles`) VALUES (NULL, '45', 'place bichot', '4'), (NULL, '78', 'rue nicolas II', '2');
+INSERT INTO `Adresses` (`idAdresse`, `numero`, `rue`, `VillesidVilles`) VALUES (NULL, '111', 'Boulevard Garnier', '1'), (NULL, '78', 'rue georges clemenceau', '2');
+INSERT INTO `Adresses` (`idAdresse`, `numero`, `rue`, `VillesidVilles`) VALUES (NULL, '171', 'avenue lamartine', '4'), (NULL, '7', 'rue du malonat', '1');
+INSERT INTO `Adresses` (`idAdresse`, `numero`, `rue`, `VillesidVilles`) VALUES (NULL, '87', 'rue michel vaillant', '3'), (NULL, '14', 'georges clemenceau', '3');
+INSERT INTO `Adresses` (`idAdresse`, `numero`, `rue`, `VillesidVilles`) VALUES (NULL, '47', 'rue de lyon', '7'), (NULL, '112', 'avenue foch', '7');
+INSERT INTO `Adresses` (`idAdresse`, `numero`, `rue`, `VillesidVilles`) VALUES (NULL, '58', 'boulevard vallier', '6'), (NULL, '78', 'rue trachard', '7');
+INSERT INTO `Adresses` (`idAdresse`, `numero`, `rue`, `VillesidVilles`) VALUES (NULL, '5', 'boulevard jurard', '6'), (NULL, '78', 'boulevard de gaulle', '8');
+INSERT INTO `Adresses` (`idAdresse`, `numero`, `rue`, `VillesidVilles`) VALUES (NULL, '11', 'avenue bonaparte', '9'), (NULL, '7', 'rue de paris', '1');
+INSERT INTO `Adresses` (`idAdresse`, `numero`, `rue`, `VillesidVilles`) VALUES (NULL, '99', 'route de rivesalte', '10'), (NULL, '14', 'impasse léon ballanger', '9');
 
 INSERT INTO `Patients` (`numSS`, `nom`, `prenom`, `dateNaissance`, `telephone`, `mail`, `sexe`, `taille_cm`, `poids_kg`, `commentaires`, `AdressesidAdresse`) VALUES ('193040608833380', 'Pagnol', 'Marcel', '1993-04-20', '0493968228', 'marcelloudu06@hotmail.fr', 'M', '184', '86', 'fracture du genou en faisant du ski', '1');
 INSERT INTO `Patients` (`numSS`, `nom`, `prenom`, `dateNaissance`, `telephone`, `mail`, `sexe`, `taille_cm`, `poids_kg`, `commentaires`, `AdressesidAdresse`) VALUES ('178854747412138', 'Pagnol', 'Marcel', '1978-07-10', '0493968333', 'pagnolm@free.fr', 'M', '178', '71', 'infection virale', '2');
