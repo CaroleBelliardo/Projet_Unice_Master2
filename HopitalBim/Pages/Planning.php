@@ -88,7 +88,7 @@
 	
 	//-- PLANNING
 	//-- min max
-	$heureMinMax = $bdd->prepare("SELECT min(heure),max(heure) 
+	$heureMinMax = $bdd->prepare("SELECT TIME_FORMAT( min(heure),'%H:%i'),TIME_FORMAT( max(heure),'%H:%i') 
 		FROM `CreneauxInterventions` JOIN Interventions
 		WHERE CreneauxInterventions.InterventionsidIntervention = Interventions.idIntervention
 		AND dateRdv= :date
@@ -97,22 +97,17 @@
 								'date'=>$dateCourant));//$donnees = mysqli_fetch_array($Actes)
 	$a_heureMinMax=reqToArrayPlusAtt($heureMinMax);
 	$heureMinMax->closeCursor(); /*a recuperer sur le array pour limiter nb req*/
-	Dumper($a_heureMinMax);
-	//Dumper($a_heure);
 	
+	$a_heure=[];
+	$range_heure=range(strtotime($a_heureMinMax[0]),strtotime($a_heureMinMax[1]),15*60);
+	//function fonction a finir 
+	foreach($range_heure as $time)
+	{
+        array_push($a_heure,date("H:i",$time));
+	}
 	
-	
-	$range=range(strtotime($a_heureMinMax[0]),strtotime($a_heureMinMax[1]),15*60);
-	foreach($range as $time){
-        echo date("H:i",$time)."\n";}
 
-	
-	
-	
-	//$test=H_range($a_heureMinMax[0],$a_heureMinMax[1]);
-	//Dumper(H_range);
-	//
-	
+	print Dumper ($a_heure);
 	
 	
 	
@@ -123,14 +118,14 @@
 	//echo $a_heureMinMax["max(heure)"];
 	
 	// -- data
-	$infoServiceJour = $bdd->prepare("SELECT Patients.nom, Patients.prenom, Patients.numSS, CreneauxInterventions.niveauUrgence, CreneauxInterventions.statut 
+	$infoServiceJour = $bdd->prepare("SELECT TIME_FORMAT(CreneauxInterventions.heure,'%H:%i'), Patients.nom, Patients.prenom, Patients.numSS, CreneauxInterventions.niveauUrgence, CreneauxInterventions.statut 
 		FROM `CreneauxInterventions` JOIN Interventions JOIN Patients
 		WHERE CreneauxInterventions.InterventionsidIntervention = Interventions.idIntervention
 		AND CreneauxInterventions.PatientnumSS = Patients.numSS
 		AND dateRdv= '2017-11-02'/*:date*/
 		AND ServicesnomService = 'cardio'/*:service*/ ");
-	$infoServiceJour->execute(array('service'=> $service,
-								'date' => $dateCourant));//$donnees = mysqli_fetch_array($Actes)
+	$infoServiceJour->execute();//array('service'=> $service,
+								//'dateRDV' => $dateCourant));//$donnees = mysqli_fetch_array($Actes)
 	
 	//while ($test = $infoServiceJour->fetch())
 	//	{
