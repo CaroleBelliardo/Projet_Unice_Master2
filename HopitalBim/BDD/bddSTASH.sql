@@ -78,7 +78,7 @@ CREATE TABLE Services (
   
 # Table regroupant tous les employés travaillant au sein de l'hôpital 
 CREATE TABLE Employes ( 
-  CompteUtilisateursidEmploye varchar(10) NOT NULL, # cf idEmployé 
+  CompteUtilisateursidEmploye char(7) NOT NULL, # cf idEmployé 
   nom                         varchar(25) NOT NULL, # Maj au début 
   prenom                      varchar(25) NOT NULL, # Maj au début 
   telephone                   varchar(15),  
@@ -88,12 +88,13 @@ CREATE TABLE Employes (
   PRIMARY KEY (CompteUtilisateursidEmploye),  
   FOREIGN KEY (ServicesnomService) REFERENCES Services (nomService) ON DELETE SET NULL ON UPDATE CASCADE, 
   FOREIGN KEY (AdressesidAdresse) REFERENCES Adresses (idAdresse) ON DELETE SET NULL ON UPDATE CASCADE, 
+  FOREIGN KEY (CompteUtilisateursidEmploye) REFERENCES CompteUtilisateurs (idEmploye) ON DELETE CASCADE ON UPDATE CASCADE,
   INDEX (ServicesnomService), 
   INDEX (nom)); 
  
 # Table indiquant les responsables de chaque service   
 CREATE TABLE ChefServices (   
-  EmployesCompteUtilisateursidEmploye varchar(10) NOT NULL,   # cf. idEmployé 
+  EmployesCompteUtilisateursidEmploye char(7) NOT NULL,   # cf. idEmployé 
   ServicesnomService                  varchar(20) NOT NULL,   # cf. nomService 
   PRIMARY KEY (EmployesCompteUtilisateursidEmploye,ServicesnomService), 
   FOREIGN KEY (ServicesnomService) REFERENCES Services (nomService) ON DELETE CASCADE ON UPDATE CASCADE, 
@@ -120,11 +121,10 @@ CREATE TABLE Interventions (
  
 # Table regroupant les tarifs liés à chaque intervention 
 CREATE TABLE Tarifications (  
-  InterventionsidIntervention int(8) NOT NULL, # cf.idInterventions auto_increment 
+  InterventionsidIntervention int(8) NOT NULL,      # cf.idInterventions auto_increment 
   tarif_euros                 float UNSIGNED,       # 30.02 // pas de virgule mais des "." 
   PRIMARY KEY (InterventionsidIntervention), 
-  FOREIGN KEY (InterventionsidIntervention) REFERENCES Interventions (idIntervention) ON DELETE CASCADE ON UPDATE CASCADE, 
-  INDEX (InterventionsidIntervention)); 
+  FOREIGN KEY (InterventionsidIntervention) REFERENCES Interventions (idIntervention) ON DELETE CASCADE ON UPDATE CASCADE); 
  
 # Table regroupant les créneaux pour chaque intervention  
 CREATE TABLE CreneauxInterventions ( 
@@ -136,13 +136,14 @@ CREATE TABLE CreneauxInterventions (
   pathologie                          varchar(100),  
   commentaires                        text,  
   VerifCoherencePathoUrgences         varchar(100), # OUI = cohérence entre niveau urgence et pathologie / NON = incohérence / INCONNUE = maladie non présente dans la table pathologies 
-  PatientsnumSS                        char(15),  
-  EmployesCompteUtilisateursidEmploye varchar(10), # cf. idEmploye np00000 
+  PatientsnumSS                       char(15),  
+  EmployesCompteUtilisateursidEmploye char(7), # cf. idEmploye np00000 
   PRIMARY KEY (date_rdv, heure_rdv),   
   FOREIGN KEY (InterventionsidIntervention) REFERENCES Interventions (idIntervention) ON DELETE SET NULL ON UPDATE CASCADE, 
   FOREIGN KEY (PatientsnumSS) REFERENCES Patients (numSS) ON DELETE SET NULL ON UPDATE CASCADE, 
   FOREIGN KEY (EmployesCompteUtilisateursidEmploye) REFERENCES Employes (CompteUtilisateursidEmploye) ON DELETE SET NULL ON UPDATE CASCADE, 
-  INDEX (EmployesCompteUtilisateursidEmploye), 
+  INDEX (EmployesCompteUtilisateursidEmploye),
+  INDEX (PatientsnumSS), 
   INDEX (pathologie)); 
  
 # Lie les tables Pathologies et Interventions  
@@ -156,4 +157,4 @@ CREATE TABLE InterventionsPatho (
   FOREIGN KEY (PathologiesidPatho) REFERENCES Pathologies (idPatho) ON DELETE CASCADE ON UPDATE CASCADE ); 
  
 # Premier insert dans la table du futur admin de la base de données 
-INSERT INTO `CompteUtilisateurs` (`idEmploye`, `passwd`) VALUES ('Admin', '$2y$10$aXQcmkz0JlTy3kX/gOFb3u.K5VhyaPs5V5kxMGxu1np2mFuw//SfC') ; 
+INSERT INTO `CompteUtilisateurs` (`idEmploye`, `passwd`) VALUES ('admin00', '$2y$10$aXQcmkz0JlTy3kX/gOFb3u.K5VhyaPs5V5kxMGxu1np2mFuw//SfC') ; 
