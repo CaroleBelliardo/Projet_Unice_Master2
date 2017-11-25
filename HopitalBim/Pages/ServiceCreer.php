@@ -1,15 +1,14 @@
 <?php
 	// fonction qui permet d afficher les requetes sql et donc permet de jouer avec les données 
 	/*  A FAIRE : 
-		- champs html du departement et du pays afficher une liste ( plutot que de le taper) 
-		- les includes a faire.
+		- plop
 
 	*/
 	require_once("../session.php"); // requis pour se connecter la base de donnée 
 	
-	require_once("../classe.Systeme.php"); // va permettre d effectuer les requettes sql en orienté objet.
-	$auth_user = new Systeme(); // PRIMORDIAL pour les requetes 
-	$user_id = $_SESSION['idEmploye']; // permet de conserver la session
+	require_once("../classe.Systeme.php"); 	// va permettre d effectuer les requettes sql en orienté objet.
+	$auth_user = new Systeme(); 			// PRIMORDIAL pour les requetes 
+	$user_id = $_SESSION['idEmploye']; 		// permet de conserver la session
 	$stmt = $auth_user->runQuery("SELECT * FROM CompteUtilisateurs WHERE idEmploye=:user_name"); // permet de rechercher le nom d utilisateur 
 	$stmt->execute(array(":user_name"=>$user_id)); // la meme 
 	$userRow=$stmt->fetch(PDO::FETCH_ASSOC); // permet d afficher l identifiant du gars sur la page, ce qui faudrai c est le nom
@@ -261,7 +260,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
-<title>Bonjour</title>
+<title>ServiceCreer</title>
 </head>
 
 <body>
@@ -269,12 +268,13 @@
 
     <p class="h4">Session : <?php print($userRow['idEmploye']); ?></p> 
     <p class="" style="margin-top:5px;">
-<div class="signin-form">
 
-<div class="container">
+<div class="signin-form">
     	
         <form method="post" class="form-signin">
-            <h2 class="form-signin-heading">Ajouter un service</h2><hr />
+
+            <h2 class="form-signin-heading">Ajouter un nouveau service</h2><hr />
+
             <?php
 			if(isset($error))
 			{
@@ -291,33 +291,32 @@
 			{
 				 ?>
                  <div class="alert alert-info">
-                      <i class=""></i>Patient enregistré avec succes<a href='Pageprincipale.php'>Page principale</a>
+                      <i class=""></i>Patient enregistré avec succés<a href='Pageprincipale.php'>Page principale</a>
                  </div>
                  <?php
 			}
 			?>
 			
+			<div class="form-group" >
+
+            <input type="text" class="form-control" name="text_nomService" pattern="[A-Za-z]{1-20}" title="Majuscule en première lettre"        placeholder="Nom du service :" value="<?php if(isset($error)){echo $text_nomService;}?>" /><br>
+
+            <input type="tel" class="form-control" name="text_telephone" pattern="^((\+\d{1,3}(-| )?\(?\d\)?(-| )?\d{1,5})|(\(?\d{2,6}\)?))(-| )?(\d{3,4})(-| )?(\d{4})(( x| ext)\d{1,5}){0,1}$" title="Veuillez rentrer un n° de téléphone correct"    placeholder="N° téléphone :" value="<?php if(isset($error)){echo $text_telephone;}?>" /><br>
+
+            <input type="email" class="form-control" name="text_mail" pattern="[a-z0-9._+%&-]+@[a-z0-9.-]+\.[a-z]{2,3}$" title="hopital@gmail.fr"  placeholder="Mail :" value="<?php if(isset($error)){echo $text_mail;}?>" /><br>
 			
-            <div class="form-group" >
-            <input type="text" class="form-control" name="text_numSS" pattern="[0-9]{15}" title="Caractère numérique, 15 caractères acceptés"        placeholder="Numero Securité Sociale :" value="<?php if(isset($error)){echo $text_numSS;}?>" /><br>
-            <input type="text" class="form-control" name="text_nom" pattern="[A-Za-z]{1-25}" title="Caractère alphabetique, 25 caractères maximum"     placeholder="Nom :" value="<?php if(isset($error)){echo $text_nom;}?>" /><br>
-            <input type="text" class="form-control" name="text_prenom" pattern="[A-Za-z]{1-25}" title="Caractère alphabetique, 25 caractères maximum"  placeholder="Prénom :" value="<?php if(isset($error)){echo $text_prenom;}?>" /><br>
-            <input type="date" class="form-control" name="text_dateNaissance" placeholder="" value="<?php if(isset($error)){echo $text_dateNaissance;}?>" /><br>
-            <input type="text" class="form-control" name="text_telephone" pattern="[0-9]{0-15}" title="Caractère numérique, 15 caractères acceptés"    placeholder="Numero de telephone :" value="<?php if(isset($error)){echo $text_telephone;}?>" /><br>
-            <input type="text" class="form-control" name="text_mail" placeholder="Mail :" value="<?php if(isset($error)){echo $text_mail;}?>" /><br>
-			<label   class="form-control" > Sexe :&nbsp;&nbsp;      
-			<input type="radio"  name="text_sexe" value="M" checked="checked"  style="display: inline; !important;"/>Masculin&nbsp;&nbsp;&nbsp;&nbsp;
-			<input type="radio"  name="text_sexe" value="F" style="display: inline;!important;" />Feminin
-			</label><br>			
-            <input type="text" class="form-control" name="text_taille" pattern="[0-9]{0-3}" title="Caractère numérique, 15 caractères acceptés"        placeholder="Taille en cm :" value="<?php if(isset($error)){echo $text_taille;}?>" /><br>
-            <input type="text" class="form-control" name="text_poids"  pattern="[0-9]{0-3}" title="Caractère numérique, 15 caractères acceptés"        placeholder="Poids en kg :" value="<?php if(isset($error)){echo $text_poids;}?>" /><br>
-            <input type="text" class="form-control" name="text_commentaires" placeholder="Entrer commentaires :" value="<?php if(isset($error)){echo $text_commentaires;}?>" /><br>
-            <input type="text" class="form-control" name="text_numero" pattern="[0-9]{1-6}" title="Caractère numérique, 6 caractères acceptés"         placeholder="Entrer numero de la rue :" value="<?php if(isset($error)){echo $text_numero;}?>" /><br>
-            <input type="text" class="form-control" name="text_rue"    pattern="[A-Za-z]{1-100}" title="Caractère alphabetique, 100 caractères maximum" placeholder="Entrer le nom de la rue :" value="<?php if(isset($error)){echo $text_rue;}?>" /><br>
-			<input type="text" class="form-control" name="text_ville"  pattern="[A-Za-z]{1-150}" title="Caractère alphabetique, 150 caractères maximum" placeholder="Entrer le nom de la ville :" value="<?php if(isset($error)){echo $text_ville;}?>" /><br>
-            <input type="text" class="form-control" name="text_codepostal" pattern="[0-9]{5}" title="Caractère numérique, 5 caractères maximum"       placeholder="Entrer le code postal :" value="<?php if(isset($error)){echo $text_codepostal;}?>" /><br>
-            <input type="text" class="form-control" name="text_departement" pattern="[0-9]{2}" title="Caractère numérique, 5 caractères maximum"      placeholder="Entrer le departement :" value="<?php if(isset($error)){echo $text_departement;}?>" /><br>
-			<input type="text" class="form-control" name="text_pays"   pattern="[A-Za-z]{1-25}" title="Caractère alphabetique, 25 caractères maximum" placeholder="Entrer le pays :" value="<?php if(isset($error)){echo $text_pays;}?>" /><br>
+            <label class="form-control"> Horaire d'ouverture : &nbsp;&nbsp;
+            <input type="time" class="form-control" name="text_ouverture" value="<?php if(isset($error)){echo $text_ouverture;}?>" /><br>
+
+            <label class="form-control"> Horaire de fermeture : &nbsp;&nbsp;
+            <input type="time" class="form-control" name="text_fermeture" value="<?php if(isset($error)){echo $text_fermeture;}?>" /><br>
+
+            <input type="text" class="form-control" name="text_batiment" placeholder="Batiment :" value="<?php if(isset($error)){echo $text_batiment;}?>" /><br>
+
+            <input type="text" class="form-control" name="text_aile" pattern="[0-9]{1-6}" title="Caractère numérique, 6 caractères acceptés"         placeholder="Aile :" value="<?php if(isset($error)){echo $text_aile;}?>" /><br>
+
+            <input type="text" class="form-control" name="text_etage"    pattern="[A-Za-z]{1-100}" title="Caractère alphabetique, 100 caractères maximum" placeholder="Etage :" value="<?php if(isset($error)){echo $text_etage;}?>" /><br>
+
 			</div>
             <div class="clearfix"></div><hr />
             <div class="form-group">
@@ -327,8 +326,6 @@
             </div>
         </form>
        </div>
-</div>
-
 </div>
 
 </body>
