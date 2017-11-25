@@ -69,7 +69,7 @@ CREATE TABLE Services (
   PRIMARY KEY (nomService), 
   FOREIGN KEY (LocalisationServicesidLocalisation) REFERENCES LocalisationServices (idLocalisation) ON DELETE SET NULL ON UPDATE CASCADE ); 
   
-# Table regroupant tous les employés travaillant au sein de l'hôpital 
+# Table regroupant tous les employés travaillant au sein de l hopital 
 CREATE TABLE Employes ( 
   CompteUtilisateursidEmploye char(7) NOT NULL, # cf idEmployé 
   nom                         varchar(25) NOT NULL, # Maj au début 
@@ -121,17 +121,18 @@ CREATE TABLE Tarifications (
  
 # Table regroupant les créneaux pour chaque intervention  
 CREATE TABLE CreneauxInterventions ( 
+  id_rdv	int(8) NOT NULL AUTO_INCREMENT, 
   date_rdv                            date NOT NULL, # 2017-11-02 format sql 
   heure_rdv                           time NOT NULL, # 15:00:00 format 24h 
   InterventionsidIntervention         int(8),   # cf.idInterventions auto_increment 
   niveauUrgence                       tinyint(1) UNSIGNED NOT NULL,   
-  statut                              char(1) NOT NULL DEFAULT 'p',  # p = prévue / r = réalisée / a = annulée 
-  pathologie                          varchar(100),  
-  commentaires                        text,  
+  statut                              char(1) NOT NULL DEFAULT 'p',  # b = prévue / r = réalisée / a = annulée / p = payé 
+  pathologie                         varchar(100),  
+  commentaires                     text,  
   VerifCoherencePathoUrgences         varchar(100), # OUI = cohérence entre niveau urgence et pathologie / NON = incohérence / INCONNUE = maladie non présente dans la table pathologies 
   PatientsnumSS                       char(15),  
   EmployesCompteUtilisateursidEmploye char(7), # cf. idEmploye np00000 
-  PRIMARY KEY (date_rdv, heure_rdv),   
+  PRIMARY KEY (id_rdv),   
   FOREIGN KEY (InterventionsidIntervention) REFERENCES Interventions (idIntervention) ON DELETE SET NULL ON UPDATE CASCADE, 
   FOREIGN KEY (PatientsnumSS) REFERENCES Patients (numSS) ON DELETE SET NULL ON UPDATE CASCADE, 
   FOREIGN KEY (EmployesCompteUtilisateursidEmploye) REFERENCES Employes (CompteUtilisateursidEmploye) ON DELETE SET NULL ON UPDATE CASCADE, 
