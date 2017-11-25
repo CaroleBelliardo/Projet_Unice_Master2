@@ -5,17 +5,17 @@
 		- les includes a faire.
 	*/
 	
-	require_once("../session.php"); // requis pour se connecter la base de donnée 
+require_once("../session.php"); // requis pour se connecter la base de donnée 
 	
-	require_once("../classe.Systeme.php"); // va permettre d effectuer les requettes sql en orienté objet.
-	$auth_user = new Systeme(); // PRIMORDIAL pour les requetes 
-	$user_id = $_SESSION['idEmploye']; // permet de conserver la session
-	$stmt = $auth_user->runQuery("SELECT * FROM CompteUtilisateurs WHERE idEmploye=:user_name"); // permet de rechercher le nom d utilisateur 
-	$stmt->execute(array(":user_name"=>$user_id)); // la meme 
-	$userRow=$stmt->fetch(PDO::FETCH_ASSOC); // permet d afficher l identifiant du gars sur la page, ce qui faudrai c est le nom
+require_once("../classe.Systeme.php"); // va permettre d effectuer les requettes sql en orienté objet.
+$auth_user = new Systeme(); // PRIMORDIAL pour les requetes 
+$user_id = $_SESSION['idEmploye']; // permet de conserver la session
+$stmt = $auth_user->runQuery("SELECT * FROM CompteUtilisateurs WHERE idEmploye=:user_name"); // permet de rechercher le nom d utilisateur 
+$stmt->execute(array(":user_name"=>$user_id)); // la meme 
+$userRow=$stmt->fetch(PDO::FETCH_ASSOC); // permet d afficher l identifiant du gars sur la page, ce qui faudrai c est le nom
 	
-	if(isset($_POST['btn-signup']))
-{
+if(isset($_POST['btn-signup']))
+{	
  // ici je pense faire un include de $dep a $adresse tout foutre dans un seul et meme document car c est chiant a regarder 
 	$text_departement = strip_tags($_POST['text_departement']);	
 	$text_pays = strip_tags($_POST['text_pays']);	
@@ -58,112 +58,31 @@
 	{
 		try
 		{
-			/* TEST LE DEPARTEMENT */
-			$stmt = $auth_user->runQuery("SELECT departement,pays FROM Departements WHERE departement=:text_departement AND pays=:text_pays");
-			$stmt->execute(array('text_departement'=>$text_departement, 'text_pays'=>$text_pays));
+		// Test si la ville est presente 
+
+			$stmt = $auth_user->runQuery("SELECT * FROM Villes 
+										WHERE codepostal=:text_codepostal AND nomVilles=:text_ville 
+										AND departement=:text_departement AND pays=:text_pays");
+			$stmt->execute(array('text_codepostal'=>$text_codepostal, 'text_ville'=>$text_ville, 'text_departement'=>$text_departement, 'text_pays'=>$text_pays));
 			$row=$stmt->fetch(PDO::FETCH_ASSOC);
-			if($row['departement']==$text_departement and $row['pays']==$text_pays)  {
-				/* TEST La base de donnée Code postals  */
-				$stmt = $auth_user->runQuery("SELECT villes, Departementsdepartement, codepostal, Departementspays FROM CodesPostaux 
-												WHERE villes=:text_ville AND Departementsdepartement=:text_departement AND codepostal=:text_codepostal AND Departementspays=:text_pays");
-				$stmt->execute(array('text_ville'=>$text_ville,'text_departement'=>$text_departement, 'text_codepostal'=>$text_codepostal,'text_pays'=>$text_pays));
+			$BDDidVilles=$row['idVilles'];
+			echo '1';
+			if ($row['codepostal']==$text_codepostal and  $row['nomVilles']==$text_ville and $row['departement']==$text_departement and $row['pays']==$text_pays) 
+			{
+							echo '2';
+
+				// Test de l'adresse
+				$stmt = $auth_user->runQuery("SELECT * FROM Adresses 
+										WHERE numero=:text_numero AND rue=:text_rue AND VillesidVilles=:BDDidVilles");
+				$stmt->execute(array('text_numero'=>$text_numero, 'text_rue'=>$text_rue, 'BDDidVilles'=>$BDDidVilles));
 				$row=$stmt->fetch(PDO::FETCH_ASSOC);
-					if($row['Departementspays']==$text_pays and $row['Departementsdepartement']==$text_departement and $row['codepostal']==$text_codepostal and $row['villes']==$text_ville )  {
-						$stmt = $auth_user->runQuery("SELECT numero, rue, CodesPostauxvilles FROM Adresses 
-														WHERE numero=:text_numero AND rue=:text_rue AND CodesPostauxvilles=:text_ville");
-						$stmt->execute(array('text_numero'=>$text_numero, 'text_rue'=>$text_rue, 'text_ville'=>$text_ville));
-						$row=$stmt->fetch(PDO::FETCH_ASSOC);
-							if($row['numero']==$text_numero and $row['rue']==$text_rue and $row['CodesPostauxvilles']==$text_ville )  
-							{
-								// --------- ici recherche de l id de la putin de ville : 
-								$rechercheidadresse = $auth_user->runQuery( "SELECT idAdresse FROM Adresses 
-																					WHERE numero=:text_numero 
-																					AND rue=:text_rue 
-																					AND CodesPostauxvilles=:text_ville" ); 
-								$rechercheidadresse->execute(array('text_numero'=>$text_numero,'text_rue'=>$text_rue, 'text_ville'=>$text_ville));
-								$row=$rechercheidadresse->fetch(PDO::FETCH_ASSOC);
-
-								$rechercheidadresse =$row["idAdresse"];
-
-								$ajoutpatient = $auth_user->conn->prepare("INSERT INTO Patients (numSS, nom, prenom, dateNaissance, telephone, mail, sexe, taille_cm, poids_kg, commentaires, AdressesidAdresse) 
-														VALUES (:text_numSS, :text_nom, :text_prenom, :text_dateNaissance, :text_telephone, :text_mail, :text_sexe, :text_taille, :text_poids, :text_commentaires, :rechercheidadresse)");
-		
-								$ajoutpatient->bindparam(":text_numSS", $text_numSS );
-								$ajoutpatient->bindparam(":text_nom", $text_nom);
-								$ajoutpatient->bindparam(":text_prenom", $text_prenom);
-								$ajoutpatient->bindparam(":text_dateNaissance", $text_dateNaissance);
-								$ajoutpatient->bindparam(":text_telephone", $text_telephone);
-								$ajoutpatient->bindparam(":text_mail", $text_mail);
-								$ajoutpatient->bindparam(":text_sexe", $text_sexe);
-								$ajoutpatient->bindparam(":text_taille", $text_taille);
-								$ajoutpatient->bindparam(":text_poids", $text_poids);
-								$ajoutpatient->bindparam(":text_commentaires", $text_commentaires);
-								$ajoutpatient->bindparam(":rechercheidadresse", $rechercheidadresse);
-								$ajoutpatient->execute();									
-								//-------------
-								$auth_user->redirect('FichePatientCreer.php?Valide');
-							}	
-							else
-							{
-								// Ajout de la rue rue etc dans la base
-							$stmtrueville = $auth_user->conn->prepare("INSERT INTO Adresses( numero, rue, CodesPostauxvilles ) 
-															VALUES ( :text_numero, :text_rue ,:text_ville )");		
-							$stmtrueville->bindparam(":text_numero", $text_numero );
-							$stmtrueville->bindparam(":text_rue", $text_rue);
-							$stmtrueville->bindparam(":text_ville", $text_ville);
-							$stmtrueville->execute();
-							//-------------
-							$rechercheidadresse = $auth_user->runQuery( "SELECT idAdresse FROM Adresses 
-																					WHERE numero=:text_numero 
-																					AND rue=:text_rue 
-																					AND CodesPostauxvilles=:text_ville" ); 
-							$rechercheidadresse->execute(array('text_numero'=>$text_numero,'text_rue'=>$text_rue, 'text_ville'=>$text_ville));
-							$row=$rechercheidadresse->fetch(PDO::FETCH_ASSOC);
-							$rechercheidadresse =$row["idAdresse"];
-							$ajoutpatient = $auth_user->conn->prepare("INSERT INTO Patients (numSS, nom, prenom, dateNaissance, telephone, mail, sexe, taille_cm, poids_kg, commentaires, AdressesidAdresse) 
-														VALUES (:text_numSS, :text_nom, :text_prenom, :text_dateNaissance, :text_telephone, :text_mail, :text_sexe, :text_taille, :text_poids, :text_commentaires, :rechercheidadresse)");
-							$ajoutpatient->bindparam(":text_numSS", $text_numSS );
-							$ajoutpatient->bindparam(":text_nom", $text_nom);
-							$ajoutpatient->bindparam(":text_prenom", $text_prenom);
-							$ajoutpatient->bindparam(":text_dateNaissance", $text_dateNaissance);
-							$ajoutpatient->bindparam(":text_telephone", $text_telephone);
-							$ajoutpatient->bindparam(":text_mail", $text_mail);
-							$ajoutpatient->bindparam(":text_sexe", $text_sexe);
-							$ajoutpatient->bindparam(":text_taille", $text_taille);
-							$ajoutpatient->bindparam(":text_poids", $text_poids);
-							$ajoutpatient->bindparam(":text_commentaires", $text_commentaires);
-							$ajoutpatient->bindparam(":rechercheidadresse", $rechercheidadresse);
-							$ajoutpatient->execute();	
-							$auth_user->redirect('FichePatientCreer.php?Valide');
-
-							}
-					}
-					else
-					{
-					$stmtCodepostal = $auth_user->conn->prepare("INSERT INTO CodesPostaux(villes, Departementsdepartement, codepostal, Departementspays ) 
-															VALUES (:text_ville, :text_departement ,:text_codepostal ,:text_pays)");		
-					$stmtCodepostal->bindparam(":text_departement", $text_departement );
-					$stmtCodepostal->bindparam(":text_pays", $text_pays);
-					$stmtCodepostal->bindparam(":text_ville", $text_ville);
-					$stmtCodepostal->bindparam(":text_codepostal", $text_codepostal);
-					$stmtCodepostal->execute();
-					//-------------
-					$stmtrueville = $auth_user->conn->prepare("INSERT INTO Adresses( numero, rue, CodesPostauxvilles ) 
-															VALUES ( :text_numero, :text_rue ,:text_ville )");		
-					$stmtrueville->bindparam(":text_numero", $text_numero );
-					$stmtrueville->bindparam(":text_rue", $text_rue);
-					$stmtrueville->bindparam(":text_ville", $text_ville);
-					$stmtrueville->execute();
-					//-------------
-					$rechercheidadresse = $auth_user->runQuery( "SELECT idAdresse FROM Adresses 
-																					WHERE numero=:text_numero 
-																					AND rue=:text_rue 
-																					AND CodesPostauxvilles=:text_ville" ); 
-					$rechercheidadresse->execute(array('text_numero'=>$text_numero,'text_rue'=>$text_rue, 'text_ville'=>$text_ville));
-					$row=$rechercheidadresse->fetch(PDO::FETCH_ASSOC);
-			    	$rechercheidadresse =$row["idAdresse"];
+				$BDDidAdresse=$row['idAdresse'];
+				if ($row['numero']==$text_numero and  $row['rue']==$text_rue and $row['VillesidVilles']==$BDDidVilles )
+				{
+					// -- Ajout Patient
 					$ajoutpatient = $auth_user->conn->prepare("INSERT INTO Patients (numSS, nom, prenom, dateNaissance, telephone, mail, sexe, taille_cm, poids_kg, commentaires, AdressesidAdresse) 
-													VALUES (:text_numSS, :text_nom, :text_prenom, :text_dateNaissance, :text_telephone, :text_mail, :text_sexe, :text_taille, :text_poids, :text_commentaires, :rechercheidadresse)");
+														VALUES (:text_numSS, :text_nom, :text_prenom, :text_dateNaissance, :text_telephone, :text_mail, :text_sexe, :text_taille, :text_poids, :text_commentaires, :BDDidAdresse)");
+		
 					$ajoutpatient->bindparam(":text_numSS", $text_numSS );
 					$ajoutpatient->bindparam(":text_nom", $text_nom);
 					$ajoutpatient->bindparam(":text_prenom", $text_prenom);
@@ -174,67 +93,102 @@
 					$ajoutpatient->bindparam(":text_taille", $text_taille);
 					$ajoutpatient->bindparam(":text_poids", $text_poids);
 					$ajoutpatient->bindparam(":text_commentaires", $text_commentaires);
-					$ajoutpatient->bindparam(":rechercheidadresse", $rechercheidadresse);
-					$ajoutpatient->execute();	
+					$ajoutpatient->bindparam(":BDDidAdresse", $BDDidAdresse);
+					$ajoutpatient->execute();									
+					//-------------
 					$auth_user->redirect('FichePatientCreer.php?Valide');
-					}
+				}
+				else 
+				{
+					
+					// -- Ajout dans adresse
+					$stmtAdresses = $auth_user->conn->prepare("INSERT INTO Adresses (numero, rue, VillesidVilles) 
+											VALUES (:text_numero, :text_rue, :BDDidVilles )");	
+										
+					$stmtAdresses->bindparam(":text_numero", $text_numero);
+					$stmtAdresses->bindparam(":text_rue", $text_rue);
+					$stmtAdresses->bindparam(":BDDidVilles", $BDDidVilles);
+					$stmtAdresses->execute();
+					$stmt = $auth_user->runQuery("SELECT * FROM Adresses 
+										WHERE numero=:text_numero AND rue=:text_rue AND VillesidVilles=:BDDidVilles");
+					$stmt->execute(array('text_numero'=>$text_numero, 'text_rue'=>$text_rue, 'BDDidVilles'=>$BDDidVilles));
+					$row=$stmt->fetch(PDO::FETCH_ASSOC);
+					$BDDidAdresse=$row['idAdresse'];
+					// -- Ajout Patient
+					$ajoutpatient = $auth_user->conn->prepare("INSERT INTO Patients (numSS, nom, prenom, dateNaissance, telephone, mail, sexe, taille_cm, poids_kg, commentaires, AdressesidAdresse) 
+														VALUES (:text_numSS, :text_nom, :text_prenom, :text_dateNaissance, :text_telephone, :text_mail, :text_sexe, :text_taille, :text_poids, :text_commentaires, :BDDidAdresse)");
+		
+					$ajoutpatient->bindparam(":text_numSS", $text_numSS );
+					$ajoutpatient->bindparam(":text_nom", $text_nom);
+					$ajoutpatient->bindparam(":text_prenom", $text_prenom);
+					$ajoutpatient->bindparam(":text_dateNaissance", $text_dateNaissance);
+					$ajoutpatient->bindparam(":text_telephone", $text_telephone);
+					$ajoutpatient->bindparam(":text_mail", $text_mail);
+					$ajoutpatient->bindparam(":text_sexe", $text_sexe);
+					$ajoutpatient->bindparam(":text_taille", $text_taille);
+					$ajoutpatient->bindparam(":text_poids", $text_poids);
+					$ajoutpatient->bindparam(":text_commentaires", $text_commentaires);
+					$ajoutpatient->bindparam(":BDDidAdresse", $BDDidAdresse);
+					$ajoutpatient->execute();									
+					//-------------
+					$auth_user->redirect('FichePatientCreer.php?Valide');
+				}
+			
+			
 			}
 			else
 			{
-			
-			$stmtdepartements = $auth_user->conn->prepare("INSERT INTO Departements (departement, pays) 
-											VALUES (:text_departement, :text_pays) ");		
-			$stmtdepartements->bindparam(":text_departement", $text_departement );
-			$stmtdepartements->bindparam(":text_pays", $text_pays);
-			$stmtdepartements->execute();	
-			// --------------------------------- 
-			
-			$stmtCodepostal = $auth_user->conn->prepare("INSERT INTO CodesPostaux(villes, Departementsdepartement, codepostal, Departementspays ) 
-														VALUES (:text_ville, :text_departement ,:text_codepostal ,:text_pays)");		
-			$stmtCodepostal->bindparam(":text_departement", $text_departement );
-			$stmtCodepostal->bindparam(":text_pays", $text_pays);					
-			$stmtCodepostal->bindparam(":text_ville", $text_ville);
-			$stmtCodepostal->bindparam(":text_codepostal", $text_codepostal);
-			$stmtCodepostal->execute();
-			// --------------------------------- 
-			$stmtrueville = $auth_user->conn->prepare("INSERT INTO Adresses(numero, rue, CodesPostauxvilles ) 
-														VALUES (:text_numero, :text_rue ,:text_ville )");		
-			$stmtrueville->bindparam(":text_numero", $text_numero );
-			$stmtrueville->bindparam(":text_rue", $text_rue);
-			$stmtrueville->bindparam(":text_ville", $text_ville);
-			$stmtrueville->execute();
-			//------------
-			$rechercheidadresse = $auth_user->runQuery( "SELECT idAdresse FROM Adresses 
-																					WHERE numero=:text_numero 
-																					AND rue=:text_rue 
-																					AND CodesPostauxvilles=:text_ville" ); 
-			$rechercheidadresse->execute(array('text_numero'=>$text_numero,'text_rue'=>$text_rue, 'text_ville'=>$text_ville));
-			$row=$rechercheidadresse->fetch(PDO::FETCH_ASSOC);
-			$rechercheidadresse =$row["idAdresse"];
-			$ajoutpatient = $auth_user->conn->prepare("INSERT INTO Patients (numSS, nom, prenom, dateNaissance, telephone, mail, sexe, taille_cm, poids_kg, commentaires, AdressesidAdresse) 
-														VALUES (:text_numSS, :text_nom, :text_prenom, :text_dateNaissance, :text_telephone, :text_mail, :text_sexe, :text_taille, :text_poids, :text_commentaires, :rechercheidadresse)");
-			$ajoutpatient->bindparam(":text_numSS", $text_numSS );
-			$ajoutpatient->bindparam(":text_nom", $text_nom);
-			$ajoutpatient->bindparam(":text_prenom", $text_prenom);
-			$ajoutpatient->bindparam(":text_dateNaissance", $text_dateNaissance);
-			$ajoutpatient->bindparam(":text_telephone", $text_telephone);
-			$ajoutpatient->bindparam(":text_mail", $text_mail);
-			$ajoutpatient->bindparam(":text_sexe", $text_sexe);
-			$ajoutpatient->bindparam(":text_taille", $text_taille);
-			$ajoutpatient->bindparam(":text_poids", $text_poids);
-			$ajoutpatient->bindparam(":text_commentaires", $text_commentaires);
-			$ajoutpatient->bindparam(":rechercheidadresse", $rechercheidadresse);
-			$ajoutpatient->execute();	
-			$auth_user-> redirect('FichePatientCreer.php?Valide');
-			
-			}
+				// -- Ajout dans la table ville 
+				$stmtville = $auth_user->conn->prepare("INSERT INTO Villes ( codepostal, nomVilles, departement, pays) 
+												VALUES ( :text_codepostal, :text_ville, :text_departement, :text_pays)");	
+				$stmtville->bindparam(":text_codepostal", $text_codepostal);
+				$stmtville->bindparam(":text_ville", $text_ville);
+				$stmtville->bindparam(":text_departement", $text_departement);
+				$stmtville->bindparam(":text_pays", $text_pays);
+				$stmtville->execute();
+				$stmt = $auth_user->runQuery("SELECT * FROM Villes 
+										WHERE codepostal=:text_codepostal AND nomVilles=:text_ville 
+										AND departement=:text_departement AND pays=:text_pays");
+				$stmt->execute(array('text_codepostal'=>$text_codepostal, 'text_ville'=>$text_ville, 'text_departement'=>$text_departement, 'text_pays'=>$text_pays));
+				$row=$stmt->fetch(PDO::FETCH_ASSOC);
+				$BDDidVilles=$row['idVilles'];
+				// -- Ajout dans adresse
+				$stmtAdresses = $auth_user->conn->prepare("INSERT INTO Adresses (numero, rue, VillesidVilles) 
+												VALUES (:text_numero, :text_rue, :BDDidVilles )");	
+											
+				$stmtAdresses->bindparam(":text_numero", $text_numero);
+				$stmtAdresses->bindparam(":text_rue", $text_rue);
+				$stmtAdresses->bindparam(":BDDidVilles", $BDDidVilles);
+				$stmtAdresses->execute();
+				$stmt = $auth_user->runQuery("SELECT * FROM Adresses 
+											WHERE numero=:text_numero AND rue=:text_rue AND VillesidVilles=:BDDidVilles");
+				$stmt->execute(array('text_numero'=>$text_numero, 'text_rue'=>$text_rue, 'BDDidVilles'=>$BDDidVilles));
+				$row=$stmt->fetch(PDO::FETCH_ASSOC);
+				$BDDidAdresse=$row['idAdresse'];
+				// -- Ajout Patient
+				$ajoutpatient = $auth_user->conn->prepare("INSERT INTO Patients (numSS, nom, prenom, dateNaissance, telephone, mail, sexe, taille_cm, poids_kg, commentaires, AdressesidAdresse) 
+															VALUES (:text_numSS, :text_nom, :text_prenom, :text_dateNaissance, :text_telephone, :text_mail, :text_sexe, :text_taille, :text_poids, :text_commentaires, :BDDidAdresse)");
+				$ajoutpatient->bindparam(":text_numSS", $text_numSS );
+				$ajoutpatient->bindparam(":text_nom", $text_nom);
+				$ajoutpatient->bindparam(":text_prenom", $text_prenom);
+				$ajoutpatient->bindparam(":text_dateNaissance", $text_dateNaissance);
+				$ajoutpatient->bindparam(":text_telephone", $text_telephone);
+				$ajoutpatient->bindparam(":text_mail", $text_mail);
+				$ajoutpatient->bindparam(":text_sexe", $text_sexe);
+				$ajoutpatient->bindparam(":text_taille", $text_taille);
+				$ajoutpatient->bindparam(":text_poids", $text_poids);
+				$ajoutpatient->bindparam(":text_commentaires", $text_commentaires);
+				$ajoutpatient->bindparam(":BDDidAdresse", $BDDidAdresse);
+				$ajoutpatient->execute();									
+				//-------------
+				$auth_user->redirect('FichePatientCreer.php?Valide');
+			}	
 		}
 		catch(PDOException $e)
-		{
+		{			
 			echo $e->getMessage();
-		}
+		}	
 	}
-
 }
 
 
