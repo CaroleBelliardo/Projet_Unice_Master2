@@ -98,41 +98,74 @@
 	$a_heureMinMax=reqToArrayPlusAtt($heureMinMax);
 	$heureMinMax->closeCursor(); /*a recuperer sur le array pour limiter nb req*/
 	
-	$a_heure=[];
+	$a_heures=[];
 	$range_heure=range(strtotime($a_heureMinMax[0]),strtotime($a_heureMinMax[1]),15*60);
 	//function fonction a finir 
 	foreach($range_heure as $time)
 	{
-        array_push($a_heure,date("H:i",$time));
-	}
-	
-
-	print Dumper ($a_heure);
-	
-	
-	
+        array_push($a_heures,date("H:i",$time));
+	}	
 	
 	//Dumper($a_heure);
 	//Dumper($a_heureMinMax);
 	//echo $a_heureMinMax["min(heure)"];
 	//echo $a_heureMinMax["max(heure)"];
 	
-	// -- data
-	$infoServiceJour = $bdd->prepare("SELECT TIME_FORMAT(CreneauxInterventions.heure,'%H:%i'), Patients.nom, Patients.prenom, Patients.numSS, CreneauxInterventions.niveauUrgence, CreneauxInterventions.statut 
-		FROM `CreneauxInterventions` JOIN Interventions JOIN Patients
-		WHERE CreneauxInterventions.InterventionsidIntervention = Interventions.idIntervention
-		AND CreneauxInterventions.PatientnumSS = Patients.numSS
-		AND dateRdv= '2017-11-02'/*:date*/
-		AND ServicesnomService = 'cardio'/*:service*/ ");
-	$infoServiceJour->execute();//array('service'=> $service,
-								//'dateRDV' => $dateCourant));//$donnees = mysqli_fetch_array($Actes)
-	
-	//while ($test = $infoServiceJour->fetch())
-	//	{
-	//		Dumper(	$test );
-	//	}
+	// -- data RAJOUTER IDINTERVENTION - ACTE !!
+	function infoo($bdd)
+	{ ///recup info
+		$infoServiceJour = $bdd->prepare("SELECT TIME_FORMAT(CreneauxInterventions.heure,'%H:%i'), Interventions.acte, Patients.nom, Patients.prenom, Patients.numSS, CreneauxInterventions.niveauUrgence, CreneauxInterventions.statut 
+			FROM `CreneauxInterventions` JOIN Interventions JOIN Patients
+			WHERE CreneauxInterventions.InterventionsidIntervention = Interventions.idIntervention
+			AND CreneauxInterventions.PatientnumSS = Patients.numSS
+			AND CreneauxInterventions.statut != 'a'
+			AND dateRdv= '2017-11-02'/*:date*/
+			AND ServicesnomService = 'cardio'/*:service*/ ");
+		$infoServiceJour->execute();//array('service'=> $service,
+									//'dateRDV' => $dateCourant));//$donnees = mysqli_fetch_array($Actes)
+		$infoServiceJours=[];
+		while ($test = $infoServiceJour->fetch(PDO::FETCH_ASSOC))
+			{
+				//Dumper ($test);
+				
+				if (array_key_exists($test["TIME_FORMAT(CreneauxInterventions.heure,'%H:%i')"],$infoServiceJours))
+				{
+					$tempo=$infoServiceJours[$test["TIME_FORMAT(CreneauxInterventions.heure,'%H:%i')"]];
+					
+					$a=array($test["acte"] => ["nom"=>$test["nom"],
+										"prenom"=>$test["prenom"],
+										"numSS"=>$test["numSS"],
+										"niveauUrgence"=>$test["niveauUrgence"],
+										"statut"=>$test["statut"]]
+										);
+					array_push($test["TIME_FORMAT(CreneauxInterventions.heure,'%H:%i')"],$a);
+					Dumper($a);
+					echo("...");
+					Dumper($tempo);
+					echo("...")
+					Dumper($test);
+				}
+				else
+				{
+					$infoServiceJours[$test["TIME_FORMAT(CreneauxInterventions.heure,'%H:%i')"]]=array($test["acte"] => ["nom"=>$test["nom"],
+										"prenom"=>$test["prenom"],
+										"numSS"=>$test["numSS"],
+										"niveauUrgence"=>$test["niveauUrgence"],
+										"statut"=>$test["statut"]]
+										);
+				//Dumper($tempo);
+				
+				//$infoServiceJours[]=;
+				}
+				
+			}
+		//Dumper ($infoServiceJours);
+		$infoServiceJour->closeCursor(); /*a recuperer sur le array pour limiter nb req*/
+
+	}
+	infoo($bdd);
+
 	//$a_heureMinMax=reqToArray1Att($heureMinMax);
-	$infoServiceJour->closeCursor(); /*a recuperer sur le array pour limiter nb req*/
 	///***
 	
 	
