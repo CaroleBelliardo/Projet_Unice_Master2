@@ -139,11 +139,7 @@
 										"statut"=>$test["statut"]]
 										);
 					array_push($test["TIME_FORMAT(CreneauxInterventions.heure,'%H:%i')"],$a);
-					Dumper($a);
-					echo("...");
-					Dumper($tempo);
-					echo("...")
-					Dumper($test);
+					
 				}
 				else
 				{
