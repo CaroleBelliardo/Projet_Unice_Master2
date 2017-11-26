@@ -15,7 +15,6 @@ function liste_Services($auth_user) // affiche un menu déroulant listant les se
 <?php 
 			$stmt = $auth_user->runQuery("SELECT nomService FROM Services"); // permet de rechercher le nom d utilisateur 
 			$stmt->execute(); // la meme 
-			echo "<option value='NULL'>Standard</option>";
 			while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
 			echo "<option value='".$row['nomService']."'>".$row['nomService']."</option>";
 			}

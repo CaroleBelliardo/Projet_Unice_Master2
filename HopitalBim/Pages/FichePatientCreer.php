@@ -226,7 +226,7 @@ if(isset($_POST['btn-signup']))
 			{
 				 ?>
                  <div class="alert alert-info">
-                      <i class=""></i>Patient enregistré avec succes<a href='Pageprincipale.php'>Page principale</a>
+                      <i class=""></i>Patient enregistré avec succes<a href='../Pageprincipale.php'>Page principale</a>
                  </div>
                  <?php
 			}

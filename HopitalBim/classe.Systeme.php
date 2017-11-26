@@ -21,17 +21,17 @@ class Systeme
 		return $stmt;
 	}
 	
-	public function register($uname,$upass) ## creation compte utilisateur
+	public function creerUtilisateur($UtilisateurNom,$text_motdepasse) ## creation compte utilisateur
 	{
 		try
 		{
-			$new_password = password_hash($upass, PASSWORD_DEFAULT);
+			$Crypt_motdepasse = password_hash($text_motdepasse, PASSWORD_DEFAULT);
 			
 			$stmt = $this->conn->prepare("INSERT INTO CompteUtilisateurs(idEmploye,passwd) 
-		                                               VALUES(:uname, :upass)");
+		                                               VALUES(:UtilisateurNom, :text_motdepasse)");
 												  
-			$stmt->bindparam(":uname", $uname);
-			$stmt->bindparam(":upass", $new_password);										  
+			$stmt->bindparam(":UtilisateurNom", $UtilisateurNom);
+			$stmt->bindparam(":text_motdepasse", $Crypt_motdepasse);										  
 				
 			$stmt->execute();	
 			
