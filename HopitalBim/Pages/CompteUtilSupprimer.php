@@ -34,6 +34,7 @@ if(isset($_POST['btn-signup']))
 													idEmploye=:text_utilisateur");
 			$ajoutchef->bindparam(":text_utilisateur", $text_utilisateur);
 			$ajoutchef->execute();
+			$auth_user->redirect('CompteUtilSupprimer.php?Valide');
 		}
 		catch(PDOException $e)
 		{			
