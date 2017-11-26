@@ -1,7 +1,9 @@
 <?php
+	
+	include ('../Config/Menupage.php');
+	include ('../Fonctions/Affichage.php');
 
 	require_once("session.php");
-	
 	require_once("classe.Systeme.php");
 	$auth_user = new Systeme();
 	$user_id = $_SESSION['idEmploye'];
@@ -44,7 +46,7 @@
 
 
 
-
+	<?php 	quitter1()	?>	
 </body>
 
 

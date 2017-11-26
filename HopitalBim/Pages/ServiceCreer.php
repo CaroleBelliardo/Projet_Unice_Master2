@@ -4,9 +4,11 @@
 		- plop
 
 	*/
+	include ('../Config/Menupage.php');
+	include ('../Fonctions/Affichage.php');
 	require_once("../session.php"); // requis pour se connecter la base de donnée 
-	
 	require_once("../classe.Systeme.php"); 	// va permettre d effectuer les requettes sql en orienté objet.
+
 	$auth_user = new Systeme(); 			// PRIMORDIAL pour les requetes 
 	$user_id = $_SESSION['idEmploye']; 		// permet de conserver la session
 	$stmt = $auth_user->runQuery("SELECT * FROM CompteUtilisateurs WHERE idEmploye=:user_name"); // permet de rechercher le nom d utilisateur 
@@ -264,7 +266,6 @@
 </head>
 
 <body>
-<?php include ('../Config/Menupage.php'); ?>
 
     <p class="h4">Session : <?php print($userRow['idEmploye']); ?></p> 
     <p class="" style="margin-top:5px;">
@@ -327,7 +328,7 @@
         </form>
        </div>
 </div>
-
+	<?php 	quitter1()	;?>	
 </body>
 
 

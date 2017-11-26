@@ -5,66 +5,19 @@
 - rendez-vous annulés 
 - ajour header 
 -->
-
 <?php
+	include ('../Config/Menupage.php');
+	include ('../Fonctions/Affichage.php');
+	include ('../Fonctions/ReqTraitement.php');
 	require_once("../session.php"); 
 	require_once("../classe.Systeme.php");
 	$auth_user = new Systeme();
 	$bdd=$auth_user->conn;
 
-	function Dumper ($var){ // affichage des valeurs des variables tableaux
-		echo '<pre>';
-		var_dump($var);
-		echo '</pre>';
-	}
-	
-	function reqToArray1Att($requete) //  une requete qui retroune plusieurs tuples (plusieurs lignes) 1 attribut (1 colonne)  -- retourne un tableau contenant toutes les valeurs d'un attribut, tableau 1D
-	{
-		$a_out_reqToArray=[];
-		while ($row = $requete->fetchColumn())
-		{
-			array_push(	$a_out_reqToArray,$row );
-		}
-		return ($a_out_reqToArray);
-	}
-	
-	function reqToArrayPlusAtt($requete) //  une requete qui retroune 1 plusieurs attributs  (plusieurs colonnes) pour un tuple (1 ligne) -- retourne un tableau contenant toutes les valeurs des attributs, tableau 1D
-	{
-		$a_out_reqToArray=[];
-		while ($row = $requete->fetch(PDO::FETCH_ASSOC))
-		{
-			foreach ( $row as $cle=>$valeur)
-			{
-				array_push($a_out_reqToArray,$valeur);
-			}
-		
-		}
-		return ($a_out_reqToArray);
-	}
-	
-	function reqToArrayPlusligne($requete) // une requete qui retroune 1 plusieurs attributs  (plusieurs colonnes) pour plusieurs tuples (plusieurs ligne) -- retourne un tableau  de tableau contenant toutes les valeurs des attributs, tableau 2D
-		//
-	{
-		$a_out_reqToArray=[];
-		while ($row = $requete->fetch(PDO::FETCH_ASSOC))
-		{
-			foreach ( $row as $attribut=>$col)
-			{
-				if(array_key_exists($attribut,$a_out_reqToArray))
-				{
-					$tempo=$a_out_reqToArray[$attribut];
-					push($tempo,$col);
-					$a_out_reqToArray[$attribut]=$tempo;
-				}
-				else
-				{
-					$a_out_reqToArray[$attribut]=[$col];
-				}
-			}
-		
-		}
-		return ($a_out_reqToArray);
-	}
+	date_default_timezone_set('Europe/Paris');
+	// --- La setlocale() fonctionnne pour strftime mais pas pour DateTime->format()
+	setlocale(LC_TIME, 'fr_FR.utf8','fra');// OK
+	// strftime("jourEnLettres jour moisEnLettres annee") de la date courante
 	
 	function infoo($bdd)// recupere les info de la requete a afficher dans le planning
 	// tableau 3D cle1 = H(ex : 08:00, 08:15,...);
@@ -148,9 +101,9 @@
 	}	
 	
 	$infoServiceJours=infoo($bdd);
+
 	
-
-
+	
 // **************************  AFFICHAGE PAGE ********************************************   
 ?>
 <!DOCTYPE html>
@@ -164,7 +117,55 @@
 
 <body>
 	
-    <?php include ('../Config/Menupage.php');?> 
+	
+	
+<form method="post" class="form-signin">
+	 <h2 class="form-signin-heading">Planning du service <?php echo $service,", le ",Affiche_dateFr($dateCourant);; ?></h2><hr />
+	 <?php
+	 if(isset($error))
+	 {
+		foreach($error as $error)
+		{
+	?>
+			<div class="alert alert-danger">
+				<i class=""></i> &nbsp; <?php echo $error; ?>
+            </div>
+	<?php
+		}
+	 }	
+		else if(isset($_GET['Valide']))
+		{
+	?>
+		<div class="alert alert-info">
+            <i class=""></i>Patient enregistré avec succes<a href='Pageprincipale.php'>Page principale</a>
+		</div>
+<?php } ?> 
+	
+	
+	
+	
+   <fieldset>
+	    <legend> Date </legend> <!-- Titre du fieldset --> 
+		<form method="post" action="traitement.php">
+			<p>
+				<input type="date" />
+				<input type="submit" value="Envoyer" />
+			</p>
+		</form>
+	</fieldset>
+	<fieldset>
+	    <legend> Services </legend> <!-- Titre du fieldset --> 
+		<form method="post" action="traitement.php">
+			<p>
+				<?php liste_Services($auth_user) ?>
+				<input type="submit" value="Envoyer" />
+			</p>
+		</form>
+	</fieldset>
+	
+	
+	
+	
 	<table  BORDER="1",ALIGN="CENTER", VALIGN="MIDDLE " >
 	<tr><th>Heure</th>
 	<?php 
@@ -222,11 +223,23 @@
 	?>
 	</table>
 	
+	<!--
+	<?php
+	if(isset($_POST['submit'])){
+	header("Location: ServiceCreer.php");
+	exit;
+	}
+	?>
+	<form>
+<input type="button" value="Home" class="homebutton" id="btnHome" onClick="<?php header("Location: "); ?>" />
+	</form>-->
+
+	<?php 	quitter1()	?>	
 	
 	
-	
-	
-	
+	<?php 
+		quitter2()
+	?>
 	
 </body>
 </html>

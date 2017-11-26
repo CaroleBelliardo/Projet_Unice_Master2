@@ -12,10 +12,11 @@ INSERT INTO `Services` (`nomService`, `telephone`, `mail`,`horaire_ouverture`,`h
 INSERT INTO `Services` (`nomService`, `telephone`, `mail`,`horaire_ouverture`,`horaire_fermeture`, `LocalisationServicesidLocalisation`) VALUES ('Informatique', '0492798271', 'servicesinfo@hopitalbim.fr','10:00','17:00', '4');
 INSERT INTO `Services` (`nomService`, `telephone`, `mail`,`horaire_ouverture`,`horaire_fermeture`, `LocalisationServicesidLocalisation`) VALUES ('Cardiologie', '0492112589', 'cardiologie@hopitalbim.fr','07:30','18:30', '5');
 
-INSERT INTO `CompteUtilisateurs` (`idEmploye`, `passwd`) VALUES ('lm25610', '$2y$10$aAQcmkz0AlBv3kX/bOFb3t.K5VsfrPs7B8kxMGxu1lp2mFuw//SfC') ; 
-INSERT INTO `CompteUtilisateurs` (`idEmploye`, `passwd`) VALUES ('ly12454', '$2y$10$gXQcmgz7JlZs3kX/aOFb3r.K2XdsfXs5V9kxXGxu1ol2mVuw//SfC') ; 
-INSERT INTO `CompteUtilisateurs` (`idEmploye`, `passwd`) VALUES ('cm14743', '$1y$10$aZZghjz4RlRr3kX/pOCb3t.K5VdsfPs1V5kxJGxu1ju2mFuw//SfC') ; 
-INSERT INTO `CompteUtilisateurs` (`idEmploye`, `passwd`) VALUES ('fd78980', '$7y$10$aXQcmkz7JlRy3kX/tORb3o.K3VszsPs5V5kxMXxu1np2mFuw//SfC') ; 
+INSERT INTO `CompteUtilisateurs` (`idEmploye`, `passwd`) VALUES ('admin00', '$2y$10$aXQcmkz0JlTy3kX/gOFb3u.K5VhyaPs5V5kxMGxu1np2mFuw//SfC') ; 
+INSERT INTO `CompteUtilisateurs` (`idEmploye`, `passwd`) VALUES ('lm25610', '$2y$10$aXQcmkz0JlTy3kX/gOFb3u.K5VhyaPs5V5kxMGxu1np2mFuw//SfC') ; 
+INSERT INTO `CompteUtilisateurs` (`idEmploye`, `passwd`) VALUES ('ly12454', '$2y$10$aXQcmkz0JlTy3kX/gOFb3u.K5VhyaPs5V5kxMGxu1np2mFuw//SfC') ; 
+INSERT INTO `CompteUtilisateurs` (`idEmploye`, `passwd`) VALUES ('cm14743', '$2y$10$aXQcmkz0JlTy3kX/gOFb3u.K5VhyaPs5V5kxMGxu1np2mFuw//SfC') ; 
+INSERT INTO `CompteUtilisateurs` (`idEmploye`, `passwd`) VALUES ('fd78980', '$2y$10$aXQcmkz0JlTy3kX/gOFb3u.K5VhyaPs5V5kxMGxu1np2mFuw//SfC') ; 
 
 INSERT INTO `Villes` (`idVilles`, `codepostal`, `nomVilles`,`departement`, `pays`) VALUES (NULL, '06000','Nice', '06', 'France');
 INSERT INTO `Villes` (`idVilles`, `codepostal`, `nomVilles`,`departement`, `pays`) VALUES (NULL, '06130','Grasse', '06', 'France');

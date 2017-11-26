@@ -4,9 +4,9 @@
 		- champs html du departement et du pays afficher une liste ( plutot que de le taper) 
 		- les includes a faire.
 	*/
-	
+include ('../Config/Menupage.php');
+include ('../Fonctions/Affichage.php');
 require_once("../session.php"); // requis pour se connecter la base de donnée 
-	
 require_once("../classe.Systeme.php"); // va permettre d effectuer les requettes sql en orienté objet.
 $auth_user = new Systeme(); // PRIMORDIAL pour les requetes 
 $user_id = $_SESSION['idEmploye']; // permet de conserver la session
@@ -200,7 +200,7 @@ if(isset($_POST['btn-signup']))
 </head>
 
 <body>
-<?php include ('../Config/Menupage.php'); ?>
+
 
     <p class="h4">Session : <?php print($userRow['idEmploye']); ?></p> 
     <p class="" style="margin-top:5px;">
@@ -267,6 +267,7 @@ if(isset($_POST['btn-signup']))
 </div>
 
 </div>
+<?php quitter1() ?>	
 
 </body>
 

@@ -8,6 +8,7 @@
 -->
 
 <?php
+	include ('../Fonctions/Affichage.php');
 	require_once("../session.php");
 	require_once("../classe.Systeme.php");
 	$auth_user = new Systeme();
@@ -17,12 +18,6 @@
 //	$stmt->execute(array(":user_name"=>$user_id));
 //	$userRow=$stmt->fetch(PDO::FETCH_ASSOC); 
    
-	
-	function Dumper ($var){ // affichage des valeurs des variables tableaux
-		echo '<pre>';
-		var_dump($var);
-		echo '</pre>';
-	}
 	
 	function extractReq ($inReq,$manip){ //TODO : recupere les valeurs de la première variable = > a supprimant en creant le tableau avant 
 		$a_temp=[];
@@ -91,15 +86,15 @@
  //           GROUP BY Employes.ServicesnomService');
 // retourne liste (medecin + patient) pour lequels il a plus d'une demande ( ligne avec h ou j dif)
 // avec niveau urgent
-    $reqMedPatient = $bdd ->query ('SELECT ServicesnomService, EmployesCompteUtilisateursidEmploye, PatientnumSS
+    $reqMedPatient = $bdd ->query ('SELECT ServicesnomService, EmployesCompteUtilisateursidEmploye, PatientsnumSS
             FROM Employes Natural JOIN CreneauxInterventions t1
             WHERE niveauUrgence != 0
             AND EXISTS (
             SELECT *
             FROM CreneauxInterventions t2
-            WHERE t1.dateRdv <> t2.dateRdv
-            OR   t1.heure <> t2.heure
-            AND   t1.PatientnumSS = t2.PatientnumSS
+            WHERE t1.date_rdv <> t2.date_rdv
+            OR   t1.heure_rdv <> t2.heure_rdv
+            AND   t1.PatientsnumSS = t2.PatientsnumSS
             AND t1.EmployesCompteUtilisateursidEmploye = t2.EmployesCompteUtilisateursidEmploye)
 			Group by EmployesCompteUtilisateursidEmploye');
 $test=extractReq($req_nbDemandeParService,"nb_Interventions");
@@ -194,7 +189,7 @@ $var1= ['nb_Interventions' ,'nb_InterventionsUrgentes' ];//,'nb incompatibilité
 		} 
 	?>
 	</table>
-
+<?php quitter1(); ?>	
 	
 	
 </body>

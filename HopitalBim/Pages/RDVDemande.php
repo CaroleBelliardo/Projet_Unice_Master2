@@ -1,5 +1,8 @@
 <?php
-	//         
+	//  
+	include ('../Config/Menupage.php');
+	include ('../Fonctions/Affichage.php');
+       
 	require_once("../session.php");
 	$heureCourante=date("H:i:s");
 	require_once("../classe.Systeme.php");

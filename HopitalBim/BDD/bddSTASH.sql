@@ -149,6 +149,3 @@ CREATE TABLE InterventionsPatho (
   PRIMARY KEY (PathologiesidPatho, InterventionsidIntervention), 
   FOREIGN KEY (InterventionsidIntervention) REFERENCES Interventions (idIntervention) ON DELETE CASCADE ON UPDATE CASCADE, 
   FOREIGN KEY (PathologiesidPatho) REFERENCES Pathologies (idPatho) ON DELETE CASCADE ON UPDATE CASCADE ); 
- 
-# Premier insert dans la table du futur admin de la base de données 
-INSERT INTO `CompteUtilisateurs` (`idEmploye`, `passwd`) VALUES ('admin00', '$2y$10$aXQcmkz0JlTy3kX/gOFb3u.K5VhyaPs5V5kxMGxu1np2mFuw//SfC') ; 

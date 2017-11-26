@@ -44,7 +44,7 @@
 
 
 
-
+<?php quitter1(); ?>	
 </body>
 
 
