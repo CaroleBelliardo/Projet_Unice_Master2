@@ -36,7 +36,9 @@ if(isset($_POST['btn-signup']))
 	$text_taille = strip_tags($_POST['text_taille']);	
 	$text_poids = strip_tags($_POST['text_poids']);	
 	$text_commentaires = strip_tags($_POST['text_commentaires']);	
-		
+	
+	$_SESSION['Patient']=$text_numSS ;	
+
 	// TEST SI NUMSS deja present
 	$stmt = $auth_user->runQuery("SELECT numSS FROM Patients WHERE numSS=:text_numSS ");
 	$stmt->execute(array('text_numSS'=>$text_numSS));
