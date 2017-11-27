@@ -189,7 +189,10 @@ if(isset($_POST['btn-signup']))
 		}	
 	}
 }
-
+if(isset($_POST['redirection']))
+{ 
+$auth_user->redirect('RDVDemande.php');
+}
 
 
 ?>
@@ -264,6 +267,18 @@ if(isset($_POST['btn-signup']))
             	<button type="submit" class="btn btn-primary" name="btn-signup">
                 	<i class=""></i>Valider
                 </button>
+				<?php 
+				if(isset($_GET['Valide']))
+				{
+				 ?>
+			
+				 <button type='submit' class='btn btn-primary' name="redirection">
+					<i class=''></i>Demander un RDV
+                </button>
+                
+                 <?php
+					}
+			?>		
 				
             </div>
         </form>
