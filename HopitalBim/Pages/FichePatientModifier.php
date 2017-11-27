@@ -13,8 +13,8 @@ $userRow=$stmt->fetch(PDO::FETCH_ASSOC); // permet d afficher l identifiant du g
 	
 if(isset($_POST['btn-selectionpatient']))
 {	 
-	$text_utilisateur=$_POST['text_utilisateur'];
-	$echo $text_numSS
+	$text_numSS=$_POST['text_numSS'];
+	$echo $text_numSS ;
 	 
 	// ici je pense faire un include de $dep a $adresse tout foutre dans un seul et meme document car c est chiant a regarder 
 		 // Gestion des erreurs : 

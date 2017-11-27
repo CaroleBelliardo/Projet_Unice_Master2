@@ -228,7 +228,8 @@ if(isset($_POST['btn-signup']))
 			{
 				 ?>
                  <div class="alert alert-info">
-                      <i class=""></i>Patient enregistré avec succes<a href='../Pageprincipale.php'>Page principale</a>
+                      <i class=""></i>Patient enregistré avec succes<a href='../RDVDemande.php'></br>
+					  Demande de rendez-vous.</a>
                  </div>
                  <?php
 			}
@@ -263,6 +264,7 @@ if(isset($_POST['btn-signup']))
             	<button type="submit" class="btn btn-primary" name="btn-signup">
                 	<i class=""></i>Valider
                 </button>
+				
             </div>
         </form>
        </div>
