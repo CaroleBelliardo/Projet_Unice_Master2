@@ -78,7 +78,7 @@
 	// -- date du jour
 	$dateCourant = date("d-m-y"); // A SUPPRIMER ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 	//$heureCourante = date("H:i:s");
-	$dateCourant = '2017-11-02'; /*test*/
+	$dateCourant = '2017-11-01'; /*test*/
 	
 	
 	//-- PLANNING du service ***
