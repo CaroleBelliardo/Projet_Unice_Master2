@@ -68,6 +68,8 @@
 <body>
 
 <div class="navbar">
+	<a href="<?php echo $LienSite ?>Pages/RDVDemande.php">Demande de rendez-vous </a>
+	
 	<div class="dropdown">
 		<button class="dropbtn">Patient 
 			<i class="fa fa-caret-down"></i>

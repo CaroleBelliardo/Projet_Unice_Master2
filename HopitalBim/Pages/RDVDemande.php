@@ -5,6 +5,11 @@
 		   
 		-// si $patient = "" alors redirect vers page principale
 		- Afficher d'autre info relatif au patient : comme le nom et le prenom, date de naissance etc ..
+		
+		-- utiliser explode pour transfo string to array
+		-- implode array to string
+		-- ARAY_map = appliquer une instruction à tout un tableau 
+		
 		-->
 <?php
 
@@ -21,12 +26,17 @@ $Req_utilisateur->execute(array(":user_name"=>$user_id)); // la meme
 
 // variables 
 $utilisateur=$Req_utilisateur->fetchColumn(); // permet d afficher l identifiant du gars sur la page, ce qui faudrai c est le nom
+
 $patient= $_SESSION['Patient'];
-if (array_key_exists("Patient",$_SESSION )){}
-		else
-		{$auth_user->redirect('FichePatientCreer.php'); 
-	// dans le cas ou aucun patient a été selectionné ou ajouté, alors il redirige vers creer un patient ( cas ou on arrive dessus par erreur ) 
-		}
+//if (array_key_exists("Patient",$_SESSION )){}
+//		else
+//		{
+//			$auth_user->redirect('FichePatientCreer.php'); 
+//	// dans le cas ou aucun patient a été selectionné ou ajouté, alors il redirige vers creer un patient ( cas ou on arrive dessus par erreur ) 
+//		}
+
+
+		
 if(isset($_POST['btn_demandeRDV']))
 {	 
 	echo $patient;
@@ -57,6 +67,8 @@ if(isset($_POST['btn_demandeRDV']))
 							//$donnees = mysqli_fetch_array($Actes)
 		
 
+	$ajoutRDV->closeCursor();
+	
 
  }
 ?>
@@ -64,7 +76,7 @@ if(isset($_POST['btn_demandeRDV']))
 <!DOCTYPE html PUBLIC >
 <html>
 <head>
-
+<link rel="stylesheet" href=Style.css">
 <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
 <title>Demande RDV</title>
 </head>
