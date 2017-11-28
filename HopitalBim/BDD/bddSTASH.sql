@@ -71,18 +71,18 @@ CREATE TABLE Services (
   
 # Table regroupant tous les employés travaillant au sein de l hopital 
 CREATE TABLE Employes ( 
-  CompteUtilisateursidEmploye char(7) NOT NULL, # cf idEmployé 
+  idEmploye int(8) NOT NULL AUTO_INCREMENT, # 1
+  CompteUtilisateursidEmploye char(7) , # cf idEmployé 
   nom                         varchar(25) NOT NULL, # Maj au début 
   prenom                      varchar(25) NOT NULL, # Maj au début 
   telephone                   varchar(15),  
   mail                        varchar(60),   
   ServicesnomService          varchar(20), # cf. NomService 
   AdressesidAdresse           int(8),       # cf. idAdresse 
-  PRIMARY KEY (CompteUtilisateursidEmploye),  
+  PRIMARY KEY (idEmploye),  
   FOREIGN KEY (ServicesnomService) REFERENCES Services (nomService) ON DELETE SET NULL ON UPDATE CASCADE, 
   FOREIGN KEY (AdressesidAdresse) REFERENCES Adresses (idAdresse) ON DELETE SET NULL ON UPDATE CASCADE, 
-  FOREIGN KEY (CompteUtilisateursidEmploye) REFERENCES CompteUtilisateurs (idEmploye) ON DELETE CASCADE ON UPDATE CASCADE,
-  INDEX (ServicesnomService), 
+  FOREIGN KEY (CompteUtilisateursidEmploye) REFERENCES CompteUtilisateurs (idEmploye) ON DELETE SET NULL ON UPDATE CASCADE,
   INDEX (nom)); 
  
 # Table indiquant les responsables de chaque service   

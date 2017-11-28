@@ -101,16 +101,20 @@ if(isset($_POST['btn_demandeRDV']))
 						<legend> Intervention demandée </legend> <!-- Titre du fieldset --> 
 							<p>
 								<!-- Affichage formulaire : moteur recherche-->
-									<input list="text_idIntervention" name="text_idIntervention" size='35'> 
-									<datalist id="text_idIntervention" >
-								<?php 
+								<input list="text_idIntervention" name="text_idIntervention" size='35'> 
+								<datalist id="text_idIntervention" >
+	<?php 
 									$req_serviceacte = $auth_user->runQuery("SELECT idIntervention, acte, ServicesnomService FROM Interventions"); // permet de rechercher le nom d utilisateur 
 									$req_serviceacte->execute(); // la meme 
-									while ($row_serviceacte = $req_serviceacte->fetch(PDO::FETCH_ASSOC)){
-									echo "<option label='".$row_serviceacte['acte']." ".$row_serviceacte['ServicesnomService']."' 
-									value='"."(".$row_serviceacte['idIntervention'].")"." -- ".$row_serviceacte['acte']." ".$row_serviceacte['ServicesnomService']."'>".$row_serviceacte['acte']." ".$row_serviceacte['ServicesnomService']."</option>";
-									}?></datalist>
-									</br >
+									while ($row_serviceacte = $req_serviceacte->fetch(PDO::FETCH_ASSOC))
+									{
+										echo "<option label='".$row_serviceacte['acte']." ".$row_serviceacte['ServicesnomService']."' 
+										value='"."(".$row_serviceacte['idIntervention'].")"."  ".$row_serviceacte['acte']." -- ".$row_serviceacte['ServicesnomService']."'>".$row_serviceacte['acte']." ".$row_serviceacte['ServicesnomService']."</option>";
+									}
+									$req_serviceacte->closeCursor();
+	?>
+								</datalist>
+								</br >
 
 								<label   class="form-control" > Niveau d'urgence :&nbsp;&nbsp;      
 									<input type="radio"  name="text_urgence" value="0" checked="checked"  style="display: inline; !important;"/>0&nbsp;&nbsp;&nbsp;&nbsp;
