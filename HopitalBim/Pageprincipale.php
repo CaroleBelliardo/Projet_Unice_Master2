@@ -8,8 +8,7 @@
 	$stmt = $auth_user->runQuery("SELECT * FROM CompteUtilisateurs WHERE idEmploye=:user_name");
 	$stmt->execute(array(":user_name"=>$user_id));
 	$userRow=$stmt->fetch(PDO::FETCH_ASSOC); 
-	if (array_key_exists("Patient",$_SESSION )){
-		echo $_SESSION['Patient'] ;}
+	
 ?>
 <!DOCTYPE html>
 <html>

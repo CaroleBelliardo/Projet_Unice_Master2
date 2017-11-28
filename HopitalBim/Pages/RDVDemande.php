@@ -4,7 +4,7 @@
 		   ou : ucfirst() - Make a string's first character uppercase
 		   
 		-// si $patient = "" alors redirect vers page principale
-
+		- Afficher d'autre info relatif au patient : comme le nom et le prenom, date de naissance etc ..
 		-->
 <?php
 
@@ -22,7 +22,11 @@ $Req_utilisateur->execute(array(":user_name"=>$user_id)); // la meme
 // variables 
 $utilisateur=$Req_utilisateur->fetchColumn(); // permet d afficher l identifiant du gars sur la page, ce qui faudrai c est le nom
 $patient= $_SESSION['Patient'];
-
+if (array_key_exists("Patient",$_SESSION )){}
+		else
+		{$auth_user->redirect('FichePatientCreer.php'); 
+	// dans le cas ou aucun patient a été selectionné ou ajouté, alors il redirige vers creer un patient ( cas ou on arrive dessus par erreur ) 
+		}
 if(isset($_POST['btn_demandeRDV']))
 {	 
 	echo $patient;
@@ -34,11 +38,24 @@ if(isset($_POST['btn_demandeRDV']))
 	$text_commentaires = trim($_POST['text_commentaires'], ' ');	
 	echo ($text_idIntervention);
 	$text_idIntervention = 2;
-	$ajoutRDV = $auth_user->conn->prepare("INSERT INTO CreneauxInterventions (date_rdv, heure_rdv, InterventionidIntervention, niveauUrgence, pathologie, commmentaires, PatientsnumSS, EmployesCompteUtilisateursIdEmploye) 
+	$ajoutRDV = $auth_user->runQuery("INSERT INTO CreneauxInterventions (date_rdv, heure_rdv, InterventionidIntervention, niveauUrgence, pathologie, commmentaires, PatientsnumSS, EmployesCompteUtilisateursIdEmploye) 
 	VALUES (:date_rdv, :heure_rdv, :InterventionidIntervention, :niveauUrgence, :pathologie, :commmentaires, :PatientsnumSS, :EmployesCompteUtilisateursIdEmploye)");
+	
 
-	$date_rdv = '2017-11-02';
-	$heure_rdv = '08:00:00';
+   $today = date("h:i:s");
+
+    echo $today;
+	
+	$date_rdv = date("Y-m-d");
+	$heure_rdv = date("h:i:s");
+	echo $date_rdv ;echo ': DATE RDV <br>';
+	echo $heure_rdv ;echo ': heure <br>';
+	echo $text_idIntervention ;echo ':InterventionidIntervention <br>';
+	echo  $text_urgence ;echo ' :niveauUrgence <br>';
+	echo $text_nomPathologie ;echo ':text_nomPathologie <br>';
+	echo $text_commentaires ;echo ': commentaires<br>';
+	echo  $patient;echo ': PatientsnumSS <br>';
+	echo $user_id ;echo ': user_id <br>';
 
 	$ajoutRDV->execute(array('date_rdv'=> $date_rdv,
 							'heure_rdv'=> $heure_rdv,
@@ -47,7 +64,9 @@ if(isset($_POST['btn_demandeRDV']))
 							'pathologie'=> $text_nomPathologie,
 							'commentaires'=> $text_commentaires,
 							'PatientsnumSS'=> $patient,
-							'EmployesCompteUtilisateursIdEmploye'=> $user_id));//$donnees = mysqli_fetch_array($Actes)
+							'EmployesCompteUtilisateursIdEmploye'=> $user_id));
+							//$donnees = mysqli_fetch_array($Actes)
+							
 }
 ?>
 
