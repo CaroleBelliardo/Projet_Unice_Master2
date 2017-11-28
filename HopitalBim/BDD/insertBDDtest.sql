@@ -56,21 +56,35 @@ INSERT INTO `ChefServices` (`EmployesCompteUtilisateursidEmploye`, `ServicesnomS
 INSERT INTO `ChefServices` (`EmployesCompteUtilisateursidEmploye`, `ServicesnomService`) VALUES ('lm25610', 'Gériatrie');
 INSERT INTO `ChefServices` (`EmployesCompteUtilisateursidEmploye`, `ServicesnomService`) VALUES ('fd78980', 'Pneumologie');
 
-INSERT INTO `Pathologies` (`idPatho`, `nomPathologie`, `indication`, `precautions`) VALUES (NULL, 'Grippe', 'H1N1', 'mettre un masque');
-INSERT INTO `Pathologies` (`idPatho`, `nomPathologie`, `indication`, `precautions`) VALUES (NULL, 'Bronchite ', 'chronique', 'éviter exposition à des substances irritantes');
-INSERT INTO `Pathologies` (`idPatho`, `nomPathologie`, `indication`, `precautions`) VALUES (NULL, 'Myocardiopathie', 'extrinsèque', NULL);
-INSERT INTO `Pathologies` (`idPatho`, `nomPathologie`, `indication`, `precautions`) VALUES (NULL, 'Adénocarcinome', 'pulmonaire', NULL);
-INSERT INTO `Pathologies` (`idPatho`, `nomPathologie`, `indication`, `precautions`) VALUES (NULL, 'Pneumonie', DEFAULT, 'mettre un masque, se laver les mains régulièrement');
+INSERT INTO `Pathologies` ( `nomPathologie`, `indication`) VALUES ( 'Grippe', 'H1N1');
+INSERT INTO `Pathologies` (`nomPathologie`, `indication`) VALUES ( 'Bronchite ', 'chronique');
+INSERT INTO `Pathologies` (`nomPathologie`, `indication`) VALUES ( 'Myocardiopathie', 'extrinsèque');
+INSERT INTO `Pathologies` ( `nomPathologie`, `indication`) VALUES ( 'Adénocarcinome', '');
+INSERT INTO `Pathologies` (`nomPathologie`, `indication`) VALUES ( 'Pneumonie', DEFAULT);
 
-INSERT INTO `Interventions` (`idIntervention`, `acte`, `indication`, `ServicesnomService`) VALUES (NULL, 'Transplantation','cardiaque','Cardiologie'), 
-(NULL, 'Operation','fémur','Gériatrie'), 
-(NULL, 'Hospitalisation',DEFAULT, 'Pneumologie'),
-(NULL, 'IRM', 'thorax','Imagerie'), 
-(NULL, 'Radiologie','main','Imagerie');
+INSERT INTO `Interventions` (`idIntervention`, `acte`, `ServicesnomService`) VALUES (NULL, 'Transplantation','Cardiologie'), 
+(NULL, 'Operation','Gériatrie'), 
+(NULL, 'Hospitalisation', 'Pneumologie'),
+(NULL, 'IRM', 'Imagerie'), 
+(NULL, 'Radiologie','Imagerie');
 
 # Pour les floats, il faut mettre des '.' et non pas des ','
 INSERT INTO `Tarifications` (`InterventionsidIntervention`, `tarif_euros`) VALUES ('1', '76'), 
 ('2', '134.4'), ('3', '132.0'), ('4', '15'), ('5', '434');
+
+INSERT INTO `InterventionsPatho` (`PathologiesidPatho`, `InterventionsidIntervention`, `niveauUrgenceMax`, `niveauUrgenceMin`) VALUES ('1', '3', NULL, NULL), 
+('2', '4', NULL, NULL), 
+('3', '1', NULL, NULL), 
+('4', '3', NULL, NULL), 
+('5', '3', NULL, NULL);
+
+INSERT INTO `CreneauxInterventions` (`date_rdv`, `heure_rdv`, `InterventionsidIntervention`, `niveauUrgence`, `statut`, `pathologie`, `commentaires`, `VerifCoherencePathoUrgences`, `PatientsnumSS`, `EmployesCompteUtilisateursidEmploye`) VALUES ('2017-11-01', '03:00:00', '1', '3', 'r', 'Cardiomyopathie', 'Transplantation cardiaque à 3h du matin. Très Urgent', NULL, '178945687887447', 'cm14743'), 
+('2017-11-02', '12:30:00', '3', '3', 'a', 'Pneumonie', 'Patient décédé', 'OUI', '289886784555147', 'lm25610'),
+('2017-11-04', '15:00:00', '4', '1', DEFAULT, NULL, 'le patient a mal aux niveau des côtes', NULL, '178854747412138', 'cm14743');
+
+****************
+
+
 
 INSERT INTO `InterventionsPatho` (`PathologiesidPatho`, `InterventionsidIntervention`, `niveauUrgenceMax`, `niveauUrgenceMin`) VALUES ('1', '3', NULL, NULL), 
 ('2', '4', NULL, NULL), 
