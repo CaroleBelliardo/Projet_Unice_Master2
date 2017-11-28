@@ -33,41 +33,32 @@ if(isset($_POST['btn_demandeRDV']))
 	echo $user_id;
 	$text_nomPathologie = ucfirst(trim($_POST['text_nomPathologie'], ' '));	// trim enleve les espaces en debut et fin mais pas au milieu 
 	$text_indicationActe = ucfirst(trim($_POST['text_indicationActe'], ' '));	
-	$text_idIntervention = trim($_POST['text_idIntervention'], ' ');		
+	$text_idIntervention = preg_replace("/[^0-9]/", "",trim($_POST['text_idIntervention'], ' '));		
 	$text_urgence = trim($_POST['text_urgence'], ' ');
 	$text_commentaires = trim($_POST['text_commentaires'], ' ');	
-	echo ($text_idIntervention);
-	$text_idIntervention = 2;
-	$ajoutRDV = $auth_user->runQuery("INSERT INTO CreneauxInterventions (date_rdv, heure_rdv, InterventionidIntervention, niveauUrgence, pathologie, commmentaires, PatientsnumSS, EmployesCompteUtilisateursIdEmploye) 
-	VALUES (:date_rdv, :heure_rdv, :InterventionidIntervention, :niveauUrgence, :pathologie, :commmentaires, :PatientsnumSS, :EmployesCompteUtilisateursIdEmploye)");
-	
 
-   $today = date("h:i:s");
-
-    echo $today;
+	$ajoutRDV = $auth_user->runQuery("INSERT INTO CreneauxInterventions (date_rdv, heure_rdv, InterventionsidIntervention, niveauUrgence, pathologie, commentaires, PatientsnumSS, EmployesCompteUtilisateursIdEmploye) 
+	VALUES (:date_rdv, :heure_rdv, :InterventionsidIntervention, :niveauUrgence, :pathologie, :commentaires, :PatientsnumSS, :EmployesCompteUtilisateursIdEmploye)");
 	
+	$today = date("h:i:s");
+
 	$date_rdv = date("Y-m-d");
 	$heure_rdv = date("h:i:s");
-	echo $date_rdv ;echo ': DATE RDV <br>';
-	echo $heure_rdv ;echo ': heure <br>';
-	echo $text_idIntervention ;echo ':InterventionidIntervention <br>';
-	echo  $text_urgence ;echo ' :niveauUrgence <br>';
-	echo $text_nomPathologie ;echo ':text_nomPathologie <br>';
-	echo $text_commentaires ;echo ': commentaires<br>';
-	echo  $patient;echo ': PatientsnumSS <br>';
-	echo $user_id ;echo ': user_id <br>';
+
 
 	$ajoutRDV->execute(array('date_rdv'=> $date_rdv,
 							'heure_rdv'=> $heure_rdv,
-							'InterventionidIntervention'=> $text_idIntervention,
+							'InterventionsidIntervention'=> $text_idIntervention,
 							'niveauUrgence'=> $text_urgence,
 							'pathologie'=> $text_nomPathologie,
 							'commentaires'=> $text_commentaires,
 							'PatientsnumSS'=> $patient,
 							'EmployesCompteUtilisateursIdEmploye'=> $user_id));
 							//$donnees = mysqli_fetch_array($Actes)
-							
-}
+		
+
+
+ }
 ?>
 
 <!DOCTYPE html PUBLIC >
