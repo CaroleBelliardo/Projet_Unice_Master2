@@ -36,7 +36,7 @@ if(isset($_POST['btn_demandeRDV']))
 	$text_idIntervention = preg_replace("/[^0-9]/", "",trim($_POST['text_idIntervention'], ' '));		
 	$text_urgence = trim($_POST['text_urgence'], ' ');
 	$text_commentaires = trim($_POST['text_commentaires'], ' ');	
-
+	$text_indicationPathologie= trim($_POST['text_indicationPathologie'], ' ');
 	$ajoutRDV = $auth_user->runQuery("INSERT INTO CreneauxInterventions (date_rdv, heure_rdv, InterventionsidIntervention, niveauUrgence, pathologie, commentaires, PatientsnumSS, EmployesCompteUtilisateursIdEmploye) 
 	VALUES (:date_rdv, :heure_rdv, :InterventionsidIntervention, :niveauUrgence, :pathologie, :commentaires, :PatientsnumSS, :EmployesCompteUtilisateursIdEmploye)");
 	
@@ -102,24 +102,24 @@ if(isset($_POST['btn_demandeRDV']))
 					<fieldset>
 						<legend> Pathologie du patient </legend> <!-- Titre du fieldset --> 
 							<p>
-							<input type="text" class="" name="text_nomPathologie"  pattern="[a-zA-Z]{1-100}" title="Caractère alphabetique, 150 caractères maximum"  placeholder="Entrer le nom de la pathologie :" value="<?php if(isset($error)){echo $text_nomPathologie;}?>" /><br><br>
-							<input type="text" class="" name="text_indicationActe" pattern="[a-zA-Z]{1-30}" title="Caractère numérique, 5 caractères maximum"       placeholder="Entrer les indactions :" value="<?php if(isset($error)){echo $text_indicationacte;}?>" /><br>
-          
+							<input type="text" class="" name="text_nomPathologie"  pattern="[a-zA-Z]{1-100}" title="Caractère alphabetique, 100 caractères maximum"  placeholder="Entrer le nom de la pathologie :" value="<?php if(isset($error)){echo $text_nomPathologie;}?>" /><br><br>
+							<input type="text" class="" name="text_indicationPathologie" pattern="[a-zA-Z]{0-30}" title="Caractère alphabetique, 30 caractères maximum"       placeholder="Entrer les indactions :" value="<?php if(isset($error)){echo $text_indicationPathologie;}?>" /><br><br>
+ 
 							</p>
 					</fieldset>
 					<fieldset>
 						<legend> Intervention demandée </legend> <!-- Titre du fieldset --> 
 							<p>
 								<!-- Affichage formulaire : moteur recherche-->
-								<input list="text_idIntervention" name="text_idIntervention" size='35'> 
-								<datalist id="text_idIntervention" >
+								<input list="text_acte" name="text_acte" size='35'> 
+								<datalist id="text_acte" >
 	<?php 
 									$req_serviceacte = $auth_user->runQuery("SELECT idIntervention, acte, ServicesnomService FROM Interventions"); // permet de rechercher le nom d utilisateur 
 									$req_serviceacte->execute(); // la meme 
 									while ($row_serviceacte = $req_serviceacte->fetch(PDO::FETCH_ASSOC))
 									{
-										echo "<option label='".$row_serviceacte['acte']." ".$row_serviceacte['ServicesnomService']."' 
-										value='"."(".$row_serviceacte['idIntervention'].")"."  ".$row_serviceacte['acte']." -- ".$row_serviceacte['ServicesnomService']."'>".$row_serviceacte['acte']." ".$row_serviceacte['ServicesnomService']."</option>";
+										echo "<option label='".$row_serviceacte['acte']."' 
+										value='".$row_serviceacte['acte']."'>".$row_serviceacte['acte']."</option>";
 									}
 									$req_serviceacte->closeCursor();
 	?>
@@ -131,7 +131,8 @@ if(isset($_POST['btn_demandeRDV']))
 									<input type="radio"  name="text_urgence" value="1" style="display: inline;!important;" />1
 									<input type="radio"  name="text_urgence" value="2" style="display: inline;!important;" />2
 									<input type="radio"  name="text_urgence" value="3" style="display: inline;!important;" />3
-								</label><br>									
+								</label><br>		
+								<input type="text" class="" name="text_indicationActe" pattern="[a-zA-Z]{0-30}" title="Caractère alphabetique, 30 caractères maximum"       placeholder="Entrer les indactions :" value="<?php if(isset($error)){echo $text_indicationActe;}?>" /><br>								
 							</p>
 					</fieldset>
 					<fieldset>
