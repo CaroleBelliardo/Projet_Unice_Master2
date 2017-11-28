@@ -98,7 +98,6 @@ CREATE TABLE Pathologies (
   idPatho       int(8) NOT NULL AUTO_INCREMENT, # 1 
   nomPathologie varchar(100) NOT NULL,          # 1ere lettre Maj : Fracture 
   indication     varchar(30) NOT NULL DEFAULT 'standard', # en un mot : coude 
-  precautions   text,  
   PRIMARY KEY (idPatho),  
   INDEX (nomPathologie)); 
  
@@ -106,7 +105,6 @@ CREATE TABLE Pathologies (
 CREATE TABLE Interventions (   
   idIntervention                       int(8) NOT NULL AUTO_INCREMENT,  
   acte                                 varchar(15) NOT NULL, # 1ere lettre Maj : Radio 
-  indication                            varchar(30) NOT NULL DEFAULT 'standard',  # coude 
   ServicesnomService                   varchar(20),          # cf. nomService 
   PRIMARY KEY (idIntervention), 
   FOREIGN KEY (ServicesnomService) REFERENCES Services (nomService) ON DELETE SET NULL ON UPDATE CASCADE, 
