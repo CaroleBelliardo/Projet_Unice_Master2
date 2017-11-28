@@ -52,10 +52,10 @@ CREATE TABLE CompteUtilisateurs (
    
 # Table indiquant la localisation de chaque service de l'hopital (= bureau d'accueil du service) 
 CREATE TABLE LocalisationServices (   
-  idLocalisation int(8) NOT NULL AUTO_INCREMENT, # 1
+  idLocalisation int(8) NOT NULL UNIQUE AUTO_INCREMENT, # 1
   batiment       varchar(15) NOT NULL, # Majuscule 
   aile           varchar(10),          # Minuscule 
-  etage          varchar(2),           # si c'est en sous-sol "-1" accepté.   
+  etage          varchar(2),           # si c est en sous-sol "-1" accepté.   
   PRIMARY KEY (idLocalisation)); 
  
 # Table regroupant tous les services présents dans l'hôpital 

@@ -56,11 +56,11 @@ INSERT INTO `ChefServices` (`EmployesCompteUtilisateursidEmploye`, `ServicesnomS
 INSERT INTO `ChefServices` (`EmployesCompteUtilisateursidEmploye`, `ServicesnomService`) VALUES ('lm25610', 'Gériatrie');
 INSERT INTO `ChefServices` (`EmployesCompteUtilisateursidEmploye`, `ServicesnomService`) VALUES ('fd78980', 'Pneumologie');
 
-INSERT INTO `Pathologies` (`idPatho`, `nomPathologie`, `indication`, `precautions`) VALUES (NULL, 'Grippe', 'H1N1', 'mettre un masque');
-INSERT INTO `Pathologies` (`idPatho`, `nomPathologie`, `indication`, `precautions`) VALUES (NULL, 'Bronchite ', 'chronique', 'éviter exposition à des substances irritantes');
-INSERT INTO `Pathologies` (`idPatho`, `nomPathologie`, `indication`, `precautions`) VALUES (NULL, 'Myocardiopathie', 'extrinsèque', NULL);
-INSERT INTO `Pathologies` (`idPatho`, `nomPathologie`, `indication`, `precautions`) VALUES (NULL, 'Adénocarcinome', 'pulmonaire', NULL);
-INSERT INTO `Pathologies` (`idPatho`, `nomPathologie`, `indication`, `precautions`) VALUES (NULL, 'Pneumonie', DEFAULT, 'mettre un masque, se laver les mains régulièrement');
+INSERT INTO `Pathologies` (`idPatho`, `nomPathologie`, `indication` ) VALUES (NULL, 'Grippe', 'H1N1');
+INSERT INTO `Pathologies` (`idPatho`, `nomPathologie`, `indication` ) VALUES (NULL, 'Bronchite ', 'chronique');
+INSERT INTO `Pathologies` (`idPatho`, `nomPathologie`, `indication` ) VALUES (NULL, 'Myocardiopathie', 'extrinsèque');
+INSERT INTO `Pathologies` (`idPatho`, `nomPathologie`, `indication` ) VALUES (NULL, 'Adénocarcinome', 'pulmonaire');
+INSERT INTO `Pathologies` (`idPatho`, `nomPathologie`, `indication` ) VALUES (NULL, 'Pneumonie', DEFAULT);
 
 INSERT INTO `Interventions` (`idIntervention`, `acte`, `indication`, `ServicesnomService`) VALUES (NULL, 'Transplantation','cardiaque','Cardiologie'), 
 (NULL, 'Operation','fémur','Gériatrie'), 
