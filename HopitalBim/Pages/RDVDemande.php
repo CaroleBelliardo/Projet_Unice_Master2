@@ -29,11 +29,6 @@ if(isset($_POST['btn_demandeRDV']))
 	$ajoutRDV = $auth_user->runQuery("INSERT INTO CreneauxInterventions (date_rdv, heure_rdv, InterventionsidIntervention, niveauUrgence, pathologie, commentaires, PatientsnumSS, EmployesCompteUtilisateursIdEmploye) 
 	VALUES (:date_rdv, :heure_rdv, :InterventionsidIntervention, :niveauUrgence, :pathologie, :commentaires, :PatientsnumSS, :EmployesCompteUtilisateursIdEmploye)");
 	
-/*	$today = date("h:i:s");
-
-	$date_rdv = date("Y-m-d");
-	$heure_rdv = date("h:i:s")*/;
-
 
 	//$ajoutRDV->execute(array('date_rdv'=> $date_rdv,
 	//						'heure_rdv'=> $heure_rdv,
@@ -114,7 +109,10 @@ AND heure_rdv < (SELECT horaire_fermeture FROM Interventions  JOIN Services WHER
 ) 
 ) as date
 
-
+INSERT INTO `CreneauxInterventions` (`id_rdv`, `date_rdv`, `heure_rdv`, `InterventionsidIntervention`, `niveauUrgence`, `statut`, `pathologie`, `commentaires`, `VerifCoherencePathoUrgences`, `PatientsnumSS`, `EmployesCompteUtilisateursidEmploye`) VALUES (NULL, '2017-11-30', '06:30:00', '4', '0', 'p', NULL, NULL, NULL, '178854747412138', 'ly12454');
+INSERT INTO `CreneauxInterventions` (`id_rdv`, `date_rdv`, `heure_rdv`, `InterventionsidIntervention`, `niveauUrgence`, `statut`, `pathologie`, `commentaires`, `VerifCoherencePathoUrgences`, `PatientsnumSS`, `EmployesCompteUtilisateursidEmploye`) VALUES (NULL, '2017-11-30', '12:00:00', '4', '0', 'a', NULL, NULL, NULL, '178854747412138', 'ly12454');
+INSERT INTO `CreneauxInterventions` (`id_rdv`, `date_rdv`, `heure_rdv`, `InterventionsidIntervention`, `niveauUrgence`, `statut`, `pathologie`, `commentaires`, `VerifCoherencePathoUrgences`, `PatientsnumSS`, `EmployesCompteUtilisateursidEmploye`) VALUES (NULL, '2017-11-30', '16:30:00', '4', '0', 'p', NULL, NULL, NULL, '178854747412138', 'ly12454');
+INSERT INTO `CreneauxInterventions` (`id_rdv`, `date_rdv`, `heure_rdv`, `InterventionsidIntervention`, `niveauUrgence`, `statut`, `pathologie`, `commentaires`, `VerifCoherencePathoUrgences`, `PatientsnumSS`, `EmployesCompteUtilisateursidEmploye`) VALUES (NULL, '2017-11-30', '17:00:00', '4', '0', 'a', NULL, NULL, NULL, '178854747412138', 'ly12454');
 
 
 
@@ -124,7 +122,56 @@ AND heure_rdv < (SELECT horaire_fermeture FROM Interventions  JOIN Services WHER
 
 ***
 
-
+SELECT MIN(dateR), MIN(heureR)
+FROM  (
+(SELECT max(date_rdv) as dateR, max(heure_rdv)  as heureR      
+FROM CreneauxInterventions JOIN Interventions  JOIN Services 
+WHERE  CreneauxInterventions.InterventionsidIntervention = Interventions.idIntervention
+AND Interventions.ServicesnomService = Services.nomService
+AND date_rdv = CURDATE() 
+AND heure_rdv > CURRENT_TIMESTAMP()
+AND InterventionsidIntervention = '4'
+AND CreneauxInterventions.statut = 'p'
+AND heure_rdv > (SELECT horaire_ouverture FROM Interventions  JOIN Services WHERE idIntervention = '4' AND Interventions.ServicesnomService = Services.nomService)
+AND heure_rdv < (SELECT horaire_fermeture FROM Interventions  JOIN Services WHERE idIntervention = '4'  AND Interventions.ServicesnomService = Services.nomService)
+) 
+UNION
+(SELECT max(date_rdv) as dateR, max(heure_rdv)  as heureR      
+FROM CreneauxInterventions JOIN Interventions  JOIN Services 
+WHERE  CreneauxInterventions.InterventionsidIntervention = Interventions.idIntervention
+AND Interventions.ServicesnomService = Services.nomService
+AND date_rdv > CURDATE() 
+AND InterventionsidIntervention = '4'
+AND CreneauxInterventions.statut = 'p'
+AND heure_rdv > (SELECT horaire_ouverture FROM Interventions  JOIN Services WHERE idIntervention = '4' AND Interventions.ServicesnomService = Services.nomService)
+AND heure_rdv < (SELECT horaire_fermeture FROM Interventions  JOIN Services WHERE idIntervention = '4'  AND Interventions.ServicesnomService = Services.nomService)
+) 
+ 
+UNION
+(SELECT max(date_rdv) as dateR, max(heure_rdv)  as heureR     
+FROM CreneauxInterventions JOIN Interventions  JOIN Services 
+WHERE CreneauxInterventions.InterventionsidIntervention = Interventions.idIntervention
+AND Interventions.ServicesnomService = Services.nomService
+AND date_rdv = CURDATE() # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! >
+AND heure_rdv > CURRENT_TIMESTAMP() # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! >
+AND CreneauxInterventions.statut = 'a'
+AND InterventionsidIntervention = '4'
+AND heure_rdv > (SELECT horaire_ouverture FROM Interventions  JOIN Services WHERE idIntervention = '4' AND Interventions.ServicesnomService = Services.nomService)
+AND heure_rdv < (SELECT horaire_fermeture FROM Interventions  JOIN Services WHERE idIntervention = '4'  AND Interventions.ServicesnomService = Services.nomService)
+)
+UNION
+(SELECT max(date_rdv) as dateR, max(heure_rdv)  as heureR     
+FROM CreneauxInterventions JOIN Interventions  JOIN Services 
+WHERE CreneauxInterventions.InterventionsidIntervention = Interventions.idIntervention
+AND Interventions.ServicesnomService = Services.nomService
+AND date_rdv > CURDATE() # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! >
+AND CreneauxInterventions.statut = 'a'
+AND InterventionsidIntervention = '4'
+AND heure_rdv > (SELECT horaire_ouverture FROM Interventions  JOIN Services WHERE idIntervention = '4' AND Interventions.ServicesnomService = Services.nomService)
+AND heure_rdv < (SELECT horaire_fermeture FROM Interventions  JOIN Services WHERE idIntervention = '4'  AND Interventions.ServicesnomService = Services.nomService)
+) 
+) as date
+***
 
 
 
