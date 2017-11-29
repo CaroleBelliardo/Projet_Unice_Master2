@@ -176,8 +176,6 @@ if(isset($_POST['btn-signup']))
 </head>
 
 <body>
-
-    <p class="h4">Session : <?php print($userRow['idEmploye']); ?></p> 
     <p class="" style="margin-top:5px;">
 <div class="signin-form">
 

@@ -21,8 +21,7 @@ if(isset($_POST['btn-supprimerService']))
 		{
 			$supprimerService = $auth_user->conn->prepare("DELETE FROM Services WHERE 
 													nomService=:nomService");
-			$supprimerService->bindparam(":nomService", $text_nomService);
-			$supprimerService->execute();
+			$supprimerService->execute(array('nomService'=>$text_nomService));
 			$auth_user->redirect('ServiceSupprimer.php?Valide');
 		}
 		catch(PDOException $e)
