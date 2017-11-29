@@ -40,12 +40,6 @@
     <button type="button" onclick="alert('Hello world!')">Je sais pas encore</button>
 	<button type="button" onclick="alert('Hello world!')">qui sait ?</button>
  
-
-
-
-
-
-
 <?php quitter1(); ?>	
 </body>
 
