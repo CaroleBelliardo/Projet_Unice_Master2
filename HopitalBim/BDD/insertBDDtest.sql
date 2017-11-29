@@ -18,7 +18,7 @@ INSERT INTO `CompteUtilisateurs` (`idEmploye`, `passwd`) VALUES ('ly12454', '$2y
 INSERT INTO `CompteUtilisateurs` (`idEmploye`, `passwd`) VALUES ('cm14743', '$2y$10$aXQcmkz0JlTy3kX/gOFb3u.K5VhyaPs5V5kxMGxu1np2mFuw//SfC') ; 
 INSERT INTO `CompteUtilisateurs` (`idEmploye`, `passwd`) VALUES ('fd78980', '$2y$10$aXQcmkz0JlTy3kX/gOFb3u.K5VhyaPs5V5kxMGxu1np2mFuw//SfC') ; 
 
-INSERT INTO `Villes` (`idVilles`, `codepostal`, `nomVilles`,`departement`, `pays`) VALUES (NULL, '06000','Nice', '06', 'France');
+INSERT INTO `Villes` (`idVilles`, `codepostal`, `nomVilles`,`departement`, `pays`) VALUES (0, '06000','Nice', '06', 'France');
 INSERT INTO `Villes` (`idVilles`, `codepostal`, `nomVilles`,`departement`, `pays`) VALUES (NULL, '06130','Grasse', '06', 'France');
 INSERT INTO `Villes` (`idVilles`, `codepostal`, `nomVilles`,`departement`, `pays`) VALUES (NULL, '83200','Draguignan', '83', 'France');
 INSERT INTO `Villes` (`idVilles`, `codepostal`, `nomVilles`,`departement`, `pays`) VALUES (NULL, '93270','Sevran', '93', 'France');
@@ -29,6 +29,7 @@ INSERT INTO `Villes` (`idVilles`, `codepostal`, `nomVilles`,`departement`, `pays
 INSERT INTO `Villes` (`idVilles`, `codepostal`, `nomVilles`,`departement`, `pays`) VALUES (NULL, '59100','Lille', '59', 'France');
 INSERT INTO `Villes` (`idVilles`, `codepostal`, `nomVilles`,`departement`, `pays`) VALUES (NULL, '92200','Nanterre', '92', 'France');
 
+INSERT INTO `Adresses` (`idAdresse`, `numero`, `rue`, `VillesidVilles`) VALUES ('0', '9', 'avenue thiers', '1'), (NULL, '112', 'rue paul ricard', '1');
 INSERT INTO `Adresses` (`idAdresse`, `numero`, `rue`, `VillesidVilles`) VALUES (NULL, '11', 'rue_prince_maurice', '1'), (NULL, '112', 'rue paul ricard', '1');
 INSERT INTO `Adresses` (`idAdresse`, `numero`, `rue`, `VillesidVilles`) VALUES (NULL, '45', 'place bichot', '4'), (NULL, '78', 'rue nicolas II', '2');
 INSERT INTO `Adresses` (`idAdresse`, `numero`, `rue`, `VillesidVilles`) VALUES (NULL, '111', 'Boulevard Garnier', '1'), (NULL, '78', 'rue georges clemenceau', '2');

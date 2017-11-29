@@ -1,44 +1,48 @@
-<style type="text/css">
-<!--
-table { vertical-align: top; }
-tr    { vertical-align: top; }
-td    { vertical-align: top; }
--->
-</style>
-
 <?php
 // ************************************************** REQUETES ******************
-
-include ('../Config/Menupage.php');
-include ('../Fonctions/Affichage.php');
+//include ('../Config/Menupage.php');
+//variables Globales ***********************************************************
+include ('../Fonctions/Affichage.php'); // lien Page principale
 include ('../Fonctions/ReqTraitement.php');
 require_once("../session.php"); // requis pour se connecter la base de donnée 
 require_once("../classe.Systeme.php"); // va permettre d effectuer les requettes sql en orienté objet.
-require_once('../html2pdf/html2fpdf.class.php');
-
-
-
-
-//unset($_SESSION["Patient"]); // TEST 
-$patient='jjj'; // a recup !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! page precedente
-$test_chef=FALSE; // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! Marin
-$Utilisateur=array('okok','kokoo,','kokopk');
-
-
 // variables 
 $auth_user = new Systeme(); // Connection bdd 
 $user_id = $_SESSION['idEmploye']; // IDENTIFIANT compte utilisateur !!!!!
+$Req_utilisateur = $auth_user->runQuery("SELECT DISTINCT nom,prenom,ServicesnomService
+										FROM CompteUtilisateurs JOIN Employes
+										WHERE CompteUtilisateurs.idEmploye=Employes.CompteUtilisateursidEmploye
+										AND CompteUtilisateurs.idEmploye= :user_name
+										"); 
+$Req_utilisateur->execute(array("user_name"=>$user_id)); 
+$a_utilisateur= reqToArrayPlusAttASSO($Req_utilisateur);  // Nom prénom et service utilisateur 
+// ***********************************************************
 
+require_once('../html2pdf/html2fpdf.class.php'); // !! necessaire ?
+
+//unset($_SESSION["Patient"]); // TEST 
+$patient='178945687887447'; // a recup !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! page precedente
+$test_chef=TRUE; // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! Marin
+
+
+
+
+
+
+// ############################################################################################################################################
+
+// -- requetes
 // info coordonnees patient
-$req_adressePatient= $auth_user->runQuery("SELECT DISTINCT nom,prenom, telephone, mail, numero, rue, nomVilles, departement , codepostal, pays
+$req_adressePatient= $auth_user->runQuery("SELECT DISTINCT nom,prenom, telephone, mail,
+                                            numero, rue, nomVilles, departement , codepostal, pays
                                             FROM Patients JOIN Adresses JOIN Villes
                                             WHERE Patients.AdressesidAdresse = Adresses.idAdresse
                                             AND Adresses.VillesidVilles = Villes.idVilles
                                             AND Patients.numSS = :patient
                                             "); 
-$req_adressePatient->execute(array("patient"=>$patient));
-$a_patient=[];
-//$Req_utilisateur->closeCursor();
+$req_adressePatient->execute(array("patient"=>$patient)); // remplacer par $_SESSION['patient']
+$a_patient=reqToArrayPlusAttASSO($req_adressePatient);
+$Req_utilisateur->closeCursor();
 
 // info coordonnees service
 $req_service= $auth_user->runQuery("SELECT DISTINCT *
@@ -46,18 +50,21 @@ $req_service= $auth_user->runQuery("SELECT DISTINCT *
                                             WHERE LocalisationServices.idLocalisation = Services.LocalisationServicesidLocalisation
                                             AND Services.nomService = :service
                                             ");
-$req_service->execute(array("service"=>$Utilisateur['2']));
-$a_service=[];
-//$Req_service->closeCursor();
+$req_service->execute(array("service"=>$a_utilisateur['ServicesnomService']));
+$a_service=reqToArrayPlusAttASSO($req_service);
+Dumper($a_service);
+$req_service->closeCursor();
 
 //info coordonnees Hopital
-$req_hopital= $auth_user->runQuery("SELECT  Adresses.idAdresse
-                                        FROM Adresses JOIN Villes
-                                        WHERE Adresses.VillesidVilles = Villes.idVilles
-                                        AND Adresses.idAdresse = '0'
-                                        "); 
+$req_hopital= $auth_user->runQuery("SELECT *
+                                   FROM Adresses JOIN Villes
+                                   WHERE Adresses.VillesidVilles = Villes.idVilles
+                                   AND Adresses.idAdresse = '1' 
+                                    "); 
 $req_hopital->execute();
-$a_hopital=[];
+$a_hopital=reqToArrayPlusAttASSO($req_hopital);
+Dumper($a_hopital);
+
 
 //$req_hopital->closeCursor();
 
@@ -103,15 +110,15 @@ $a_intervention=[];
             <td style="width:36%">
                 Résidence perdue<br>
                 <?php echo $a_patient['numero'].$a_patient['rue'] ?><br>
-                <?php echo $a_patient['codePostal'].$a_patient['ville'] ?><br>
+                <?php echo $a_patient['codepostal'].$a_patient['nomVilles'] ?><br>
                 <?php echo $a_patient['pays'] ?><br>
 
             </td>
         </tr>
         <tr>
             <td style="width:50%;"></td>
-            <td style="width:14%; ">Email :</td>
-            <td style="width:36%">nomail@domain.com</td>
+            <td style="width:14%; ">Email :  </td>
+            <td style="width:36%"> <?php echo $a_patient['mail'] ?> </td>
         </tr>
         <tr>
             <td style="width:50%;"></td>
@@ -124,12 +131,12 @@ $a_intervention=[];
     <table cellspacing="0" style="width: 100%; text-align: left;font-size: 10pt">
         <tr>
             <td style="width:50%;"></td>
-            <td style="width:50%; ">Spipu Ville, le <?php echo date('d/m/Y'); ?></td>
+            <td style="width:50%; "><?php echo $a_hopital['nomVilles'] ?>, le <?php echo date('d/m/Y'); ?></td>
         </tr>
     </table>
     <br>
     <i>
-        <b><u>Objet </u>: &laquo; Bon de Retour &raquo;</b><br>
+        <b><u>Objet </u>: &laquo; Facture soins médicaux <?php //echo $a_utilisateur['ServicesnomService'] ?> &raquo;</b><br>
         Compte client : 00C4520100A<br>
         Référence du Dossier : 71326<br>
     </i>
@@ -203,3 +210,13 @@ $a_intervention=[];
         </table>
     </nobreak>
 </page>
+
+
+<!--<style type="text/css">
+
+table { vertical-align: top; }
+tr    { vertical-align: top; }
+td    { vertical-align: top; }
+
+</style>-->
+

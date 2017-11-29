@@ -14,8 +14,7 @@ class Systeme
 		$db = $database->dbConnection();
 		$this->conn = $db;
     }
-	
-	public function runQuery($sql) ## verifie connection avant requete 
+			public function runQuery($sql) ## verifie connection avant requete 
 	{
 		$stmt = $this->conn->prepare($sql);
 		return $stmt;
