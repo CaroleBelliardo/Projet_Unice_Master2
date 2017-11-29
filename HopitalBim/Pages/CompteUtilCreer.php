@@ -76,14 +76,14 @@ if(isset($_POST['btn-signup']))
 					{
 						$ajoutemployes = $auth_user->conn->prepare("INSERT INTO Employes ( CompteUtilisateursidEmploye, nom, prenom,telephone,mail,ServicesnomService,AdressesidAdresse)
 						VALUES (:UtilisateurNom, :text_nom,:text_prenom,:text_telephone, :text_mail,:text_nomService,:BDDidAdresse)");
-						
-						$ajoutemployes->bindparam(":UtilisateurNom", $UtilisateurNom );
-						$ajoutemployes->bindparam(":text_nom", $text_nom);
-						$ajoutemployes->bindparam(":text_prenom", $text_prenom);
-						$ajoutemployes->bindparam(":text_telephone", $text_telephone);
-						$ajoutemployes->bindparam(":text_mail", $text_mail);
-						$ajoutemployes->bindparam(":text_nomService", $text_nomService);
-						$ajoutemployes->bindparam(":BDDidAdresse", $BDDidAdresse);
+						$ajoutemployes->execute(array(":UtilisateurNom"=>$UtilisateurNom,
+													  ":text_nom"=>$text_nom,
+													  ":text_prenom"=>$text_prenom,
+													  ":text_telephone"=>$text_telephone,
+													  ":text_mail"=>$text_mail,
+													  ":text_nomService"=>$text_nomService,
+													  ":BDDidAdresse"=>$BDDidAdresse
+													  ));
 						$ajoutemployes->execute();
 						//ville bonne, ajouter ici l'employé 
 						
@@ -91,12 +91,10 @@ if(isset($_POST['btn-signup']))
 					else 
 					{
 						$stmtAdresses = $auth_user->conn->prepare("INSERT INTO Adresses (numero, rue, VillesidVilles) 
-											VALUES (:text_numero, :text_rue, :BDDidVilles )");	
-										
-						$stmtAdresses->bindparam(":text_numero", $text_numero);
-						$stmtAdresses->bindparam(":text_rue", $text_rue);
-						$stmtAdresses->bindparam(":BDDidVilles", $BDDidVilles);
-						$stmtAdresses->execute();
+											VALUES (:text_numero, :text_rue, :BDDidVilles )");			
+						$stmtAdresses->execute(array(":text_numero"=>$text_numero,
+													  ":text_rue"=>$text_rue,
+													  ":BDDidVilles"=>$BDDidVilles));
 						$stmt = $auth_user->runQuery("SELECT * FROM Adresses 
 										WHERE numero=:text_numero AND rue=:text_rue AND VillesidVilles=:BDDidVilles");
 						$stmt->execute(array('text_numero'=>$text_numero, 'text_rue'=>$text_rue, 'BDDidVilles'=>$BDDidVilles));
@@ -106,14 +104,13 @@ if(isset($_POST['btn-signup']))
 						$ajoutemployes = $auth_user->conn->prepare("INSERT INTO Employes ( CompteUtilisateursidEmploye, nom, prenom,telephone,mail,ServicesnomService,AdressesidAdresse)
 															VALUES (:UtilisateurNom, :text_nom,:text_prenom,:text_telephone, :text_mail,:text_nomService,:BDDidAdresse)");
 						
-						$ajoutemployes->bindparam(":UtilisateurNom", $UtilisateurNom );
-						$ajoutemployes->bindparam(":text_nom", $text_nom);
-						$ajoutemployes->bindparam(":text_prenom", $text_prenom);
-						$ajoutemployes->bindparam(":text_telephone", $text_telephone);
-						$ajoutemployes->bindparam(":text_mail", $text_mail);
-						$ajoutemployes->bindparam(":text_nomService", $text_nomService);
-						$ajoutemployes->bindparam(":BDDidAdresse", $BDDidAdresse);
-						$ajoutemployes->execute();
+						$ajoutemployes->execute(array(":UtilisateurNom"=>$UtilisateurNom,
+													  ":text_nom"=>$text_nom,
+													  ":text_prenom"=>$text_prenom,
+													  ":text_telephone"=>$text_telephone,
+													  ":text_mail"=>$text_mail,
+													  ":text_nomService"=>$text_nomService,
+													  ":BDDidAdresse"=>$BDDidAdresse));
 					}
 				
 				

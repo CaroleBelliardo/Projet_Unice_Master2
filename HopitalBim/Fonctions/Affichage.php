@@ -19,7 +19,7 @@ function liste_Services($auth_user) // affiche un menu déroulant listant les se
 			echo "<option value='".$row['nomService']."'>".$row['nomService']."</option>";
 			}
 	?>
-			</select></br >
+			</select>
 		</div>
 	
 <?php

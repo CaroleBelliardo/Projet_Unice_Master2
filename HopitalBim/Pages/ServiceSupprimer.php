@@ -1,52 +1,111 @@
 <?php
+	// fonction qui permet d afficher les requetes sql et donc permet de jouer avec les données 
+	/*  A FAIRE : 
+		- champs html du departement et du pays afficher une liste ( plutot que de le taper) 
+		- les includes a faire.
+	*/
 
-	require_once("session.php");
+include ('../Config/Menupage.php');
+include ('../Fonctions/Affichage.php');
+
+require_once("../session.php"); // requis pour se connecter la base de donnée 
+require_once("../classe.Systeme.php"); // va permettre d effectuer les requettes sql en orienté objet.
+$auth_user = new Systeme(); // PRIMORDIAL pour les requetes 
+$user_id = $_SESSION['idEmploye']; // permet de conserver la session
+$stmt = $auth_user->runQuery("SELECT * FROM CompteUtilisateurs WHERE idEmploye=:user_name"); // permet de rechercher le nom d utilisateur 
+$stmt->execute(array(":user_name"=>$user_id)); // la meme 
+$userRow=$stmt->fetch(PDO::FETCH_ASSOC); // permet d afficher l identifiant du gars sur la page, ce qui faudrai c est le nom
 	
-	require_once("classe.Systeme.php");
-	$auth_user = new Systeme();
-	$user_id = $_SESSION['idEmploye'];
-	$stmt = $auth_user->runQuery("SELECT * FROM CompteUtilisateurs WHERE idEmploye=:user_name");
-	$stmt->execute(array(":user_name"=>$user_id));
-	$userRow=$stmt->fetch(PDO::FETCH_ASSOC); 
+if(isset($_POST['btn-supprimerService']))
+{	 
+	$text_nomService=$_POST['text_nomService'];
 
+	 
+	// ici je pense faire un include de $dep a $adresse tout foutre dans un seul et meme document car c est chiant a regarder 
+		 // Gestion des erreurs : 
+	if ($text_nomService==""){$error[] = "Il faut un selectionner un service !"; }
+	else 
+	{ 
+		
+		try 
+		{
+			$supprimerService = $auth_user->conn->prepare("DELETE FROM Services WHERE 
+													nomService=:nomService");
+			$supprimerService->bindparam(":nomService", $text_nomService);
+			$supprimerService->execute();
+			$auth_user->redirect('ServiceSupprimer.php?Valide');
+		}
+		catch(PDOException $e)
+		{			
+			echo $e->getMessage();
+		}	
+		
+	}
+}
 ?>
-<!DOCTYPE html>
+
+
+<!DOCTYPE html PUBLIC >
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
-<link href="bootstrap/css/bootstrap-theme.min.css" rel="stylesheet" media="screen">
 
-<link rel="stylesheet" href="style.css" type="text/css"  />
-<title>Bonjour</title>
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+<title>Supprimer un service</title>
 </head>
 
 <body>
-<?php include ('./Config/Menupage.php'); ?>
-    
-	<p class="h4">User Home Page</p> 
+
+    <p class="h4">Session : <?php print($userRow['idEmploye']); ?></p> 
     <p class="" style="margin-top:5px;">
-	<label class="h5">Bonjour : <?php print($userRow['idEmploye']); ?></label> </br>
+<div class="signin-form">
 
-    ICI les conneries regardant le gars connecté.
-   
-    </p>
-    <p class="h4">Systeme</p> 
-    <button type="button" onclick="window.location = './Config/CreerFicheP.php'">Ajouter un utilisateur </button>
-	<button type="button" onclick="window.location = './Config/CreerFicheP.php'">Modifier un utilisateur</button>
-	<p class="h4">Autre</p> 
-    <button type="button" onclick="alert('Hello world!')">Je sais pas encore</button>
-	<button type="button" onclick="alert('Hello world!')">qui sait ?</button>
- 
+<div class="container">
+    	
+<form method="post" class="form-signin">
+            <h2 class="form-signin-heading">Supprimer un service</h2><hr />
+            <?php
+			if(isset($error))
+			{
+			 	foreach($error as $error)
+			 	{
+			?>
+                    <div class="alert alert-danger">
+                    <i class=""></i> &nbsp; <?php echo $error; ?>
+                    </div>
+					<?php
+				}
+			}
+			else if(isset($_GET['Valide']))
+			{
+					?>
+                <div class="alert alert-info">
+                <i class=""></i>Service supprimé avec succes<br><a href='../Pageprincipale.php'>Page principale</a>
+                </div>
+            <?php
+			}
+			?>
+			
+            <div class="form-group" >
+			Suppression du service : <?php liste_Services($auth_user) ?>		
+			</br >
+			</div>
+			
+			
+            <div class="clearfix"></div><hr />
+            <div class="form-group">
+            	<button type="submit" class="btn btn-primary" name="btn-supprimerService">
+                	<i class=""></i>Valider
+                </button>
+            </div>
+        </form>
 
+       </div>
+</div>
 
+</div>
+<?php quitter1() ?>	
 
-
-
-
-<?php quitter1(); ?>	
 </body>
-
 
 
 </html>
