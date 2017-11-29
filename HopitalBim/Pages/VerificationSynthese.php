@@ -4,12 +4,11 @@
 - nomattribut = creneau.incomp
 - rendez-vous annulés 
 - ajour header 
-
 -->
 
 <?php
 	include ('../Config/Menupage.php');
-
+	
 	function extractReq ($inReq,$manip){ //TODO : recupere les valeurs de la première variable = > a supprimant en creant le tableau avant 
 		$a_temp=[];
 		while ($temp =  $inReq-> fetch(PDO::FETCH_ASSOC))
@@ -39,13 +38,13 @@
 		return($intab);
 	}   
 //****************************** REQUETE MySQL ******************************************
-    $service =$bdd->query("SELECT nomService FROM Services"); // connaiter total interv meme si rdv = 0
+    $service =$auth_user->runQuery("SELECT nomService FROM Services"); // connaiter total interv meme si rdv = 0
 // --- Entete = nb TOTAL : recupere toutes les lignes correspondant dans la bdd puis compte le nombre de ligne
-    $totalInterv = $bdd-> query('SELECT * FROM CreneauxInterventions'); //total demandes tt services confondu
+    $totalInterv = $auth_user->runQuery('SELECT * FROM CreneauxInterventions'); //total demandes tt services confondu
     $nb_totalInterv = $totalInterv->rowCount();
-    $totalIntervUrg = $bdd-> query('SELECT * FROM CreneauxInterventions WHERE niveauUrgence != 0'); 
+    $totalIntervUrg = $auth_user->runQuery('SELECT * FROM CreneauxInterventions WHERE niveauUrgence != 0'); 
     $nb_totalIntervUrg = $totalIntervUrg->rowCount();
-	//$totalIncomp = $bdd-> query('SELECT * FROM CreneauxInterventions WHERE incompDecte != 0'); 
+	//$totalIncomp = $auth_user->runQuery('SELECT * FROM CreneauxInterventions WHERE incompDecte != 0'); 
     $nb_totalIncomp =0;// $totalIncomp->rowCount();
 
 // --- Detail PAR service
@@ -59,13 +58,13 @@
 //nom de service qui a fait la demande = ?
 
 //TODO : mettre toutes les requetes dans un tableau . et executer le query sur le tableau
-    $req_nbDemandeParService = $bdd -> query ('SELECT Employes.ServicesnomService, COUNT(*)
+    $req_nbDemandeParService = $auth_user->runQuery('SELECT Employes.ServicesnomService, COUNT(*)
             FROM CreneauxInterventions NATURAL JOIN Employes
             WHERE CreneauxInterventions.EmployesCompteUtilisateursidEmploye =
             Employes.CompteUtilisateursidEmploye
 			GROUP BY ServicesnomService');
 // Compte le nombre de ligne = niveau > 0 et service qui a fait la demande = service
-    $req_nbDemandeURGParService=$bdd-> query('SELECT Employes.ServicesnomService, COUNT(*)
+    $req_nbDemandeURGParService=$auth_user->runQuery('SELECT Employes.ServicesnomService, COUNT(*)
             FROM CreneauxInterventions NATURAL JOIN Employes
             WHERE CreneauxInterventions.EmployesCompteUtilisateursidEmploye = Employes.CompteUtilisateursidEmploye
             AND niveauUrgence != 0
@@ -77,7 +76,7 @@
  //           GROUP BY Employes.ServicesnomService');
 // retourne liste (medecin + patient) pour lequels il a plus d'une demande ( ligne avec h ou j dif)
 // avec niveau urgent
-    $reqMedPatient = $bdd ->query ('SELECT ServicesnomService, EmployesCompteUtilisateursidEmploye, PatientsnumSS
+    $reqMedPatient = $auth_user->runQuery('SELECT ServicesnomService, EmployesCompteUtilisateursidEmploye, PatientsnumSS
             FROM Employes Natural JOIN CreneauxInterventions t1
             WHERE niveauUrgence != 0
             AND EXISTS (
@@ -129,56 +128,54 @@ $var1= ['nb_Interventions' ,'nb_InterventionsUrgentes' ];//,'nb incompatibilité
 </head>
 
 <body>
-    <?php include ('../Config/Menupage.php');?> 
-
-<table  BORDER="1",ALIGN="CENTER", VALIGN="MIDDLE " >
-	<tr><th>Service</th>
-	<?php
-		foreach ($var1 as $colonne=>$value)
-		{
-	?>
-			<th> <?php echo $value ?></th>
-	<?php
-		}
-	?>
-	</tr>	
-	<?php
-		foreach ($a_services as $row=>$col)
-		{
-	?>
-		<tr><td><?php echo $row ?></td>
-	<?php
+	<table  BORDER="1",ALIGN="CENTER", VALIGN="MIDDLE " >
+		<tr><th>Service</th>
+		<?php
 			foreach ($var1 as $colonne=>$value)
 			{
-	?>
-			<td>
-	<?php
-				if (array_key_exists($row,$a_info))
+		?>
+				<th> <?php echo $value ?></th>
+		<?php
+			}
+		?>
+		</tr>	
+		<?php
+			foreach ($a_services as $row=>$col)
+			{
+		?>
+			<tr><td><?php echo $row ?></td>
+		<?php
+				foreach ($var1 as $colonne=>$value)
 				{
-					if (array_key_exists($value,$a_info[$row]))
+		?>
+				<td>
+		<?php
+					if (array_key_exists($row,$a_info))
 					{
-						echo $a_info[$row][$value];
+						if (array_key_exists($value,$a_info[$row]))
+						{
+							echo $a_info[$row][$value];
+						}
+						else
+						{
+						echo "0";
+						}
+					// Dumper ($a_info[$row][$value]);//.$row.'colonne'.$val;
 					}
 					else
 					{
-					echo "0";
+						echo "0";
 					}
-				// Dumper ($a_info[$row][$value]);//.$row.'colonne'.$val;
-				}
-				else
-				{
-					echo "0";
-				}
-
-	?> 
-			</td>
-	<?php
+	
+		?> 
+				</td>
+		<?php
+				} 
+		?>		
+			</tr>
+		<?php
 			} 
-	?>		
-		</tr>
-	<?php
-		} 
-	?>
+		?>
 	</table>
 <?php quitter1(); ?>	
 	
