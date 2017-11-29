@@ -59,18 +59,20 @@ function quitter1()
 		<?php $LienSite = 'http://'.$_SERVER['HTTP_HOST'].'/projetm2/HopitalBim/';?> 
 	
 		<a href="<?php echo $LienSite ?>Pageprincipale.php">
-		<input type="button" name="Abbandonner "value="Abbandonner"/></a>
+		<input type="button" name="Abandonner "value="Abandonner"/></a>
 	</div>
 <?php 
 	}
-?>	
+?>
+
+
 
 <?php function quitter2()
 	{
 ?>	
 	<div class="btn btn-primary" > 
 		<?php $LienSite = 'http://'.$_SERVER['HTTP_HOST'].'/projetm2/HopitalBim/';?> 
-		<a href="<?php echo $LienSite ?>Pageprincipale.php" title="Abbandonner"><img src="<?php echo $LienSite ?>Images/quitter.jpeg" width="150" "/></a>
+		<a href="<?php echo $LienSite ?>Pageprincipale.php" title="Abandonner"><img src="<?php echo $LienSite ?>Images/quitter.jpeg" width="150" "/></a>
 	</div>
 <?php 
 	}

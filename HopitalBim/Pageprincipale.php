@@ -1,8 +1,8 @@
 <?php
 
 	require_once('session.php');
-	
 	require_once("classe.Systeme.php");
+	unset($_SESSION["patient"]);
 	$auth_user = new Systeme();
 	$user_id = $_SESSION['idEmploye'];
 	$stmt = $auth_user->runQuery("SELECT * FROM CompteUtilisateurs WHERE idEmploye=:user_name");

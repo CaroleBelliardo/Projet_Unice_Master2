@@ -81,6 +81,7 @@ class Systeme
 	public function redirect($url)
 	{
 		header("Location: $url");
+		exit;
 	}
 	
 	public function doLogout()
