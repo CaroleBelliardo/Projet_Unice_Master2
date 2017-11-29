@@ -1,8 +1,8 @@
 # Insert SQL pour test
 
 INSERT INTO `LocalisationServices` (`idLocalisation`, `batiment`, `aile`, `etage`) VALUES (NULL, 'B', 'a', '2');
-INSERT INTO `LocalisationServices` (`idLocalisation`, `batiment`, `aile`, `etage`) VALUES (NULL, 'B', 'a', '2');
-INSERT INTO `LocalisationServices` (`idLocalisation`, `batiment`, `aile`, `etage`) VALUES (NULL, 'C', NULL, '-1');
+INSERT INTO `LocalisationServices` (`idLocalisation`, `batiment`, `aile`, `etage`) VALUES (NULL, 'D', 'a', '2');
+INSERT INTO `LocalisationServices` (`idLocalisation`, `batiment`, `aile`, `etage`) VALUES (NULL, 'C', 'b', '-1');
 INSERT INTO `LocalisationServices` (`idLocalisation`, `batiment`, `aile`, `etage`) VALUES (NULL, 'C', 'c', '1');
 INSERT INTO `LocalisationServices` (`idLocalisation`, `batiment`, `aile`, `etage`) VALUES (NULL, 'A', 'e', '0');
 
@@ -56,17 +56,17 @@ INSERT INTO `ChefServices` (`EmployesCompteUtilisateursidEmploye`, `ServicesnomS
 INSERT INTO `ChefServices` (`EmployesCompteUtilisateursidEmploye`, `ServicesnomService`) VALUES ('lm25610', 'Gériatrie');
 INSERT INTO `ChefServices` (`EmployesCompteUtilisateursidEmploye`, `ServicesnomService`) VALUES ('fd78980', 'Pneumologie');
 
-INSERT INTO `Pathologies` (`idPatho`, `nomPathologie`, `indication`, `precautions`) VALUES (NULL, 'Grippe', 'H1N1', 'mettre un masque');
-INSERT INTO `Pathologies` (`idPatho`, `nomPathologie`, `indication`, `precautions`) VALUES (NULL, 'Bronchite ', 'chronique', 'éviter exposition à des substances irritantes');
-INSERT INTO `Pathologies` (`idPatho`, `nomPathologie`, `indication`, `precautions`) VALUES (NULL, 'Myocardiopathie', 'extrinsèque', NULL);
-INSERT INTO `Pathologies` (`idPatho`, `nomPathologie`, `indication`, `precautions`) VALUES (NULL, 'Adénocarcinome', 'pulmonaire', NULL);
-INSERT INTO `Pathologies` (`idPatho`, `nomPathologie`, `indication`, `precautions`) VALUES (NULL, 'Pneumonie', DEFAULT, 'mettre un masque, se laver les mains régulièrement');
+INSERT INTO `Pathologies` ( `nomPathologie`, `indication`) VALUES ( 'Grippe', 'H1N1');
+INSERT INTO `Pathologies` (`nomPathologie`, `indication`) VALUES ( 'Bronchite ', 'chronique');
+INSERT INTO `Pathologies` (`nomPathologie`, `indication`) VALUES ( 'Myocardiopathie', 'extrinsèque');
+INSERT INTO `Pathologies` ( `nomPathologie`, `indication`) VALUES ( 'Adénocarcinome', '');
+INSERT INTO `Pathologies` (`nomPathologie`, `indication`) VALUES ( 'Pneumonie', DEFAULT);
 
-INSERT INTO `Interventions` (`idIntervention`, `acte`, `indication`, `ServicesnomService`) VALUES (NULL, 'Transplantation','cardiaque','Cardiologie'), 
-(NULL, 'Operation','fémur','Gériatrie'), 
-(NULL, 'Hospitalisation',DEFAULT, 'Pneumologie'),
-(NULL, 'IRM', 'thorax','Imagerie'), 
-(NULL, 'Radiologie','main','Imagerie');
+INSERT INTO `Interventions` (`idIntervention`, `acte`, `ServicesnomService`) VALUES (NULL, 'Transplantation','Cardiologie'), 
+(NULL, 'Operation','Gériatrie'), 
+(NULL, 'Hospitalisation', 'Pneumologie'),
+(NULL, 'IRM', 'Imagerie'), 
+(NULL, 'Radiologie','Imagerie');
 
 # Pour les floats, il faut mettre des '.' et non pas des ','
 INSERT INTO `Tarifications` (`InterventionsidIntervention`, `tarif_euros`) VALUES ('1', '76'), 

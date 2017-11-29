@@ -6,15 +6,6 @@
 	*/
 
 include ('../Config/Menupage.php');
-include ('../Fonctions/Affichage.php');
-
-require_once("../session.php"); // requis pour se connecter la base de donnée 
-require_once("../classe.Systeme.php"); // va permettre d effectuer les requettes sql en orienté objet.
-$auth_user = new Systeme(); // PRIMORDIAL pour les requetes 
-$user_id = $_SESSION['idEmploye']; // permet de conserver la session
-$stmt = $auth_user->runQuery("SELECT * FROM CompteUtilisateurs WHERE idEmploye=:user_name"); // permet de rechercher le nom d utilisateur 
-$stmt->execute(array(":user_name"=>$user_id)); // la meme 
-$userRow=$stmt->fetch(PDO::FETCH_ASSOC); // permet d afficher l identifiant du gars sur la page, ce qui faudrai c est le nom
 	
 if(isset($_POST['btn-signup']))
 {	
@@ -76,27 +67,21 @@ if(isset($_POST['btn-signup']))
 					{
 						$ajoutemployes = $auth_user->conn->prepare("INSERT INTO Employes ( CompteUtilisateursidEmploye, nom, prenom,telephone,mail,ServicesnomService,AdressesidAdresse)
 						VALUES (:UtilisateurNom, :text_nom,:text_prenom,:text_telephone, :text_mail,:text_nomService,:BDDidAdresse)");
-						
-						$ajoutemployes->bindparam(":UtilisateurNom", $UtilisateurNom );
-						$ajoutemployes->bindparam(":text_nom", $text_nom);
-						$ajoutemployes->bindparam(":text_prenom", $text_prenom);
-						$ajoutemployes->bindparam(":text_telephone", $text_telephone);
-						$ajoutemployes->bindparam(":text_mail", $text_mail);
-						$ajoutemployes->bindparam(":text_nomService", $text_nomService);
-						$ajoutemployes->bindparam(":BDDidAdresse", $BDDidAdresse);
-						$ajoutemployes->execute();
-						//ville bonne, ajouter ici l'employé 
-						
+						$ajoutemployes->execute(array(":UtilisateurNom"=>$UtilisateurNom,
+													  ":text_nom"=>$text_nom,
+													  ":text_prenom"=>$text_prenom,
+													  ":text_telephone"=>$text_telephone,
+													  ":text_mail"=>$text_mail,
+													  ":text_nomService"=>$text_nomService,
+													  ":BDDidAdresse"=>$BDDidAdresse));						
 					}
 					else 
 					{
 						$stmtAdresses = $auth_user->conn->prepare("INSERT INTO Adresses (numero, rue, VillesidVilles) 
-											VALUES (:text_numero, :text_rue, :BDDidVilles )");	
-										
-						$stmtAdresses->bindparam(":text_numero", $text_numero);
-						$stmtAdresses->bindparam(":text_rue", $text_rue);
-						$stmtAdresses->bindparam(":BDDidVilles", $BDDidVilles);
-						$stmtAdresses->execute();
+											VALUES (:text_numero, :text_rue, :BDDidVilles )");			
+						$stmtAdresses->execute(array(":text_numero"=>$text_numero,
+													  ":text_rue"=>$text_rue,
+													  ":BDDidVilles"=>$BDDidVilles));
 						$stmt = $auth_user->runQuery("SELECT * FROM Adresses 
 										WHERE numero=:text_numero AND rue=:text_rue AND VillesidVilles=:BDDidVilles");
 						$stmt->execute(array('text_numero'=>$text_numero, 'text_rue'=>$text_rue, 'BDDidVilles'=>$BDDidVilles));
@@ -106,42 +91,40 @@ if(isset($_POST['btn-signup']))
 						$ajoutemployes = $auth_user->conn->prepare("INSERT INTO Employes ( CompteUtilisateursidEmploye, nom, prenom,telephone,mail,ServicesnomService,AdressesidAdresse)
 															VALUES (:UtilisateurNom, :text_nom,:text_prenom,:text_telephone, :text_mail,:text_nomService,:BDDidAdresse)");
 						
-						$ajoutemployes->bindparam(":UtilisateurNom", $UtilisateurNom );
-						$ajoutemployes->bindparam(":text_nom", $text_nom);
-						$ajoutemployes->bindparam(":text_prenom", $text_prenom);
-						$ajoutemployes->bindparam(":text_telephone", $text_telephone);
-						$ajoutemployes->bindparam(":text_mail", $text_mail);
-						$ajoutemployes->bindparam(":text_nomService", $text_nomService);
-						$ajoutemployes->bindparam(":BDDidAdresse", $BDDidAdresse);
-						$ajoutemployes->execute();
+						$ajoutemployes->execute(array(":UtilisateurNom"=>$UtilisateurNom,
+													  ":text_nom"=>$text_nom,
+													  ":text_prenom"=>$text_prenom,
+													  ":text_telephone"=>$text_telephone,
+													  ":text_mail"=>$text_mail,
+													  ":text_nomService"=>$text_nomService,
+													  ":BDDidAdresse"=>$BDDidAdresse));
 					}
-				
-				
 				}
 				else 
 				{
 					// -- Ajout dans la table ville 
 					$stmtville = $auth_user->conn->prepare("INSERT INTO Villes ( codepostal, nomVilles, departement, pays) 
 													VALUES ( :text_codepostal, :text_ville, :text_departement, :text_pays)");	
-					$stmtville->bindparam(":text_codepostal", $text_codepostal);
-					$stmtville->bindparam(":text_ville", $text_ville);
-					$stmtville->bindparam(":text_departement", $text_departement);
-					$stmtville->bindparam(":text_pays", $text_pays);
-					$stmtville->execute();
+					$stmtville->execute(array(":text_codepostal"=>$text_codepostal,
+											  ":text_ville"=>$text_ville,
+											  ":text_departement"=>$text_departement,
+											  ":text_pays"=>$text_pays));										  
 					$stmt = $auth_user->runQuery("SELECT * FROM Villes 
 											WHERE codepostal=:text_codepostal AND nomVilles=:text_ville 
 											AND departement=:text_departement AND pays=:text_pays");
-					$stmt->execute(array('text_codepostal'=>$text_codepostal, 'text_ville'=>$text_ville, 'text_departement'=>$text_departement, 'text_pays'=>$text_pays));
+					$stmt->execute(array('text_codepostal'=>$text_codepostal, 
+										 'text_ville'=>$text_ville, 
+										 'text_departement'=>$text_departement, 
+										 'text_pays'=>$text_pays));
 					$row=$stmt->fetch(PDO::FETCH_ASSOC);
 					$BDDidVilles=$row['idVilles'];
 					// -- Ajout dans adresse
 					$stmtAdresses = $auth_user->conn->prepare("INSERT INTO Adresses (numero, rue, VillesidVilles) 
 													VALUES (:text_numero, :text_rue, :BDDidVilles )");	
 												
-					$stmtAdresses->bindparam(":text_numero", $text_numero);
-					$stmtAdresses->bindparam(":text_rue", $text_rue);
-					$stmtAdresses->bindparam(":BDDidVilles", $BDDidVilles);
-					$stmtAdresses->execute();
+					$stmtAdresses->execute(array('text_numero'=>$text_numero, 
+										 'text_rue'=>$text_rue, 
+										 'BDDidVilles'=>$BDDidVilles));
 					$stmt = $auth_user->runQuery("SELECT * FROM Adresses 
 												WHERE numero=:text_numero AND rue=:text_rue AND VillesidVilles=:BDDidVilles");
 					$stmt->execute(array('text_numero'=>$text_numero, 'text_rue'=>$text_rue, 'BDDidVilles'=>$BDDidVilles));
@@ -151,15 +134,13 @@ if(isset($_POST['btn-signup']))
 					$ajoutemployes = $auth_user->conn->prepare("INSERT INTO Employes ( CompteUtilisateursidEmploye, nom, prenom,telephone,mail,ServicesnomService,AdressesidAdresse)
 						VALUES (:UtilisateurNom, :text_nom,:text_prenom,:text_telephone, :text_mail,:text_nomService,:BDDidAdresse)");
 						
-					$ajoutemployes->bindparam(":UtilisateurNom", $UtilisateurNom );
-					$ajoutemployes->bindparam(":text_nom", $text_nom);
-					$ajoutemployes->bindparam(":text_prenom", $text_prenom);
-					$ajoutemployes->bindparam(":text_telephone", $text_telephone);
-					$ajoutemployes->bindparam(":text_mail", $text_mail);
-					$ajoutemployes->bindparam(":text_nomService", $text_nomService);
-					$ajoutemployes->bindparam(":BDDidAdresse", $BDDidAdresse);
-					$ajoutemployes->execute();
-					
+					$ajoutemployes->execute(array(":UtilisateurNom"=>$UtilisateurNom,
+												  ":text_nom"=>$text_nom,
+												  ":text_prenom"=>$text_prenom,
+												  ":text_telephone"=>$text_telephone,
+												  ":text_mail"=>$text_mail,
+												  ":text_nomService"=>$text_nomService,
+												  ":BDDidAdresse"=>$BDDidAdresse));
 				}
 				//Creation du login et recupperation du mot de passe 
 				//$auth_user->creerUtilisateur($UtilisateurNom,$text_motdepasse);
@@ -168,9 +149,8 @@ if(isset($_POST['btn-signup']))
 				{
 					$ajoutchef = $auth_user->conn->prepare("INSERT INTO ChefServices ( EmployesCompteUtilisateursidEmploye, ServicesnomService) 
 													VALUES ( :UtilisateurNom, :text_nomService)");	
-					$ajoutchef->bindparam(":UtilisateurNom", $UtilisateurNom);
-					$ajoutchef->bindparam(":text_nomService", $text_nomService);
-					$ajoutchef->execute();
+					$ajoutchef->execute(array(':UtilisateurNom'=>$UtilisateurNom, 
+												':text_nomService'=>$text_nomService));
 				}
 			$auth_user->redirect('CompteUtilCreer.php?Valide');
 			}
@@ -196,8 +176,6 @@ if(isset($_POST['btn-signup']))
 </head>
 
 <body>
-
-    <p class="h4">Session : <?php print($userRow['idEmploye']); ?></p> 
     <p class="" style="margin-top:5px;">
 <div class="signin-form">
 

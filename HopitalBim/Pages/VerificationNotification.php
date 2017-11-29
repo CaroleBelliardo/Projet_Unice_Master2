@@ -4,15 +4,8 @@
 -->
 
 <?php
+	include ('../Config/Menupage.php');
 
-	require_once("session.php");
-	require_once("classe.Systeme.php");
-//  $auth_user = new Systeme();
-//	$user_id = $_SESSION['idEmploye'];
-//	$stmt = $auth_user->runQuery("SELECT * FROM CompteUtilisateurs WHERE idEmploye=:user_name");
-//	$stmt->execute(array(":user_name"=>$user_id));
-//	$userRow=$stmt->fetch(PDO::FETCH_ASSOC); 
-   
     try // connnection à la base de donnée
     {
         $bdd = new PDO('mysql:host=localhost;dbname=bdd;charset=utf8', 'root', '');

@@ -52,10 +52,10 @@ CREATE TABLE CompteUtilisateurs (
    
 # Table indiquant la localisation de chaque service de l'hopital (= bureau d'accueil du service) 
 CREATE TABLE LocalisationServices (   
-  idLocalisation int(8) NOT NULL AUTO_INCREMENT, # 1
+  idLocalisation int(8) NOT NULL UNIQUE AUTO_INCREMENT, # 1
   batiment       varchar(15) NOT NULL, # Majuscule 
   aile           varchar(10),          # Minuscule 
-  etage          varchar(2),           # si c'est en sous-sol "-1" accepté.   
+  etage          varchar(2),           # si c est en sous-sol "-1" accepté.   
   PRIMARY KEY (idLocalisation)); 
  
 # Table regroupant tous les services présents dans l'hôpital 
@@ -98,7 +98,6 @@ CREATE TABLE Pathologies (
   idPatho       int(8) NOT NULL AUTO_INCREMENT, # 1 
   nomPathologie varchar(100) NOT NULL,          # 1ere lettre Maj : Fracture 
   indication     varchar(30) NOT NULL DEFAULT 'standard', # en un mot : coude 
-  precautions   text,  
   PRIMARY KEY (idPatho),  
   INDEX (nomPathologie)); 
  
@@ -106,7 +105,6 @@ CREATE TABLE Pathologies (
 CREATE TABLE Interventions (   
   idIntervention                       int(8) NOT NULL AUTO_INCREMENT,  
   acte                                 varchar(15) NOT NULL, # 1ere lettre Maj : Radio 
-  indication                            varchar(30) NOT NULL DEFAULT 'standard',  # coude 
   ServicesnomService                   varchar(20),          # cf. nomService 
   PRIMARY KEY (idIntervention), 
   FOREIGN KEY (ServicesnomService) REFERENCES Services (nomService) ON DELETE SET NULL ON UPDATE CASCADE, 
@@ -149,3 +147,16 @@ CREATE TABLE InterventionsPatho (
   PRIMARY KEY (PathologiesidPatho, InterventionsidIntervention), 
   FOREIGN KEY (InterventionsidIntervention) REFERENCES Interventions (idIntervention) ON DELETE CASCADE ON UPDATE CASCADE, 
   FOREIGN KEY (PathologiesidPatho) REFERENCES Pathologies (idPatho) ON DELETE CASCADE ON UPDATE CASCADE ); 
+
+# Lie les tables Pathologies et Interventions  
+CREATE TABLE Facturation ( 
+  idFacture          int(8) NOT NULL AUTO_INCREMENT,  
+  CreneauxInterventionsidRdv int(8) NOT NULL,  
+  PRIMARY KEY (idFacture), 
+  FOREIGN KEY (CreneauxInterventionsidRdv) REFERENCES CreneauxInterventions (id_rdv) ON DELETE CASCADE ON UPDATE CASCADE);
+
+# Lie les tables Pathologies et Interventions  
+CREATE TABLE Notifications ( 
+  CreneauxInterventionsidRdv int(8) NOT NULL,  
+  PRIMARY KEY (CreneauxInterventionsidRdv), 
+  FOREIGN KEY (CreneauxInterventionsidRdv) REFERENCES CreneauxInterventions (id_rdv) ON DELETE CASCADE ON UPDATE CASCADE);

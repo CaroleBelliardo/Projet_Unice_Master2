@@ -1,44 +1,35 @@
 <?php
-
-include ('../Config/Menupage.php');
-include ('../Fonctions/Affichage.php');
-require_once("../session.php"); // requis pour se connecter la base de donnée 
-require_once("../classe.Systeme.php"); // va permettre d effectuer les requettes sql en orienté objet.
-$auth_user = new Systeme(); // PRIMORDIAL pour les requetes 
-$user_id = $_SESSION['idEmploye']; // permet de conserver la session
-$stmt = $auth_user->runQuery("SELECT * FROM CompteUtilisateurs WHERE idEmploye=:user_name"); // permet de rechercher le nom d utilisateur 
-$stmt->execute(array(":user_name"=>$user_id)); // la meme 
-$userRow=$stmt->fetch(PDO::FETCH_ASSOC); // permet d afficher l identifiant du gars sur la page, ce qui faudrai c est le nom
+	include ('../Config/Menupage.php');
 	
-	
-if(isset($_POST['btn-selectionpatient']))
-{	 
-	$text_numSS=$_POST['text_numSS'];
-	$echo $text_numSS ;
-	 
-	// ici je pense faire un include de $dep a $adresse tout foutre dans un seul et meme document car c est chiant a regarder 
-		 // Gestion des erreurs : 
-	if ($text_utilisateur==""){$error[] = "Il faut un selectionner un utilisateur !"; }
-	else if($text_utilisateur=="admin00")	{$error[] = "Impossible de supprimer l'Admin"; }
-	else 
-	{ 
 		
-		try 
-		{
-			$ajoutchef = $auth_user->conn->prepare("DELETE FROM CompteUtilisateurs WHERE 
-													idEmploye=:text_utilisateur");
-			$ajoutchef->bindparam(":text_utilisateur", $text_utilisateur);
-			$ajoutchef->execute();
-			$auth_user->redirect('CompteUtilSupprimer.php?Valide');
+	if(isset($_POST['btn-selectionService']))
+	{	 
+		$text_numSS=$_POST['text_numSS'];
+		echo $text_numSS ;
+		 
+		// ici je pense faire un include de $dep a $adresse tout foutre dans un seul et meme document car c est chiant a regarder 
+			 // Gestion des erreurs : 
+		if ($text_utilisateur==""){$error[] = "Il faut un selectionner un utilisateur !"; }
+		else if($text_utilisateur=="admin00")	{$error[] = "Impossible de supprimer l'Admin"; }
+		else 
+		{ 
+			
+			try 
+			{
+				$ajoutchef = $auth_user->conn->prepare("DELETE FROM CompteUtilisateurs WHERE 
+														idEmploye=:text_utilisateur");
+				$ajoutchef->bindparam(":text_utilisateur", $text_utilisateur);
+				$ajoutchef->execute();
+				$auth_user->redirect('CompteUtilSupprimer.php?Valide');
+			}
+			catch(PDOException $e)
+			{			
+				echo $e->getMessage();
+			}	
+			
 		}
-		catch(PDOException $e)
-		{			
-			echo $e->getMessage();
-		}	
-		
 	}
-}
-?>
+?>	
 
 <!DOCTYPE html PUBLIC >
 <html>
@@ -49,9 +40,6 @@ if(isset($_POST['btn-selectionpatient']))
 </head>
 
 <body>
-
-
-    <p class="h4">Session : <?php print($userRow['idEmploye']); ?></p> 
     <p class="" style="margin-top:5px;">
 <div class="signin-form">
 
@@ -124,7 +112,7 @@ Rechercher un patient :
 			</div>
             <div class="clearfix"></div><hr />
             <div class="form-group">
-            	<button type="submit" class="btn btn-primary" name="btn-signup">
+            	<button type="submit" class="btn btn-primary" name="selectionService">
                 	<i class=""></i>Valider
                 </button>
             </div>
