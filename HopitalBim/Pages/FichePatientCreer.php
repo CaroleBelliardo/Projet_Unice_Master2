@@ -147,9 +147,7 @@ if(isset($_POST['btn-signup']))
 											
 				$stmtAdresses->execute(array('text_numero'=>$text_numero,
 											   'text_rue'=>$text_rue, 
-											   'BDDidVilles'=>$text_departement, 
-											   'text_pays'=>$text_pays,
-											   'BDDidVilles'=>$BDDidVilles));
+											   'BDDidVilles'=>$text_departement));
 				$stmt = $auth_user->runQuery("SELECT * FROM Adresses 
 											WHERE numero=:text_numero AND rue=:text_rue AND VillesidVilles=:BDDidVilles");
 				$stmt->execute(array('text_numero'=>$text_numero, 'text_rue'=>$text_rue, 'BDDidVilles'=>$BDDidVilles));
