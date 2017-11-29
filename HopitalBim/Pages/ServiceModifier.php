@@ -17,7 +17,7 @@
     
 	<p class="h4">User Home Page</p> 
     <p class="" style="margin-top:5px;">
-	<label class="h5">Bonjour : <?php print($userRow['idEmploye']); ?></label> </br>
+
 
     ICI les conneries regardant le gars connecté.
    
