@@ -2,7 +2,7 @@
 	include ('../Config/Menupage.php');
 	
 		
-	if(isset($_POST['btn-selectionpatient']))
+	if(isset($_POST['btn-selectionService']))
 	{	 
 		$text_numSS=$_POST['text_numSS'];
 		echo $text_numSS ;
@@ -112,7 +112,7 @@ Rechercher un patient :
 			</div>
             <div class="clearfix"></div><hr />
             <div class="form-group">
-            	<button type="submit" class="btn btn-primary" name="btn-signup">
+            	<button type="submit" class="btn btn-primary" name="selectionService">
                 	<i class=""></i>Valider
                 </button>
             </div>
