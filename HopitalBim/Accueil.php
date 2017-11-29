@@ -24,61 +24,67 @@ if(isset($_POST['btn-login']))
 }
 ?>
 
-
-<!DOCTYPE html PUBLIC ">
+<!DOCTYPE html> <!-- version HTML 5 : plus besoin de mettre DOCTYPE html PUBLIC "..."-->
 <html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Accueil</title>
+    <head>
+    <title> Accueil </title> <!-- Titre de l'onglet -->
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="Config/style.css">
+    <link href="https://fonts.googleapis.com/css?family=Josefin+Slab:600" rel="stylesheet">
+    </head>
+    
+    <body>
+    <div id="entete">  <!-- Motif à mettre sur chaque page--> 
+    Web Planning
+    </div>
 
-<link rel="stylesheet" href="Config/style.css" type="text/css"  />
-</head>
-<body>
+    <div class="accroche"> Pour gérer votre planning en un clin d'oeil </div>
 
-<div class="signin-form">
+    <div id="menu"> <!-- Menu à mettre sur chaqye page -->
+    Patient Planning Services Compte_Utilisateur Vérification ///// Se_déconnecter
+    </div> 
+    
+    <img src="Images/lenval2.jpg" alt="Hopital lenval Nice vue côté mer">
 
-	<div class="container">
-     
-        
-       <form class="form-signin" method="post" id="login-form">
-      
-        <h2 class="form-signin-heading">Authentification</h2><hr />
-        
-        <div id="error">
-        <?php
-			if(isset($error))
-			{
+    <form method="post" id="login-form"> 
+
+        <fieldset> 
+        <legend> <h2> Authentification </h2> </legend>
+
+        <div class="Authentification"> 
+
+            <div id="error">
+            <?php
+			 if(isset($error))
+			 {
 				?>
                 <div class="alert alert-danger">
-                   <i class=""></i><?php echo $error; ?> !
+                    <?php echo $error; ?> !
                 </div>
                 <?php
-			}
-		?>
+			 }
+		      ?>
+            </div>
+        
+        <div class="formuAccueil">
+            <input type="text" class="form-control" name="txt_uname" placeholder="Nom d'utilisateur :" required />
         </div>
         
-        <div class="form-group">
-        <input type="text" class="form-control" name="txt_uname" placeholder="Nom d'utilisateur !" required />
-        <span id="check-e"></span>
+        <div class="formuAccueil">
+            <input type="password" class="form-control" name="txt_password" placeholder="Mot de passe :" />
         </div>
         
-        <div class="form-group">
-        <input type="password" class="form-control" name="txt_password" placeholder="Votre mot de passe!" />
-        </div>
-       
-     	<hr />
-        
-        <div class="form-group">
-            <button type="submit" name="btn-login" class="btn btn-default">
-                	<i class=""></i>Valider
-            </button>
-        </div>  
-      	<br />
-      </form>
+        </br>
 
-    </div>
-    
-</div>
+        <div class="bouton">
+            <button type="submit" name="btn-login" class="btn btn-default"> Valider </button>
+        </div>
 
-</body>
+        </div> <!-- Authentification -->
+
+        </fieldset>
+
+    </form>
+
+    </body>
 </html>
