@@ -7,11 +7,7 @@
 -->
 <?php
 	include ('../Config/Menupage.php');
-	include ('../Fonctions/Affichage.php');
-	include ('../Fonctions/ReqTraitement.php');
-	require_once("../session.php"); 
-	require_once("../classe.Systeme.php");
-	$auth_user = new Systeme();
+
 	$bdd=$auth_user->conn;
 
 	date_default_timezone_set('Europe/Paris');

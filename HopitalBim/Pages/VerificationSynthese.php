@@ -8,17 +8,8 @@
 -->
 
 <?php
-	include ('../Fonctions/Affichage.php');
-	require_once("../session.php");
-	require_once("../classe.Systeme.php");
-	$auth_user = new Systeme();
-	$bdd=$auth_user->conn;
-//	$user_id = $_SESSION['idEmploye'];
-//	$stmt = $auth_user->runQuery("SELECT * FROM CompteUtilisateurs WHERE idEmploye=:user_name");
-//	$stmt->execute(array(":user_name"=>$user_id));
-//	$userRow=$stmt->fetch(PDO::FETCH_ASSOC); 
-   
-	
+	include ('../Config/Menupage.php');
+
 	function extractReq ($inReq,$manip){ //TODO : recupere les valeurs de la première variable = > a supprimant en creant le tableau avant 
 		$a_temp=[];
 		while ($temp =  $inReq-> fetch(PDO::FETCH_ASSOC))

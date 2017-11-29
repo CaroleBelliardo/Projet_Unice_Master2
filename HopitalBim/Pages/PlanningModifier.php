@@ -1,17 +1,8 @@
 <?php
 	
 	include ('../Config/Menupage.php');
-	include ('../Fonctions/Affichage.php');
-	require_once("../session.php");	
-	require_once("../classe.Systeme.php");
 
-	$auth_user = new Systeme();
-	$user_id = $_SESSION['idEmploye'];
-	$stmt = $auth_user->runQuery("SELECT * FROM CompteUtilisateurs WHERE idEmploye=:user_name");
-	$stmt->execute(array(":user_name"=>$user_id));
-	$userRow=$stmt->fetch(PDO::FETCH_ASSOC);
-	
-	require_once('../class.patient.php');
+
 	$patient = new FICHEPATIENT();
 	if(isset($_POST['btn-signup']))
 {
@@ -117,7 +108,6 @@
 </head>
 
 <body>
-<?php include ('../Config/Menupage.php'); ?>
 
     <p class="h4">Session : <?php print($userRow['idEmploye']); ?></p> 
     <p class="" style="margin-top:5px;">

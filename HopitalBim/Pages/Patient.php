@@ -1,13 +1,6 @@
 <?php
 
-	require_once("session.php");
-	
-	require_once("classe.Systeme.php");
-	$auth_user = new Systeme();
-	$user_id = $_SESSION['idEmploye'];
-	$stmt = $auth_user->runQuery("SELECT * FROM CompteUtilisateurs WHERE idEmploye=:user_name");
-	$stmt->execute(array(":user_name"=>$user_id));
-	$userRow=$stmt->fetch(PDO::FETCH_ASSOC); 
+	include ('../Config/Menupage.php');
 
 ?>
 <!DOCTYPE html>
@@ -21,7 +14,6 @@
 </head>
 
 <body>
-<?php include ('./Config/Menupage.php'); ?>
     
 	<p class="h4">User Home Page</p> 
     <p class="" style="margin-top:5px;">
