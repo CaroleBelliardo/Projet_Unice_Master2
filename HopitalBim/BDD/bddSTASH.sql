@@ -151,12 +151,12 @@ CREATE TABLE InterventionsPatho (
 # Lie les tables Pathologies et Interventions  
 CREATE TABLE Facturation ( 
   idFacture          int(8) NOT NULL AUTO_INCREMENT,  
-  CreneauxInterventionsidRDV int(8) NOT NULL,  
+  CreneauxInterventionsidRdv int(8) NOT NULL,  
   PRIMARY KEY (idFacture), 
-  FOREIGN KEY (CreneauxInterventionsidRDV) REFERENCES CreneauxInterventions (idRDV) ON DELETE CASCADE ON UPDATE CASCADE);
+  FOREIGN KEY (CreneauxInterventionsidRdv) REFERENCES CreneauxInterventions (id_rdv) ON DELETE CASCADE ON UPDATE CASCADE);
 
 # Lie les tables Pathologies et Interventions  
 CREATE TABLE Notifications ( 
-  CreneauxInterventionsidRDV int(8) NOT NULL,  
-  PRIMARY KEY (CreneauxInterventionsidRDV), 
-  FOREIGN KEY (CreneauxInterventionsidRDV) REFERENCES CreneauxInterventions (idRDV) ON DELETE CASCADE ON UPDATE CASCADE);
+  CreneauxInterventionsidRdv int(8) NOT NULL,  
+  PRIMARY KEY (CreneauxInterventionsidRdv), 
+  FOREIGN KEY (CreneauxInterventionsidRdv) REFERENCES CreneauxInterventions (id_rdv) ON DELETE CASCADE ON UPDATE CASCADE);
