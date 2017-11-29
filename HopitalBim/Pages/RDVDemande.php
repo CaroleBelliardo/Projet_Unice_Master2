@@ -15,15 +15,6 @@
 include ('../Config/Menupage.php');
 $lien= 'RDVDemande.php';
 
-//$utilisateur=$_SESSION['idEmploye'];
-//if (array_key_exists("Patient",$_SESSION )){}
-//		else
-//		{
-//			$auth_user->redirect('FichePatientCreer.php'); 
-//	// dans le cas ou aucun patient a été selectionné ou ajouté, alors il redirige vers creer un patient ( cas ou on arrive dessus par erreur ) 
-//		}
-
-
 		
 if(isset($_POST['btn_demandeRDV']))
 {	 
@@ -64,6 +55,7 @@ AND Interventions.ServicesnomService = Services.nomService
 AND date_rdv > CURDATE() 
 AND heure_rdv > CURRENT_TIMESTAMP()
 AND InterventionsidIntervention = '4'
+AND CreneauxInterventions.statut = 'p'
 AND heure_rdv >= (SELECT horaire_ouverture FROM Interventions  JOIN Services WHERE idIntervention = 4 AND Interventions.ServicesnomService = Services.nomService)
 AND heure_rdv <= (SELECT horaire_fermeture FROM Interventions  JOIN Services WHERE idIntervention = 4  AND Interventions.ServicesnomService = Services.nomService)
 ");
@@ -91,7 +83,46 @@ AND heure_rdv <= (SELECT horaire_fermeture FROM Interventions  JOIN Services WHE
 	
 
 
+***
 
+SELECT MIN(dateR), MIN(heureR)
+FROM  (
+(SELECT max(date_rdv) as dateR, max(heure_rdv)  as heureR      
+FROM CreneauxInterventions JOIN Interventions  JOIN Services 
+WHERE  CreneauxInterventions.InterventionsidIntervention = Interventions.idIntervention
+AND Interventions.ServicesnomService = Services.nomService
+AND date_rdv >= CURDATE() 
+AND heure_rdv >= CURRENT_TIMESTAMP()
+AND InterventionsidIntervention = '4'
+AND CreneauxInterventions.statut = 'p'
+AND heure_rdv >= (SELECT horaire_ouverture FROM Interventions  JOIN Services WHERE idIntervention = 4 AND Interventions.ServicesnomService = Services.nomService)
+AND heure_rdv < (SELECT horaire_fermeture FROM Interventions  JOIN Services WHERE idIntervention = 4  AND Interventions.ServicesnomService = Services.nomService)
+) 
+UNION
+(SELECT max(date_rdv) as dateR, max(heure_rdv)  as heureR     
+FROM CreneauxInterventions JOIN Interventions  JOIN Services 
+WHERE CreneauxInterventions.InterventionsidIntervention = Interventions.idIntervention
+AND Interventions.ServicesnomService = Services.nomService
+
+AND date_rdv >= CURDATE() # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! >
+AND heure_rdv >= CURRENT_TIMESTAMP() # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! >
+AND CreneauxInterventions.statut = 'a'
+
+AND InterventionsidIntervention = 5 
+AND heure_rdv >= (SELECT horaire_ouverture FROM Interventions  JOIN Services WHERE idIntervention = 5 AND Interventions.ServicesnomService = Services.nomService)
+AND heure_rdv < (SELECT horaire_fermeture FROM Interventions  JOIN Services WHERE idIntervention = 5  AND Interventions.ServicesnomService = Services.nomService)
+) 
+) as date
+
+
+
+
+
+
+
+
+
+***
 
 
 

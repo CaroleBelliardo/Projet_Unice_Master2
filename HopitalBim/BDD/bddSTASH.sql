@@ -124,7 +124,7 @@ CREATE TABLE CreneauxInterventions (
   heure_rdv                           time NOT NULL, # 15:00:00 format 24h 
   InterventionsidIntervention         int(8),   # cf.idInterventions auto_increment 
   niveauUrgence                       tinyint(1) UNSIGNED NOT NULL,   
-  statut                              char(1) NOT NULL DEFAULT 'p',  # b = prévue / r = réalisée / a = annulée / p = payé 
+  statut                              char(1) NOT NULL DEFAULT 'p',  # p = prévue / r = réalisée / a = annulée / f = payé 
   pathologie                         varchar(100),  
   commentaires                     text,  
   VerifCoherencePathoUrgences         varchar(100), # OUI = cohérence entre niveau urgence et pathologie / NON = incohérence / INCONNUE = maladie non présente dans la table pathologies 
