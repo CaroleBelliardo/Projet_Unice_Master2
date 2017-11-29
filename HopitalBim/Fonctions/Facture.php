@@ -32,7 +32,7 @@ $req_service= $auth_user->runQuery("SELECT DISTINCT *
                                             WHERE LocalisationServices.idLocalisation = Services.LocalisationServicesidLocalisation
                                             AND Services.nomService = :service
                                             "); 
-$Req_service->execute(array("service"=>$SESSION['idEmploye']));
+$Req_service->execute(array("service"=>$Utilisateur['2']));
 $Req_service->closeCursor();
 
 //info coordonnees Hopital

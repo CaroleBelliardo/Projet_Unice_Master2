@@ -13,6 +13,7 @@
 		-->
 <?php
 include ('../Config/Menupage.php');
+$lien= 'RDVDemande.php';
 
 $utilisateur=$_SESSION['idEmploye'];
 if (array_key_exists("Patient",$_SESSION )){}
@@ -37,27 +38,74 @@ if(isset($_POST['btn_demandeRDV']))
 	$ajoutRDV = $auth_user->runQuery("INSERT INTO CreneauxInterventions (date_rdv, heure_rdv, InterventionsidIntervention, niveauUrgence, pathologie, commentaires, PatientsnumSS, EmployesCompteUtilisateursIdEmploye) 
 	VALUES (:date_rdv, :heure_rdv, :InterventionsidIntervention, :niveauUrgence, :pathologie, :commentaires, :PatientsnumSS, :EmployesCompteUtilisateursIdEmploye)");
 	
-	$today = date("h:i:s");
+/*	$today = date("h:i:s");
 
 	$date_rdv = date("Y-m-d");
-	$heure_rdv = date("h:i:s");
+	$heure_rdv = date("h:i:s")*/;
 
 
-	$ajoutRDV->execute(array('date_rdv'=> $date_rdv,
-							'heure_rdv'=> $heure_rdv,
-							'InterventionsidIntervention'=> $text_idIntervention,
-							'niveauUrgence'=> $text_urgence,
-							'pathologie'=> $text_nomPathologie,
-							'commentaires'=> $text_commentaires,
-							'PatientsnumSS'=> $patient,
-							'EmployesCompteUtilisateursIdEmploye'=> $user_id));
-							//$donnees = mysqli_fetch_array($Actes)
-		
-
-	$ajoutRDV->closeCursor();
+	//$ajoutRDV->execute(array('date_rdv'=> $date_rdv,
+	//						'heure_rdv'=> $heure_rdv,
+	//						'InterventionsidIntervention'=> $text_idIntervention,
+	//						'niveauUrgence'=> $text_urgence,
+	//						'pathologie'=> $text_nomPathologie,
+	//						'commentaires'=> $text_commentaires,
+	//						'PatientsnumSS'=> $patient,
+	//						'EmployesCompteUtilisateursIdEmploye'=> $user_id));
+	//						//$donnees = mysqli_fetch_array($Actes)
+	//	
 	
-	$lien= 'RDVDemande.php';
  }
+	// imbriquer dans btn
+	$infoDateHeure = $auth_user->runQuery("SELECT max(date_rdv), max(heure_rdv) 
+FROM CreneauxInterventions JOIN Interventions  JOIN Services
+WHERE  CreneauxInterventions.InterventionsidIntervention = Interventions.idIntervention
+AND Interventions.ServicesnomService = Services.nomService
+AND date_rdv > CURDATE() 
+AND heure_rdv > CURRENT_TIMESTAMP()
+AND InterventionsidIntervention = '4'
+AND heure_rdv >= (SELECT horaire_ouverture FROM Interventions  JOIN Services WHERE idIntervention = 4 AND Interventions.ServicesnomService = Services.nomService)
+AND heure_rdv <= (SELECT horaire_fermeture FROM Interventions  JOIN Services WHERE idIntervention = 4  AND Interventions.ServicesnomService = Services.nomService)
+");
+	
+	$infoDateHeure->execute(array());
+	$a_infoDateHeure = reqToArrayPlusAtt($infoDateHeure);
+	$infoDateHeure->closeCursor();
+
+//if (define($a_infoDH["heure_rdv"]))
+//	{
+//		$heure = $a_infoDH["heure_rdv"];
+//		$date = $a_infoDH["date_rdv"];
+//	}
+//	else
+//	{
+//		$heure = date("Y-m-d");
+//		$heure = date("h:i");
+//	}
+	
+	function roundToQuarterHour($timestring) {
+		$minutes = date('i', strtotime($timestring));
+		return $minutes - ($minutes % 15) + 15;
+	}
+	echo roundToQuarterHour($heure = date("h:i"));
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ?>
 
 <!DOCTYPE html PUBLIC >
