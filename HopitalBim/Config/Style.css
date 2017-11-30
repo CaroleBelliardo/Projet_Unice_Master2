@@ -7,6 +7,7 @@ body {
 }
 
 #entete { 
+    font-family: 'Lobster', cursive;
     margin: 0 0 0 0 ;
     padding: 10px 10px 0px 10px;  
     text-align: center;
@@ -20,6 +21,7 @@ body {
     font-size: 20px;
     color:white;
     padding: 0 0 10px 0;
+    font-family: "Josefin Slab", serif, Courier New, Verdana;
 }
 
 #menu{
@@ -38,6 +40,7 @@ input {
 }
 
 form header {
+  font-family: "Josefin Slab", serif, Courier New, Verdana;
   background-color: #262626;
   padding: 5px 10px;
   color: white;
@@ -108,24 +111,26 @@ form header {
 }
 
 #footer {
-    margin : 10px;
+    margin : 15px;
     border-top: 1px solid #87CEFA;
     bottom:0;
     left:0;
     right:0;
     position: absolute;
+    color: white;
+    text-align: center;
 }
 
 /* --- MENU PAGES ---  */
 .navbar {
-    overflow: hidden;
-    background-color: #333;
-    font-family: Arial;
+    overflow: hidden; /* visible | hidden */
+    background-color: #262626; 
+    font-family: "Josefin Slab", serif; /* Arial */
 }
 
 .navbar a {
     float: left;
-    font-size: 16px;
+    font-size: 18px;
     color: white;
     text-align: center;
     padding: 14px 16px;
@@ -138,7 +143,8 @@ form header {
 }
 
 .dropdown .dropbtn {
-    font-size: 16px;    
+    font-family: "Josefin Slab", serif; /* Arial */
+    font-size: 18px;    
     border: none;
     outline: none;
     color: white;
@@ -174,4 +180,11 @@ form header {
 
 .dropdown:hover .dropdown-content {
     display: block;
+}
+
+/* Page Principale -- Bienvenue -- */        /*FINIR*/
+
+#PagePrincipale{
+  background-color: white;
+  width: 100%;
 }

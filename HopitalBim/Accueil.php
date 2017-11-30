@@ -31,11 +31,12 @@ if(isset($_POST['btn-login']))
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <link rel="stylesheet" href="Config/style.css">
     <link href="https://fonts.googleapis.com/css?family=Josefin+Slab:600" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
     </head>
     
     <body>
     <div id="entete">  <!-- Motif à mettre sur chaque page--> 
-    Web Planning
+    Planning Hopital Bim
     </div>
 
     <div class="accroche"> Pour gérer votre planning en un clin d'oeil </div>
@@ -73,6 +74,7 @@ if(isset($_POST['btn-login']))
     </div>
 
     <div id="footer">
+    Conditions d'utilisation | Contact | © 2017
     </div>
 
     </body>
