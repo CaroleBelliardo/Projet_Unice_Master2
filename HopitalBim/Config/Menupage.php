@@ -15,7 +15,7 @@ $Req_utilisateur = $auth_user->runQuery("SELECT DISTINCT nom,prenom,ServicesnomS
 										AND CompteUtilisateurs.idEmploye= :user_name
 										"); // NOM utilisateur = >> à mettre dans menuPage !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! TOUTES PAGES 
 $Req_utilisateur->execute(array("user_name"=>$user_id)); 
-$a_utilisateur= reqToArrayPlusAtt($Req_utilisateur);  // Nom prénom et service utilisateur 
+$a_utilisateur= reqToArrayPlusAttASSO($Req_utilisateur);  // Nom prénom et service utilisateur 
 
 global $auth_user, $a_utilisateur;
 
@@ -44,6 +44,7 @@ global $auth_user, $a_utilisateur;
 		</div>
 	</div>
 	<a href="<?php echo $LienSite ?>Pages/Planning.php">Planning</a>
+	<a href="<?php echo $LienSite ?>Pages/Faturation.php">Facturation</a>
 	<div class="dropdown">
 		<button class="dropbtn">Services 
 			<i class="fa fa-caret-down"></i>
@@ -76,7 +77,7 @@ global $auth_user, $a_utilisateur;
 	<a href="<?php echo $LienSite ?>logout.php?logout=true">Déconnection</a>
 </div>
 
-<p class="h4">  <?php  echo($a_utilisateur[0]." ".$a_utilisateur[1]." <br> Service ".$a_utilisateur[2]); ?></p> <!--affichage nom prenom service user-->
+<p class="h4">  <?php  echo($a_utilisateur['prenom']." ".$a_utilisateur['nom']." <br> Service ".$a_utilisateur['ServicesnomService']); ?></p> <!--affichage nom prenom service user-->
 
 </body>
 </html>

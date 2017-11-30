@@ -23,6 +23,20 @@
 		return ($a_out_reqToArray);
 	}
 	
+	function reqToArrayPlusAttASSO($requete) //  une requete qui retroune 1 plusieurs attributs  (plusieurs colonnes) pour un tuple (1 ligne) -- retourne un tableau contenant toutes les valeurs des attributs, tableau 1D
+	{
+		$a_out_reqToArray=[];
+		while ($row = $requete->fetch(PDO::FETCH_ASSOC))
+		{
+			foreach ( $row as $cle=>$valeur)
+			{
+				$a_out_reqToArray[$cle]=$valeur;
+			}
+		
+		}
+		return ($a_out_reqToArray);
+	}
+	
 	function reqToArrayPlusligne($requete) // une requete qui retroune 1 plusieurs attributs  (plusieurs colonnes) pour plusieurs tuples (plusieurs ligne) -- retourne un tableau  de tableau contenant toutes les valeurs des attributs, tableau 2D
 		//
 	{
