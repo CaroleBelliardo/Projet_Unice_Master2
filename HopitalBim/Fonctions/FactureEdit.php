@@ -21,19 +21,17 @@ $a_utilisateur= reqToArrayPlusAttASSO($Req_utilisateur);  // Nom prénom et serv
 require_once('../html2pdf/html2fpdf.class.php'); // !! necessaire ?
 
 //unset($_SESSION["Patient"]); // TEST 
-$patient='178945687887447'; // a recup !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! page precedente
+$patient='178854747412138'; // a recup !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! page precedente
 $test_chef=TRUE; // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! Marin
-
-
-
 
 
 
 // ############################################################################################################################################
 
 // -- requetes
+
 // info coordonnees patient
-$req_adressePatient= $auth_user->runQuery("SELECT DISTINCT nom,prenom, telephone, mail,
+$req_adressePatient= $auth_user->runQuery("SELECT DISTINCT nom, prenom, numSS, telephone, mail,
                                             numero, rue, nomVilles, departement , codepostal, pays
                                             FROM Patients JOIN Adresses JOIN Villes
                                             WHERE Patients.AdressesidAdresse = Adresses.idAdresse
@@ -42,7 +40,7 @@ $req_adressePatient= $auth_user->runQuery("SELECT DISTINCT nom,prenom, telephone
                                             "); 
 $req_adressePatient->execute(array("patient"=>$patient)); // remplacer par $_SESSION['patient']
 $a_patient=reqToArrayPlusAttASSO($req_adressePatient);
-$Req_utilisateur->closeCursor();
+$req_adressePatient->closeCursor();
 
 // info coordonnees service
 $req_service= $auth_user->runQuery("SELECT DISTINCT *
@@ -52,7 +50,7 @@ $req_service= $auth_user->runQuery("SELECT DISTINCT *
                                             ");
 $req_service->execute(array("service"=>$a_utilisateur['ServicesnomService']));
 $a_service=reqToArrayPlusAttASSO($req_service);
-Dumper($a_service);
+//Dumper($a_service);
 $req_service->closeCursor();
 
 //info coordonnees Hopital
@@ -63,22 +61,48 @@ $req_hopital= $auth_user->runQuery("SELECT *
                                     "); 
 $req_hopital->execute();
 $a_hopital=reqToArrayPlusAttASSO($req_hopital);
-Dumper($a_hopital);
+//Dumper($a_hopital);
+$req_hopital->closeCursor();
 
-
-//$req_hopital->closeCursor();
 
 
 
 //info intervention
 $req_intervention= $auth_user->runQuery("SELECT  *
-                                        FROM Adresses JOIN Villes
-                                        WHERE Adresses.VillesidVilles = Villes.idVilles
-                                        AND Adresses.idAdresse = '0'
+									FROM CreneauxInterventions JOIN Interventions
+									WHERE CreneauxInterventions.InterventionsidIntervention= Interventions.idIntervention
+									AND Interventions.ServicesnomService = 'Imagerie'
+									AND CreneauxInterventions.PatientsnumSS = '178854747412138'
+									AND CreneauxInterventions.statut = 'r'
                                         "); 
 $req_intervention->execute();
-$a_intervention=[];
-//$req_intervention->closeCursor();
+$a_infoInterv=reqToArrayPlusligne($req_intervention);
+$req_intervention->closeCursor();
+
+
+
+
+// numero de facture
+$req_facturation= $auth_user->runQuery("SELECT MAX(idFacture) 
+										FROM Facturation
+										"); 
+$req_facturation->execute(); // remplacer par $_SESSION['patient']
+$idfacture = intval($req_facturation->fetchColumn()) +1 ;
+$req_facturation->closeCursor();
+
+
+//insert num facture
+$req_insertFacturation= $auth_user->runQuery("INSERT INTO Facturation (idFacture,CreneauxInterventionsidRdv) 
+										VALUES (:idfacture, :idRdv)
+										");
+
+//foreach ($a_infoInterv["id_rdv"] as $cle=>$id) 
+//{
+//	$req_insertFacturation->execute(array("idfacture"=> $idfacture,
+//										"idRdv"=> $id
+//										)); // remplacer par $_SESSION['patient']
+//	$req_insertFacturation->closeCursor();
+//}
 
 // ************************************************** REQUETES ******************
 
@@ -123,7 +147,7 @@ $a_intervention=[];
         <tr>
             <td style="width:50%;"></td>
             <td style="width:14%; ">Tel :</td>
-            <td style="width:36%">33 (0) 1 00 00 00 00</td>
+            <td style="width:36%"> <?php echo $a_patient['telephone'] ?> </td>
         </tr>
     </table>
     <br>
@@ -136,48 +160,39 @@ $a_intervention=[];
     </table>
     <br>
     <i>
-        <b><u>Objet </u>: &laquo; Facture soins médicaux <?php //echo $a_utilisateur['ServicesnomService'] ?> &raquo;</b><br>
-        Compte client : 00C4520100A<br>
-        Référence du Dossier : 71326<br>
+        <b><u>Objet </u>: &laquo; Facture  <?php //echo $a_utilisateur['ServicesnomService'] ?> &raquo;</b><br>
+        N° de Sécurité Sociale : <?php echo $a_patient['numSS'] ?> <br>
+        N° du Facture : <?php echo $idfacture ?> <br>
     </i>
     <br>
     <br>
-    Madame, Monsieur, Cher Client,<br>
+    Madame, Monsieur,<br>
     <br>
     <br>
-    Nous souhaitons vous informer que le dossier <b>71326</b> concernant un &laquo; Bon de Retour &raquo; pour les articles suivants a été accepté.<br>
+    Les interventions suivantes ont été aquitées à ce jour.<br>
     <br>
     <table cellspacing="0" style="width: 100%; border: solid 1px black; background: #E7E7E7; text-align: center; font-size: 10pt;">
         <tr>
-            <th style="width: 12%">Produit</th>
-            <th style="width: 52%">Désignation</th>
-            <th style="width: 13%">Prix Unitaire</th>
-            <th style="width: 10%">Quantité</th>
-            <th style="width: 13%">Prix Net</th>
+            <th style="width: 50%">Acte</th>
+            <th style="width: 50%">Prix Net</th>
         </tr>
     </table>
 <?php
-    $nb = rand(5, 11);
-    $produits = array();
-    $total = 0;
-    for ($k=0; $k<$nb; $k++) {
-        $num = rand(100000, 999999);
-        $nom = "le produit n°".rand(1, 100);
-        $qua = rand(1, 20);
-        $prix = rand(100, 9999)/100.;
-        $total+= $prix*$qua;
-        $produits[] = array($num, $nom, $qua, $prix, rand(0, $qua));
+	$total=0;
+	foreach ($a_infoInterv["id_rdv"] as $cle=>$id) 
+	{
 ?>
     <table cellspacing="0" style="width: 100%; border: solid 1px black; background: #F7F7F7; text-align: center; font-size: 10pt;">
         <tr>
-            <td style="width: 12%; text-align: left"><?php echo $num; ?></td>
-            <td style="width: 52%; text-align: left"><?php echo $nom; ?></td>
-            <td style="width: 13%; text-align: right"><?php echo number_format($prix, 2, ',', ' '); ?> &euro;</td>
+            <td style="width: 50%; text-align: left"><?php echo $id ; ?></td>
+            <td style="width: 50%; text-align: left"><?php echo $id; ?></td>
+    <!--        <td style="width: 13%; text-align: right"><?php echo number_format(intval($id), 2, ',', ' '); ?> &euro;</td>
             <td style="width: 10%"><?php echo $qua; ?></td>
-            <td style="width: 13%; text-align: right;"><?php echo number_format($prix*$qua, 2, ',', ' '); ?> &euro;</td>
-        </tr>
+            <td style="width: 13%; text-align: right;"><?php echo number_format(intval($id)*$qua, 2, ',', ' '); ?> &euro;</td>
+        --></tr>
     </table>
 <?php
+	$total=$total+intval($id);
     }
 ?>
     <table cellspacing="0" style="width: 100%; border: solid 1px black; background: #E7E7E7; text-align: center; font-size: 10pt;">
@@ -186,25 +201,31 @@ $a_intervention=[];
             <th style="width: 13%; text-align: right;"><?php echo number_format($total, 2, ',', ' '); ?> &euro;</th>
         </tr>
     </table>
-    <br>
-    Cette reprise concerne la quantité et les matériels dont la référence figure sur le <a href="#document_reprise">document de reprise joint</a>.<br>
-    Nous vous demandons de nous retourner ces produits en parfait état et dans leur emballage d'origine.<br>
-    <br>
-    Nous vous demandons également de coller impérativement l'autorisation de reprise jointe, sur le colis à reprendre afin de faciliter le traitement à l'entrepôt.<br>
-    <br>
-    Notre Service Clients ne manquera pas de revenir vers vous dès que l'avoir de ces matériels sera établi.<br>
-    <nobreak>
-        <br>
-        Dans cette attente, nous vous prions de recevoir, Madame, Monsieur, Cher Client, nos meilleures salutations.<br>
         <br>
         <table cellspacing="0" style="width: 100%; text-align: left;">
             <tr>
-                <td style="width:50%;"></td>
-                <td style="width:50%; ">
-                    Mle Jesuis CELIBATAIRE<br>
-                    Service Relation Client<br>
-                    Tel : 33 (0) 1 00 00 00 00<br>
-                    Email : on_va@chez.moi<br>
+                <td style="width:65%;"></td>
+                <td style="width:40%; ">
+                    <?php echo $a_utilisateur['prenom']." ".$a_utilisateur['nom']." <br> Responsable du service ".$a_utilisateur['ServicesnomService'] ?> <br>
+					<?php  $a_service ?> 
+                    <?php echo 'tel. : '.$a_service["telephone"]."<br>".
+'mail : '.$a_service["mail"]."<br>".
+'ouvert de '.$a_service["horaire_ouverture"].
+'à '.$a_service["horaire_fermeture"]."<br>".
+'batiement '.$a_service["batiment"].
+', aile '.$a_service["aile"].
+', au '.$a_service["etage"].'étage'
+?>
+					
+					
+					
+					
+					
+					
+					
+					
+					
+                    <br>
                 </td>
             </tr>
         </table>

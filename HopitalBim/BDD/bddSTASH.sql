@@ -152,7 +152,7 @@ CREATE TABLE InterventionsPatho (
 CREATE TABLE Facturation ( 
   idFacture          int(8) NOT NULL AUTO_INCREMENT,  
   CreneauxInterventionsidRdv int(8) NOT NULL,  
-  PRIMARY KEY (idFacture), 
+  PRIMARY KEY (CreneauxInterventionsidRdv), 
   FOREIGN KEY (CreneauxInterventionsidRdv) REFERENCES CreneauxInterventions (id_rdv) ON DELETE CASCADE ON UPDATE CASCADE);
 
 # Lie les tables Pathologies et Interventions  
