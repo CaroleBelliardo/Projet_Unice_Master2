@@ -48,7 +48,7 @@
 				if(array_key_exists($attribut,$a_out_reqToArray))
 				{
 					$tempo=$a_out_reqToArray[$attribut];
-					push($tempo,$col);
+					array_push($tempo,$col);
 					$a_out_reqToArray[$attribut]=$tempo;
 				}
 				else
@@ -60,4 +60,6 @@
 		}
 		return ($a_out_reqToArray);
 	}
+	
+	
 ?>
