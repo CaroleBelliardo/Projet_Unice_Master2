@@ -43,16 +43,15 @@ if(isset($_POST['btn-login']))
     <div id="menu"> <!-- Menu à mettre sur chaqye page -->
     Patient Planning Services Compte_Utilisateur Vérification ///// Se_déconnecter
     </div> 
-    
-    <img src="Images/lenval2.jpg" alt="Hopital lenval Nice vue côté mer">
 
+    <div class="card">
+    <img src="Images/Hospital.png" alt="Image d'un hôpital">
+
+    <div class="Authentification"> 
     <form method="post" id="login-form"> 
 
-        <fieldset> 
-        <legend> <h2> Authentification </h2> </legend>
-
-        <div class="Authentification"> 
-
+         <h2> Authentification </h2> </br>
+    
             <div id="error">
             <?php
 			 if(isset($error))
@@ -66,11 +65,11 @@ if(isset($_POST['btn-login']))
 		      ?>
             </div>
         
-        <div class="formuAccueil">
+        <div class="Username">
             <input type="text" class="form-control" name="txt_uname" placeholder="Nom d'utilisateur :" required />
         </div>
         
-        <div class="formuAccueil">
+        <div class="Password">
             <input type="password" class="form-control" name="txt_password" placeholder="Mot de passe :" />
         </div>
         
@@ -80,11 +79,9 @@ if(isset($_POST['btn-login']))
             <button type="submit" name="btn-login" class="btn btn-default"> Valider </button>
         </div>
 
-        </div> <!-- Authentification -->
-
-        </fieldset>
-
     </form>
+    </div> <!-- Authentification -->
+    </div> <!-- Card -->
 
     </body>
 </html>

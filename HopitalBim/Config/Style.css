@@ -1,3 +1,82 @@
+/* PAGE ACCUEIL */
+
+body {
+    background-image: url(../Images/background1.jpg);
+    font-family: "Josefin Slab", serif, Courier New, Verdana;
+    color: #87CEFA; 
+    }
+
+#entete { 
+    margin: 0 0 0 0 ;
+    padding: 10px 10px 0px 10px;  
+    text-align: center;
+    font-size: 40px;
+    text-shadow: 2px 2px 5px black;
+    color : white;
+    }
+
+.accroche{
+    text-align: center;
+    font-size: 20px;
+    color:white;
+    padding: 0 0 10px 0;
+    }
+
+#menu{
+    text-align: center;
+    font-size: 25px;
+    padding: 10px;
+    border-bottom: 1px solid #87CEFA;
+    }
+
+img{
+    display:block;
+    margin-top: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 60%;   
+    }
+
+.card{
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    border-radius: 10px;
+    background-color: white;
+    }
+
+.Authentification{
+    padding: 2px 10px;
+    background-color: red;
+    }
+
+#login-form {
+    background-color:white;
+    margin-right: 20%;
+    margin-left: 20%;
+    }
+
+
+/*.Authentification {
+    display: inline-block;
+    width : 170px;
+    padding: 20px;
+    margin: auto;
+    background-color: black;
+    border-left: 1px solid #ccc; 
+    border-bottom: 1px solid #ccc;
+    border-top-right-radius: 15px;
+    border-top-left-radius: 15px;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    }
+
+.formuAccueil:hover{
+    background-color: #BDBDBD;
+    color: purple;
+    }
+
+*/
+
+/* --- MENU PAGES ---  */
 .navbar {
     overflow: hidden;
     background-color: #333;
