@@ -70,5 +70,6 @@ ajouter btn facturation sur modification patient
 
 Page contact
 
-
+Page Notification : 
+	- Ajouter une table "notification"
 
