@@ -17,7 +17,8 @@ if(isset($_POST['btn-signup']))
 	
 	$text_numero = strip_tags($_POST['text_numero']);	
 	$text_rue = strip_tags($_POST['text_rue']);	
-	
+		$text_idIntervention = preg_replace("/[^0-9]/", "",trim($_POST['text_idIntervention'], ' '));
+
 	$text_numSS = strip_tags($_POST['text_numSS']);	
 	$text_nom = strip_tags($_POST['text_nom']);	
 	$text_prenom = strip_tags($_POST['text_prenom']);	
@@ -25,8 +26,8 @@ if(isset($_POST['btn-signup']))
 	$text_telephone = strip_tags($_POST['text_telephone']);	
 	$text_mail = strip_tags($_POST['text_mail']);	
 	$text_sexe = strip_tags($_POST['text_sexe']);	
-	$text_taille = strip_tags($_POST['text_taille']);	
-	$text_poids = strip_tags($_POST['text_poids']);	
+	$text_taille = preg_replace("/[^0-9]/", "",trim($_POST['text_taille'], ' '));	
+	$text_poids = preg_replace("/[^0-9]/", "",trim($_POST['text_poids'], ' '));	
 	$text_commentaires = strip_tags($_POST['text_commentaires']);	
 	
 	$_SESSION['Patient']=$text_numSS ;	
@@ -45,6 +46,12 @@ if(isset($_POST['btn-signup']))
 		$error[] = "Il faut un nom !"; }
 	else if($text_prenom=="")	{
 		$error[] = "Il faut un prénom !"; }
+	else if($text_taille=="")	{
+		$error[] = "Il faut entrer une taille valide !"; }
+	else if($text_poids=="")	{
+		$error[] = "Il faut entrer une taille valide !"; }
+	else if($text_dateNaissance=="0000-00-00")	{
+		$error[] = "Il faut entrer une date de naissance valide !"; }
 	// TEST SI NUMSS deja present
 	else if ($row['numSS']==$text_numSS ) {
 		$error[] = "Le patient est deja présent dans la base de donnée</br> Pour le modifier : <a href =# >ici</a>"; }   
