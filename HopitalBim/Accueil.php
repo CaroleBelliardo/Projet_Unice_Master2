@@ -40,48 +40,40 @@ if(isset($_POST['btn-login']))
 
     <div class="accroche"> Pour gérer votre planning en un clin d'oeil </div>
 
-    <div id="menu"> <!-- Menu à mettre sur chaqye page -->
-    Patient Planning Services Compte_Utilisateur Vérification ///// Se_déconnecter
+    <div id="menu"> <!-- Menu à mettre sur chaque page -->
+    </br>
     </div> 
 
-    <div class="card">
-    <img src="Images/Hospital.png" alt="Image d'un hôpital">
+   <div id="login">
+      <form method="post" id="login-form">
+        <header> S'authentifier <hr></header>
 
-    <div class="Authentification"> 
-    <form method="post" id="login-form"> 
-
-         <h2> Authentification </h2> </br>
-    
             <div id="error">
             <?php
-			 if(isset($error))
-			 {
-				?>
-                <div class="alert alert-danger">
-                    <?php echo $error; ?> !
-                </div>
-                <?php
-			 }
-		      ?>
+                if(isset($error))
+                    {
+                        ?>
+                            <div class="alert alert-danger">
+                            <?php echo $error; ?> !
+                            </div>
+                        <?php
+                     }
+            ?>
             </div>
         
-        <div class="Username">
-            <input type="text" class="form-control" name="txt_uname" placeholder="Nom d'utilisateur :" required />
-        </div>
+        <span> <img src="Images/User.png" alt="User logo" height="60%" width="60%"> </span>
+          <input type="text" id="user" name="txt_uname" placeholder="Nom d'utilisateur" required >
+       
+        <span> <img src="Images/cadenas.png" alt="User logo" height="60%" width="60%"></span>
+          <input type="password" id="password" name="txt_password" placeholder="Mot de passe">
         
-        <div class="Password">
-            <input type="password" class="form-control" name="txt_password" placeholder="Mot de passe :" />
-        </div>
-        
-        </br>
+        <button type="submit" name="btn-login" class="btn btn-default" value="Login"> Valider</button>
 
-        <div class="bouton">
-            <button type="submit" name="btn-login" class="btn btn-default"> Valider </button>
-        </div>
+        </form>
+    </div>
 
-    </form>
-    </div> <!-- Authentification -->
-    </div> <!-- Card -->
+    <div id="footer">
+    </div>
 
     </body>
 </html>
