@@ -26,97 +26,113 @@ if(isset($_POST['btn_demandeRDV']))
 	$text_niveauUrgence = trim($_POST['text_urgence'], ' ');
 	$text_commentaires = trim($_POST['text_commentaires'], ' ');	
 	$text_indicationPathologie= trim($_POST['text_indicationPathologie'], ' ');
-	echo $text_idIntervention;
-	if ($text_idIntervention == "")
+	// IL FAUT QUE PATHO ET INDICATION = non vide ( pas les indication et commentaires)
+	// rechercher si pathologie + indication existe -> on recupére l'idée sinon on fait une insertion :eviter les doublons
+	//
+	
+	if ($text_idIntervention == "")  // Gestion erreur : nom de service + num dans bdd
 	{
-		echo " Entrer un nom de intervention valide"; // Gestion erreur : nom de service + num dans bdd 
+		$error[] =  " Entrer un nom d'intervention valide";  
+	}
+	else if ($text_nomPathologie == "" )
+	{
+		$error[] =  "Entrer le nom de la pathologie"; 
 	}
 	else
 	{
-		$req_infoDateHeure = $auth_user->runQuery(" 	SELECT MIN(dateR), MIN(heureR)
-			FROM  (
-			SELECT MAX(dateR1) as dateR, MAX(heureR1) as heureR
-			FROM  (
-			(SELECT max(date_rdv) as dateR1, max(heure_rdv)  as heureR1      
-			FROM CreneauxInterventions JOIN Interventions  JOIN Services 
-			WHERE  CreneauxInterventions.InterventionsidIntervention = Interventions.idIntervention
-			AND Interventions.ServicesnomService = Services.nomService
-			AND date_rdv = CURDATE() 
-			AND heure_rdv > CURRENT_TIMESTAMP()
-			AND InterventionsidIntervention = '4'
-			AND CreneauxInterventions.statut != 'a'
-			AND heure_rdv > (SELECT horaire_ouverture FROM Interventions  JOIN Services WHERE idIntervention = '4' AND Interventions.ServicesnomService = Services.nomService)
-			AND heure_rdv < (SELECT horaire_fermeture FROM Interventions  JOIN Services WHERE idIntervention = '4'  AND Interventions.ServicesnomService = Services.nomService)
-			) 
-			UNION
-			(SELECT  max(date_rdv) as dateR1, max(heure_rdv)  as heureR1       
-			FROM CreneauxInterventions JOIN Interventions  JOIN Services 
-			WHERE  CreneauxInterventions.InterventionsidIntervention = Interventions.idIntervention
-			AND Interventions.ServicesnomService = Services.nomService
-			AND date_rdv > CURDATE() 
-			AND InterventionsidIntervention = '4'
-			AND CreneauxInterventions.statut != 'a'
-			AND heure_rdv > (SELECT horaire_ouverture FROM Interventions  JOIN Services WHERE idIntervention = '4' AND Interventions.ServicesnomService = Services.nomService)
-			AND heure_rdv < (SELECT horaire_fermeture FROM Interventions  JOIN Services WHERE idIntervention = '4'  AND Interventions.ServicesnomService = Services.nomService)
-			) )as d1
-			UNION
-			(SELECT max(date_rdv) as dateR, max(heure_rdv)  as heureR     
-			FROM CreneauxInterventions JOIN Interventions  JOIN Services 
-			WHERE CreneauxInterventions.InterventionsidIntervention = Interventions.idIntervention
-			AND Interventions.ServicesnomService = Services.nomService
-			AND date_rdv = CURDATE() # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! >
-			AND heure_rdv > CURRENT_TIMESTAMP() # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! >
-			AND CreneauxInterventions.statut = 'a'
-			AND InterventionsidIntervention = '4'
-			AND heure_rdv > (SELECT horaire_ouverture FROM Interventions  JOIN Services WHERE idIntervention = '4' AND Interventions.ServicesnomService = Services.nomService)
-			AND heure_rdv < (SELECT horaire_fermeture FROM Interventions  JOIN Services WHERE idIntervention = '4'  AND Interventions.ServicesnomService = Services.nomService)
-			)
-			UNION
-			(SELECT max(date_rdv) as dateR, max(heure_rdv)  as heureR     
-			FROM CreneauxInterventions JOIN Interventions  JOIN Services 
-			WHERE CreneauxInterventions.InterventionsidIntervention = Interventions.idIntervention
-			AND Interventions.ServicesnomService = Services.nomService
-			AND date_rdv > CURDATE() # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! >
-			AND CreneauxInterventions.statut = 'a'
-			AND InterventionsidIntervention = '4'
-			AND heure_rdv > (SELECT horaire_ouverture FROM Interventions  JOIN Services WHERE idIntervention = '4' AND Interventions.ServicesnomService = Services.nomService)
-			AND heure_rdv < (SELECT horaire_fermeture FROM Interventions  JOIN Services WHERE idIntervention = '4'  AND Interventions.ServicesnomService = Services.nomService)
-			) 
-			) as d
-		");
-	Dumper ($_POST);
-	
-		$req_infoDateHeure->execute(array()); // modifier variables
-		$a_infoDateHeure = reqToArrayPlusAttASSO($req_infoDateHeure);
-		$req_infoDateHeure->closeCursor();
-		 
-		 //info heure si non urgent
-		if ($a_infoDateHeure["MIN(heureR)"] == NULL ) // si pas de rdv prevu dans la journée, retour requete = null
+		$req_idInt = $auth_user->runQuery(" SELECT idIntervention FROM Interventions WHERE idIntervention = :idIntervention" );
+		$req_idInt->execute(array('idIntervention'=> $text_idIntervention));
+		$id= $req_idInt-> fetchColumn();
+		if ($id == "")
 		{
-			$a_infoDateHeure["MIN(heureR)"] = ProchaineHeureArrondie();
-			$date = $a_infoDateHeure["MIN(dateR)"] = date("Y-m-d");
+			$error[] =  "Entrer un nom d'intervention valide";										  
 		}
-		$heure=heurePlus15($a_infoDateHeure["MIN(heureR)"]);
-	
-		
-	
-		// insertion rdv
-		$ajoutRDV = $auth_user->runQuery("INSERT INTO CreneauxInterventions (date_rdv, heure_rdv, InterventionsidIntervention,
-										niveauUrgence, pathologie, commentaires, PatientsnumSS, EmployesCompteUtilisateursIdEmploye) 
-										VALUES (:date_rdv, :heure_rdv, :InterventionsidIntervention, :niveauUrgence, :pathologie, :commentaires,:PatientsnumSS,
-										:EmployesCompteUtilisateursIdEmploye)");
-	
-		
-			
-		$ajoutRDV->execute(array('date_rdv'=> $date,
-								'heure_rdv'=> $heure,
-								'InterventionsidIntervention'=> $text_idIntervention,
-								'niveauUrgence'=> $text_niveauUrgence,
-								'pathologie'=> $text_nomPathologie,
-								'commentaires'=> $text_commentaires,
-								'PatientsnumSS'=> $patient,
-								'EmployesCompteUtilisateursIdEmploye'=> $user_id));
-		
+		else
+		{
+		//$req_infoDateHeure = $auth_user->runQuery(" 	SELECT MIN(dateR), MIN(heureR)
+		//	FROM  (
+		//	SELECT MAX(dateR1) as dateR, MAX(heureR1) as heureR
+		//	FROM  (
+		//	(SELECT max(date_rdv) as dateR1, max(heure_rdv)  as heureR1      
+		//	FROM CreneauxInterventions JOIN Interventions  JOIN Services 
+		//	WHERE  CreneauxInterventions.InterventionsidIntervention = Interventions.idIntervention
+		//	AND Interventions.ServicesnomService = Services.nomService
+		//	AND date_rdv = CURDATE() 
+		//	AND heure_rdv > CURRENT_TIMESTAMP()
+		//	AND InterventionsidIntervention = '4'
+		//	AND CreneauxInterventions.statut != 'a'
+		//	AND heure_rdv > (SELECT horaire_ouverture FROM Interventions  JOIN Services WHERE idIntervention = '4' AND Interventions.ServicesnomService = Services.nomService)
+		//	AND heure_rdv < (SELECT horaire_fermeture FROM Interventions  JOIN Services WHERE idIntervention = '4'  AND Interventions.ServicesnomService = Services.nomService)
+		//	) 
+		//	UNION
+		//	(SELECT  max(date_rdv) as dateR1, max(heure_rdv)  as heureR1       
+		//	FROM CreneauxInterventions JOIN Interventions  JOIN Services 
+		//	WHERE  CreneauxInterventions.InterventionsidIntervention = Interventions.idIntervention
+		//	AND Interventions.ServicesnomService = Services.nomService
+		//	AND date_rdv > CURDATE() 
+		//	AND InterventionsidIntervention = '4'
+		//	AND CreneauxInterventions.statut != 'a'
+		//	AND heure_rdv > (SELECT horaire_ouverture FROM Interventions  JOIN Services WHERE idIntervention = '4' AND Interventions.ServicesnomService = Services.nomService)
+		//	AND heure_rdv < (SELECT horaire_fermeture FROM Interventions  JOIN Services WHERE idIntervention = '4'  AND Interventions.ServicesnomService = Services.nomService)
+		//	) )as d1
+		//	UNION
+		//	(SELECT max(date_rdv) as dateR, max(heure_rdv)  as heureR     
+		//	FROM CreneauxInterventions JOIN Interventions  JOIN Services 
+		//	WHERE CreneauxInterventions.InterventionsidIntervention = Interventions.idIntervention
+		//	AND Interventions.ServicesnomService = Services.nomService
+		//	AND date_rdv = CURDATE() # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! >
+		//	AND heure_rdv > CURRENT_TIMESTAMP() # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! >
+		//	AND CreneauxInterventions.statut = 'a'
+		//	AND InterventionsidIntervention = '4'
+		//	AND heure_rdv > (SELECT horaire_ouverture FROM Interventions  JOIN Services WHERE idIntervention = '4' AND Interventions.ServicesnomService = Services.nomService)
+		//	AND heure_rdv < (SELECT horaire_fermeture FROM Interventions  JOIN Services WHERE idIntervention = '4'  AND Interventions.ServicesnomService = Services.nomService)
+		//	)
+		//	UNION
+		//	(SELECT max(date_rdv) as dateR, max(heure_rdv)  as heureR     
+		//	FROM CreneauxInterventions JOIN Interventions  JOIN Services 
+		//	WHERE CreneauxInterventions.InterventionsidIntervention = Interventions.idIntervention
+		//	AND Interventions.ServicesnomService = Services.nomService
+		//	AND date_rdv > CURDATE() # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! >
+		//	AND CreneauxInterventions.statut = 'a'
+		//	AND InterventionsidIntervention = '4'
+		//	AND heure_rdv > (SELECT horaire_ouverture FROM Interventions  JOIN Services WHERE idIntervention = '4' AND Interventions.ServicesnomService = Services.nomService)
+		//	AND heure_rdv < (SELECT horaire_fermeture FROM Interventions  JOIN Services WHERE idIntervention = '4'  AND Interventions.ServicesnomService = Services.nomService)
+		//	) 
+		//	) as d
+		//");
+		//
+		//$req_infoDateHeure->execute(array()); // modifier variables
+		//$a_infoDateHeure = reqToArrayPlusAttASSO($req_infoDateHeure);
+		//$req_infoDateHeure->closeCursor();
+		// 
+		// //info heure si non urgent
+		//if ($a_infoDateHeure["MIN(heureR)"] == NULL ) // si pas de rdv prevu dans la journée, retour requete = null
+		//{
+		//	$a_infoDateHeure["MIN(heureR)"] = ProchaineHeureArrondie();
+		//	$date = $a_infoDateHeure["MIN(dateR)"] = date("Y-m-d");
+		//}
+		//$heure=heurePlus15($a_infoDateHeure["MIN(heureR)"]);
+		//
+		//
+		//
+		//// insertion rdv
+		//$ajoutRDV = $auth_user->runQuery("INSERT INTO CreneauxInterventions (date_rdv, heure_rdv, InterventionsidIntervention,
+		//								niveauUrgence, pathologie, commentaires, PatientsnumSS, EmployesCompteUtilisateursIdEmploye) 
+		//								VALUES (:date_rdv, :heure_rdv, :InterventionsidIntervention, :niveauUrgence, :pathologie, :commentaires,:PatientsnumSS,
+		//								:EmployesCompteUtilisateursIdEmploye)");
+		//
+		//
+		//	
+		//$ajoutRDV->execute(array('date_rdv'=> $date,
+		//						'heure_rdv'=> $heure,
+		//						'InterventionsidIntervention'=> $text_idIntervention,
+		//						'niveauUrgence'=> $text_niveauUrgence,
+		//						'pathologie'=> $text_nomPathologie,
+		//						'commentaires'=> $text_commentaires,
+		//						'PatientsnumSS'=> $patient,
+		//						'EmployesCompteUtilisateursIdEmploye'=> $user_id));
+		//
+		}
 	}
 }
 ?>
@@ -201,7 +217,7 @@ if(isset($_POST['btn_demandeRDV']))
 											<input type="radio"  name="text_urgence" value="2" />2
 											<input type="radio"  name="text_urgence" value="3" />3
 										</label><br><br>		
-										<input type="text" class="" name="text_indicationIntervention" pattern="[a-zA-Z]{0-30}" title="Caractère alphabetique, 30 caractères maximum"       placeholder="Entrer les indactions :" value="<?php if(isset($error)){echo $text_indicationActe;}?>" /><br>								
+										<input type="text" class="" name="text_indicationIntervention" pattern="[a-zA-Z]{0-30}" title="Caractère alphabetique, 30 caractères maximum"       placeholder="Entrer les indactions :" value="<?php if(isset($error)){echo $text_indicationIntervention;}?>" /><br>								
 									</p>
 							</fieldset>
 							<fieldset>
