@@ -14,3 +14,19 @@ return ($heureArrondie); // retourne la prochaine heure arrondie
 		$heurePlus15 =date("H:i", strtotime( $temps,$heure));
 		return ($heurePlus15);
 	}
+
+	
+	
+	function VerificationPathologie ($niveauUrgence, $idPatho,$idIntervention )
+	{
+	
+		$recupUrgMaxMin=$auth_user->runQuery("SELECT niveauUrgenceMax, niveauUrgenceMin
+										FROM InterventionsPatho  
+										WHERE PathologiesidPatho =:idPatho 
+										AND InterventionsidIntervention=:idIntervention "); 
+		$recupUrgMaxMin->execute(array('idPatho'=>$idPatho,
+									'idIntervention'=>$idIntervention));
+
+		$var=$recupUrgMaxMin->fetch(PDO::FETCH_ASSOC);
+	return ($var);
+	}
