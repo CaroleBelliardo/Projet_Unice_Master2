@@ -17,7 +17,7 @@ return ($heureArrondie); // retourne la prochaine heure arrondie
 
 	
 	
-	function VerificationPathologie ($niveauUrgence, $idPatho,$idIntervention )
+	function VerificationPathologie ($auth_user,$niveauUrgence, $idPatho,$idIntervention )
 	{
 	
 		$recupUrgMaxMin=$auth_user->runQuery("SELECT niveauUrgenceMax, niveauUrgenceMin

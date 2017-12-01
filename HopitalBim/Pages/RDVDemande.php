@@ -17,8 +17,14 @@ include ('../Fonctions/RDV.php'); // fonctions specifiques à demande RDV
 
 $lien= 'RDVDemande.php';
 
-				
-	
+$niveauUrgence ='0';
+$idPatho = '5'; 
+$idIntervention = '3';
+
+$var =VerificationPathologie ($auth_user,$niveauUrgence, $idPatho,$idIntervention );
+var_dump ($var);
+
+
 if(isset($_POST['btn_demandeRDV'])) // si utilisateur clique sur le bouton demande de rendez vous
 {
 	$patient=$_SESSION["patient"]; // recupration et traitement des informations saisies
