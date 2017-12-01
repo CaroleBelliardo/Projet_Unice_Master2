@@ -23,8 +23,7 @@ if(isset($_POST['btn-signup']))
 	$text_nom =  ucfirst(trim($_POST['text_nom'], ' '))	;
 	$text_prenom = ucfirst(trim($_POST['text_prenom'], ' '))	;
 	$text_dateNaissance = strip_tags($_POST['text_dateNaissance']);	
-	
-	
+		
 	$text_telephone = trim($_POST['text_telephone'], ' ' );
 	$text_mail = strip_tags($_POST['text_mail']);	
 	$text_sexe = strip_tags($_POST['text_sexe']);	
