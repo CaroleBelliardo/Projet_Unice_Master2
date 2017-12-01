@@ -17,13 +17,11 @@ $Req_utilisateur = $auth_user->runQuery("SELECT DISTINCT nom,prenom,ServicesnomS
 $Req_utilisateur->execute(array("user_name"=>$user_id)); 
 $a_utilisateur= reqToArrayPlusAttASSO($Req_utilisateur);  // Nom prénom et service utilisateur 
 // ***********************************************************
-
-require_once('../html2pdf/html2fpdf.class.php'); // !! necessaire ?
+require_once('../html2pdf/htmlfpdf.class.php'); // !! necessaire ?
 
 //unset($_SESSION["Patient"]); // TEST 
 $patient='178854747412138'; // a recup !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! page precedente
 $test_chef=TRUE; // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! Marin
-
 
 
 // ############################################################################################################################################

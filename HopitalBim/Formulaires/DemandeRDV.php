@@ -1,3 +1,4 @@
+ <!--Formulaire-->
  <p class="" style="margin-top:5px;">
 			<div class="signin-form">
 				<form method="post" class="form-signin">
@@ -83,4 +84,4 @@
 					<?php quitter1() ?>	
 					</div>
 				</form>
-?>
+
