@@ -8,10 +8,9 @@ $heureArrondie = date('H:i',($current_time + ($frac-$r))); // calcule combien de
 return ($heureArrondie); // retourne la prochaine heure arrondie
 }
 
-    function heurePlus15($h) // prend en entré une string h:m et renvoye l'heure + 15minutes
+    function heurePlus15($h,$temps) // prend en entré une string h:m et renvoye l'heure + 15minutes
 	{
 		$heure = strtotime($h);
-		$heurePlus15 =date("H:i", strtotime('+15 minutes',$heure));
+		$heurePlus15 =date("H:i", strtotime( $temps,$heure));
 		return ($heurePlus15);
 	}
-
