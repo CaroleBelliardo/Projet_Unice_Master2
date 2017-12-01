@@ -138,8 +138,8 @@ CREATE TABLE CreneauxInterventions (
   INDEX (InterventionsidIntervention)); 
  
 # Lie les tables Pathologies et Interventions  
-CREATE TABLE InterventionsPatho ( 
-  PathologiesidPatho          int(8) NOT NULL,  
+CREATE TABLE InterventionsPatho (
+  PathologiesidPatho       int(8) NOT NULL AUTO_INCREMENT, # 1  
   InterventionsidIntervention int(8) NOT NULL,  
   niveauUrgenceMax            tinyint(1),     # on ne rentre rien  
   niveauUrgenceMin            tinyint(1) DEFAULT '0',     #  
