@@ -10,11 +10,11 @@ if(isset($_POST['btn-signup']))
 {	
 
  // ici je pense faire un include de $dep a $adresse tout foutre dans un seul et meme document car c est chiant a regarder 
-	$text_departement = trim($_POST['text_departement'], ' ' ));	
+	$text_departement = trim($_POST['text_departement'], ' ' );	
 	$text_pays = ucfirst(trim($_POST['text_pays'], ' '))	;
 	
 	$text_ville = ucfirst(trim($_POST['text_ville'], ' '))	;
-	$text_codepostal = trim($_POST['text_codepostal']);	
+	$text_codepostal = trim($_POST['text_codepostal'], ' ');	
 	
 	$text_numero = trim($_POST['text_numero'], ' ' );	
 	$text_rue = ucfirst(trim($_POST['text_rue'], ' '))	;
@@ -53,9 +53,9 @@ if(isset($_POST['btn-signup']))
 		$error[] = "Il faut entrer un numero de rue valide !"; }
 	else if((preg_match('/[0-9]+/',$text_rue) == 1)or ($text_rue=="") )	{
 		$error[] = "Il faut entrer un nom de rue valide !"; }
-	else if((preg_match('/[0-9]+/',$text_codepostal) == 0)or ($text_codepostal=="") )	{
+	else if(strlen($text_codepostal) > 5)	{
 		$error[] = "Il faut entrer un code postal valide !"; }
-	else if(($text_departement=="") or (strlen($text_departement) > 3) )	{
+	else if(strlen($text_departement) > 3) 	{
 		$error[] = "Il faut entrer un departement valide !"; }
 	else if ((preg_match('/[0-9]+/',$text_pays) == 1)or ($text_pays=="") or (strlen($text_pays) > 25))	{
 		$error[] = "Il faut entrer un pays valide!"; }

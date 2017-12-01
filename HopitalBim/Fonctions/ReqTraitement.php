@@ -38,7 +38,6 @@
 	}
 	
 	function reqToArrayPlusligne($requete) // une requete qui retroune 1 plusieurs attributs  (plusieurs colonnes) pour plusieurs tuples (plusieurs ligne) -- retourne un tableau  de tableau contenant toutes les valeurs des attributs, tableau 2D
-		//
 	{
 		$a_out_reqToArray=[];
 		while ($row = $requete->fetch(PDO::FETCH_ASSOC))

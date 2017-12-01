@@ -125,22 +125,21 @@ CREATE TABLE CreneauxInterventions (
   InterventionsidIntervention         int(8),   # cf.idInterventions auto_increment 
   niveauUrgence                       tinyint(1) UNSIGNED NOT NULL,   
   statut                              char(1) NOT NULL DEFAULT 'p',  # p = prévue / r = réalisée / a = annulée / f = payé 
-  PathologieidPatho                          int(8) ,  
+  PathologiesidPatho                          int(8) ,  
   commentaires                     text,  
-  VerifCoherencePathoUrgences         varchar(100), # OUI = cohérence entre niveau urgence et pathologie / NON = incohérence / INCONNUE = maladie non présente dans la table pathologies 
   PatientsnumSS                       char(15),  
   EmployesCompteUtilisateursidEmploye char(7), # cf. idEmploye np00000 
   PRIMARY KEY (id_rdv),   
   FOREIGN KEY (InterventionsidIntervention) REFERENCES Interventions (idIntervention) ON DELETE SET NULL ON UPDATE CASCADE, 
   FOREIGN KEY (PatientsnumSS) REFERENCES Patients (numSS) ON DELETE SET NULL ON UPDATE CASCADE, 
   FOREIGN KEY (EmployesCompteUtilisateursidEmploye) REFERENCES Employes (CompteUtilisateursidEmploye) ON DELETE SET NULL ON UPDATE CASCADE, 
-  FOREIGN KEY (PathologieidPatho) REFERENCES Pathologie (idPatho) ON DELETE SET NULL ON UPDATE CASCADE, 
+  FOREIGN KEY (PathologiesidPatho) REFERENCES Pathologies (idPatho) ON DELETE SET NULL ON UPDATE CASCADE, 
   INDEX (PatientsnumSS), 
   INDEX (InterventionsidIntervention)); 
  
 # Lie les tables Pathologies et Interventions  
-CREATE TABLE InterventionsPatho ( 
-  PathologiesidPatho          int(8) NOT NULL,  
+CREATE TABLE InterventionsPatho (
+  PathologiesidPatho       int(8) NOT NULL AUTO_INCREMENT, # 1  
   InterventionsidIntervention int(8) NOT NULL,  
   niveauUrgenceMax            tinyint(1),     # on ne rentre rien  
   niveauUrgenceMin            tinyint(1) DEFAULT '0',     #  
