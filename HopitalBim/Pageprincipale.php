@@ -29,9 +29,7 @@
 	<head>
 	<title> Bienvenue </title> <!-- Titre de l'onglet -->
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<link rel="stylesheet" href="Config/style.css" type="text/css">
-	<link href="https://fonts.googleapis.com/css?family=Josefin+Slab:600" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
+	<link rel="stylesheet" href="Config/Style.css" type="text/css">
 	</head>
 
 	<body>
