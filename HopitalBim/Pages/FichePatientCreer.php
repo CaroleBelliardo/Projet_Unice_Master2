@@ -8,28 +8,29 @@ include ('../Config/Menupage.php');
 	
 if(isset($_POST['btn-signup']))
 {	
- // ici je pense faire un include de $dep a $adresse tout foutre dans un seul et meme document car c est chiant a regarder 
-	$text_departement = strip_tags($_POST['text_departement']);	
-	$text_pays = strip_tags($_POST['text_pays']);	
-	
-	$text_ville = strip_tags($_POST['text_ville']);
-	$text_codepostal = strip_tags($_POST['text_codepostal']);	
-	
-	$text_numero = strip_tags($_POST['text_numero']);	
-	$text_rue = strip_tags($_POST['text_rue']);	
-		$text_idIntervention = preg_replace("/[^0-9]/", "",trim($_POST['text_idIntervention'], ' '));
 
-	$text_numSS = strip_tags($_POST['text_numSS']);	
-	$text_nom = strip_tags($_POST['text_nom']);	
-	$text_prenom = strip_tags($_POST['text_prenom']);	
+ // ici je pense faire un include de $dep a $adresse tout foutre dans un seul et meme document car c est chiant a regarder 
+	$text_departement = trim($_POST['text_departement'], ' ' );	
+	$text_pays = ucfirst(trim($_POST['text_pays'], ' '))	;
+	
+	$text_ville = ucfirst(trim($_POST['text_ville'], ' '))	;
+	$text_codepostal = trim($_POST['text_codepostal'], ' ');	
+	
+	$text_numero = trim($_POST['text_numero'], ' ' );	
+	$text_rue = ucfirst(trim($_POST['text_rue'], ' '))	;
+
+	$text_numSS = trim($_POST['text_numSS'], ' ' );	
+	$text_nom =  ucfirst(trim($_POST['text_nom'], ' '))	;
+	$text_prenom = ucfirst(trim($_POST['text_prenom'], ' '))	;
 	$text_dateNaissance = strip_tags($_POST['text_dateNaissance']);	
-	$text_telephone = strip_tags($_POST['text_telephone']);	
+		
+	$text_telephone = trim($_POST['text_telephone'], ' ' );
 	$text_mail = strip_tags($_POST['text_mail']);	
 	$text_sexe = strip_tags($_POST['text_sexe']);	
 	$text_taille = preg_replace("/[^0-9]/", "",trim($_POST['text_taille'], ' '));	
 	$text_poids = preg_replace("/[^0-9]/", "",trim($_POST['text_poids'], ' '));	
 	$text_commentaires = strip_tags($_POST['text_commentaires']);	
-	
+
 	$_SESSION['Patient']=$text_numSS ;	
 
 	// TEST SI NUMSS deja present
@@ -37,21 +38,27 @@ if(isset($_POST['btn-signup']))
 	$stmt->execute(array('text_numSS'=>$text_numSS));
 	$row=$stmt->fetch(PDO::FETCH_ASSOC);
 	
+	
 	 // pas besoin car s auto incremente : $text_idAdresse = strip_tags($_POST['text_idAdresse']);	
 	//  pour la gestion des erreurs plus bas aussi ajouter un include et tout foutre dans un autre dossier
-	if($text_numSS=="")	{
-		$error[] = "Il faut ajouter un numéro de sécurité sociale"; }
-	 
-	else if ($text_nom==""){
-		$error[] = "Il faut un nom !"; }
-	else if($text_prenom=="")	{
-		$error[] = "Il faut un prénom !"; }
-	else if($text_taille=="")	{
-		$error[] = "Il faut entrer une taille valide !"; }
-	else if($text_poids=="")	{
-		$error[] = "Il faut entrer une taille valide !"; }
-	else if($text_dateNaissance=="0000-00-00")	{
+	if($text_numSS==""  or (is_numeric($text_numSS)==FALSE ) or (strlen($text_numSS) < 15 ) or (strlen($text_numSS) > 15 ))	{
+		$error[] = "Il faut ajouter un numéro de sécurité sociale valide"; }
+	else if((preg_match('/[0-9]+/',$text_nom) == 1)or ($text_nom=="")) {// string only contain the a to z , A to Z,
+		$error[] = "Entrer un nom valide !";}
+	else if((preg_match('/[0-9]+/',$text_prenom) == 1)or ($text_prenom=="")) {// string only contain the a to z , A to Z,
+		$error[] = "Entrer un prenom valide !";}
+	else if(($_POST['text_dateNaissance'])=="")	{
 		$error[] = "Il faut entrer une date de naissance valide !"; }
+	else if((preg_match('/[0-9]+/',$text_numero) == 0)or ($text_numero=="") )	{
+		$error[] = "Il faut entrer un numero de rue valide !"; }
+	else if((preg_match('/[0-9]+/',$text_rue) == 1)or ($text_rue=="") )	{
+		$error[] = "Il faut entrer un nom de rue valide !"; }
+	else if(strlen($text_codepostal) > 5)	{
+		$error[] = "Il faut entrer un code postal valide !"; }
+	else if(strlen($text_departement) > 3) 	{
+		$error[] = "Il faut entrer un departement valide !"; }
+	else if ((preg_match('/[0-9]+/',$text_pays) == 1)or ($text_pays=="") or (strlen($text_pays) > 25))	{
+		$error[] = "Il faut entrer un pays valide!"; }
 	// TEST SI NUMSS deja present
 	else if ($row['numSS']==$text_numSS ) {
 		$error[] = "Le patient est deja présent dans la base de donnée</br> Pour le modifier : <a href =# >ici</a>"; }   
@@ -154,7 +161,7 @@ if(isset($_POST['btn-signup']))
 											
 				$stmtAdresses->execute(array('text_numero'=>$text_numero,
 											   'text_rue'=>$text_rue, 
-											   'BDDidVilles'=>$text_departement));
+											   'BDDidVilles'=>$BDDidVilles));
 				$stmt = $auth_user->runQuery("SELECT * FROM Adresses 
 											WHERE numero=:text_numero AND rue=:text_rue AND VillesidVilles=:BDDidVilles");
 				$stmt->execute(array('text_numero'=>$text_numero, 'text_rue'=>$text_rue, 'BDDidVilles'=>$BDDidVilles));
@@ -252,7 +259,7 @@ $auth_user->redirect('RDVDemande.php');
             <input type="text" class="" name="text_rue"    pattern="[A-Za-z]{1-100}" title="Caractère alphabetique, 100 caractères maximum" placeholder="Entrer le nom de la rue :" value="<?php if(isset($error)){echo $text_rue;}?>" /><br>
 			<input type="text" class="" name="text_ville"  pattern="[A-Za-z]{1-150}" title="Caractère alphabetique, 150 caractères maximum" placeholder="Entrer le nom de la ville :" value="<?php if(isset($error)){echo $text_ville;}?>" /><br>
             <input type="text" class="" name="text_codepostal" pattern="[0-9]{5}" title="Caractère numérique, 5 caractères maximum"       placeholder="Entrer le code postal :" value="<?php if(isset($error)){echo $text_codepostal;}?>" /><br>
-            <input type="text" class="" name="text_departement" pattern="[0-9]{2}" title="Caractère numérique, 5 caractères maximum"      placeholder="Entrer le departement :" value="<?php if(isset($error)){echo $text_departement;}?>" /><br>
+            <input type="text" class="" name="text_departement"   pattern="{1-3}" title="3 caractères maximum"   placeholder="Entrer le departement :" value="<?php if(isset($error)){echo $text_departement;}?>" /><br>
 			<input type="text" class="" name="text_pays"   pattern="[A-Za-z]{1-25}" title="Caractère alphabetique, 25 caractères maximum" placeholder="Entrer le pays :" value="<?php if(isset($error)){echo $text_pays;}?>" /><br>
 
 			</div>

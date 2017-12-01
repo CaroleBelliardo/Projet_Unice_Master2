@@ -16,8 +16,15 @@ include ('../Config/Menupage.php'); //menu de navigation
 include ('../Fonctions/RDVDemande.php'); // fonctions specifiques à demande RDV
 
 $lien= 'RDVDemande.php';
-				
-	
+
+$niveauUrgence ='0';
+$idPatho = '5'; 
+$idIntervention = '3';
+
+$var =VerificationPathologie ($auth_user,$niveauUrgence, $idPatho,$idIntervention );
+var_dump ($var);
+
+
 if(isset($_POST['btn_demandeRDV'])) // si utilisateur clique sur le bouton demande de rendez vous
 {
 // ************************************** RECUPERE LES VALEURS SAISIE DANS LE FORMULAIRE ********************************************************

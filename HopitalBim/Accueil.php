@@ -73,7 +73,7 @@ if(isset($_POST['btn-login']))
         </form>
     </div>
 
-    <div id="footer">
+    <div id="footer"> <!-- Faire les liens vers les documents  -->
     Conditions d'utilisation | Contact | © 2017
     </div>
 
