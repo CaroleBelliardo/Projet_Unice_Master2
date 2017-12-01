@@ -79,8 +79,8 @@ INSERT INTO `InterventionsPatho` (`PathologiesidPatho`, `InterventionsidInterven
 ('4', '3', NULL, NULL), 
 ('5', '3', NULL, NULL);
 
-INSERT INTO `CreneauxInterventions` (`date_rdv`, `heure_rdv`, `InterventionsidIntervention`, `niveauUrgence`, `statut`, `pathologie`, `commentaires`, `VerifCoherencePathoUrgences`, `PatientsnumSS`, `EmployesCompteUtilisateursidEmploye`) VALUES ('2017-11-01', '03:00:00', '1', '3', 'r', 'Cardiomyopathie', 'Transplantation cardiaque à 3h du matin. Très Urgent', NULL, '178945687887447', 'cm14743'), 
-('2017-11-02', '12:30:00', '3', '3', 'a', 'Pneumonie', 'Patient décédé', 'OUI', '289886784555147', 'lm25610'),
-('2017-11-04', '15:00:00', '4', '1', DEFAULT, NULL, 'le patient a mal aux niveau des côtes', NULL, '178854747412138', 'cm14743');
+INSERT INTO `CreneauxInterventions` (`date_rdv`, `heure_rdv`, `InterventionsidIntervention`, `niveauUrgence`, `statut`, `pathologie`, `commentaires`, `PatientsnumSS`, `EmployesCompteUtilisateursidEmploye`) VALUES ('2017-11-01', '03:00:00', '1', '3', 'r', 'Cardiomyopathie', 'Transplantation cardiaque à 3h du matin. Très Urgent', '178945687887447', 'cm14743'), 
+('2017-11-02', '12:30:00', '3', '3', 'a', 'Pneumonie', 'Patient décédé', '289886784555147', 'lm25610'),
+('2017-11-04', '15:00:00', '4', '1', DEFAULT, NULL, 'le patient a mal aux niveau des côtes', '178854747412138', 'cm14743');
 
 

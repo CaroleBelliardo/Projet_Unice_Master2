@@ -127,7 +127,6 @@ CREATE TABLE CreneauxInterventions (
   statut                              char(1) NOT NULL DEFAULT 'p',  # p = prévue / r = réalisée / a = annulée / f = payé 
   PathologieidPatho                          int(8) ,  
   commentaires                     text,  
-  VerifCoherencePathoUrgences         varchar(100), # OUI = cohérence entre niveau urgence et pathologie / NON = incohérence / INCONNUE = maladie non présente dans la table pathologies 
   PatientsnumSS                       char(15),  
   EmployesCompteUtilisateursidEmploye char(7), # cf. idEmploye np00000 
   PRIMARY KEY (id_rdv),   
