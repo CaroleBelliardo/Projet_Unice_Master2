@@ -10,7 +10,7 @@ if(isset($_POST['btn-signup']))
 {	
 
  // ici je pense faire un include de $dep a $adresse tout foutre dans un seul et meme document car c est chiant a regarder 
-	$text_departement = trim($_POST['text_departement'], ' ' ));	
+	$text_departement = trim($_POST['text_departement'], ' ' );	
 	$text_pays = ucfirst(trim($_POST['text_pays'], ' '))	;
 	
 	$text_ville = ucfirst(trim($_POST['text_ville'], ' '))	;
