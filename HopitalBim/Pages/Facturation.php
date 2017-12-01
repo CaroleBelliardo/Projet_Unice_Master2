@@ -26,7 +26,7 @@ $lien='Facturation.php'
 			{
 				If (!array_key_exists("patient",$_SESSION )) // recherche si patient existe (redirection fiche patient)
 				{
-					include ('../Pages/RecherchePatient.php');;
+					include ('../Formulaires/RecherchePatient.php');;
 			?>
 				
 			<?php

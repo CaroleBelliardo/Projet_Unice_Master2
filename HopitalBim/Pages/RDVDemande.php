@@ -12,48 +12,108 @@
 		
 		-->
 <?php
-include ('../Config/Menupage.php');
-include ('../Fonctions/RDV.php');
+include ('../Config/Menupage.php'); //menu de navigation
+include ('../Fonctions/RDV.php'); // fonctions specifiques à demande RDV
 
 $lien= 'RDVDemande.php';
-		
-if(isset($_POST['btn_demandeRDV']))
+
+				
+	
+if(isset($_POST['btn_demandeRDV'])) // si utilisateur clique sur le bouton demande de rendez vous
 {
-	$patient=$_SESSION["patient"];
+	$patient=$_SESSION["patient"]; // recupration et traitement des informations saisies
 	$text_nomPathologie = ucfirst(trim($_POST['text_nomPathologie'], ' '));	// trim enleve les espaces en debut et fin mais pas au milieu 
+	$text_indicationPathologie= trim($_POST['text_indicationPathologie'], ' ');
+
 	$text_idIntervention = preg_replace("/[^0-9]/", "",trim($_POST['text_idIntervention'], ' '));
-	$text_indicationIntervention = ucfirst(trim($_POST['text_indicationIntervention'], ' '));
+	// $text_indicationIntervention = ucfirst(trim($_POST['text_indicationIntervention'], ' ')); !!!!! on l'a supprimé de la bdd
+echo $text_idIntervention,$text_idIntervention,$text_idIntervention,$text_idIntervention,$text_idIntervention;
 	$text_niveauUrgence = trim($_POST['text_urgence'], ' ');
 	$text_commentaires = trim($_POST['text_commentaires'], ' ');	
-	$text_indicationPathologie= trim($_POST['text_indicationPathologie'], ' ');
-	// IL FAUT QUE PATHO ET INDICATION = non vide ( pas les indication et commentaires)
-	// rechercher si pathologie + indication existe -> on recupére l'idée sinon on fait une insertion :eviter les doublons
-	//
-	
-	if ($text_idIntervention == "")  // Gestion erreur : nom de service + num dans bdd
+
+	if ($text_idIntervention == "")  // Gestion erreur : nom de d'intervention non renseigné
 	{
-		$error[] =  " Entrer un nom d'intervention valide";  
-	}
-	else if ($text_nomPathologie == "" )
+		$error[] =  " Saisir le nom de l'intervention souhaitée";  
+	} 
+	else if ($text_nomPathologie == "" )  // Gestion erreur : nom de de la pathologie non renseigné
 	{
-		$error[] =  "Entrer le nom de la pathologie"; 
+		$error[] =  "Saisir le nom de la pathologie"; 
 	}
 	else
 	{
-		$req_idInt = $auth_user->runQuery(" SELECT idIntervention FROM Interventions WHERE idIntervention = :idIntervention" );
+		// Gestion erreur : nom de d'intervention invalide
+		$req_idInt = $auth_user->runQuery(" SELECT idIntervention FROM Interventions WHERE idIntervention = :idIntervention" ); // recherche l'idIntervention dans la bdd
 		$req_idInt->execute(array('idIntervention'=> $text_idIntervention));
 		$id= $req_idInt-> fetchColumn();
-		if ($id == "")
+		if ($id == FALSE) // nom de d'intervention abscent de la base de donnée
 		{
-			$error[] =  "Entrer un nom d'intervention valide";										  
+			$error[] =  "Saisir un nom d'intervention valide";										  
 		}
-		else
-		{
-		//$req_infoDateHeure = $auth_user->runQuery(" 	SELECT MIN(dateR), MIN(heureR)
+		//else ;
+		//{
+		
+		//+++ il faut tester si tuple = patho + indication existe et recuperer la valeur de l'id pour affecter à $idPatho,
+		// sinon saisir l'entrer dans bdd.Patholoegie et recuperer l'idée (MEME requete separé par ;) 
+		// $text_nomPathologie + $text_indicationPathologie
+		
+		
+		//+++ Si niveauUrgence == 0 alors on cherche le prochain (le dernier créneaux)
+		//switch ($text_niveauUrgence)
+		//{
+		//	case 0:
+		//		echo "i égal 0"; alors on insert à la suite 
+		//	case 1:
+				// +++ ON TEST SI Niveau d'urgence = niveau urgence INcompatible
+					//  => notif
+						// ecris dans tableau notif
+					// si notif = selectionné et validé alors supprimé de la table notif *** pour notif page
+					// si notif = validé et acceptée alors niveau urgence = modifié *** pour notif page
+				
+				//POUR INSERTION :
+				// on test si on peut inserer en respectant le delais sur creneaux dispo
+						//on fixe l'heure limite
+							//$now=ProchaineHeureArrondie();
+							//$heureN1=heurePlus15($a,'+360 minutes');		// tester si heure requete < a heure attendu  $heureN1
+						//  => on insert 
+					// !!! gestion erreur : test si retour = vide ( tous creneaux dans le delais = occupés par rdv plus urgents)
+						// =>> alors on cherche le prem rdv dispo MIN(dont niveau inferieur, pour meme acte et jour et heure > mtn)
+				// Sinon
+						//à partir de cette date on recupère tous les rdv de la journée et on ajoute + 15 
+						//$test = $auth_user->runQuery("Select * FROM CreneauxInterventions
+						//							 WHERE
+						//							 idIntervention = :$text_idIntervention
+						//							 date_rdv = :dateN1 // ou jours d'après selon le niveau d'urgence
+						//							heure_rdv = :heureN1
+						//							 niveauUrgence < $text_niveauUrgence
+						//							 ");
+						//					// !!! gestion erreur : test si retour = vide ( tous creneaux dans le delais = occupés par rdv plus urgents)
+						//					// =>> alors on cherche le prem rdv dispo MIN(dont niveau inferieur, pour meme acte et jour et heure > mtn)
+						//$test-> execute();
+						//$testt= reqToArrayPlusligne($test) ;	 //reqToArrayPlusAttASSO 
+						//
+						//array_map (heurePlus15($a,'+15 minutes'), $testt["heure_rdv"]=heurePlus15);
+						//
+						// test si heure max > horaire service => notif chef de service*
+				// rearrangeement manuel ??? 
+				
+		//	case 2:
+		//$now=ProchaineHeureArrondie();
+		//$heureN2=heurePlus15($a,'+1440 minutes');		// tester si heure requete < a heure attendu 
+		//
+		//  case 3:
+		//$heureN3=
+		//	default:
+		//}
+		
+		
+		
+		// Il faut récuperer le statut pour savoir si c'est le dernier rdv prévu => rajouter plus 15 min,!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		// sinon si on fait rien heure RDV = heureRDV_annulé!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		//$req_infoDateHeure = $auth_user->runQuery(" SELECT MIN(dateR), MIN(heureR), statutR 
 		//	FROM  (
-		//	SELECT MAX(dateR1) as dateR, MAX(heureR1) as heureR
+		//	SELECT MAX(dateR1) as dateR, MAX(heureR1) as heureR, statutR
 		//	FROM  (
-		//	(SELECT max(date_rdv) as dateR1, max(heure_rdv)  as heureR1      
+		//	(SELECT max(date_rdv) as dateR1, max(heure_rdv)  as heureR1, CreneauxInterventions.statut as statutR       
 		//	FROM CreneauxInterventions JOIN Interventions  JOIN Services 
 		//	WHERE  CreneauxInterventions.InterventionsidIntervention = Interventions.idIntervention
 		//	AND Interventions.ServicesnomService = Services.nomService
@@ -65,7 +125,7 @@ if(isset($_POST['btn_demandeRDV']))
 		//	AND heure_rdv < (SELECT horaire_fermeture FROM Interventions  JOIN Services WHERE idIntervention = '4'  AND Interventions.ServicesnomService = Services.nomService)
 		//	) 
 		//	UNION
-		//	(SELECT  max(date_rdv) as dateR1, max(heure_rdv)  as heureR1       
+		//	(SELECT  max(date_rdv) as dateR1, max(heure_rdv)  as heureR1, CreneauxInterventions.statut as statutR        
 		//	FROM CreneauxInterventions JOIN Interventions  JOIN Services 
 		//	WHERE  CreneauxInterventions.InterventionsidIntervention = Interventions.idIntervention
 		//	AND Interventions.ServicesnomService = Services.nomService
@@ -76,7 +136,7 @@ if(isset($_POST['btn_demandeRDV']))
 		//	AND heure_rdv < (SELECT horaire_fermeture FROM Interventions  JOIN Services WHERE idIntervention = '4'  AND Interventions.ServicesnomService = Services.nomService)
 		//	) )as d1
 		//	UNION
-		//	(SELECT max(date_rdv) as dateR, max(heure_rdv)  as heureR     
+		//	(SELECT max(date_rdv) as dateR, max(heure_rdv)  as heureR, CreneauxInterventions.statut as statutR      
 		//	FROM CreneauxInterventions JOIN Interventions  JOIN Services 
 		//	WHERE CreneauxInterventions.InterventionsidIntervention = Interventions.idIntervention
 		//	AND Interventions.ServicesnomService = Services.nomService
@@ -88,7 +148,7 @@ if(isset($_POST['btn_demandeRDV']))
 		//	AND heure_rdv < (SELECT horaire_fermeture FROM Interventions  JOIN Services WHERE idIntervention = '4'  AND Interventions.ServicesnomService = Services.nomService)
 		//	)
 		//	UNION
-		//	(SELECT max(date_rdv) as dateR, max(heure_rdv)  as heureR     
+		//	(SELECT max(date_rdv) as dateR, max(heure_rdv)  as heureR, CreneauxInterventions.statut as statutR   
 		//	FROM CreneauxInterventions JOIN Interventions  JOIN Services 
 		//	WHERE CreneauxInterventions.InterventionsidIntervention = Interventions.idIntervention
 		//	AND Interventions.ServicesnomService = Services.nomService
@@ -105,14 +165,20 @@ if(isset($_POST['btn_demandeRDV']))
 		//$a_infoDateHeure = reqToArrayPlusAttASSO($req_infoDateHeure);
 		//$req_infoDateHeure->closeCursor();
 		// 
-		// //info heure si non urgent
+		// //info heure si non urgent 
 		//if ($a_infoDateHeure["MIN(heureR)"] == NULL ) // si pas de rdv prevu dans la journée, retour requete = null
 		//{
 		//	$a_infoDateHeure["MIN(heureR)"] = ProchaineHeureArrondie();
 		//	$date = $a_infoDateHeure["MIN(dateR)"] = date("Y-m-d");
 		//}
-		//$heure=heurePlus15($a_infoDateHeure["MIN(heureR)"]);
-		//
+		////if ($a_infoDateHeure["statut"] != 'a') // a verif si heure retournée : rdv = annulé ou dernier rdv !!!!!! a décommenter quand requete OKAY
+		////{
+		////	$heure=heurePlus15($a_infoDateHeure["MIN(heureR)"],'+15 minutes');
+		////} 
+		////else
+		////{
+		////	$heure=$a_infoDateHeure["MIN(heureR)"];
+		////}
 		//
 		//
 		//// insertion rdv
@@ -127,12 +193,12 @@ if(isset($_POST['btn_demandeRDV']))
 		//						'heure_rdv'=> $heure,
 		//						'InterventionsidIntervention'=> $text_idIntervention,
 		//						'niveauUrgence'=> $text_niveauUrgence,
-		//						'pathologie'=> $text_nomPathologie,
+		//						'pathologie'=> $idPatho, // a rechercher !!!!!!!!!!!
 		//						'commentaires'=> $text_commentaires,
 		//						'PatientsnumSS'=> $patient,
 		//						'EmployesCompteUtilisateursIdEmploye'=> $user_id));
 		//
-		}
+		//}
 	}
 }
 ?>
@@ -151,105 +217,17 @@ if(isset($_POST['btn_demandeRDV']))
 	<?php // affichage
 		If (!array_key_exists("patient",$_SESSION )) 
 		{
-			include ('../Pages/RecherchePatient.php');; // recherche patient existe pas (redirection fiche patient)
+			include ('../Formulaires/RecherchePatient.php');; // recherche patient existe pas (redirection fiche patient)
 		}
 		else
 		{
-?>
-			 <p class="" style="margin-top:5px;">
-			<div class="signin-form">
-				<form method="post" class="form-signin">
-							<h2 class="form-signin-heading">Demande de rendez-vour le patient <?php echo $_SESSION["patient"]; ?></h2><hr /> <!--nom patient !!!!!!!!-->
-							<?php
-							if(isset($error)) // affichage messages erreurs si valeurs != format attendu
-							{
-								foreach($error as $error) // pour chaque champs
-								{
-?>
-									<div class="alert alert-danger">
-									<i class=""></i> &nbsp; <?php echo $error; ?>
-									</div>
-<?php
-								}
-							}
-							else if(isset($_GET['Valide'])) // si toutes les valeurs de champs ok et que bouton valider
-							{
-?>
-								<div class="alert alert-info">
-								<i class=""></i> Rendez-vous fixé le (date) à (heure) <a href='../Pageprincipale.php'>Page principale</a>
-								</div>
-<?php
-							}
-?>
-							
-							
-							<!-- Affichage formulaire -->
-							<fieldset>
-								<legend> Pathologie du patient </legend> <!-- Titre du fieldset --> 
-									<p>
-									<input type="text" class="" name="text_nomPathologie"  pattern="[a-zA-Z]{1-100}" title="Caractère alphabetique, 100 caractères maximum"  placeholder="Entrer le nom de la pathologie :" value="<?php if(isset($error)){echo $text_nomPathologie;}?>" /><br><br>
-									<input type="text" class="" name="text_indicationPathologie" pattern="[a-zA-Z]{0-30}" title="Caractère alphabetique, 30 caractères maximum"       placeholder="Entrer les indactions :" value="<?php if(isset($error)){echo $text_indicationPathologie;}?>" /><br><br>
-		 
-									</p>
-							</fieldset>
-							<fieldset>
-								<legend> Intervention demandée </legend> <!-- Titre du fieldset --> 
-									<p>
-										<!-- Affichage formulaire : moteur recherche-->
-										<input list="text_idIntervention" name="text_idIntervention" size='35'> 
-										<datalist id="text_idIntervention" >
-<?php 
-											$req_serviceacte = $auth_user->runQuery("SELECT idIntervention, acte, ServicesnomService FROM Interventions"); // permet de rechercher le nom d utilisateur 
-											$req_serviceacte->execute(); // la meme 
-											while ($row_serviceacte = $req_serviceacte->fetch(PDO::FETCH_ASSOC))
-											{
-												echo "<option label='".$row_serviceacte['acte']." ".$row_serviceacte['ServicesnomService']."' 
-												value='"."(".$row_serviceacte['idIntervention'].")"."  ".$row_serviceacte['acte']." -- ".$row_serviceacte['ServicesnomService']."'>".$row_serviceacte['acte']." ".$row_serviceacte['ServicesnomService']."</option>";
- 
-											}
-?>
-										</datalist>
-										</br >
-		
-										<label   class="form-control" > Niveau d'urgence :&nbsp;&nbsp;      
-											<input type="radio"  name="text_urgence" value="0" checked="checked"/>0
-											<input type="radio"  name="text_urgence" value="1"/>1
-											<input type="radio"  name="text_urgence" value="2" />2
-											<input type="radio"  name="text_urgence" value="3" />3
-										</label><br><br>		
-										<input type="text" class="" name="text_indicationIntervention" pattern="[a-zA-Z]{0-30}" title="Caractère alphabetique, 30 caractères maximum"       placeholder="Entrer les indactions :" value="<?php if(isset($error)){echo $text_indicationIntervention;}?>" /><br>								
-									</p>
-							</fieldset>
-							<fieldset>
-								<legend> Commentaires </legend> <!-- Titre du fieldset --> 
-									<p>
-										<textarea type="text" class="" name="text_commentaires"   value="<?php if(isset($error)){echo $text_commentaires;}?>" ></textarea><br>
-									</p>
-								
-							</fieldset>
-							
-							
-							
-							
-							<!-- bouton validé -->
-					</div>
-					<div class="clearfix"></div><hr />
-					<div class="form-group">
-						<button type="submit" class="btn btn-primary" name="btn_demandeRDV">
-							<i class=""></i>Valider
-						</button>
-					<?php quitter1() ?>	
-					</div>
-				</form>
-	
-<?php
+			include ('../Formulaires/DemandeRDV.php');; // recherche patient existe pas (redirection fiche patient)
+			
 		}
-		
 	?>
 
  
- 
- 
+
  
  
    
