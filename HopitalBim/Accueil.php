@@ -35,11 +35,19 @@ if(isset($_POST['btn-login']))
     </head>
     
     <body>
-    <div id="entete">  <!-- Motif à mettre sur chaque page--> 
-    Planning Hopital Bim
-    </div>
+    <div id="container">
+        <img name="logo" src="Images/logo.png" alt="Logo hopital">
 
-    <div class="accroche"> Pour gérer votre planning en un clin d'oeil </div>
+        <div id="containerTitre">
+            <div id="entete">  <!-- Motif à mettre sur chaque page-->
+            Planning Hopital Bim
+            </div>
+
+            <div class="accroche"> 
+            Pour gérer votre planning en un clin d'oeil 
+            </div>
+        </div> <!-- containerTitre -->
+    </div> <!-- container -->
 
     <div id="menu"> <!-- Menu à mettre sur chaque page -->
     </br>

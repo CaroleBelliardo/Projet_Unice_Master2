@@ -9,27 +9,39 @@ body {                        /* Tout le code html */
     text-align: justify;
 }
 
-#page {
-    min-height: 100%;
-    position: relative;
+#container{
+}
+
+#containerTitre{
+  width:50%;
+  margin:auto;
+}
+
+body img[name="logo"]{
+  position:absolute;
+  margin-left:10%;
+  margin-top: 7px;
+  height: 12%;
+  max-width:25%;
+  float:left;
 }
 
 #entete { 
     font-family: 'Lobster', cursive;
-    margin: 0 0 0 0 ;
-    padding: 10px 10px 0px 10px;  
+    padding: 10px 0;  /* top right bottom left */
     text-align: center;
     font-size: 40px;
     text-shadow: 2px 2px 5px black;
     color : white;
+    position:relative;
 }
 
 .accroche{
-    text-align: center;
     font-size: 20px;
     color:white;
-    padding: 0 0 10px 0;
+    text-align: center;
     font-family: "Josefin Slab", serif, Courier New, Verdana;
+    position: relative;
 }
 
 #menu{
@@ -119,7 +131,7 @@ form header {
 }
 
 #footer {
-  clear:both;
+    clear: both;
     border-top: 1px solid #87CEFA;
     bottom:0;
     left:0;
@@ -171,7 +183,7 @@ form header {
 }
 
 .navbar a:hover, .dropdown:hover .dropbtn {
-    background-color: #e6e6e6; /* ici */
+    background-color: #e6e6e6; 
     color:black;
     border-radius: 0;
 }
