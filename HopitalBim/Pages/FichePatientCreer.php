@@ -14,7 +14,7 @@ if(isset($_POST['btn-signup']))
 	$text_pays = ucfirst(trim($_POST['text_pays'], ' '))	;
 	
 	$text_ville = ucfirst(trim($_POST['text_ville'], ' '))	;
-	$text_codepostal = trim($_POST['text_codepostal']);	
+	$text_codepostal = trim($_POST['text_codepostal'], ' ');	
 	
 	$text_numero = trim($_POST['text_numero'], ' ' );	
 	$text_rue = ucfirst(trim($_POST['text_rue'], ' '))	;
