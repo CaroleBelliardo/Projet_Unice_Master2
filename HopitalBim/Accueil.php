@@ -31,60 +31,51 @@ if(isset($_POST['btn-login']))
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <link rel="stylesheet" href="Config/style.css">
     <link href="https://fonts.googleapis.com/css?family=Josefin+Slab:600" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
     </head>
     
     <body>
     <div id="entete">  <!-- Motif à mettre sur chaque page--> 
-    Web Planning
+    Planning Hopital Bim
     </div>
 
     <div class="accroche"> Pour gérer votre planning en un clin d'oeil </div>
 
-    <div id="menu"> <!-- Menu à mettre sur chaqye page -->
-    Patient Planning Services Compte_Utilisateur Vérification ///// Se_déconnecter
+    <div id="menu"> <!-- Menu à mettre sur chaque page -->
+    </br>
     </div> 
-    
-    <img src="Images/lenval2.jpg" alt="Hopital lenval Nice vue côté mer">
 
-    <form method="post" id="login-form"> 
-
-        <fieldset> 
-        <legend> <h2> Authentification </h2> </legend>
-
-        <div class="Authentification"> 
+   <div id="login">
+      <form method="post" id="login-form">
+        <header> S'authentifier <hr></header>
 
             <div id="error">
             <?php
-			 if(isset($error))
-			 {
-				?>
-                <div class="alert alert-danger">
-                    <?php echo $error; ?> !
-                </div>
-                <?php
-			 }
-		      ?>
+                if(isset($error))
+                    {
+                        ?>
+                            <div class="alert alert-danger">
+                            <?php echo $error; ?> !
+                            </div>
+                        <?php
+                     }
+            ?>
             </div>
         
-        <div class="formuAccueil">
-            <input type="text" class="form-control" name="txt_uname" placeholder="Nom d'utilisateur :" required />
-        </div>
+        <span> <img src="Images/User.png" alt="User logo" height="60%" width="60%"> </span>
+          <input type="text" id="user" name="txt_uname" placeholder="Nom d'utilisateur" required >
+       
+        <span> <img src="Images/cadenas.png" alt="User logo" height="60%" width="60%"></span>
+          <input type="password" id="password" name="txt_password" placeholder="Mot de passe">
         
-        <div class="formuAccueil">
-            <input type="password" class="form-control" name="txt_password" placeholder="Mot de passe :" />
-        </div>
-        
-        </br>
+        <button type="submit" name="btn-login" class="btn btn-default" value="Login"> Valider</button>
 
-        <div class="bouton">
-            <button type="submit" name="btn-login" class="btn btn-default"> Valider </button>
-        </div>
+        </form>
+    </div>
 
-        </div> <!-- Authentification -->
-
-        </fieldset>
-
-    </form>
+    <div id="footer">
+    Conditions d'utilisation | Contact | © 2017
+    </div>
 
     </body>
 </html>
