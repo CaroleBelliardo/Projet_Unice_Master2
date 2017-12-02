@@ -78,7 +78,7 @@
 			<div class="dropdown-content">
 			  <a href="<?php echo $LienSite ?>Pages/CompteUtilCreer.php">Création</a>
 			  <a href="<?php echo $LienSite ?>Pages/CompteUtilModifier.php">Modification</a>
-			  <a href="<?php echo $LienSite ?>Pages/CompteUtilSupprimer.php">Suppresion</a>
+			  <a href="<?php echo $LienSite ?>Pages/CompteUtilSupprimer.php">Suppression</a>
 			</div>
 		</div>
 
@@ -89,7 +89,6 @@
 			  <a href="<?php echo $LienSite ?>Pages/VerificationNotification.php">Notifications</a>
 			</div>
 		</div>
-
 
 		<a name="Déco" href="<?php echo $LienSite ?>logout.php?logout=true"><img name="logout" src="Images/logout.png" alt="Logout logo" > Déconnexion</a>
 
