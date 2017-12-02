@@ -93,7 +93,6 @@
 </head>
 
 <body>
-<p class="h4">Session : <?php print($userRow['idEmploye']); ?></p> 
 <p class="" style="margin-top:5px;">
 
 <div class="signin-form">
@@ -127,7 +126,7 @@
 			<div class="form-group" >
 			
 			<fieldset>
-			<legend> Localisation </legend> <!-- Titre du fieldset --> 
+			<legend> Service </legend> <!-- Titre du fieldset --> 
 			<p>
 				<input type="text" class="form-control" name="text_nomService" pattern="[A-Za-z]{1-20}" title="Majuscule en première lettre"        placeholder="Nom du service :" value="<?php if(isset($error)){echo $text_nomService;}?>" /><br><br>
 				<input type="tel" class="form-control" name="text_telephone" pattern="[0-9]{1-15}" title="Veuillez rentrer un n° de téléphone correct"    placeholder="N° téléphone :" value="<?php if(isset($error)){echo $text_telephone;}?>" /><br><br>
