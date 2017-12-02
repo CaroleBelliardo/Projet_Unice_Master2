@@ -19,6 +19,11 @@ if(isset($_POST['btn-supprimerService']))
 		
 		try 
 		{
+			$archiverService = $auth_user->runQuery("INSERT INTO ServicesArchive 
+														SELECT *   
+														FROM Services
+														WHERE nomService=:nomService");
+			$archiverService->execute(array('nomService'=>$text_nomService));
 			$supprimerService = $auth_user->conn->prepare("DELETE FROM Services WHERE 
 													nomService=:nomService");
 			$supprimerService->execute(array('nomService'=>$text_nomService));
@@ -73,11 +78,15 @@ if(isset($_POST['btn-supprimerService']))
 			?>
 			
             <div class="form-group" >
+			<fieldset>
+			<legend> Service </legend> <!-- Titre du fieldset --> 
+			<p>
 			Suppression du service : <?php liste_Services($auth_user) ?>		
 			</br >
 			</div>
 			
-			
+			</p>
+			</fieldset>
             <div class="clearfix"></div><hr />
             <div class="form-group">
             	<button type="submit" class="btn btn-primary" name="btn-supprimerService">
