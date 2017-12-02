@@ -51,7 +51,7 @@ if(isset($_POST['btn-signup']))
 		$error[] = "Veuillez respecter le format jj/mm/aaaa !"; }
 	else if((preg_match('/[0-9]+/',$text_numero) == 0)or ($text_numero=="") )	{
 		$error[] = "Veuillez entrer un numéro de rue !"; }
-	else if((preg_match('/[0-9]+/',$text_rue) == 1)or ($text_rue=="") )	{
+	else if($text_rue=="" )	{
 		$error[] = "Il faut entrer un nom de rue valide !"; }
 	else if(strlen($text_codepostal) > 5)	{
 		$error[] = "Il faut entrer un code postal valide !"; }
