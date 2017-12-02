@@ -38,7 +38,7 @@ if(isset($_POST['btn-signup']))
 		$stmt = $auth_user->runQuery("SELECT idEmploye FROM CompteUtilisateurs WHERE idEmploye=:UtilisateurNom");
 		$stmt->execute(array(':UtilisateurNom'=>$UtilisateurNom));
 		$row=$stmt->fetch(PDO::FETCH_ASSOC);
-		if ($row['idEmploye']==$UtilisateurNom) {$error[] = "Nom d'utilisateur deja pris"; }
+		if ($row['idEmploye']==$UtilisateurNom) {$error[] = "Nom d'utilisateur existant déjà"; }
 		else 
 		{
 			//Ajout des informations dans la base de donnée :
