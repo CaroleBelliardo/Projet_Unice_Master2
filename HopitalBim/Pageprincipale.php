@@ -33,12 +33,6 @@
 	</head>
 
 	<body>
-	<div id="page">
-
-	<div id="entete">  <!-- Motif à mettre sur chaque page--> 
-    Planning Hopital Bim
-    </div>
-
 	<div id="container"> <!-- Motif à mettre sur chaque page-->
         <img name="logo" src="Images/logo.png" alt="Logo hopital">
 
@@ -119,6 +113,5 @@
     <a href="<?php echo $LienSite ?>Pages/contact.php"> Contact </a> | © 2017
     </div>
 
-    </div> <!-- Page -->
 	</body>
 </html>

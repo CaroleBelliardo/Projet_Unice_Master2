@@ -9,9 +9,6 @@ body {                        /* Tout le code html */
     text-align: justify;
 }
 
-#container{
-}
-
 #containerTitre{
   width:50%;
   margin:auto;
@@ -181,7 +178,7 @@ form header {
 
 .navbar a[name="Déco"]{
   display: block;
-  padding: 3px 0 0 5px;
+  padding: 3px 10px 0 10px; /* top right bottom left */
   float:right;
   max-width: 100px;
   line-height: 15px;
@@ -204,7 +201,9 @@ form header {
 }
 
 .navbar a:hover, .dropdown:hover .dropbtn {
-    background-color: red;
+    background-color: #e6e6e6;
+    border-radius: 0;
+    color:black;
 }
 
 .dropdown-content {
