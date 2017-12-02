@@ -77,16 +77,21 @@ if(isset($_POST['btn-signup']))
 			?>
 			
             <div class="form-group" >
-			Recherche d'un utilisateur :
-			<input list="text_utilisateur" name="text_utilisateur" size='35'> 
-			<datalist id="text_utilisateur" >
-            <?php 
-			$stmt = $auth_user->runQuery("SELECT * FROM Employes"); // permet de rechercher le nom d utilisateur 
-			$stmt->execute(); // la meme 
-			while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
-			echo "<option value='".$row['CompteUtilisateursidEmploye']."'>".$row['CompteUtilisateursidEmploye']." ".$row['nom']." ".$row['prenom']." ".$row['ServicesnomService']."</option>";
-			}?></datalist>
+			<fieldset>
+			<legend> Compte utilisateur </legend> <!-- Titre du fieldset --> 
+			<p>
+				Recherche d'un utilisateur :
+				<input list="text_utilisateur" name="text_utilisateur" size='35'> 
+				<datalist id="text_utilisateur" >
+				<?php 
+				$stmt = $auth_user->runQuery("SELECT * FROM Employes"); // permet de rechercher le nom d utilisateur 
+				$stmt->execute(); // la meme 
+				while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+				echo "<option value='".$row['CompteUtilisateursidEmploye']."'>".$row['CompteUtilisateursidEmploye']." ".$row['nom']." ".$row['prenom']." ".$row['ServicesnomService']."</option>";
+				}?></datalist>
 			
+			</p>
+			</fieldset>		
 			</br >
 			</div>
 			
