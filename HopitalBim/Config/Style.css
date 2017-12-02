@@ -214,7 +214,6 @@ form header {
     background-color: #e6e6e6;
     border-radius: 0;
     color:black;
-    z-index: 3;
 }
 
 .dropdown-content {
@@ -287,7 +286,7 @@ form header {
   margin-left: -50px;
   box-shadow: 0 0 0.5rem black; 
   position:absolute;
-  z-index: 2;
+  z-index: 1; /*2*/
 }
 
 .profile .photo img {
@@ -302,7 +301,7 @@ form header {
   height: 100%;
   top: -5px;
   left: 20px;
-  z-index: 1;
+  z-index: 0; /*1*/
 }
 
 .profile .content::before {   /* fond de biais */
