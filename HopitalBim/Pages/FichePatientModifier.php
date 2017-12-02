@@ -1,14 +1,39 @@
 <?php
 	include ('../Config/Menupage.php');
-	
-		
-	if(isset($_POST['btn-selectionService']))
+	//REQUETE
+	$lien= 'FichePatientModifier.php';
+
+	if(isset($_POST['btn-modifier']))
 	{	 
-		$text_numSS=$_POST['text_numSS'];
-		echo $text_numSS ;
-		 
+		
+		$text_departement = trim($_POST['text_departement'], ' ' );	
+		$text_pays = ucfirst(trim($_POST['text_pays'], ' '))	;
+		
+		$text_ville = ucfirst(trim($_POST['text_ville'], ' '))	;
+		$text_codepostal = trim($_POST['text_codepostal'], ' ');	
+		
+		$text_numero = trim($_POST['text_numero'], ' ' );	
+		$text_rue = ucfirst(trim($_POST['text_rue'], ' '))	;
+
+		$text_numSS = trim($_POST['text_numSS'], ' ' );	
+		$text_nom =  ucfirst(trim($_POST['text_nom'], ' '))	;
+		$text_prenom = ucfirst(trim($_POST['text_prenom'], ' '))	;
+		$text_dateNaissance = strip_tags($_POST['text_dateNaissance']);	
+			
+		$text_telephone = trim($_POST['text_telephone'], ' ' );
+		$text_mail = strip_tags($_POST['text_mail']);	
+		$text_sexe = strip_tags($_POST['text_sexe']);	
+		$text_taille = preg_replace("/[^0-9]/", "",trim($_POST['text_taille'], ' '));	
+		$text_poids = preg_replace("/[^0-9]/", "",trim($_POST['text_poids'], ' '));	
+		$text_commentaires = strip_tags($_POST['text_commentaires']);	
+
+		
+		
+		
+		
 		// ici je pense faire un include de $dep a $adresse tout foutre dans un seul et meme document car c est chiant a regarder 
-			 // Gestion des erreurs : 
+			 // Gestion des erreurs :
+/*			 
 		if ($text_utilisateur==""){$error[] = "Il faut un selectionner un utilisateur !"; }
 		else if($text_utilisateur=="admin00")	{$error[] = "Impossible de supprimer l'Admin"; }
 		else 
@@ -28,102 +53,37 @@
 			}	
 			
 		}
+		*/
 	}
 ?>	
 
 <!DOCTYPE html PUBLIC >
 <html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-
-<title>Bonjour</title>
-</head>
-
-<body>
-    <p class="" style="margin-top:5px;">
-<div class="signin-form">
-
-<form method="post" class="form-signin">
-Rechercher un patient :
-			<input list="text_numSS" name="text_numSS" size='35'> 
-			<datalist id="text_numSS" >
-            <?php 
-			$stmt = $auth_user->runQuery("SELECT numSS, nom, prenom FROM Patients"); // permet de rechercher le nom d utilisateur 
-			$stmt->execute(); // la meme 
-			while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
-			echo "<option value='".$row['numSS']."'>".$row['numSS']." ".$row['nom']." ".$row['prenom']."</option>";
-			}?></datalist>
-</form >
-
-            	<button type="submit" class="btn btn-primary" name="btn-signup">
-                	<i class=""></i>Valider
-                </button>
-
-
-<div class="container">
-    	
-        <form method="post" class="form-signin">
-            <h2 class="form-signin-heading">Enregistrer une fiche patient</h2><hr />
-            <?php
-			if(isset($error))
+	<head>
+		<link rel="stylesheet" href=Style.css">
+		<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+		<title>Modifier fiche patient</title>
+	</head>
+	<body>
+		<?php // affichage
+			If (!array_key_exists("patient",$_SESSION )) 
 			{
-			 	foreach($error as $error)
-			 	{
-					 ?>
-                     <div class="alert alert-danger">
-                        <i class=""></i> &nbsp; <?php echo $error; ?>
-                     </div>
-                     <?php
-				}
+				include ('../Formulaires/RecherchePatient.php');; // recherche patient existe pas (redirection fiche patient)
 			}
-			else if(isset($_GET['Valide']))
+			else
 			{
-				 ?>
-                 <div class="alert alert-info">
-                      <i class=""></i>Patient enregistré avec succes<a href='../Pageprincipale.php'>Page principale</a>
-                 </div>
-                 <?php
+				$req_patient = $auth_user->runQuery("SELECT * 
+										FROM Patients Join Adresses JOIN Villes
+										WHERE Patients.AdressesidAdresse = Adresses.idAdresse
+										AND Adresses.idAdresse = Villes.idVilles
+										AND Patients.numSS = :numSS");
+	
+				$req_patient->execute(array("numSS"=>$_SESSION['patient']));
+				$patientInfo=$req_patient -> fetch(PDO::FETCH_ASSOC);
+				include ('../Formulaires/FichePatientModifier.php');; // recherche patient existe pas (redirection fiche patient)
+				
 			}
-			?>
-			
-			
-            <div class="form-group" >
-            <input type="text" class="" name="text_numSS" pattern="[0-9]{15}" title="Caractère numérique, 15 caractères acceptés"        placeholder="Numero Securité Sociale :" value="<?php if(isset($error)){echo $text_numSS;}?>" /><br>
-            <input type="text" class="" name="text_nom" pattern="[A-Za-z]{1-25}" title="Caractère alphabetique, 25 caractères maximum"     placeholder="Nom :" value="<?php if(isset($error)){echo $text_nom;}?>" /><br>
-            <input type="text" class="" name="text_prenom" pattern="[A-Za-z]{1-25}" title="Caractère alphabetique, 25 caractères maximum"  placeholder="Prénom :" value="<?php if(isset($error)){echo $text_prenom;}?>" /><br>
-            <input type="date" class="" name="text_dateNaissance" placeholder="" value="<?php if(isset($error)){echo $text_dateNaissance;}?>" /><br>
-            <input type="text" class="" name="text_telephone" pattern="[0-9]{0-15}" title="Caractère numérique, 15 caractères acceptés"    placeholder="Numero de telephone :" value="<?php if(isset($error)){echo $text_telephone;}?>" /><br>
-            <input type="text" class="" name="text_mail" placeholder="Mail :" value="<?php if(isset($error)){echo $text_mail;}?>" /><br>
-			
-			<label   class="form-control" > Sexe :&nbsp;&nbsp;      
-			<input type="radio"  name="text_sexe" value="M" checked="checked"  style="display: inline; !important;"/>Masculin&nbsp;&nbsp;&nbsp;&nbsp;
-			<input type="radio"  name="text_sexe" value="F" style="display: inline;!important;" />Feminin
-			</label><br>			
-            <input type="text" class="" name="text_taille" pattern="[0-9]{0-3}" title="Caractère numérique, 15 caractères acceptés"        placeholder="Taille en cm :" value="<?php if(isset($error)){echo $text_taille;}?>" /><br>
-            <input type="text" class="" name="text_poids"  pattern="[0-9]{0-3}" title="Caractère numérique, 15 caractères acceptés"        placeholder="Poids en kg :" value="<?php if(isset($error)){echo $text_poids;}?>" /><br>
-            <input type="text" class="" name="text_commentaires" placeholder="Entrer commentaires :" value="<?php if(isset($error)){echo $text_commentaires;}?>" /><br>
-            <input type="text" class="" name="text_numero" pattern="[0-9]{1-6}" title="Caractère numérique, 6 caractères acceptés"         placeholder="Entrer numero de la rue :" value="<?php if(isset($error)){echo $text_numero;}?>" /><br>
-            <input type="text" class="" name="text_rue"    pattern="[A-Za-z]{1-100}" title="Caractère alphabetique, 100 caractères maximum" placeholder="Entrer le nom de la rue :" value="<?php if(isset($error)){echo $text_rue;}?>" /><br>
-			<input type="text" class="" name="text_ville"  pattern="[A-Za-z]{1-150}" title="Caractère alphabetique, 150 caractères maximum" placeholder="Entrer le nom de la ville :" value="<?php if(isset($error)){echo $text_ville;}?>" /><br>
-            <input type="text" class="" name="text_codepostal" pattern="[0-9]{5}" title="Caractère numérique, 5 caractères maximum"       placeholder="Entrer le code postal :" value="<?php if(isset($error)){echo $text_codepostal;}?>" /><br>
-            <input type="text" class="" name="text_departement" pattern="[0-9]{2}" title="Caractère numérique, 5 caractères maximum"      placeholder="Entrer le departement :" value="<?php if(isset($error)){echo $text_departement;}?>" /><br>
-			<input type="text" class="" name="text_pays"   pattern="[A-Za-z]{1-25}" title="Caractère alphabetique, 25 caractères maximum" placeholder="Entrer le pays :" value="<?php if(isset($error)){echo $text_pays;}?>" /><br>
-
-			</div>
-            <div class="clearfix"></div><hr />
-            <div class="form-group">
-            	<button type="submit" class="btn btn-primary" name="selectionService">
-                	<i class=""></i>Valider
-                </button>
-            </div>
-        </form>
-       </div>
-</div>
-
-</div>
-<?php quitter1() ?>	
-
-</body>
-
+		?>
+	</body>
 
 </html>

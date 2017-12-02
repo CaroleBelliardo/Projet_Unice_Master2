@@ -33,12 +33,7 @@
 	</head>
 
 	<body>
-	<div id="page">
-
-	<div id="entete">  <!-- Motif à mettre sur chaque page--> 
-    Planning Hopital Bim
-    </div>
-
+	<div class="Page">
 	<div id="container"> <!-- Motif à mettre sur chaque page-->
         <img name="logo" src="Images/logo.png" alt="Logo hopital">
 
@@ -83,7 +78,7 @@
 			<div class="dropdown-content">
 			  <a href="<?php echo $LienSite ?>Pages/CompteUtilCreer.php">Création</a>
 			  <a href="<?php echo $LienSite ?>Pages/CompteUtilModifier.php">Modification</a>
-			  <a href="<?php echo $LienSite ?>Pages/CompteUtilSupprimer.php">Suppresion</a>
+			  <a href="<?php echo $LienSite ?>Pages/CompteUtilSupprimer.php">Suppression</a>
 			</div>
 		</div>
 
@@ -95,30 +90,37 @@
 			</div>
 		</div>
 
-
-		<a name="Déco" href="<?php echo $LienSite ?>logout.php?logout=true"><img src="Images/logout2.png" alt="Logout logo" height="30%" width="30%"> Déconnexion</a>
+		<a name="Déco" href="<?php echo $LienSite ?>logout.php?logout=true"><img name="logout" src="Images/logout.png" alt="Logout logo" > Déconnexion</a>
 
 	</div>
 
 	<div id=PagePrincipale>
-		<p class="Bienvenue">Bienvenue sur votre espace personnel ! </p> 
+		<p class="Bienvenue">Bienvenue sur votre espace personnel ! </p>
 
-		<p class="user">  
-			<?php  echo($a_utilisateur[0]." ".$a_utilisateur[1]." <br> Service ".$a_utilisateur[2]); ?>
-		</p> <!--affichage nom prenom service user-->
+    	<div class="profile">
+  			<div class="photo">
+  			<img src="Images/User.png" alt="Image utilisateur"/>
+  			</div>
 
-    	<p class="infoUser">
-    	ICI les conneries regardant le gars connecté.
-    	</p>
+			<div class="content">
+    			<div class="text">
+      			<h3> <?php  echo($a_utilisateur[0]." ".$a_utilisateur[1]); ?> </h3>
+      			<h6> Service : <?php echo($a_utilisateur[2]); ?> </h6>
+    			</div>
+  			</div>
+		</div>
 
-    	<img src="Images/stetho.png" alt="Image stethoscope bleu" height="30%" width="30%">
+		<p class="infoUser"> ICI les conneries regardant le gars connecté.</p>
+
+    	<img name="stetho" src="Images/stetho.png" alt="Image stethoscope bleu" height="30%" width="30%">
      </div>
 
-     <div id="footer"> <!-- Faire les liens vers les documents  -->
+    </div> <!-- Page -->
+
+    <div id="footer"> <!-- Faire les liens vers les documents  -->
     <a href="<?php echo $LienSite ?>Pages/readme.php"> Conditions d'utilisation </a> |
     <a href="<?php echo $LienSite ?>Pages/contact.php"> Contact </a> | © 2017
     </div>
 
-    </div> <!-- Page -->
 	</body>
 </html>

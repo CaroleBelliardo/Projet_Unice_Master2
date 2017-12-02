@@ -42,26 +42,26 @@ if(isset($_POST['btn-signup']))
 	 // pas besoin car s auto incremente : $text_idAdresse = strip_tags($_POST['text_idAdresse']);	
 	//  pour la gestion des erreurs plus bas aussi ajouter un include et tout foutre dans un autre dossier
 	if($text_numSS==""  or (is_numeric($text_numSS)==FALSE ) or (strlen($text_numSS) < 15 ) or (strlen($text_numSS) > 15 ))	{
-		$error[] = "Il faut ajouter un numéro de sécurité sociale valide"; }
+		$error[] = "Vérifiez que le numéro de sécurité sociale est correct"; }
 	else if((preg_match('/[0-9]+/',$text_nom) == 1)or ($text_nom=="")) {// string only contain the a to z , A to Z,
-		$error[] = "Entrer un nom valide !";}
+		$error[] = "Veuillez entrer un nom uniquement composé de lettres !";}
 	else if((preg_match('/[0-9]+/',$text_prenom) == 1)or ($text_prenom=="")) {// string only contain the a to z , A to Z,
-		$error[] = "Entrer un prenom valide !";}
+		$error[] = "Veuillez entrer un prénom uniquement composé de lettres !";}
 	else if(($_POST['text_dateNaissance'])=="")	{
-		$error[] = "Il faut entrer une date de naissance valide !"; }
+		$error[] = "Veuillez respecter le format jj/mm/aaaa !"; }
 	else if((preg_match('/[0-9]+/',$text_numero) == 0)or ($text_numero=="") )	{
-		$error[] = "Il faut entrer un numero de rue valide !"; }
-	else if((preg_match('/[0-9]+/',$text_rue) == 1)or ($text_rue=="") )	{
+		$error[] = "Veuillez entrer un numéro de rue !"; }
+	else if($text_rue=="" )	{
 		$error[] = "Il faut entrer un nom de rue valide !"; }
 	else if(strlen($text_codepostal) > 5)	{
 		$error[] = "Il faut entrer un code postal valide !"; }
 	else if(strlen($text_departement) > 3) 	{
-		$error[] = "Il faut entrer un departement valide !"; }
+		$error[] = "Veuillez entrer un numéro de département de maximum 3 caractères alphanumériques (entrez 99 si le patient réside à l'étranger) !"; }
 	else if ((preg_match('/[0-9]+/',$text_pays) == 1)or ($text_pays=="") or (strlen($text_pays) > 25))	{
-		$error[] = "Il faut entrer un pays valide!"; }
+		$error[] = "Veuillez entrer un pays (caractères numériques non acceptés)!"; }
 	// TEST SI NUMSS deja present
 	else if ($row['numSS']==$text_numSS ) {
-		$error[] = "Le patient est deja présent dans la base de donnée</br> Pour le modifier : <a href =# >ici</a>"; }   
+		$error[] = "Le patient est déjà présent dans la base de donnée</br> Pour le modifier : <a href =# >ici</a>"; }   
 	else
 	{
 		try

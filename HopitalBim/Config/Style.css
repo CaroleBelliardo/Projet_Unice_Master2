@@ -1,6 +1,10 @@
+/*              */
 /* PAGE ACCUEIL */
+/*      ET      */
+/* ENTETE PAGES */
+/*              */
 
-body {                        /* Tout le code html */ 
+body {                        
     background-image: url(../Images/background1.jpg);
     font-family: "Josefin Slab", serif, Courier New, Verdana;
     color: black; 
@@ -9,7 +13,8 @@ body {                        /* Tout le code html */
     text-align: justify;
 }
 
-#container{
+.Page {
+  min-height: calc(100vh - 51px);
 }
 
 #containerTitre{
@@ -28,7 +33,7 @@ body img[name="logo"]{
 
 #entete { 
     font-family: 'Lobster', cursive;
-    padding: 10px 0;  /* top right bottom left */
+    padding: 10px 0;                    /* top right bottom left */
     text-align: center;
     font-size: 40px;
     text-shadow: 2px 2px 5px black;
@@ -59,16 +64,12 @@ input {
     padding: 0; 
 }
 
-after{
-    clear: both;
-}
-
 form header {
   font-family: "Josefin Slab", serif, Courier New, Verdana;
-  background-color: #262626;
+  background-color: #17202A;
   padding: 5px 10px;
   color: white;
-  font-size: 1.2em;
+  font-size: 1.2em;             /* taille relative */
   border-radius: 5px 5px 0 0;
   margin-bottom: 5px;
   text-align: center;
@@ -84,7 +85,7 @@ form header {
   padding: 22px 22px 22px 22px;
   width: 100%;
   border-radius: 5px;
-  background-color: #262626;
+  background-color: #17202A; /*17202A, 262626*/
   border-top: 3px solid white;
   border-bottom: 3px solid white;
 }
@@ -135,16 +136,16 @@ form header {
 }
 
 #footer {
-    margin : 15px;
+    margin : 0px;
     border-top: 1px solid #87CEFA;
-    bottom:0;
+  /*  bottom: 0; */
     left:0;
     right:0;
-    position: fixed; /*absolute*/
     color: white;
     text-align: center;
-    height: 40px;
-    padding-top: 10px;
+    height: 35px;
+    padding-top: 15px;
+    background-color: #17202A;
 }
 
 #footer a:link {
@@ -155,21 +156,21 @@ form header {
     color: #87CEFA;
 }
 
+/*                     */
 /* --- MENU PAGES ---  */
-.navbar {                             /* Div barre de navigation */
+/*                     */ 
+
+.navbar {                             /* barre de navigation */
     margin-top: 8px;
     overflow: hidden;                 /* visible | hidden */
-    /*background-color: #262626; */
     background: -webkit-linear-gradient(#5D6D7E, #17202A);
     background:    -moz-linear-gradient(#5D6D7E, #17202A);
     font-family: "Josefin Slab", serif;
     box-shadow: 0 1px 3px rgba(0, 0, 0, .3),
-                0 3px 5px rgba(0, 0, 0, .2),
-                0 5px 10px rgba(0, 0, 0, .2),
-                0 20px 20px rgba(0, 0, 0, .15);
+                0 3px 5px rgba(0, 0, 0, .2);
 }
 
-.navbar a {                 /* Pr Rdv, Planning : ceux qui n'ont pas de ss classes */
+.navbar a {                 /* Pr Rdv, Planning */
     float: left;
     font-size: 18px;
     color: white;
@@ -179,12 +180,18 @@ form header {
     border-right: 1px solid #5D6D7E;
 }
 
-.navbar a[name="Déco"]{
-  display: block;
-  padding: 3px 0 0 5px;
-  float:right;
-  max-width: 100px;
-  line-height: 15px;
+.navbar a[name="Déco"]{   /* Pour le bouton Déconnexion */
+  float: right;
+  position : relative;
+  margin : auto;
+}
+
+.navbar a[name="Déco"] img[name="logout"]{
+  height: 50%;
+  width: 25%;
+  position : absolute;
+  float: left;
+  margin-left: -35px;
 }
 
 .dropdown {                 /* Pr les 4 Div coulissants : Patient, Services, Compte User, Vérif */
@@ -204,7 +211,9 @@ form header {
 }
 
 .navbar a:hover, .dropdown:hover .dropbtn {
-    background-color: red;
+    background-color: #e6e6e6;
+    border-radius: 0;
+    color:black;
 }
 
 .dropdown-content {
@@ -233,25 +242,106 @@ form header {
     display: block;
 }
 
-/* Page Principale -- Bienvenue -- */        /*FINIR*/
+/*                                 */
+/* Page Principale -- Bienvenue -- */
+/*                                 */        
 
 #PagePrincipale{
   margin-top: 15px;
   margin-left: 15px;
   margin-right: 15px;
   padding : 15px;
-  /*background-color: #e6e6e6;*/
-  border-radius: 10px;
+  width: 95%;
 }
 
 #PagePrincipale p.Bienvenue{
+  color : #B3B6B7;
   font-size: 30px; 
+  text-decoration : underline ;
+  text-decoration-color: #B3B6B7;
 }
 
-#PagePrincipale p.user{
-  background-color: green;
+.profile{               /* Boite profile */
+  width: 50%;           /* Largeur */ /* 330 px */
+  height: 100px;
+  position: relative;
+  padding-left: 10px;
+  margin-left: 0px;
+  border-radius: 5px;
+  background-color: #fafafa; 
+  overflow: hidden;
+}
+
+.profile .photo, .profile .content {
+  box-sizing: border-box;     /* Pour que content et photo ne dépassent pas de .profile */
+}
+
+.profile .photo {   /* Cercle photo user */
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 4px solid #fafafa; 
+  background-color: #fafafa;
+  margin-left: -50px;
+  box-shadow: 0 0 0.5rem black; 
+  position:absolute;
+  z-index: 2;
+}
+
+.profile .photo img {
+  width: 100%;
+}
+
+.profile .content {
+  padding: 10px;
+  overflow: visible;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: -5px;
+  left: 20px;
+  z-index: 1;
+}
+
+.profile .content::before {   /* fond de biais */
+  content: "";
+  position: absolute;
+  width: 350px;
+  height: 150px;
+  background-color: #B3B6B7;        /*e9f3e6*/
+  border-right: 3px solid #87CEFA;  /*87CEFA,5D6D7E  */
+  left: 0;
+  top: -20px;
+  z-index: -1;
+  transform: rotate(-7deg);
+}
+
+.profile .content .text {
+  margin : 20px 0px 0px 50px   /* top right bottom left */
+}
+
+h3, h6 {
+  font-weight: normal;
+  margin: 3px 0;
+}
+
+h6 {
+  font-size: 15px;
 }
 
 #PagePrincipale p.infoUser{
-  background-color: pink;
+  background-color: #B3B6B7;
+  border-radius: 10px;
+  margin-top: 30px;
+  padding: 20px 20px;
 }
+
+#PagePrincipale img[name="stetho"]{
+  float:right;
+}
+
+/*                 */
+/*                 */
+/*                 */
+
