@@ -141,8 +141,8 @@ CREATE TABLE CreneauxInterventions (
 CREATE TABLE InterventionsPatho (
   PathologiesidPatho       int(8) NOT NULL AUTO_INCREMENT, # 1  
   InterventionsidIntervention int(8) NOT NULL,  
-  niveauUrgenceMax            tinyint(1),  DEFAULT '0',    # on ne rentre rien  
-  niveauUrgenceMin            tinyint(1) DEFAULT '0',     #  
+  niveauUrgenceMax            tinyint(1) DEFAULT 0,    # on ne rentre rien  
+  niveauUrgenceMin            tinyint(1) DEFAULT 0,     #  
   PRIMARY KEY (PathologiesidPatho, InterventionsidIntervention), 
   FOREIGN KEY (InterventionsidIntervention) REFERENCES Interventions (idIntervention) ON DELETE CASCADE ON UPDATE CASCADE, 
   FOREIGN KEY (PathologiesidPatho) REFERENCES Pathologies (idPatho) ON DELETE CASCADE ON UPDATE CASCADE ); 
@@ -157,9 +157,11 @@ CREATE TABLE Facturation (
 CREATE TABLE Notifications ( 
   CreneauxInterventionsidRdv int(8) NOT NULL, 
   ServicesnomService                  varchar(20) NOT NULL, # Imagerie // Maj en 1ère lettre  
+  indication                  varchar(10) , 
   PRIMARY KEY (CreneauxInterventionsidRdv), 
-  FOREIGN KEY (CreneauxInterventionsidRdv) REFERENCES CreneauxInterventions (id_rdv) ON DELETE CASCADE ON UPDATE CASCADE);
-  FOREIGN KEY (CreneauxInterventionsidRdv) REFERENCES CreneauxInterventions (id_rdv) ON DELETE CASCADE ON UPDATE CASCADE);
+  FOREIGN KEY (CreneauxInterventionsidRdv) REFERENCES CreneauxInterventions (id_rdv) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (ServicesnomService) REFERENCES Services (nomService) ON DELETE CASCADE ON UPDATE CASCADE);
+
 
 # Table regroupant les informations relatives aux patients de l hopital  
 CREATE TABLE PatientsArchive (  
