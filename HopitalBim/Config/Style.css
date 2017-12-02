@@ -214,6 +214,7 @@ form header {
     background-color: #e6e6e6;
     border-radius: 0;
     color:black;
+    z-index: 3;
 }
 
 .dropdown-content {
