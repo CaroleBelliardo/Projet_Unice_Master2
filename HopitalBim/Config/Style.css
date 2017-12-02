@@ -62,7 +62,7 @@ input {
 
 form header {
   font-family: "Josefin Slab", serif, Courier New, Verdana;
-  background-color: #262626;
+  background-color: #17202A;
   padding: 5px 10px;
   color: white;
   font-size: 1.2em;             /* taille relative */
@@ -81,7 +81,7 @@ form header {
   padding: 22px 22px 22px 22px;
   width: 100%;
   border-radius: 5px;
-  background-color: #262626;
+  background-color: #17202A; /*17202A, 262626*/
   border-top: 3px solid white;
   border-bottom: 3px solid white;
 }
