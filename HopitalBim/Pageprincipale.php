@@ -29,12 +29,15 @@
 	<head>
 	<title> Bienvenue </title> <!-- Titre de l'onglet -->
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<link rel="stylesheet" href="Config/style.css" type="text/css">
-	<link href="https://fonts.googleapis.com/css?family=Josefin+Slab:600" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
+	<link rel="stylesheet" href="Config/Style.css" type="text/css">
 	</head>
 
 	<body>
+	<div id="page">
+
+	<div id="entete">  <!-- Motif à mettre sur chaque page--> 
+    Planning Hopital Bim
+    </div>
 
 	<div id="container"> <!-- Motif à mettre sur chaque page-->
         <img name="logo" src="Images/logo.png" alt="Logo hopital">
@@ -116,5 +119,6 @@
     <a href="<?php echo $LienSite ?>Pages/contact.php"> Contact </a> | © 2017
     </div>
 
+    </div> <!-- Page -->
 	</body>
 </html>

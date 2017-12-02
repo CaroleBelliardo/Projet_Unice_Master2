@@ -16,13 +16,13 @@ include ('../Config/Menupage.php'); //menu de navigation
 include ('../Fonctions/RDVDemande.php'); // fonctions specifiques à demande RDV
 
 $lien= 'RDVDemande.php';
-
-$niveauUrgence ='0';
-$idPatho = '5'; 
-$idIntervention = '3';
-
-$var =VerificationPathologie ($auth_user,$niveauUrgence, $idPatho,$idIntervention );
-var_dump ($var);
+//
+//$niveauUrgence ='0';
+//$idPatho = '5'; 
+//$idIntervention = '3';
+//
+//$var =VerificationPathologie ($auth_user,$niveauUrgence, $idPatho,$idIntervention );
+//var_dump ($var);
 
 
 if(isset($_POST['btn_demandeRDV'])) // si utilisateur clique sur le bouton demande de rendez vous
@@ -31,7 +31,6 @@ if(isset($_POST['btn_demandeRDV'])) // si utilisateur clique sur le bouton deman
 	$patient=$_SESSION["patient"]; // recupration et traitement des informations saisies
 	$text_nomPathologie = ucfirst(trim($_POST['text_nomPathologie'], ' '));	// trim enleve les espaces en debut et fin mais pas au milieu 
 	$text_indicationPathologie= trim($_POST['text_indicationPathologie'], ' ');
-
 	$text_idIntervention = preg_replace("/[^0-9]/", "",trim($_POST['text_idIntervention'], ' '));
 	$text_niveauUrgence = trim($_POST['text_urgence'], ' ');
 	$text_commentaires = trim($_POST['text_commentaires'], ' ');
@@ -61,7 +60,7 @@ if(isset($_POST['btn_demandeRDV'])) // si utilisateur clique sur le bouton deman
 		{
 // ************************************** RECHERCHE LES VALEURS des variables NECESSAIRE  POUR ENREGISTRER LE RDV *********************************
 			
-			//recherche idPatho
+		//-- recherche idPatho
 			$req_PathoExist = $auth_user->runQuery(" SELECT idPatho 
 												   FROM Pathologies
 												   WHERE nomPathologie = :nomPatho
@@ -73,192 +72,141 @@ if(isset($_POST['btn_demandeRDV'])) // si utilisateur clique sur le bouton deman
 			$req_PathoExist->closeCursor();
 			if ($idPatho == "" ) // si patho existe pas dans bdd
 			{
-				$req_idPathoInsert = $auth_user->runQuery(" INSERT INTO Pathologies (nomPathologie, indication)
-															VALUES ( :nomPatho, :indication)");
-				$req_idPathoInsert->execute(array('nomPatho'=> $text_nomPathologie, // insert la patho et son indication
+				$req_idPathoInsert = $auth_user->runQuery(" INSERT INTO Pathologies (nomPathologie, indication) 
+															VALUES ( :nomPatho, :indication)");  // insert la patho et son indication
+				$req_idPathoInsert->execute(array('nomPatho'=> $text_nomPathologie, 
 												'indication'=> $text_indicationPathologie)); 
 				$req_idPathoInsert->closeCursor();
+				
+				
 				$req_idPathoRecup = $auth_user->runQuery(" SELECT MAX(idPatho)
-															FROM Pathologies
-													 ");
+															FROM Pathologies");  // recupere l'idPatho
 				$req_idPathoRecup->execute(array());  
 				$idPatho= $req_idPathoRecup-> fetchColumn(); // affecte l'id de ce dernier insert à la variable $PathoExist
 				$req_idPathoRecup->closeCursor();
-				$req_refUrgence = $auth_user->runQuery(" INSERT INTO InterventionsPatho (InterventionsidIntervention, PathologiesidPatho, niveauMax, niveauMin)
-															VALUES ( :idInter, :idPaho, '0','0')");
+				
+				
+				$req_refUrgence = $auth_user->runQuery(" INSERT INTO InterventionsPatho (InterventionsidIntervention, PathologiesidPatho)
+															VALUES ( :idInter, :idPatho)"); // Renseigne les valeurs de priorité = par default :0
 				$req_refUrgence->execute(array('idInter'=> $text_idIntervention,
-											   'idPaho'=> $idPatho));
+											   'idPatho'=> $idPatho));
 				$req_refUrgence->closeCursor();
 			}
-		}
-		// HEURE la plus proche
-		$a_infoDateHeure=prochainCreneauxDispo($auth_user); // 55555555555555555555555555555555555555555555555555555****
+
 		
-		if ($a_infoDateHeure["MIN(heureR)"] == NULL ) // si PAS DE RDV prevu pour ce service dans le planning, retour requete = null => affecte date & heure :mtn
-		{
-			$a_infoDateHeure["MIN(heureR)"] = ProchaineHeureArrondie();
-			$date = $a_infoDateHeure["MIN(dateR)"] = date("Y-m-d");
-		}
-
-		if ($a_infoDateHeure["statutR"] == 'a') // a verif si creneaux = ANNULE 
-		{
-			$heure=$a_infoDateHeure["MIN(heureR)"]; 
-		} 
-		else
-		{
-			$a_infoDateHeure["MIN(heureR)"]=heurePlus15($a_infoDateHeure["MIN(heureR)"],'+15 minutes');
-		}
-		Dumper($a_infoDateHeure);		
-
-	$nivUrg='0';
-
-		$a_infoDateHeureUrgence=CreneauxUrgent($auth_user,$nivUrg); // 55555555555555555555555555555555555555555555555555555****
-		Dumper($a);		
 		
-// ************************************** RECHERCHE HEURE APPROPRIEE SI niveau urgence != 0*********************************
-		If ($text_niveauUrgence !=0) // si rdv = urgent -> determine un delais pour traiter l'urgence
-		{
-			$now=ProchaineHeureArrondie(); // heure de mtn
-			switch ($text_niveauUrgence) // fixe un delais selon niveau urgence
+		// -- Recherche l'HEURE de creneau dispo la plus proche
+			$a_infoDateHeure=prochainCreneauxDispo($auth_user); // 55555555555555555555555555555555555555555555555555555****
+			
+			if ($a_infoDateHeure["MIN(heureR)"] == NULL ) // si PAS DE RDV prevu pour ce service dans le planning, retour requete = null => affecte date & heure :mtn
 			{
-				case 3:
-					$delais=heurePlus15($now,'+180 minutes'); 
-					break;//alors on insert à la suite 
-				case 2:
-					$delais=heurePlus15($now,'+360 minutes');
-					break;
-				case 1:
-					$datedelais = date('Y-m-d', strtotime('+1 day'));
-					$delais=$now;
-					break;
+				$a_infoDateHeure["MIN(heureR)"] = ProchaineHeureArrondie();
+				$date = $a_infoDateHeure["MIN(dateR)"] = date("Y-m-d");
+			}
+	
+			if ($a_infoDateHeure["statutR"] == 'a') // a verif si creneaux = ANNULE 
+			{
+				$heure=$a_infoDateHeure["MIN(heureR)"]; 
+			} 
+			else
+			{
+				$a_infoDateHeure["MIN(heureR)"]=heurePlus15($a_infoDateHeure["MIN(heureR)"],'+15 minutes');
 			}
 		
-		//	if (($date > $datedelais) and ($heure > $delais))
-		//	{
-		//		//identifier le creneau
-		//		$test = $auth_user->runQuery(" SELECT MIN(dateR), MIN(heureR), statutR, idR
-		//	FROM  (
-		//	
-		//	SELECT MAX(dateR1) as dateR, MAX(heureR1) as heureR, statutR1 as statutR, idR1 as idR
-		//	FROM  (
-		//	
-		//	(SELECT max(date_rdv) as dateR1, max(heure_rdv)  as heureR1, CreneauxInterventions.statut as statutR1, CreneauxInterventions.id_rdv as idR1       
-		//	FROM CreneauxInterventions JOIN Interventions  JOIN Services 
-		//	WHERE  CreneauxInterventions.InterventionsidIntervention = Interventions.idIntervention
-		//	AND Interventions.ServicesnomService = Services.nomService
-		//	AND date_rdv = CURDATE() 
-		//	AND heure_rdv > CURRENT_TIMESTAMP()
+		
 		//
-		//	AND InterventionsidIntervention = '4'
-		//	AND CreneauxInterventions.statut = 'p'
-		//	AND CreneauxInterventions.niveauUrgence >= '3'
-		//	AND heure_rdv > (SELECT horaire_ouverture FROM Interventions  JOIN Services WHERE idIntervention = '4' AND Interventions.ServicesnomService = Services.nomService)
-		//		) 
-		//	UNION
-		//	(SELECT  max(date_rdv) as dateR1, max(heure_rdv)  as heureR1, CreneauxInterventions.statut as statutR1, CreneauxInterventions.id_rdv as idR1        
-		//	FROM CreneauxInterventions JOIN Interventions  JOIN Services 
-		//	WHERE  CreneauxInterventions.InterventionsidIntervention = Interventions.idIntervention
-		//	AND Interventions.ServicesnomService = Services.nomService
-		//	AND date_rdv > CURDATE() 
-		//	AND InterventionsidIntervention = '4'
-		//	AND CreneauxInterventions.statut = 'p'
-		//	AND CreneauxInterventions.niveauUrgence >= '3'
-		//	AND heure_rdv > (SELECT horaire_ouverture FROM Interventions  JOIN Services WHERE idIntervention = '4' AND Interventions.ServicesnomService = Services.nomService)
-		//	) )as d1
-		//	UNION
-		//	(SELECT MIN(date_rdv) as dateR, MIN(heure_rdv)  as heureR, CreneauxInterventions.statut as statutR, CreneauxInterventions.id_rdv as idR      
-		//	FROM CreneauxInterventions JOIN Interventions  JOIN Services 
-		//	WHERE CreneauxInterventions.InterventionsidIntervention = Interventions.idIntervention
-		//	AND Interventions.ServicesnomService = Services.nomService
-		//	AND date_rdv = CURDATE() # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! >
-		//	AND heure_rdv > CURRENT_TIMESTAMP() # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! >
-		//	AND CreneauxInterventions.statut = 'a'
-		//	AND InterventionsidIntervention = '4'
-		//	AND heure_rdv > (SELECT horaire_ouverture FROM Interventions  JOIN Services WHERE idIntervention = '4' AND Interventions.ServicesnomService = Services.nomService)
-		//	)
-		//	UNION
-		//	(SELECT MIN(date_rdv) as dateR, MIN(heure_rdv)  as heureR, CreneauxInterventions.statut as statutR, CreneauxInterventions.id_rdv as idR
-		//	FROM CreneauxInterventions JOIN Interventions  JOIN Services 
-		//	WHERE CreneauxInterventions.InterventionsidIntervention = Interventions.idIntervention
-		//	AND Interventions.ServicesnomService = Services.nomService
-		//	AND date_rdv > CURDATE() # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! >
-		//	AND CreneauxInterventions.statut = 'a'
-		//	AND InterventionsidIntervention = '4'
-		//	AND heure_rdv > (SELECT horaire_ouverture FROM Interventions  JOIN Services WHERE idIntervention = '4' AND Interventions.ServicesnomService = Services.nomService)
-		//	) 
-		//	) as d
-		//");
-			//	 
+		//echo"::'no urg:<br>";
+		//echo "heure ===".($a_infoDateHeure["MIN(heureR)"]."<br>"."date ===".$a_infoDateHeure["MIN(dateR)"] );		
+		//echo":::";
+		//
+		// -- RECHERCHE HEURE APPROPRIEE SI niveau urgence != 0*********************************
+			If ($text_niveauUrgence !=0) // si rdv = urgent -> determine un delais pour traiter l'urgence
+			{
+				$now=ProchaineHeureArrondie(); // heure de mtn
+				switch ($text_niveauUrgence) // fixe un delais selon niveau urgence
+				{
+					case 3:
+						$delais=heurePlus15($now,'+180 minutes'); 
+						break;//alors on insert à la suite 
+					case 2:
+						$delais=heurePlus15($now,'+360 minutes');
+						break;
+					case 1:
+						$datedelais = date('Y-m-d', strtotime('+1 day'));
+						$delais=$now;
+						break;
+				}
+		$a_infoDateHeureUrgence=prochainCreneauxUrgent($auth_user,$text_niveauUrgence); // 55555555555555555555555555555555555555555555555555555****
+		
+			Dumper($a_infoDateHeureUrgence);
+
+		//echo"::urg:<br>";
+		//echo "heure urg====".($a_infoDateHeureUrgence["MIN(heureR)"]."<br>"."date urg===".$a_infoDateHeureUrgence["MIN(dateR)"] );		
+		//echo":::";
+		//
+		//
+		
+// ************************************** Decal rdv suivant  SI niveau urgence != 0*********************************
+		
+		// decaler + 15 min !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+			//	 !!!! rdv annulé pas de décalage
 			//	
-			//	$test = $auth_user->runQuery("Select * FROM CreneauxInterventions
-			//								 WHERE
-			//								 idIntervention = :$text_idIntervention
-			//								 date_rdv = :dateN1 // ou jours d'après selon le niveau d'urgence
-			//								heure_rdv = :heureN1
-			//								 niveauUrgence < $text_niveauUrgence
-			//								 ");
-		// !!! gestion erreur : test si retour = vide ( tous creneaux dans le delais = occupés par rdv plus urgents)
-		// =>> alors on cherche le prem rdv dispo MIN(dont niveau inferieur, pour meme acte et jour et heure > mtn)
-						//$test-> execute();
-						//$testt= reqToArrayPlusligne($test) ;	 //reqToArrayPlusAttASSO 
-						//
-						//array_map (heurePlus15($a,'+15 minutes'), $testt["heure_rdv"]=heurePlus15);
-						//
-						// test si heure max > horaire service => notif chef de service*
-				// rearrangeement manuel ???
-			//à partir de cette date on recupère tous les rdv de la journée et on ajoute + 15 
-
-				// décaler rdv prévu et affecte $heure et $date ...
-				
-			//}
-
-		}
+			//$test = $auth_user->runQuery("Select * FROM CreneauxInterventions
+			//							 WHERE
+			//							 idIntervention = :$text_idIntervention
+			//							 date_rdv = :dateN1 // ou jours d'après selon le niveau d'urgence
+			//							heure_rdv = :heureN1
+			//							 niveauUrgence < $text_niveauUrgence
+			//							 ");
+			 $req_CreneauSuivant = $auth_user->runQuery(" Select * FROM CreneauxInterventions
+														WHERE InterventionsidIntervention = '4'
+														AND date_rdv ='2017-12-18' 
+																AND heure_rdv >'11:00'" ); 
+			$req_CreneauSuivant->execute();
+			$a_creneauSuiv= reqToArrayPlusligne($req_CreneauSuivant);
+			$req_CreneauSuivant->closeCursor();
+			Dumper($a_creneauSuiv);
+			
+			foreach($a_creneauSuiv["id_rdv"] as $k=>$v)
+			{
+				if ($a_creneauSuiv["statut"][$k]  == 'a')
+				{
+					
+					break;
+				}
+				else
+				{
+					$a_creneauSuiv["heure_rdv"][$k] = heurePlus15($a_creneauSuiv["heure_rdv"][$k],'+15 minutes');
+				}
+			}
+			echo ";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;<br>";
+			Dumper($a_creneauSuiv);
+			
+			
+	// +++test si heure max > horaire service => notif chef de service*
+			
+			}
 
 				// !!! gestion erreur : test si retour = vide ( tous creneaux dans le delais = occupés par rdv plus urgents) !!!!!!! AVOIR !!!!!!
 						// =>> alors on cherche le prem rdv dispo MIN(dont niveau inferieur, pour meme acte et jour et heure > mtn)
 				
-				
-		//	case 2:
-		//$now=ProchaineHeureArrondie();
-		//$heureN2=heurePlus15($a,'+1440 minutes');		// tester si heure requete < a heure attendu 
-		//
-		//  case 3:
-		//$heureN3=
-		//	default:
-		//}
-		
-		
-		
-		// Il faut récuperer le statut pour savoir si c'est le dernier rdv prévu => rajouter plus 15 min,!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-		// sinon si on fait rien heure RDV = heureRDV_annulé!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-		
-		
-		
-
-		
-		
-		
-		
-		
-		
+			
 		//// INSERTION rdv
-		//$ajoutRDV = $auth_user->runQuery("INSERT INTO CreneauxInterventions (date_rdv, heure_rdv, InterventionsidIntervention,
-		//								niveauUrgence, pathologie, commentaires, PatientsnumSS, EmployesCompteUtilisateursIdEmploye) 
-		//								VALUES (:date_rdv, :heure_rdv, :InterventionsidIntervention, :niveauUrgence, :pathologie, :commentaires,:PatientsnumSS,
-		//								:EmployesCompteUtilisateursIdEmploye)");
-		//
-		//
-		//	
-		//$ajoutRDV->execute(array('date_rdv'=> $date,
-		//						'heure_rdv'=> $heure,
-		//						'InterventionsidIntervention'=> $text_idIntervention,
-		//						'niveauUrgence'=> $text_niveauUrgence,
-		//						'pathologie'=> $idPatho, // a rechercher !!!!!!!!!!!
-		//						'commentaires'=> $text_commentaires,
-		//						'PatientsnumSS'=> $patient,
-		//						'EmployesCompteUtilisateursIdEmploye'=> $user_id));
-		//
-		//}
+			$ajoutRDV = $auth_user->runQuery("INSERT INTO CreneauxInterventions (date_rdv, heure_rdv, InterventionsidIntervention,
+										niveauUrgence, pathologie, commentaires, PatientsnumSS, EmployesCompteUtilisateursIdEmploye) 
+										VALUES (:date_rdv, :heure_rdv, :InterventionsidIntervention, :niveauUrgence, :pathologie,
+										:commentaires,:PatientsnumSS, :EmployesCompteUtilisateursIdEmploye)");
+			$ajoutRDV->execute(array('date_rdv'=> $date,
+								'heure_rdv'=> $heure,
+								'InterventionsidIntervention'=> $text_idIntervention,
+								'niveauUrgence'=> $text_niveauUrgence,
+								'pathologie'=> $idPatho, // a rechercher !!!!!!!!!!!
+								'commentaires'=> $text_commentaires,
+								'PatientsnumSS'=> $patient,
+								'EmployesCompteUtilisateursIdEmploye'=> $user_id));
+			$ajoutRDV->closeCursor();
+
+		}
 	// ************************************** TEST CAS D'UTILISATION "VERIFICATION" *********************************
 		// +++ ON TEST SI Niveau d'urgence = niveau urgence INcompatible
 					//  => notif
@@ -266,6 +214,8 @@ if(isset($_POST['btn_demandeRDV'])) // si utilisateur clique sur le bouton deman
 					// si notif = selectionné et validé alors supprimé de la table notif *** pour notif page
 					// si notif = validé et acceptée alors niveau urgence = modifié *** pour notif page
 
+		} // fin des instructions realisées si entrée = ok 
+					
 	}
 }
 ?>
