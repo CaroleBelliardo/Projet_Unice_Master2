@@ -155,8 +155,10 @@ CREATE TABLE Facturation (
 
 # Lie les tables Pathologies et Interventions  
 CREATE TABLE Notifications ( 
-  CreneauxInterventionsidRdv int(8) NOT NULL,  
+  CreneauxInterventionsidRdv int(8) NOT NULL, 
+  ServicesnomService                  varchar(20) NOT NULL, # Imagerie // Maj en 1ère lettre  
   PRIMARY KEY (CreneauxInterventionsidRdv), 
+  FOREIGN KEY (CreneauxInterventionsidRdv) REFERENCES CreneauxInterventions (id_rdv) ON DELETE CASCADE ON UPDATE CASCADE);
   FOREIGN KEY (CreneauxInterventionsidRdv) REFERENCES CreneauxInterventions (id_rdv) ON DELETE CASCADE ON UPDATE CASCADE);
 
 # Table regroupant les informations relatives aux patients de l hopital  
