@@ -13,6 +13,10 @@ body {
     text-align: justify;
 }
 
+.Page {
+  min-height: calc(100vh - 51px);
+}
+
 #containerTitre{
   width:50%;
   margin:auto;
@@ -134,10 +138,9 @@ form header {
 #footer {
     margin : 0px;
     border-top: 1px solid #87CEFA;
-    bottom:0;
+  /*  bottom: 0; */
     left:0;
     right:0;
-    position: fixed; /*absolute*/
     color: white;
     text-align: center;
     height: 35px;
@@ -177,12 +180,18 @@ form header {
     border-right: 1px solid #5D6D7E;
 }
 
-.navbar a[name="Déco"]{     /* Pour le bouton déconnexion */
-  display: block;
-  padding: 3px 10px 0 10px; /* top right bottom left */
-  float:right;
-  max-width: 100px;
-  line-height: 15px;
+.navbar a[name="Déco"]{   /* Pour le bouton Déconnexion */
+  float: right;
+  position : relative;
+  margin : auto;
+}
+
+.navbar a[name="Déco"] img[name="logout"]{
+  height: 50%;
+  width: 25%;
+  position : absolute;
+  float: left;
+  margin-left: -35px;
 }
 
 .dropdown {                 /* Pr les 4 Div coulissants : Patient, Services, Compte User, Vérif */
@@ -242,7 +251,6 @@ form header {
   margin-left: 15px;
   margin-right: 15px;
   padding : 15px;
-  /*background-color: #e6e6e6;*/
   width: 95%;
 }
 
