@@ -184,5 +184,5 @@
 	<?php 	quitter1()	;?>	
 </body>
 
-
+ 
 </html>

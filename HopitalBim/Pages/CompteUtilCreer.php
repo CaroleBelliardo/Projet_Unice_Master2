@@ -251,6 +251,6 @@ if(isset($_POST['btn-signup']))
 <?php quitter1() ?>	
 
 </body>
-
+ 
 
 </html>
