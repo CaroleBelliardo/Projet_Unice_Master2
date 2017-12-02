@@ -51,6 +51,9 @@ tableau de synthèse
 -notification
 
 demande rdv 
+- Modifier le nom des variables pour les relier au formulaire
+- ecrire la fonction des verif des incompatibilités
+- ecrire la fonctin de la notification
 
 modifier 
 -service

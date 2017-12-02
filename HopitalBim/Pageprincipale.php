@@ -101,22 +101,22 @@
 	</div>
 
 	<div id=PagePrincipale>
-		<p class="h4">Bienvenue sur votre espace personnel </p> 
+		<p class="Bienvenue">Bienvenue sur votre espace personnel ! </p> 
 
-		<p class="h4">  
+		<p class="user">  
 			<?php  echo($a_utilisateur[0]." ".$a_utilisateur[1]." <br> Service ".$a_utilisateur[2]); ?>
 		</p> <!--affichage nom prenom service user-->
 
-		<p class="h4">Page Principale
-		</p> 
-
-    	<p class="" style="margin-top:5px;">
+    	<p class="infoUser">
     	ICI les conneries regardant le gars connecté.
     	</p>
+
+    	<img src="Images/stetho.png" alt="Image stethoscope bleu" height="30%" width="30%">
      </div>
 
-     <div id="footer">
-    Conditions d'utilisation | Contact | © 2017
+     <div id="footer"> <!-- Faire les liens vers les documents  -->
+    <a href="<?php echo $LienSite ?>Pages/readme.php"> Conditions d'utilisation </a> |
+    <a href="<?php echo $LienSite ?>Pages/contact.php"> Contact </a> | © 2017
     </div>
 
     </div> <!-- Page -->

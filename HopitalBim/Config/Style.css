@@ -147,11 +147,26 @@ form header {
     padding-top: 10px;
 }
 
+#footer a:link {
+  color : white;
+}
+
+#footer a:hover {
+    color: #87CEFA;
+}
+
 /* --- MENU PAGES ---  */
 .navbar {                             /* Div barre de navigation */
+    margin-top: 8px;
     overflow: hidden;                 /* visible | hidden */
-    background-color: #262626; 
+    /*background-color: #262626; */
+    background: -webkit-linear-gradient(#5D6D7E, #17202A);
+    background:    -moz-linear-gradient(#5D6D7E, #17202A);
     font-family: "Josefin Slab", serif;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .3),
+                0 3px 5px rgba(0, 0, 0, .2),
+                0 5px 10px rgba(0, 0, 0, .2),
+                0 20px 20px rgba(0, 0, 0, .15);
 }
 
 .navbar a {                 /* Pr Rdv, Planning : ceux qui n'ont pas de ss classes */
@@ -159,13 +174,14 @@ form header {
     font-size: 18px;
     color: white;
     text-align: center;
-    padding: 14px 16px;     /* 14px 16px */
+    padding: 14px 16px;     
     text-decoration: none;
+    border-right: 1px solid #5D6D7E;
 }
 
 .navbar a[name="Déco"]{
   display: block;
-  padding: 3px 0 0 3px;
+  padding: 3px 0 0 5px;
   float:right;
   max-width: 100px;
   line-height: 15px;
@@ -174,6 +190,7 @@ form header {
 .dropdown {                 /* Pr les 4 Div coulissants : Patient, Services, Compte User, Vérif */
     float: left;
     overflow: hidden;
+    border-right: 1px solid #5D6D7E;
 }
 
 .dropdown .dropbtn {       /* Pour les 4 boutons coulissants */
@@ -219,8 +236,22 @@ form header {
 /* Page Principale -- Bienvenue -- */        /*FINIR*/
 
 #PagePrincipale{
-  padding : 20px;
-  background-color: #e6e6e6;
-  height: 100%
+  margin-top: 15px;
+  margin-left: 15px;
+  margin-right: 15px;
+  padding : 15px;
+  /*background-color: #e6e6e6;*/
+  border-radius: 10px;
 }
 
+#PagePrincipale p.Bienvenue{
+  font-size: 30px; 
+}
+
+#PagePrincipale p.user{
+  background-color: green;
+}
+
+#PagePrincipale p.infoUser{
+  background-color: pink;
+}

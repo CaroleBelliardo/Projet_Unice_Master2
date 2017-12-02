@@ -80,7 +80,8 @@ if(isset($_POST['btn-login']))
     </div>
 
     <div id="footer"> <!-- Faire les liens vers les documents  -->
-    Conditions d'utilisation | Contact | © 2017
+    <a href="<?php echo $LienSite ?>Pages/readme.php"> Conditions d'utilisation </a> |
+    <a href="<?php echo $LienSite ?>Pages/contact.php"> Contact </a> | © 2017
     </div>
 
     </body>
