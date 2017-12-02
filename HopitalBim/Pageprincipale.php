@@ -98,26 +98,22 @@
 	</div>
 
 	<div id=PagePrincipale>
-		<p class="h4">Bienvenue sur votre espace personnel </p> 
+		<p class="Bienvenue">Bienvenue sur votre espace personnel ! </p> 
 
-		<p class="h4">  
+		<p class="user">  
 			<?php  echo($a_utilisateur[0]." ".$a_utilisateur[1]." <br> Service ".$a_utilisateur[2]); ?>
 		</p> <!--affichage nom prenom service user-->
 
-    	<p class="coucou">
+    	<p class="infoUser">
     	ICI les conneries regardant le gars connecté.
-    	
-    	Le Lorem Ipsum est simplement du faux texte employé dans la composition et la mise en page avant impression. Le Lorem Ipsum est le faux texte standard de l'imprimerie depuis les années 1500, quand un peintre anonyme assembla ensemble des morceaux de texte pour réaliser un livre spécimen de polices de texte. Il n'a pas fait que survivre cinq siècles, mais s'est aussi adapté à la bureautique informatique, sans que son contenu n'en soit modifié. Il a été popularisé dans les années 1960 grâce à la vente de feuilles Letraset contenant des passages du Lorem Ipsum, et, plus récemment, par son inclusion dans des applications de mise en page de texte, comme Aldus PageMaker. <br>
-
-    	On sait depuis longtemps que travailler avec du texte lisible et contenant du sens est source de distractions, et empêche de se concentrer sur la mise en page elle-même. L'avantage du Lorem Ipsum sur un texte générique comme 'Du texte. Du texte. Du texte.' est qu'il possède une distribution de lettres plus ou moins normale, et en tout cas comparable avec celle du français standard. De nombreuses suites logicielles de mise en page ou éditeurs de sites Web ont fait du Lorem Ipsum leur faux texte par défaut, et une recherche pour 'Lorem Ipsum' vous conduira vers de nombreux sites qui n'en sont encore qu'à leur phase de construction. Plusieurs versions sont apparues avec le temps, parfois par accident, souvent intentionnellement (histoire d'y rajouter de petits clins d'oeil, voire des phrases embarassantes).`
-
-    	Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc dictum ligula rhoncus nunc consectetur facilisis. Proin ultrices hendrerit ultricies. In pharetra, lectus ac bibendum tempor, lacus magna aliquet ligula, nec rutrum risus nibh eu libero. Integer dapibus laoreet dui eleifend pellentesque. Suspen
-
     	</p>
+
+    	<img src="Images/stetho.png" alt="Image stethoscope bleu" height="30%" width="30%">
      </div>
 
-     <div id="footer">
-    Conditions d'utilisation | Contact | © 2017
+     <div id="footer"> <!-- Faire les liens vers les documents  -->
+    <a href="<?php echo $LienSite ?>Pages/readme.php"> Conditions d'utilisation </a> |
+    <a href="<?php echo $LienSite ?>Pages/contact.php"> Contact </a> | © 2017
     </div>
 
 	</body>
