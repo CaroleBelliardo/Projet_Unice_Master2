@@ -30,8 +30,6 @@ if(isset($_POST['btn-login']))
     <title> Accueil </title> <!-- Titre de l'onglet -->
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <link rel="stylesheet" href="Config/Style.css">
-    <link href="https://fonts.googleapis.com/css?family=Josefin+Slab:600" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
     </head>
     
     <body>

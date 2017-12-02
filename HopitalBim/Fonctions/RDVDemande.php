@@ -1,5 +1,6 @@
-<?php 	
-    function ProchaineHeureArrondie() // fonction qui permet de recuperer l'heure actuelle et de l'arrondir au prochain creneaux de 15 mins
+<?php 	// Fonctions
+    
+	function ProchaineHeureArrondie() // Recuperer l'heure actuelle et de arrondie l'heure à la quinzaine 
     { 
         $current_time = strtotime(date('H:i')); // recupere l'heure actuelle sous format hh:mm
         $frac = 900;                            // pour definir le creneaux horaire :  15 min x 60 sec = 900 
@@ -8,14 +9,14 @@
         return ($heureArrondie); // retourne la prochaine heure arrondie
     }
 
-    function heurePlus15($h,$temps) // prend en entré une string h:m et renvoye l'heure + 15minutes
+    function heurePlus15($h,$temps) // prend en entrée une string h:m et renvoye l'heure + 15minutes
 	{
 		$heure = strtotime($h);
 		$heurePlus15 =date("H:i", strtotime( $temps,$heure));
 		return ($heurePlus15);
 	}
 
-    function prochainCreneauxDispo($auth_user)
+    function prochainCreneauxDispo($auth_user) // recherche le dernier creneau occupé ou le premier creneau annulé 
     {
 	$req_infoDateHeure = $auth_user->runQuery(" SELECT MIN(dateR), MIN(heureR), statutR, idR
                 FROM  (
@@ -74,9 +75,9 @@
         return ($a_infoDateHeure);
     }
     
-    function CreneauxUrgent($auth_user,$nivUrg)
+    function CreneauxUrgent($auth_user,$nivUrg) // recherche le dernier creneau occupé ou le premier creneau annulé avec nivUrgence 
     {
-        $req_infoDateHeure = $auth_user->runQuery("SELECT MIN(dateR), MIN(heureR), statutR, idR
+        $req_infoDateHeureUrg = $auth_user->runQuery("SELECT MIN(dateR), MIN(heureR), statutR, idR
                     FROM  (
                     SELECT MAX(dateR1) as dateR, MAX(heureR1) as heureR, statutR1 as statutR, idR1 as idR
                     FROM  (
@@ -86,7 +87,6 @@
                     AND Interventions.ServicesnomService = Services.nomService
                     AND date_rdv = CURDATE() 
                     AND heure_rdv > CURRENT_TIMESTAMP()
-            
                     AND InterventionsidIntervention = '4'
                     AND CreneauxInterventions.statut = 'p'
                     AND CreneauxInterventions.niveauUrgence >= :niveauUrgence
@@ -100,7 +100,7 @@
                     AND date_rdv > CURDATE() 
                     AND InterventionsidIntervention = '4'
                     AND CreneauxInterventions.statut = 'p'
-                    AND CreneauxInterventions.niveauUrgence >= '1'
+                    AND CreneauxInterventions.niveauUrgence >= :niveauUrgence
                     AND heure_rdv > (SELECT horaire_ouverture FROM Interventions  JOIN Services WHERE idIntervention = '4' AND Interventions.ServicesnomService = Services.nomService)
                     ) )as d1
                     UNION
@@ -111,7 +111,7 @@
                     AND date_rdv = CURDATE() # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! >
                     AND heure_rdv > CURRENT_TIMESTAMP() # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! >
                     AND CreneauxInterventions.statut = 'a'
-                    AND InterventionsidIntervention = '1'
+                    AND InterventionsidIntervention = '4'
                     AND heure_rdv > (SELECT horaire_ouverture FROM Interventions  JOIN Services WHERE idIntervention = '4' AND Interventions.ServicesnomService = Services.nomService)
                     )
                     UNION
@@ -121,23 +121,24 @@
                     AND Interventions.ServicesnomService = Services.nomService
                     AND date_rdv > CURDATE() # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! >
                     AND CreneauxInterventions.statut = 'a'
-                    AND InterventionsidIntervention = '1'
+                    AND InterventionsidIntervention = '4'
                     AND heure_rdv > (SELECT horaire_ouverture FROM Interventions  JOIN Services WHERE idIntervention = '4' AND Interventions.ServicesnomService = Services.nomService)
                     ) 
                 ) as d
             ");
-        $req_infoDateHeure->execute(array( 'niveauUrgence'=> $nivUrg )); // modifier variables
-		$a_infoDateHeure = reqToArrayPlusAttASSO($req_infoDateHeure); // retourne : [ MIN(dateR), MIN(heureR), statutR, idR ] heure = dernier rdv prevu ou premier rdv annulé 
-		$req_infoDateHeure->closeCursor();
-        return ($a_infoDateHeureUrgence);
+        $req_infoDateHeureUrg->execute(array( 'niveauUrgence'=> $nivUrg )); // modifier variables
+		$a_infoDateHeureUrg = reqToArrayPlusAttASSO($req_infoDateHeureUrg); // retourne : [ MIN(dateR), MIN(heureR), statutR, idR ] heure = dernier rdv prevu ou premier rdv annulé 
+		$req_infoDateHeureUrg->closeCursor();
+        return ($a_infoDateHeureUrg);
     }
     
-    function prochainCreneauxUrgent($auth_user, $nivUrgence)
+    function prochainCreneauxUrgent($auth_user, $nivUrgence) // fonction qui test tous les niveaux d'urgence jusqu'a trouver un creneaux compatible
     {
-        $a_infoDateHeureUrgence=[];
-        for ($i=$nivUrgence; $i>0; $i--)
+        $a_infoDateHeureUrgence["MIN(dateR)"]=null;
+        for ($i=$nivUrgence; $i>=0; $i--)
         {
-            if ($a_infoDateHeureUrgence["MIN(dateR)"] != Null)
+            //echo "etape :".$i."<br>";
+			if ($a_infoDateHeureUrgence["MIN(dateR)"] != null )
             {
                  return ($a_infoDateHeureUrgence);
             }
@@ -149,7 +150,7 @@
     }
 	
 	
-	function VerificationPathologie ($auth_user,$niveauUrgence, $idPatho,$idIntervention )
+	function VerificationPathologie ($auth_user,$niveauUrgence, $idPatho,$idIntervention ) 
 	{
 	
 		$recupUrgMaxMin=$auth_user->runQuery("SELECT niveauUrgenceMax, niveauUrgenceMin
