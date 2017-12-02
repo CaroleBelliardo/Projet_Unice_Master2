@@ -95,18 +95,28 @@
 	</div>
 
 	<div id=PagePrincipale>
-		<p class="Bienvenue">Bienvenue sur votre espace personnel ! </p> 
+		<p class="Bienvenue">Bienvenue sur votre espace personnel ! </p>
 
-		<p class="user">  
-			<?php  echo($a_utilisateur[0]." ".$a_utilisateur[1]." <br> Service ".$a_utilisateur[2]); ?>
-		</p> <!--affichage nom prenom service user-->
+    	<div class="profile">
+  			<div class="photo">
+  			<img src="Images/User.png" alt="Image utilisateur"/>
+  			</div>
 
-    	<p class="infoUser">
-    	ICI les conneries regardant le gars connecté.
-    	</p>
+			<div class="content">
+    			<div class="text">
+      			<h3> <?php  echo($a_utilisateur[0]." ".$a_utilisateur[1]); ?> </h3>
+      			<h6> Service : <?php echo($a_utilisateur[2]); ?> </h6>
+    			</div>
+  			</div>
+		</div>
 
-    	<img src="Images/stetho.png" alt="Image stethoscope bleu" height="30%" width="30%">
+		<p class="infoUser"> ICI les conneries regardant le gars connecté.</p>
+
+    	<img name="stetho" src="Images/stetho.png" alt="Image stethoscope bleu" height="30%" width="30%">
      </div>
+
+<!-- en faire un second -->
+
 
      <div id="footer"> <!-- Faire les liens vers les documents  -->
     <a href="<?php echo $LienSite ?>Pages/readme.php"> Conditions d'utilisation </a> |
