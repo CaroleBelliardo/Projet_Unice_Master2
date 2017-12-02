@@ -33,6 +33,7 @@
 	</head>
 
 	<body>
+	<div class="Page">
 	<div id="container"> <!-- Motif à mettre sur chaque page-->
         <img name="logo" src="Images/logo.png" alt="Logo hopital">
 
@@ -77,7 +78,7 @@
 			<div class="dropdown-content">
 			  <a href="<?php echo $LienSite ?>Pages/CompteUtilCreer.php">Création</a>
 			  <a href="<?php echo $LienSite ?>Pages/CompteUtilModifier.php">Modification</a>
-			  <a href="<?php echo $LienSite ?>Pages/CompteUtilSupprimer.php">Suppresion</a>
+			  <a href="<?php echo $LienSite ?>Pages/CompteUtilSupprimer.php">Suppression</a>
 			</div>
 		</div>
 
@@ -89,8 +90,7 @@
 			</div>
 		</div>
 
-
-		<a name="Déco" href="<?php echo $LienSite ?>logout.php?logout=true"><img src="Images/logout2.png" alt="Logout logo" height="30%" width="30%"> Déconnexion</a>
+		<a name="Déco" href="<?php echo $LienSite ?>logout.php?logout=true"><img name="logout" src="Images/logout.png" alt="Logout logo" > Déconnexion</a>
 
 	</div>
 
@@ -115,10 +115,9 @@
     	<img name="stetho" src="Images/stetho.png" alt="Image stethoscope bleu" height="30%" width="30%">
      </div>
 
-<!-- en faire un second -->
+    </div> <!-- Page -->
 
-
-     <div id="footer"> <!-- Faire les liens vers les documents  -->
+    <div id="footer"> <!-- Faire les liens vers les documents  -->
     <a href="<?php echo $LienSite ?>Pages/readme.php"> Conditions d'utilisation </a> |
     <a href="<?php echo $LienSite ?>Pages/contact.php"> Contact </a> | © 2017
     </div>

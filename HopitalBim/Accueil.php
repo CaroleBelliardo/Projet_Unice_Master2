@@ -33,6 +33,7 @@ if(isset($_POST['btn-login']))
     </head>
     
     <body>
+    <div class="Page">
     <div id="container">
         <img name="logo" src="Images/logo.png" alt="Logo hopital">
 
@@ -60,8 +61,8 @@ if(isset($_POST['btn-login']))
                 if(isset($error))
                     {
                         ?>
-                            <div class="alert alert-danger">
-                            <?php echo $error; ?> !
+                            <div class="alert">
+                            <?php echo $error; ?> ! Veuillez recommencer.
                             </div>
                         <?php
                      }
@@ -78,6 +79,8 @@ if(isset($_POST['btn-login']))
 
         </form>
     </div>
+
+    </div> <!-- Page -->
 
     <div id="footer"> <!-- Faire les liens vers les documents  -->
     <a href="<?php echo $LienSite ?>Pages/readme.php"> Conditions d'utilisation </a> |
