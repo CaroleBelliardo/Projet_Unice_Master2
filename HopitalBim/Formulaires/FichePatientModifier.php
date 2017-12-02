@@ -3,7 +3,7 @@
 <div class="container">
     	
         <form method="post" class="form-signin">
-            <h2 class="form-signin-heading">Enregistrer une fiche patient</h2><hr />
+            <h2 class="form-signin-heading">Modifier un patient</h2><hr />
             <?php
 			if(isset($error))
 			{
@@ -32,33 +32,34 @@
 			<fieldset>
 			<legend> Patient </legend> <!-- Titre du fieldset --> 
 			<p>
-				<input type="text" class="" name="text_numSS" pattern="[0-9]{15}" title="Caractère numérique, 15 caractères acceptés"          placeholder="<?php echo $patientInfo['numSS'] ;?>" value="<?php if(isset($error)){echo $text_numSS;}?>" /><br>
-				<input type="text" class="" name="text_nom" pattern="[A-Za-z]{1-25}" title="Caractère alphabetique, 25 caractères maximum"     placeholder="<?php echo $patientInfo['nom'] ;?>" value="<?php if(isset($error)){echo $text_nom;}?>" /><br>
-				<input type="text" class="" name="text_prenom" pattern="[A-Za-z]{1-25}" title="Caractère alphabetique, 25 caractères maximum"  placeholder="<?php echo $patientInfo['prenom'] ;?>" value="<?php if(isset($error)){echo $text_prenom;}?>" /><br>
+				<input type="text" class="" name="text_numSS" pattern="[0-9]{0-15}" title="Caractère numérique, 15 caractères acceptés"        placeholder="<?php echo $patientInfo['numSS'] ;?>" value="<?php if(isset($error)){echo $text_numSS;}else {echo $patientInfo['numSS'];}?>" /><br>
+				<input type="text" class="" name="text_nom" pattern="[A-Za-z]{1-25}" title="Caractère alphabetique, 25 caractères maximum"     placeholder="<?php echo $patientInfo['nom'] ;?>" value="<?php if(isset($error)){echo $text_nom;}else {echo $patientInfo['nom'];}?>" /><br>
+				<input type="text" class="" name="text_prenom" pattern="[A-Za-z]{1-25}" title="Caractère alphabetique, 25 caractères maximum"  placeholder="<?php echo $patientInfo['prenom'] ;?>" value="<?php if(isset($error)){echo $text_prenom;}else {echo $patientInfo['prenom'];}?>" /><br>
 				<!-- GESTION d erreur pour la date probleme --> 
-				<input type="text" class="" name="text_dateNaissance"                                                                          placeholder="<?php echo date ('d-m-Y', strtotime($patientInfo['dateNaissance'] )) ;?>" value="<?php if(isset($error)){echo $text_dateNaissance;}?>" /><br>
-				<input type="text" class="" name="text_telephone" pattern="[0-9]{0-15}" title="Caractère numérique, 15 caractères acceptés"    placeholder="<?php echo $patientInfo['telephone'] ;?>" value="<?php if(isset($error)){echo $text_telephone;}?>" /><br>
-				<input type="text" class="" name="text_mail"                                                                                   placeholder="<?php echo $patientInfo['mail'] ;?>" value="<?php if(isset($error)){echo $text_mail;}?>" /><br>
+				<input type="text" class="" name="text_dateNaissance"                                                                          placeholder="<?php echo $patientInfo['dateNaissance'] ;?>" value="<?php if(isset($error)){echo $text_dateNaissance;}else {echo $patientInfo['dateNaissance'];}?>" /><br>
+				<input type="text" class="" name="text_telephone" pattern="[0-9]{0-15}" title="Caractère numérique, 15 caractères acceptés"    placeholder="<?php echo $patientInfo['telephone'] ;?>" value="<?php if(isset($error)){echo $text_telephone;}else {echo $patientInfo['telephone'];}?>" /><br>
+				<input type="text" class="" name="text_mail"                                                                                   
+				placeholder="<?php echo $patientInfo['mail'] ;?>" value="<?php if(isset($error)){echo $text_mail;}else {echo $patientInfo['mail'];}?>" /><br>
 				
 				<label   class="form-control" > Sexe :&nbsp;&nbsp;      
 				<input type="radio"  name="text_sexe" value="M" checked="checked"  style="display: inline; !important;"/>Masculin&nbsp;&nbsp;&nbsp;&nbsp;
 				<input type="radio"  name="text_sexe" value="F" style="display: inline;!important;" />Feminin
 				</label><br>			
-				<input type="text" class="" name="text_taille" pattern="[0-9]{0-3}" title="Caractère numérique, 15 caractères acceptés"        placeholder="<?php echo $patientInfo['taille_cm'] ;?>" value="<?php if(isset($error)){echo $text_taille;}?>" /><br>
-				<input type="text" class="" name="text_poids"  pattern="[0-9]{0-3}" title="Caractère numérique, 15 caractères acceptés"        placeholder="<?php echo $patientInfo['poids_kg'] ;?>" value="<?php if(isset($error)){echo $text_poids;}?>" /><br>
-				<input type="text" class="" name="text_commentaires"                                                                           placeholder="<?php echo $patientInfo['commentaires'] ;?>" value="<?php if(isset($error)){echo $text_commentaires;}?>" /><br>
+				<input type="text" class="" name="text_taille" pattern="[0-9]{0-3}" title="Caractère numérique, 15 caractères acceptés"        placeholder="<?php echo $patientInfo['taille_cm'] ;?>" value="<?php if(isset($error)){echo $text_taille;}else {echo $patientInfo['taille_cm'];}?>" /><br>
+				<input type="text" class="" name="text_poids"  pattern="[0-9]{0-3}" title="Caractère numérique, 15 caractères acceptés"        placeholder="<?php echo $patientInfo['poids_kg'] ;?>" value="<?php if(isset($error)){echo $text_poids;}else {echo $patientInfo['poids_kg'];}?>" /><br>
+				<input type="text" class="" name="text_commentaires"                                                                           placeholder="<?php echo $patientInfo['commentaires'] ;?>" value="<?php if(isset($error)){echo $text_commentaires;}else {echo $patientInfo['commentaires'];}?>" /><br>
 			</p>
 			</fieldset>
 			
 			<fieldset>
 			<legend> Adresse du patient </legend> <!-- Titre du fieldset --> 
 			<p>
-				<input type="text" class="" name="text_numero" pattern="[0-9]{1-6}" title="Caractère numérique, 6 caractères acceptés"          placeholder="<?php echo $patientInfo['numero'] ;?>" value="<?php if(isset($error)){echo $text_numero;}?>" /><br>
-				<input type="text" class="" name="text_rue"    pattern="[A-Za-z]{1-100}" title="Caractère alphabetique, 100 caractères maximum" placeholder="<?php echo $patientInfo['rue'] ;?>" value="<?php if(isset($error)){echo $text_rue;}?>" /><br>
-				<input type="text" class="" name="text_ville"  pattern="[A-Za-z]{1-150}" title="Caractère alphabetique, 150 caractères maximum" placeholder="<?php echo $patientInfo['nomVilles'] ;?>" value="<?php if(isset($error)){echo $text_ville;}?>" /><br>
-				<input type="text" class="" name="text_codepostal" pattern="[0-9]{5}" title="Caractère numérique, 5 caractères maximum"         placeholder="<?php echo $patientInfo['codepostal'] ;?>" value="<?php if(isset($error)){echo $text_codepostal;}?>" /><br>
-				<input type="text" class="" name="text_departement"   pattern="{1-3}" title="3 caractères maximum"                              placeholder="<?php echo $patientInfo['nomVilles'] ;?>" value="<?php if(isset($error)){echo $text_departement;}?>" /><br>
-				<input type="text" class="" name="text_pays"   pattern="[A-Za-z]{1-25}" title="Caractère alphabetique, 25 caractères maximum"   placeholder="<?php echo $patientInfo['pays'] ;?>" value="<?php if(isset($error)){echo $text_pays;}?>" /><br>
+				<input type="text" class="" name="text_numero" pattern="[0-9]{1-6}" title="Caractère numérique, 6 caractères acceptés"          placeholder="<?php echo $patientInfo['numero'] ;?>" value="<?php if(isset($error)){echo $text_numero;}else {echo $patientInfo['numero'];}?>" /><br>
+				<input type="text" class="" name="text_rue"    pattern="[A-Za-z]{1-100}" title="Caractère alphabetique, 100 caractères maximum" placeholder="<?php echo $patientInfo['rue'] ;?>" value="<?php if(isset($error)){echo $text_rue;}else {echo $patientInfo['rue'];}?>" /><br>
+				<input type="text" class="" name="text_ville"  pattern="[A-Za-z]{1-150}" title="Caractère alphabetique, 150 caractères maximum" placeholder="<?php echo $patientInfo['nomVilles'] ;?>" value="<?php if(isset($error)){echo $text_ville;}else {echo $patientInfo['nomVilles'];}?>" /><br>
+				<input type="text" class="" name="text_codepostal" pattern="[0-9]{5}" title="Caractère numérique, 5 caractères maximum"         placeholder="<?php echo $patientInfo['codepostal'] ;?>" value="<?php if(isset($error)){echo $text_codepostal;}else {echo $patientInfo['codepostal'];}?>" /><br>
+				<input type="text" class="" name="text_departement"   pattern="{1-3}" title="3 caractères maximum"                              placeholder="<?php echo $patientInfo['departement'] ;?>" value="<?php if(isset($error)){echo $text_departement;}else {echo $patientInfo['departement'];}?>" /><br>
+				<input type="text" class="" name="text_pays"   pattern="[A-Za-z]{1-25}" title="Caractère alphabetique, 25 caractères maximum"   placeholder="<?php echo $patientInfo['pays'] ;?>" value="<?php if(isset($error)){echo $text_pays;}else {echo $patientInfo['pays'];}?>" /><br>
 			</p>
 			</fieldset>
 			
