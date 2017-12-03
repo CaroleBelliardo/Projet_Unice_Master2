@@ -9,15 +9,18 @@ require_once("../classe.Systeme.php"); // va permettre d effectuer les requettes
 //variables Globales
 $auth_user = new Systeme(); // Connection bdd	
 $user_id = $_SESSION['idEmploye']; // IDENTIFIANT compte utilisateur !!!!!
-$Req_utilisateur = $auth_user->runQuery("SELECT DISTINCT nom,prenom,ServicesnomService
-										FROM CompteUtilisateurs JOIN Employes
-										WHERE CompteUtilisateurs.idEmploye=Employes.CompteUtilisateursidEmploye
-										AND CompteUtilisateurs.idEmploye= :user_name
+
+//info identité utilisateur
+$Req_utilisateur = $auth_user->runQuery("SELECT  CompteUtilisateursidEmploye, Employes.ServicesnomService ,nom, prenom, EmployesCompteUtilisateursidEmploye as chef
+										FROM Employes LEFT JOIN ChefServices ON Employes.CompteUtilisateursidEmploye  = ChefServices.EmployesCompteUtilisateursidEmploye
+										WHERE Employes.CompteUtilisateursidEmploye = :user_name
 										"); // NOM utilisateur = >> à mettre dans menuPage !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! TOUTES PAGES 
 $Req_utilisateur->execute(array("user_name"=>$user_id)); 
 $a_utilisateur= reqToArrayPlusAttASSO($Req_utilisateur);  // Nom prénom et service utilisateur 
+$Req_utilisateur->closeCursor();
 
 global $auth_user, $a_utilisateur;
+
 
 ?>
 
@@ -29,6 +32,8 @@ global $auth_user, $a_utilisateur;
 	</head>
 
 <body>
+	
+	
 	<div id="container"> <!-- Motif à mettre sur chaque page-->
         <img name="logo" src="../Images/logo.png" alt="Logo hopital">
 
@@ -43,51 +48,73 @@ global $auth_user, $a_utilisateur;
         </div> <!-- containerTitre -->
     </div> <!-- container -->
 
+
+
 <div class="navbar"> 
-
-	<a href="<?php echo $LienSite ?>Pages/Planning.php">Planning</a>
+	<?php
+		if ((array_key_exists("idEmploye", $_SESSION))  and ($_SESSION["idEmploye"] != ""))
+		{
+	?>
+				<a href="<?php echo $LienSite ?>Pages/Planning.php">Planning</a>
+				<a href="<?php echo $LienSite ?>Pages/RDVDemande.php">Demande de rendez-vous </a>
+				<div class="dropdown">
+					<button class="dropbtn">Patient </button>
+					<div class="dropdown-content">
+					  <a href="<?php echo $LienSite ?>Pages/FichePatientCreer.php">Création</a>
+					  <a href="<?php echo $LienSite ?>Pages/FichePatientModifier.php">Modification</a>
+					</div>
+				</div>
+				
+	<?php
+			if ( $_SESSION["idEmploye"] == $a_utilisateur["chef"])
+			{
+	?>			
+				<a href="<?php echo $LienSite ?>Pages/Faturation.php">Facturation</a>
 	
-	<a href="<?php echo $LienSite ?>Pages/RDVDemande.php">Demande de rendez-vous </a>
-
-	<a href="<?php echo $LienSite ?>Pages/Faturation.php">Facturation</a>
+	<?php
+				//break;
+				if ($_SESSION["idEmploye"]== "admin00")
+				{
+	?>
+		<div class="dropdown">
+			<button class="dropbtn">Services </button>
+			<div class="dropdown-content">
+			  <a href="<?php echo $LienSite ?>Pages/ServiceCreer.php">Création</a>
+			  <a href="<?php echo $LienSite ?>Pages/ServiceModifier.php">Modification</a>
+			  <a href="<?php echo $LienSite ?>Pages/ServiceSupprimer.php">Suppression</a>
+			</div>
+		</div>
 	
-	<div class="dropdown">
-		<button class="dropbtn">Patient </button>
-		<div class="dropdown-content">
-		  <a href="<?php echo $LienSite ?>Pages/FichePatientCreer.php">Création</a>
-		  <a href="<?php echo $LienSite ?>Pages/FichePatientModifier.php">Modification</a>
+		<div class="dropdown">
+			<button class="dropbtn">Compte Utilisateur </button>
+			<div class="dropdown-content">
+			  <a href="<?php echo $LienSite ?>Pages/CompteUtilCreer.php">Création</a>
+			  <a href="<?php echo $LienSite ?>Pages/CompteUtilModifier.php">Modification</a>
+			  <a href="<?php echo $LienSite ?>Pages/CompteUtilSupprimer.php">Suppression</a>
+			</div>
 		</div>
-	</div>
-
-	<div class="dropdown">
-		<button class="dropbtn">Services </button>
-		<div class="dropdown-content">
-		  <a href="<?php echo $LienSite ?>Pages/ServiceCreer.php">Création</a>
-		  <a href="<?php echo $LienSite ?>Pages/ServiceModifier.php">Modification</a>
-		  <a href="<?php echo $LienSite ?>Pages/ServiceSupprimer.php">Suppression</a>
+	
+		<div class="dropdown">
+			<button class="dropbtn">Vérification </button>
+			<div class="dropdown-content">
+			  <a href="<?php echo $LienSite ?>Pages/VerificationSynthese.php">Synthèse des demandes</a>
+			  <a href="<?php echo $LienSite ?>Pages/VerificationNotification.php">Notifications</a>
+			</div>
 		</div>
-	</div>
 
-	<div class="dropdown">
-		<button class="dropbtn">Compte Utilisateur </button>
-		<div class="dropdown-content">
-		  <a href="<?php echo $LienSite ?>Pages/CompteUtilCreer.php">Création</a>
-		  <a href="<?php echo $LienSite ?>Pages/CompteUtilModifier.php">Modification</a>
-		  <a href="<?php echo $LienSite ?>Pages/CompteUtilSupprimer.php">Suppression</a>
-		</div>
-	</div>
+<?php
+				}
+			}
+?>
+		<a name="Déco" href="<?php echo $LienSite ?>logout.php?logout=true"><img name="logout" src="../Images/logout.png" alt="Logout logo" > Déconnexion</a>
+<?php
 
-	<div class="dropdown">
-		<button class="dropbtn">Vérification </button>
-		<div class="dropdown-content">
-		  <a href="<?php echo $LienSite ?>Pages/VerificationSynthese.php">Synthèse des demandes</a>
-		  <a href="<?php echo $LienSite ?>Pages/VerificationNotification.php">Notifications</a>
-		</div>
-	</div>
-
-	<a name="Déco" href="<?php echo $LienSite ?>logout.php?logout=true"><img name="logout" src="../Images/logout.png" alt="Logout logo" > Déconnexion</a>
-
+		}
+?>
+	
 </div>
+
+
 
 <!-- TTTTTEEESSSSSTTT -->
 <div id=PagePrincipale>
