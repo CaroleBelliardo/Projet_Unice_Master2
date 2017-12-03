@@ -1,10 +1,12 @@
+
+
 <?php
 
 if(isset($_POST['btn_nomService'])) // action du bouton btn_facture
 {	 
 	$text_nomService = trim($_POST['text_nomService'], ' ');		
-	$_SESSION["nomService"] = $text_nomService;
-	$auth_user->redirect('ServiceModifier.php');
+	$_SESSION["serviceModifier"] = $text_nomService;
+	$auth_user->redirect($lien);
 }	
 
 

@@ -67,26 +67,21 @@ if(isset($_POST['btn-modifier']))
 			$stmt->execute(array('text_codepostal'=>$text_codepostal, 'text_ville'=>$text_ville, 'text_departement'=>$text_departement, 'text_pays'=>$text_pays));
 			$row=$stmt->fetch(PDO::FETCH_ASSOC);
 			$BDDidVilles=$row['idVilles'];
-			echo $BDDidVilles."   : bbdidville <br>";
 			if ($row['codepostal']==$text_codepostal and  $row['nomVilles']==$text_ville and $row['departement']==$text_departement and $row['pays']==$text_pays) 
 			{
-				echo "ggg";
 				// Test de l'adresse
 				$stmt = $auth_user->runQuery("SELECT * FROM Adresses 
 										WHERE numero=:text_numero AND rue=:text_rue AND VillesidVilles=:BDDidVilles");
 				$stmt->execute(array('text_numero'=>$text_numero, 'text_rue'=>$text_rue, 'BDDidVilles'=>$BDDidVilles));
 				$row=$stmt->fetch(PDO::FETCH_ASSOC);
-				Dumper($row);
 				$BDDidAdresse=$row['idAdresse'];
-				echo "--->".$BDDidAdresse;
 				if ($row['numero']==$text_numero and  $row['rue']==$text_rue and $row['VillesidVilles']==$BDDidVilles )
 				{
-					echo "<br> dans la boucle : ";
-					// -- Ajout Patient
 					$ajoutpatient = $auth_user->runQuery("UPDATE Patients 
-															    
+																SET 
+																numSS=:text_numSS,
 															   nom=:text_nom, 
-															   prenom:text_prenom, 
+															   prenom=:text_prenom, 
 															   dateNaissance=:text_dateNaissance, 
 															   telephone=:text_telephone, 
 															   mail=:text_mail, 
@@ -95,10 +90,10 @@ if(isset($_POST['btn-modifier']))
 															   poids_kg=:text_poids, 
 															   commentaires=:text_commentaires, 
 															   AdressesidAdresse=:BDDidAdresse
-															   WHERE numSS :=patientModif");
+															   WHERE numSS =:patientModif");
 		
-					$ajoutpatient->execute(array(
-											     'text_nom'=>$text_nom,
+					$ajoutpatient->execute(array('text_numSS'=>$text_numSS,
+												 'text_nom'=>$text_nom,
 											     'text_prenom'=>$text_prenom,
 											     'text_dateNaissance'=>$text_dateNaissance,
 											     'text_telephone'=>$text_telephone,
@@ -108,20 +103,18 @@ if(isset($_POST['btn-modifier']))
 											     'text_poids'=>$text_poids,
 												 'text_commentaires'=>$text_commentaires,
 											     'BDDidAdresse'=>$BDDidAdresse,
-												 'patientModif'=>$patientModif));								
-					//-------------
+												 'patientModif'=>$patientModif));
+					
+					///-------------
 					$auth_user->redirect('FichePatientCreer.php?Valide');
 				}
 				else 
 				{
 					
 					// -- Ajout dans adresse
-					$stmtAdresses = $auth_user->runQuery("UPDATE Adresses 
-															   SET numero =:text_numero, 
-															   rue=:text_rue,
-															   rue=:text_rue,
-															   BDDidVilles=:BDDidVilles");
-								
+					$stmtAdresses = $auth_user->runQuery("INSERT INTO Adresses (numero, rue, VillesidVilles) 
+											VALUES (:text_numero, :text_rue, :BDDidVilles )");	
+										
 					$stmtAdresses->execute(array('text_numero'=>$text_numero,
 											     'text_rue'=>$text_rue,
 											     'BDDidVilles'=>$BDDidVilles));
@@ -133,11 +126,23 @@ if(isset($_POST['btn-modifier']))
 					$row=$stmt->fetch(PDO::FETCH_ASSOC);
 					$BDDidAdresse=$row['idAdresse'];
 					// -- Ajout Patient
-					$ajoutpatient = $auth_user->runQuery("INSERT INTO Patients (numSS, nom, prenom, dateNaissance, telephone, mail, sexe, taille_cm, poids_kg, commentaires, AdressesidAdresse) 
-														VALUES (:text_numSS, :text_nom, :text_prenom, :text_dateNaissance, :text_telephone, :text_mail, :text_sexe, :text_taille, :text_poids, :text_commentaires, :BDDidAdresse)");
+					$ajoutpatient = $auth_user->runQuery("UPDATE Patients 
+																SET 
+																numSS=:text_numSS,
+															   nom=:text_nom, 
+															   prenom=:text_prenom, 
+															   dateNaissance=:text_dateNaissance, 
+															   telephone=:text_telephone, 
+															   mail=:text_mail, 
+															   sexe=:text_sexe, 
+															   taille_cm=:text_taille, 
+															   poids_kg=:text_poids, 
+															   commentaires=:text_commentaires, 
+															   AdressesidAdresse=:BDDidAdresse
+															   WHERE numSS =:patientModif");
 		
 					$ajoutpatient->execute(array('text_numSS'=>$text_numSS,
-											     'text_nom'=>$text_nom,
+												 'text_nom'=>$text_nom,
 											     'text_prenom'=>$text_prenom,
 											     'text_dateNaissance'=>$text_dateNaissance,
 											     'text_telephone'=>$text_telephone,
@@ -146,7 +151,8 @@ if(isset($_POST['btn-modifier']))
 											     'text_taille'=>$text_taille,
 											     'text_poids'=>$text_poids,
 												 'text_commentaires'=>$text_commentaires,
-											     'BDDidAdresse'=>$BDDidAdresse));					
+											     'BDDidAdresse'=>$BDDidAdresse,
+												 'patientModif'=>$patientModif));
 					//-------------
 					$auth_user->redirect('FichePatientCreer.php?Valide');
 				}
@@ -155,7 +161,6 @@ if(isset($_POST['btn-modifier']))
 			}
 			else
 			{
-				// -- Ajout dans la table ville 
 				$stmtville = $auth_user->conn->prepare("INSERT INTO Villes ( codepostal, nomVilles, departement, pays) 
 												VALUES ( :text_codepostal, :text_ville, :text_departement, :text_pays)");	
 				$stmtville->execute(array('text_codepostal'=>$text_codepostal,
@@ -181,19 +186,33 @@ if(isset($_POST['btn-modifier']))
 				$row=$stmt->fetch(PDO::FETCH_ASSOC);
 				$BDDidAdresse=$row['idAdresse'];
 				// -- Ajout Patient
-				$ajoutpatient = $auth_user->conn->prepare("INSERT INTO Patients (numSS, nom, prenom, dateNaissance, telephone, mail, sexe, taille_cm, poids_kg, commentaires, AdressesidAdresse) 
-															VALUES (:text_numSS, :text_nom, :text_prenom, :text_dateNaissance, :text_telephone, :text_mail, :text_sexe, :text_taille, :text_poids, :text_commentaires, :BDDidAdresse)");
+				$ajoutpatient = $auth_user->runQuery("UPDATE Patients 
+														SET 
+														numSS=:text_numSS,
+														nom=:text_nom, 
+														prenom=:text_prenom, 
+														dateNaissance=:text_dateNaissance, 
+														telephone=:text_telephone, 
+														mail=:text_mail, 
+														sexe=:text_sexe, 
+														taille_cm=:text_taille, 
+														poids_kg=:text_poids, 
+														commentaires=:text_commentaires, 
+														AdressesidAdresse=:BDDidAdresse
+														WHERE numSS =:patientModif");
+		
 				$ajoutpatient->execute(array('text_numSS'=>$text_numSS,
-											 'text_nom'=>$text_nom,
-											 'text_prenom'=>$text_prenom,
-											 'text_dateNaissance'=>$text_dateNaissance,
-											 'text_telephone'=>$text_telephone,
-											 'text_mail'=>$text_mail,
-											 'text_sexe'=>$text_sexe,
-											 'text_taille'=>$text_taille,
-											 'text_poids'=>$text_poids,
-										     'text_commentaires'=>$text_commentaires,
-											 'BDDidAdresse'=>$BDDidAdresse));													
+												'text_nom'=>$text_nom,
+											    'text_prenom'=>$text_prenom,
+											    'text_dateNaissance'=>$text_dateNaissance,
+											    'text_telephone'=>$text_telephone,
+											    'text_mail'=>$text_mail,
+											    'text_sexe'=>$text_sexe,
+												'text_taille'=>$text_taille,
+											    'text_poids'=>$text_poids,
+												'text_commentaires'=>$text_commentaires,
+												'BDDidAdresse'=>$BDDidAdresse,
+												'patientModif'=>$patientModif));										
 				//-------------
 				$auth_user->redirect('FichePatientCreer.php?Valide');
 			}	
@@ -229,7 +248,6 @@ if(isset($_POST['btn-modifier']))
 			}
 			else
 			{
-				echo $_SESSION['patient'];
 				$req_patient = $auth_user->runQuery("SELECT * 
 										FROM Patients Join Adresses JOIN Villes
 										WHERE Patients.AdressesidAdresse = Adresses.idAdresse
@@ -238,8 +256,6 @@ if(isset($_POST['btn-modifier']))
 	
 				$req_patient->execute(array("numSS"=>$_SESSION['patient']));
 				$patientInfo=$req_patient -> fetch(PDO::FETCH_ASSOC);
-				
-				Dumper ($patientInfo);
 				include ('../Formulaires/FichePatientModifier.php');; // recherche patient existe pas (redirection fiche patient)
 				
 			}
