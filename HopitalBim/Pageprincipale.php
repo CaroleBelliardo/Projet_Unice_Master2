@@ -8,7 +8,7 @@
 	
 	unset($_SESSION["patient"]);
 	unset($_SESSION["serviceModifier"]);
-
+	unset($_SESSION['utilisateurModifier']);
 	
 	//variables Globales
 	$auth_user = new Systeme(); // Connection bdd	
