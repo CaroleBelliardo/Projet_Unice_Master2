@@ -1,177 +1,130 @@
-<!-- Chose a faire : 
-		
-		-->
 <?php
-include ('../Config/Menupage.php');
-// faire en sorte que seul l'admin puisse y acceder
 
-if ($_SESSION['idEmploye']=="admin00"){}
-		else
+	include ('../Config/Menupage.php');
+	$lien ='ServiceModifier.php';
+
+	if(isset($_POST['btn-modifier']))
+{
+
+
+	// Recuperation des champs entrés dans le formulaire : 
+	// recuperation des information relatif à la table Services
+	$text_nomService = ucfirst(trim($_POST['text_nomService']));	
+	$text_telephone = strip_tags($_POST['text_telephone']);	
+	$text_mail = $text_nomService."@hopitalbim.fr";   // l'adresse mail sera toujours = au nom de service+@hotpitalbim.fr
+	$text_ouverture = date('h:i', strtotime($_POST['text_ouverture']));
+	$text_fermeture = date('h:i', strtotime($_POST['text_fermeture'])); 
+	// recuperation des information relatif à la table LocalisationServices
+	$text_batiment = $_POST['text_batiment'];	
+	$text_etage = $_POST['text_etage'];	
+	$text_aile = $_POST['text_aile'];	
+	
+	// TEST si le service est deja present : 
+	$stmt = $auth_user->runQuery("SELECT nomService FROM Services WHERE nomService=:nomService ");
+	$stmt->execute(array('nomService'=>$text_nomService));
+	$rechercheService=$stmt->fetch(PDO::FETCH_ASSOC);
+	echo $rechercheService['nomService'];
+		// Apres avoir realisé une requete pour rechercher les services, on va tester si celui est present dans la bdd
+	if($text_nomService=="")	{
+		$error[] = "Il faut ajouter un nom de service"; }
+	else if ($rechercheService['nomService']=="" or $rechercheService['nomService']==$serviceInfo['nomService'])
+	{
+		try
 		{
-			$auth_user->redirect('Pageprincipale.php'); 
-	// dans le cas ou nous sommes pas en presence de l'admin.
+			// Ajout de la localisation en premier 
+			$stmt = $auth_user->runQuery("SELECT * FROM LocalisationServices WHERE batiment=:batiment AND aile=:aile AND etage=:etage");
+			$stmt->execute(array('batiment'=>$text_batiment, 'aile'=>$text_aile,'etage'=>$text_etage));
+			$row=$stmt->fetch(PDO::FETCH_ASSOC);
+			
+			if($row['batiment']==$text_batiment and $row['aile']==$text_aile and $row['etage']==$text_etage)  
+			{
+				$BddidLocalisation=$row['idLocalisation'];
+				$ajoutService = $auth_user->runQuery("UPDATE Services 
+																SET 
+																nomService=:text_nomService,
+															   telephone=:text_telephone, 
+																mail=:text_mail,
+																horaire_ouverture=:text_ouverture,
+																horaire_fermeture=:text_fermeture,
+																LocalisationServicesidLocalisation=:BddidLocalisation
+																WHERE nomService=:serviceModifier");
+				$ajoutService->execute(array('text_nomService'=>$text_nomService,
+											'text_telephone'=>$text_telephone,
+											'text_mail'=>$text_mail,
+											'text_ouverture'=>$text_ouverture,
+											'text_fermeture'=>$text_fermeture,
+											'BddidLocalisation'=>$BddidLocalisation,
+											'serviceModifier'=>$_SESSION['serviceModifier']));
+			}
+			else
+			{	
+				//Ajout de la localisation 
+				$ajoutLocalisation = $auth_user->runQuery("INSERT INTO LocalisationServices (batiment, aile, etage) 
+															VALUES (:batiment, :aile, :etage) ");  // preparation de la requete SQL
+				$ajoutLocalisation->execute(array('batiment'=>$text_batiment,
+											'aile'=>$text_aile,
+											'etage'=>$text_etage));   // execution de la requete SQL, ajout de la localisation du service 
+				$stmt = $auth_user->runQuery("SELECT MAX(idLocalisation) FROM LocalisationServices");  // recuperation du dernier id rentrée
+				$stmt->execute(); // recuperation du dernier id rentrée
+				$BddidLocalisation = $stmt->fetch(PDO::FETCH_ASSOC)["MAX(idLocalisation)"]; // recuperation du dernier id localisation entrée dans la BDD
+				
+				$ajoutService = $auth_user->runQuery("UPDATE Services 
+																SET 
+																nomService=:text_nomService,
+															   telephone=:text_telephone, 
+																mail=:text_mail,
+																horaire_ouverture=:text_ouverture,
+																horaire_fermeture=:text_fermeture,
+																LocalisationServicesidLocalisation=:BddidLocalisation
+																WHERE nomService=:serviceModifier");
+				$ajoutService->execute(array('text_nomService'=>$text_nomService,
+											'text_telephone'=>$text_telephone,
+											'text_mail'=>$text_mail,
+											'text_ouverture'=>$text_ouverture,
+											'text_fermeture'=>$text_fermeture,
+											'BddidLocalisation'=>$BddidLocalisation,
+											'serviceModifier'=>$_SESSION['serviceModifier']));   // execution de la requete SQL et ajout du service dans la base 
+			} 
 		}
+		catch(PDOException $e)
+		{
+			echo $e->getMessage();
+		}
+		$auth_user->redirect('ServiceCreer.php?Valide'); // une fois l ensemble des messages affiché, 
+	}
 
+}
+	if(isset($_POST['redirection']))
+	{ 
+	$auth_user->redirect('RDVDemande.php');
+	}
 
-		
-if(isset($_POST['btn_demandeRDV']))
-{	 
-	echo $patient;
-	echo $user_id;
-	$text_nomPathologie = ucfirst(trim($_POST['text_nomPathologie'], ' '));	// trim enleve les espaces en debut et fin mais pas au milieu 
-	$text_indicationActe = ucfirst(trim($_POST['text_indicationActe'], ' '));	
-	$text_idIntervention = preg_replace("/[^0-9]/", "",trim($_POST['text_idIntervention'], ' '));		
-	$text_urgence = trim($_POST['text_urgence'], ' ');
-	$text_commentaires = trim($_POST['text_commentaires'], ' ');	
-	$text_indicationPathologie= trim($_POST['text_indicationPathologie'], ' ');
-	$ajoutRDV = $auth_user->runQuery("INSERT INTO CreneauxInterventions (date_rdv, heure_rdv, InterventionsidIntervention, niveauUrgence, pathologie, commentaires, PatientsnumSS, EmployesCompteUtilisateursIdEmploye) 
-	VALUES (:date_rdv, :heure_rdv, :InterventionsidIntervention, :niveauUrgence, :pathologie, :commentaires, :PatientsnumSS, :EmployesCompteUtilisateursIdEmploye)");
-	
-	$today = date("h:i:s");
-
-	$date_rdv = date("Y-m-d");
-	$heure_rdv = date("h:i:s");
-
-
-	$ajoutRDV->execute(array('date_rdv'=> $date_rdv,
-							'heure_rdv'=> $heure_rdv,
-							'InterventionsidIntervention'=> $text_idIntervention,
-							'niveauUrgence'=> $text_urgence,
-							'pathologie'=> $text_nomPathologie,
-							'commentaires'=> $text_commentaires,
-							'PatientsnumSS'=> $patient,
-							'EmployesCompteUtilisateursIdEmploye'=> $user_id));
-							//$donnees = mysqli_fetch_array($Actes)
-		
-
-	$ajoutRDV->closeCursor();
-	
-	$lien= 'RDVDemande.php';
- }
-?>
+?>	
 
 <!DOCTYPE html PUBLIC >
 <html>
-<head>
-<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-<title>Rechercher un service</title>
-</head>
-
-<body>
- 
- 
-	<?php // affichage
-		if ($user_id != 'admin00' and $test_chef == FALSE) 
+	<head>
+		<link rel="stylesheet" href=Style.css">
+		<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+		<title>Modifier le service</title>
+	</head>
+	<body>
+		<?php // affichage
+			If (!array_key_exists("serviceModifier",$_SESSION )) 
 			{
-				$auth_user->redirect('../Pageprincipale.php'); // si l'utilisateur est un medecin
-			}
-		Else 
-		{
-			If (!array_key_exists("nomService",$_SESSION )) 
-			{
-				include ('../Pages/RechercheService.php');; // recherche patient existe pas (redirection fiche patient)
+				include ('../Formulaires/RechercheService.php');; // recherche le service
 			}
 			else
 			{
-?>
-				 <p class="" style="margin-top:5px;">
-				<div class="signin-form">
-					<form method="post" class="form-signin">
-								<h2 class="form-signin-heading">Modification du service : <?php echo $_SESSION["nomService"]; ?></h2><hr /> <!--nom patient !!!!!!!!-->
-								<?php
-								if(isset($error)) // affichage messages erreurs si valeurs != format attendu
-								{
-									foreach($error as $error) // pour chaque champs
-									{
-?>
-										<div class="alert alert-danger">
-										<i class=""></i> &nbsp; <?php echo $error; ?>
-										</div>
-<?php
-									}
-								}
-								else if(isset($_GET['Valide'])) // si toutes les valeurs de champs ok et que bouton valider
-								{
-?>
-									<div class="alert alert-info">
-									<i class=""></i> Rendez-vous fixé le (date) à (heure) <a href='../Pageprincipale.php'>Page principale</a>
-									</div>
-<?php
-								}
-?>
-								
-								
-								<!-- Affichage formulaire -->
-								<fieldset>
-									<legend> Pathologie du patient </legend> <!-- Titre du fieldset --> 
-										<p>
-										<input type="text" class="" name="text_nomPathologie"  pattern="[a-zA-Z]{1-100}" title="Caractère alphabetique, 100 caractères maximum"  placeholder="Entrer le nom de la pathologie :" value="<?php if(isset($error)){echo $text_nomPathologie;}?>" /><br><br>
-										<input type="text" class="" name="text_indicationPathologie" pattern="[a-zA-Z]{0-30}" title="Caractère alphabetique, 30 caractères maximum"       placeholder="Entrer les indactions :" value="<?php if(isset($error)){echo $text_indicationPathologie;}?>" /><br><br>
-			 
-										</p>
-								</fieldset>
-								<fieldset>
-									<legend> Intervention demandée </legend> <!-- Titre du fieldset --> 
-										<p>
-											<!-- Affichage formulaire : moteur recherche-->
-											<input list="text_acte" name="text_acte" size='35'> 
-											<datalist id="text_acte" >
-<?php 
-												$req_serviceacte = $auth_user->runQuery("SELECT idIntervention, acte, ServicesnomService FROM Interventions"); // permet de rechercher le nom d utilisateur 
-												$req_serviceacte->execute(); // la meme 
-												while ($row_serviceacte = $req_serviceacte->fetch(PDO::FETCH_ASSOC))
-												{
-													echo "<option label='".$row_serviceacte['acte']."' 
-													value='".$row_serviceacte['acte']."'>".$row_serviceacte['acte']."</option>";
-												}
-												$req_serviceacte->closeCursor();
-?>
-											</datalist>
-											</br >
-			
-											<label   class="form-control" > Niveau d'urgence :&nbsp;&nbsp;      
-												<input type="radio"  name="text_urgence" value="0" checked="checked"/>0
-												<input type="radio"  name="text_urgence" value="1"/>1
-												<input type="radio"  name="text_urgence" value="2" />2
-												<input type="radio"  name="text_urgence" value="3" />3
-											</label><br><br>		
-											<input type="text" class="" name="text_indicationActe" pattern="[a-zA-Z]{0-30}" title="Caractère alphabetique, 30 caractères maximum"       placeholder="Entrer les indactions :" value="<?php if(isset($error)){echo $text_indicationActe;}?>" /><br>								
-										</p>
-								</fieldset>
-								<fieldset>
-									<legend> Commentaires </legend> <!-- Titre du fieldset --> 
-										<p>
-											<textarea type="text" class="" name="text_commentaires"   value="<?php if(isset($error)){echo $text_commentaires;}?>" ></textarea><br>
-										</p>
-									
-								</fieldset>
-								
-								
-								
-								
-								<!-- bouton validé -->
-						</div>
-						<div class="clearfix"></div><hr />
-						<div class="form-group">
-							<button type="submit" class="btn btn-primary" name="btn_demandeRDV">
-								<i class=""></i>Valider
-							</button>
-						<?php quitter1() ?>	
-						</div>
-					</form>
-		
-<?php
+				$req_service = $auth_user->runQuery("SELECT * 
+										FROM Services
+										WHERE  nomService = :nomService");
+				
+				$req_service->execute(array("nomService"=>$_SESSION['serviceModifier']));
+				$serviceInfo=$req_service -> fetch(PDO::FETCH_ASSOC);
+				include ('../Formulaires/ServiceModifier.php');; // recherche patient existe pas (redirection fiche patient)
 			}
-		}
-	?>
-
- 
- 
- 
- 
- 
-   
-</body>
-
+		?>
+	</body>
 
 </html>

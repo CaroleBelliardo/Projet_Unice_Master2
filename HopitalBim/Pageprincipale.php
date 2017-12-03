@@ -7,7 +7,8 @@
 	require_once("classe.Systeme.php"); // va permettre d effectuer les requettes sql en orienté objet.
 	
 	unset($_SESSION["patient"]);
-	unset($_SESSION["nomService"]);
+	unset($_SESSION["serviceModifier"]);
+
 	
 	//variables Globales
 	$auth_user = new Systeme(); // Connection bdd	
