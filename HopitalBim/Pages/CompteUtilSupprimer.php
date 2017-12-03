@@ -1,118 +1,125 @@
 <?php
-	// fonction qui permet d afficher les requetes sql et donc permet de jouer avec les données 
-	/*  A FAIRE : 
-		- champs html du departement et du pays afficher une liste ( plutot que de le taper) 
-		- les includes a faire.
-	*/
 
-include ('../Config/Menupage.php');
+	include ('../Config/Menupage.php');
+	$lien ='ServiceModifier.php';
+
+	if(isset($_POST['btn_utilisateur']))
+{
+
+
+	// Recuperation des champs entrés dans le formulaire : 
+	// recuperation des information relatif à la table Services
+	$text_nomService = ucfirst(trim($_POST['text_nomService']));	
+	$text_telephone = strip_tags($_POST['text_telephone']);	
+	$text_mail = $text_nomService."@hopitalbim.fr";   // l'adresse mail sera toujours = au nom de service+@hotpitalbim.fr
+	$text_ouverture = date('h:i', strtotime($_POST['text_ouverture']));
+	$text_fermeture = date('h:i', strtotime($_POST['text_fermeture'])); 
+	// recuperation des information relatif à la table LocalisationServices
+	$text_batiment = $_POST['text_batiment'];	
+	$text_etage = $_POST['text_etage'];	
+	$text_aile = $_POST['text_aile'];	
 	
-if(isset($_POST['btn-signup']))
-{	 
-	$text_utilisateur=$_POST['text_utilisateur'];
-
-	 
-	// ici je pense faire un include de $dep a $adresse tout foutre dans un seul et meme document car c est chiant a regarder 
-		 // Gestion des erreurs : 
-	if ($text_utilisateur==""){$error[] = "Il faut un selectionner un utilisateur !"; }
-	else if($text_utilisateur=="admin00")	{$error[] = "Impossible de supprimer l'Admin"; }
-	else 
-	{ 
-		
-		try 
+	// TEST si le service est deja present : 
+	$stmt = $auth_user->runQuery("SELECT nomService FROM Services WHERE nomService=:nomService ");
+	$stmt->execute(array('nomService'=>$text_nomService));
+	$rechercheService=$stmt->fetch(PDO::FETCH_ASSOC);
+	echo $rechercheService['nomService'];
+		// Apres avoir realisé une requete pour rechercher les services, on va tester si celui est present dans la bdd
+	if($text_nomService=="")	{
+		$error[] = "Il faut ajouter un nom de service"; }
+	else if ($rechercheService['nomService']=="" or $rechercheService['nomService']==$serviceInfo['nomService'])
+	{
+		try
 		{
-			$ajoutchef = $auth_user->conn->prepare("DELETE FROM CompteUtilisateurs WHERE 
-													idEmploye=:text_utilisateur");
-			$ajoutchef->bindparam(":text_utilisateur", $text_utilisateur);
-			$ajoutchef->execute();
-			$auth_user->redirect('CompteUtilSupprimer.php?Valide');
+			// Ajout de la localisation en premier 
+			$stmt = $auth_user->runQuery("SELECT * FROM LocalisationServices WHERE batiment=:batiment AND aile=:aile AND etage=:etage");
+			$stmt->execute(array('batiment'=>$text_batiment, 'aile'=>$text_aile,'etage'=>$text_etage));
+			$row=$stmt->fetch(PDO::FETCH_ASSOC);
+			
+			if($row['batiment']==$text_batiment and $row['aile']==$text_aile and $row['etage']==$text_etage)  
+			{
+				$BddidLocalisation=$row['idLocalisation'];
+				$ajoutService = $auth_user->runQuery("UPDATE Services 
+																SET 
+																nomService=:text_nomService,
+															   telephone=:text_telephone, 
+																mail=:text_mail,
+																horaire_ouverture=:text_ouverture,
+																horaire_fermeture=:text_fermeture,
+																LocalisationServicesidLocalisation=:BddidLocalisation
+																WHERE nomService=:serviceModifier");
+				$ajoutService->execute(array('text_nomService'=>$text_nomService,
+											'text_telephone'=>$text_telephone,
+											'text_mail'=>$text_mail,
+											'text_ouverture'=>$text_ouverture,
+											'text_fermeture'=>$text_fermeture,
+											'BddidLocalisation'=>$BddidLocalisation,
+											'serviceModifier'=>$_SESSION['serviceModifier']));
+			}
+			else
+			{	
+				//Ajout de la localisation 
+				$ajoutLocalisation = $auth_user->runQuery("INSERT INTO LocalisationServices (batiment, aile, etage) 
+															VALUES (:batiment, :aile, :etage) ");  // preparation de la requete SQL
+				$ajoutLocalisation->execute(array('batiment'=>$text_batiment,
+											'aile'=>$text_aile,
+											'etage'=>$text_etage));   // execution de la requete SQL, ajout de la localisation du service 
+				$stmt = $auth_user->runQuery("SELECT MAX(idLocalisation) FROM LocalisationServices");  // recuperation du dernier id rentrée
+				$stmt->execute(); // recuperation du dernier id rentrée
+				$BddidLocalisation = $stmt->fetch(PDO::FETCH_ASSOC)["MAX(idLocalisation)"]; // recuperation du dernier id localisation entrée dans la BDD
+				
+				$ajoutService = $auth_user->runQuery("UPDATE Services 
+																SET 
+																nomService=:text_nomService,
+															   telephone=:text_telephone, 
+																mail=:text_mail,
+																horaire_ouverture=:text_ouverture,
+																horaire_fermeture=:text_fermeture,
+																LocalisationServicesidLocalisation=:BddidLocalisation
+																WHERE nomService=:serviceModifier");
+				$ajoutService->execute(array('text_nomService'=>$text_nomService,
+											'text_telephone'=>$text_telephone,
+											'text_mail'=>$text_mail,
+											'text_ouverture'=>$text_ouverture,
+											'text_fermeture'=>$text_fermeture,
+											'BddidLocalisation'=>$BddidLocalisation,
+											'serviceModifier'=>$_SESSION['serviceModifier']));   // execution de la requete SQL et ajout du service dans la base 
+			} 
 		}
 		catch(PDOException $e)
-		{			
+		{
 			echo $e->getMessage();
-		}	
-		
+		}
+		$auth_user->redirect('ServiceCreer.php?Valide'); // une fois l ensemble des messages affiché, 
 	}
-}
-?>
 
+}
+?>	
 
 <!DOCTYPE html PUBLIC >
 <html>
-<head>
-
-<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-<title>Supprimer un utilisateur</title>
-</head>
-
-<body>
-
-    <p class="" style="margin-top:5px;">
-<div class="signin-form">
-
-<div class="container">
-    	
-<form method="post" class="form-signin">
-            <h2 class="form-signin-heading">Supprimer un utilisateur</h2><hr />
-            <?php
-			if(isset($error))
+	<head>
+		<link rel="stylesheet" href=Style.css">
+		<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+		<title>Modifier le service</title>
+	</head>
+	<body>
+		<?php // affichage
+			If (!array_key_exists("serviceModifier",$_SESSION )) 
 			{
-			 	foreach($error as $error)
-			 	{
-			?>
-                    <div class="alert alert-danger">
-                    <i class=""></i> &nbsp; <?php echo $error; ?>
-                    </div>
-					<?php
-				}
+				include ('../Formulaires/RechercheService.php');; // recherche le service
 			}
-			else if(isset($_GET['Valide']))
+			else
 			{
-					?>
-                <div class="alert alert-info">
-                <i class=""></i>Utilisateur supprimé avec succes<a href='../Pageprincipale.php'>Page principale</a>
-                </div>
-            <?php
+				$req_service = $auth_user->runQuery("SELECT * 
+										FROM Services
+										WHERE  nomService = :nomService");
+				
+				$req_service->execute(array("nomService"=>$_SESSION['serviceModifier']));
+				$serviceInfo=$req_service -> fetch(PDO::FETCH_ASSOC);
+				include ('../Formulaires/ServiceModifier.php');; // recherche patient existe pas (redirection fiche patient)
 			}
-			?>
-			
-            <div class="form-group" >
-			<fieldset>
-			<legend> Compte utilisateur </legend> <!-- Titre du fieldset --> 
-			<p>
-				Recherche d'un utilisateur :
-				<input list="text_utilisateur" name="text_utilisateur" size='35'> 
-				<datalist id="text_utilisateur" >
-				<?php 
-				$stmt = $auth_user->runQuery("SELECT * FROM Employes"); // permet de rechercher le nom d utilisateur 
-				$stmt->execute(); // la meme 
-				while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
-				echo "<option value='".$row['CompteUtilisateursidEmploye']."'>".$row['CompteUtilisateursidEmploye']." ".$row['nom']." ".$row['prenom']." ".$row['ServicesnomService']."</option>";
-				}?></datalist>
-			
-			</p>
-			</fieldset>		
-			</br >
-			</div>
-			
-			
-			</div>
-			
-            <div class="clearfix"></div><hr />
-            <div class="form-group">
-            	<button type="submit" class="btn btn-primary" name="btn-signup">
-                	<i class=""></i>Valider
-                </button>
-            </div>
-        </form>
+		?>
+	</body>
 
-       </div>
-</div>
-
-</div>
-<?php quitter1() ?>	
-
-</body>
-
- 
 </html>

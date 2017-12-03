@@ -35,6 +35,8 @@ Améliorations
 remerciements
 # -- Code
 renommer fichier accueil = index
+	FINI : une redirection vers accueil que l'on soit connecté ou pas, et si l'utilisateur est perdu dans le site ex : hopitalbim/Pages/
+
 redirection selon droit utilisateurs pour chaque page privée
 menu selon droit utilisateurs
 
@@ -55,10 +57,10 @@ demande rdv
 - ecrire la fonction des verif des incompatibilités
 - ecrire la fonctin de la notification
 
-modifier 
--service
--compte utilisateur
--patient
+FINI :modifier 
+FINI : -service
+FINI : -compte utilisateur
+FINI : -patient
 
 supprimer 
 -Creer table archive dans la structure bdd // copier coller table.archive
