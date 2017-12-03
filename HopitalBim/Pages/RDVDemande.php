@@ -104,21 +104,20 @@ if(isset($_POST['btn_demandeRDV'])) // si utilisateur clique sur le bouton deman
 				$req_refUrgence->closeCursor();
 				$a_niveauUrgence=array( "niveauUrgenceMax" => 0,"niveauUrgenceMin" =>0); // affectation niveauUrgence de reference pour test administrateur
 			}
+// **************************************          Recherche l'HEURE de creneau dispo la plus proche         *********************************
 		
-		// -- Recherche l'HEURE de creneau dispo la plus proche
 			// Recherche le prochain creneau disponible pour l'intervention demandé ( dernier creneaux enregistré +15 min ou premier creneau annulé)
 			$a_infoDateHeure=prochainCreneauxDispo($auth_user,$idIntervention);
 			if ($a_infoDateHeure["MIN(heureR)"] == NULL ) // gestion erreur : si PAS DE RDV prevu pour ce service dans le planning, retour requete = null 
 			{
-				//$a_infoDateHeure["MIN(dateR)"] = date('Y-m-d');
 				$a_infoDateHeure["MIN(heureR)"] = ProchaineHeureArrondie(); //=> on affecte date & heure actuelles		
-				
-				if ($a_infoDateHeure["MIN(heureR)"] >= $a_horaireFermeture["horaire_fermeture"]  ) // gestion erreur : si heure = actuelle = heure de fermeture de service  
+				$a_infoDateHeure["MIN(dateR)"] = date('Y-m-d');	
+				if ($a_infoDateHeure["MIN(heureR)"] >= $a_horaireFermeture["horaire_fermeture"]  ) // gestion erreur : si service = ferme avant minuit 
 				{
 					$a_infoDateHeure["MIN(heureR)"] = $a_horaireFermeture["horaire_ouverture"]; //=> on affecte date & heure actuelles
 					$a_infoDateHeure["MIN(dateR)"] = date('Y-m-d', strtotime('+1 day'));	
 				}
-				elseif ($a_infoDateHeure["MIN(heureR)"] <= $a_horaireFermeture["horaire_ouverture"]  )
+				elseif ($a_infoDateHeure["MIN(heureR)"] <= $a_horaireFermeture["horaire_ouverture"]  )  // gestion erreur : si service = ferme après minuit  
 				{
 					$a_infoDateHeure["MIN(heureR)"] = $a_horaireFermeture["horaire_ouverture"]; //=> on affecte date & heure actuelles
 					$a_infoDateHeure["MIN(dateR)"] = date('Y-m-d');
@@ -140,18 +139,18 @@ if(isset($_POST['btn_demandeRDV'])) // si utilisateur clique sur le bouton deman
 				switch ($niveauUrgence) // fixe un delais selon niveau urgence
 				{
 					case 3:
-						$delais=heurePlus15($now,'+180 minutes'); 
+						$finDelais=heurePlus15($now,'+180 minutes'); 
 						break;//alors on insert à la suite 
 					case 2:
-						$delais=heurePlus15($now,'+360 minutes');
+						$finDelais=heurePlus15($now,'+360 minutes');
 						break;
 					case 1:
 						$datedelais = date('Y-m-d', strtotime('+1 day'));
-						$delais=$now;
+						$finDelais=$now;
 						break;
 				}
 				
-				if ($a_infoDateHeure["MIN(heureR)"] > $delais) // si premier creneau dispo est hors delais on recherche un autre creneaux dont rdv < urgent et on decale les rendez-vous suivant
+				if ($a_infoDateHeure["MIN(heureR)"] > $finDelais) // si premier creneau dispo est hors delais on recherche un autre creneaux dont rdv < urgent et on decale les rendez-vous suivant
 				{
 				//-- Recherche le dernier creneau dont niveau d'urgence >= au niveau d'urgence
 					$a_infoDateHeureUrgence=prochainCreneauxUrgent($auth_user,$niveauUrgence,$idIntervention );  
@@ -174,12 +173,6 @@ if(isset($_POST['btn_demandeRDV'])) // si utilisateur clique sur le bouton deman
 																niveauUrgence = (niveauUrgence + '1') 
 																WHERE id_rdv = :id_rdv" );
 				
-				// cas ou service fermé !!!!!!!!!!!!!!!!!!!
-				// et delais urgence non respecté alors = >> demain ou auj debut service
-					$attente= abs($now-$req_horraireFermeture["horaire_fermeture"]);
-					echo $attente;
-					//if ($now > $req_horraireFermeture["horaire_fermeture"])
-					
 				
 					foreach($a_creneauSuiv["id_rdv"] as $k=>$v) /////  ???  faire le while sur le fetch ??????????????????????????????????????
 					{
