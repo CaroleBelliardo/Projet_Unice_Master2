@@ -94,11 +94,6 @@
 	}
 
 }
-	if(isset($_POST['redirection']))
-	{ 
-	$auth_user->redirect('RDVDemande.php');
-	}
-
 ?>	
 
 <!DOCTYPE html PUBLIC >

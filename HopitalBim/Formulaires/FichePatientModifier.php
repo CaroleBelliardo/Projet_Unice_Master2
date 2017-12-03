@@ -20,7 +20,7 @@
 			{
 				 ?>
                  <div class="alert alert-info">
-                      <i class=""></i>Patient enregistré avec succes<a href='../RDVDemande.php'></br>
+                      <i class=""></i>Patient enregistré avec succes<a href='../Pages/RDVDemande.php'></br>
 					  Demande de rendez-vous.</a>
                  </div>
                  <?php

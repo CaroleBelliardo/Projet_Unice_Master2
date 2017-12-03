@@ -31,7 +31,7 @@
 			{
 			?>
                  <div class="alert alert-info">
-                      <i class=""></i>Service modifié avec succes<br><a href='Pageprincipale.php'>Page principale</a>
+                      <i class=""></i>Service modifié avec succes<br><a href='../Pageprincipale.php'>Page principale</a>
                  </div>
             <?php
 			}
