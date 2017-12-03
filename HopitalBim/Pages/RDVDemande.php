@@ -127,7 +127,6 @@ if(isset($_POST['btn_demandeRDV'])) // si utilisateur clique sur le bouton deman
 			{
 				$a_infoDateHeure["heureR"]=heurePlus15($a_infoDateHeure["heureR"],'+15 minutes');
 			}
-			Dumper($a_infoDateHeure);
 			
 
 // **************************************          Recherche Horaire APPROPRIEE SI niveau urgence != 0         *********************************
@@ -216,7 +215,6 @@ if(isset($_POST['btn_demandeRDV'])) // si utilisateur clique sur le bouton deman
 			} // fin instruction si urgence !=0
 				// INSERTION rdv
 				
-			Dumper($a_infoDateHeure);	
 			$ajoutRDV = $auth_user->runQuery("INSERT INTO CreneauxInterventions (date_rdv, heure_rdv, InterventionsidIntervention,
 										niveauUrgence, PathologiesidPatho, commentaires, PatientsnumSS, EmployesCompteUtilisateursIdEmploye) 
 										VALUES (:date_rdv, :heure_rdv, :InterventionsidIntervention, :niveauUrgence, :pathologie,
