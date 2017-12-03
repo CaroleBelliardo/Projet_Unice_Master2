@@ -140,11 +140,11 @@
     
     function prochainCreneauxUrgent($auth_user,$niveauUrgence, $idIntervention )  // fonction qui test tous les niveaux d'urgence jusqu'a trouver un creneaux compatible
     {
-        $a_infoDateHeureUrgence["MIN(dateR)"]=null; //initialisation
+        $a_infoDateHeureUrgence["dateR"]=null; //initialisation
         for ($i=$niveauUrgence; $i>=0; $i--)
         {
             //echo "etape :".$i."<br>";
-			if ($a_infoDateHeureUrgence["MIN(dateR)"] != null )
+			if ($a_infoDateHeureUrgence["dateR"] != null )
             {
                  return ($a_infoDateHeureUrgence);
             }

@@ -108,24 +108,24 @@ if(isset($_POST['btn_demandeRDV'])) // si utilisateur clique sur le bouton deman
 		
 			// Recherche le prochain creneau disponible pour l'intervention demandé ( dernier creneaux enregistré +15 min ou premier creneau annulé)
 			$a_infoDateHeure=prochainCreneauxDispo($auth_user,$idIntervention);
-			if ($a_infoDateHeure["MIN(heureR)"] == NULL ) // gestion erreur : si PAS DE RDV prevu pour ce service dans le planning, retour requete = null 
+			if ($a_infoDateHeure["heureR"] == NULL ) // gestion erreur : si PAS DE RDV prevu pour ce service dans le planning, retour requete = null 
 			{
-				$a_infoDateHeure["MIN(heureR)"] = ProchaineHeureArrondie(); //=> on affecte date & heure actuelles		
-				$a_infoDateHeure["MIN(dateR)"] = date('Y-m-d');	
-				if ($a_infoDateHeure["MIN(heureR)"] >= $a_horaireFermeture["horaire_fermeture"]  ) // gestion erreur : si service = ferme avant minuit 
+				$a_infoDateHeure["heureR"] = ProchaineHeureArrondie(); //=> on affecte date & heure actuelles		
+				$a_infoDateHeure["dateR"] = date('Y-m-d');	
+				if ($a_infoDateHeure["heureR"] >= $a_horaireFermeture["horaire_fermeture"]  ) // gestion erreur : si service = ferme avant minuit 
 				{
-					$a_infoDateHeure["MIN(heureR)"] = $a_horaireFermeture["horaire_ouverture"]; //=> on affecte date & heure actuelles
-					$a_infoDateHeure["MIN(dateR)"] = date('Y-m-d', strtotime('+1 day'));	
+					$a_infoDateHeure["heureR"] = $a_horaireFermeture["horaire_ouverture"]; //=> on affecte date & heure actuelles
+					$a_infoDateHeure["dateR"] = date('Y-m-d', strtotime('+1 day'));	
 				}
-				elseif ($a_infoDateHeure["MIN(heureR)"] <= $a_horaireFermeture["horaire_ouverture"]  )  // gestion erreur : si service = ferme après minuit  
+				elseif ($a_infoDateHeure["heureR"] <= $a_horaireFermeture["horaire_ouverture"]  )  // gestion erreur : si service = ferme après minuit  
 				{
-					$a_infoDateHeure["MIN(heureR)"] = $a_horaireFermeture["horaire_ouverture"]; //=> on affecte date & heure actuelles
-					$a_infoDateHeure["MIN(dateR)"] = date('Y-m-d');
+					$a_infoDateHeure["heureR"] = $a_horaireFermeture["horaire_ouverture"]; //=> on affecte date & heure actuelles
+					$a_infoDateHeure["dateR"] = date('Y-m-d');
 				}				
 			}
-			elseif (($a_infoDateHeure["MIN(heureR)"] != NULL ) and ($a_infoDateHeure["MIN(statutR)"] = 'p'))//or ($a_infoDateHeure["MIN(heureR)"] !=  $a_horaireFermeture["heure_ouverture"] )) // a verif si creneaux = prevu; alors ajoute  15 min pour obtenir l'heure de creneau a affecter au RDV 
+			elseif (($a_infoDateHeure["heureR"] != NULL ) and ($a_infoDateHeure["statutR"] = 'p'))//or ($a_infoDateHeure["heureR"] !=  $a_horaireFermeture["heure_ouverture"] )) // a verif si creneaux = prevu; alors ajoute  15 min pour obtenir l'heure de creneau a affecter au RDV 
 			{
-				$a_infoDateHeure["MIN(heureR)"]=heurePlus15($a_infoDateHeure["MIN(heureR)"],'+15 minutes');
+				$a_infoDateHeure["heureR"]=heurePlus15($a_infoDateHeure["heureR"],'+15 minutes');
 			}
 			Dumper($a_infoDateHeure);
 			
@@ -150,7 +150,7 @@ if(isset($_POST['btn_demandeRDV'])) // si utilisateur clique sur le bouton deman
 						break;
 				}
 				
-				if ($a_infoDateHeure["MIN(heureR)"] > $finDelais) // si premier creneau dispo est hors delais on recherche un autre creneaux dont rdv < urgent et on decale les rendez-vous suivant
+				if ($a_infoDateHeure["heureR"] > $finDelais) // si premier creneau dispo est hors delais on recherche un autre creneaux dont rdv < urgent et on decale les rendez-vous suivant
 				{
 				//-- Recherche le dernier creneau dont niveau d'urgence >= au niveau d'urgence
 					$a_infoDateHeureUrgence=prochainCreneauxUrgent($auth_user,$niveauUrgence,$idIntervention );  
@@ -162,8 +162,8 @@ if(isset($_POST['btn_demandeRDV'])) // si utilisateur clique sur le bouton deman
 															AND date_rdv = :date
 															AND heure_rdv > :heure" ); 
 					$req_CreneauSuivant->execute(array('idIntervention'=> $idIntervention,
-														'date'=> $a_infoDateHeureUrgence["MIN(dateR)"] ,
-														'heure'=> $a_infoDateHeureUrgence["MIN(heureR)"]));
+														'date'=> $a_infoDateHeureUrgence["dateR"] ,
+														'heure'=> $a_infoDateHeureUrgence["heureR"]));
 					
 					$a_creneauSuiv= reqToArrayPlusligne($req_CreneauSuivant);
 					$req_CreneauSuivant->closeCursor(); 
@@ -197,7 +197,7 @@ if(isset($_POST['btn_demandeRDV'])) // si utilisateur clique sur le bouton deman
 																WHERE InterventionsidIntervention = :idIntervention
 																AND  date_rdv= :date   "); 
 					$req_heureFinJour->execute(array("idIntervention" => $idIntervention,
-													 "date" => $a_infoDateHeureUrgence["MIN(heureR)"]));
+													 "date" => $a_infoDateHeureUrgence["heureR"]));
 					$a_horaireFermeture["horaire_reel"] = $req_heureFinJour->fetchColumn();
 					$req_heureFinJour->closeCursor();
 					
@@ -221,8 +221,8 @@ if(isset($_POST['btn_demandeRDV'])) // si utilisateur clique sur le bouton deman
 										niveauUrgence, PathologiesidPatho, commentaires, PatientsnumSS, EmployesCompteUtilisateursIdEmploye) 
 										VALUES (:date_rdv, :heure_rdv, :InterventionsidIntervention, :niveauUrgence, :pathologie,
 										:commentaires,:PatientsnumSS, :EmployesCompteUtilisateursIdEmploye)");
-			$ajoutRDV->execute(array('date_rdv'=> $a_infoDateHeure["MIN(dateR)"],
-								'heure_rdv'=> $a_infoDateHeure["MIN(heureR)"],
+			$ajoutRDV->execute(array('date_rdv'=> $a_infoDateHeure["dateR"],
+								'heure_rdv'=> $a_infoDateHeure["heureR"],
 								'InterventionsidIntervention'=> $idIntervention,
 								'niveauUrgence'=> $niveauUrgence,
 								'pathologie'=> $idPatho, 
