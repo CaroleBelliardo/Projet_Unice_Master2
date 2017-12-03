@@ -108,7 +108,8 @@ if(isset($_POST['btn_demandeRDV'])) // si utilisateur clique sur le bouton deman
 		
 			// Recherche le prochain creneau disponible pour l'intervention demandé ( dernier creneaux enregistré +15 min ou premier creneau annulé)
 			$a_infoDateHeure=prochainCreneauxDispo($auth_user,$idIntervention);
-			if ($a_infoDateHeure["heureR"] == NULL ) // gestion erreur : si PAS DE RDV prevu pour ce service dans le planning, retour requete = null 
+			
+			if (!array_key_exists('heureR', $a_infoDateHeure )) // gestion erreur : si PAS DE RDV prevu pour ce service dans le planning, retour requete = null 
 			{
 				$a_infoDateHeure["heureR"] = ProchaineHeureArrondie(); //=> on affecte date & heure actuelles		
 				$a_infoDateHeure["dateR"] = date('Y-m-d');	
@@ -123,7 +124,7 @@ if(isset($_POST['btn_demandeRDV'])) // si utilisateur clique sur le bouton deman
 					$a_infoDateHeure["dateR"] = date('Y-m-d');
 				}				
 			}
-			elseif (($a_infoDateHeure["heureR"] != NULL ) and ($a_infoDateHeure["statutR"] = 'p'))//or ($a_infoDateHeure["heureR"] !=  $a_horaireFermeture["heure_ouverture"] )) // a verif si creneaux = prevu; alors ajoute  15 min pour obtenir l'heure de creneau a affecter au RDV 
+			elseif (((array_key_exists('heureR', $a_infoDateHeure )) and ($a_infoDateHeure["statutR"] = 'p')))//or ($a_infoDateHeure["heureR"] !=  $a_horaireFermeture["heure_ouverture"] )) // a verif si creneaux = prevu; alors ajoute  15 min pour obtenir l'heure de creneau a affecter au RDV 
 			{
 				$a_infoDateHeure["heureR"]=heurePlus15($a_infoDateHeure["heureR"],'+15 minutes');
 			}
