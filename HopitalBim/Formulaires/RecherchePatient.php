@@ -2,9 +2,23 @@
 
 if(isset($_POST['btn_facturation'])) // action du bouton btn_facture
 {	 
-	$text_numSS = preg_replace("/[^0-9]/", "",trim($_POST['text_patient'], ' '));		
-	$_SESSION["patient"] = $text_numSS;
-	$auth_user->redirect($lien);
+	$text_numSS = preg_replace("/[^0-9]/", "",trim($_POST['text_patient'], ' '));
+	// Gestion erreur : idPatient existe pas dans la bdd
+		$req_numSS = $auth_user->runQuery(" SELECT numSS
+											FROM Patients
+											WHERE numSS = :numSS" ); // recherche le numSS dans la bdd
+		$req_numSS->execute(array('numSS'=> $text_numSS));
+		$numSS= $req_numSS-> fetchColumn();
+
+		if ($numSS == "") // nom de d'INTERVENTION abscent de la base de donnée
+		{
+			$error[] =  "Saisir un numéro de sécurité sociale valide";
+		}
+		else 
+		{
+			$_SESSION["patient"] = $text_numSS;
+			$auth_user->redirect($lien);
+		}
 }	
 
 
