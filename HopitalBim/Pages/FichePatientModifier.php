@@ -11,7 +11,6 @@ if(isset($_POST['btn-modifier']))
 	
 	$text_ville = ucfirst(trim($_POST['text_ville'], ' '))	;
 	$text_codepostal = trim($_POST['text_codepostal'], ' ');	
-	echo$text_departement.$text_pays.$text_ville.$text_codepostal; 
 	
 	$text_numero = trim($_POST['text_numero'], ' ' );	
 	$text_rue = ucfirst(trim($_POST['text_rue'], ' '))	;
@@ -68,9 +67,10 @@ if(isset($_POST['btn-modifier']))
 			$stmt->execute(array('text_codepostal'=>$text_codepostal, 'text_ville'=>$text_ville, 'text_departement'=>$text_departement, 'text_pays'=>$text_pays));
 			$row=$stmt->fetch(PDO::FETCH_ASSOC);
 			$BDDidVilles=$row['idVilles'];
-			echo $BDDidVilles;
+			echo $BDDidVilles."   : bbdidville <br>";
 			if ($row['codepostal']==$text_codepostal and  $row['nomVilles']==$text_ville and $row['departement']==$text_departement and $row['pays']==$text_pays) 
 			{
+				echo "ggg";
 				// Test de l'adresse
 				$stmt = $auth_user->runQuery("SELECT * FROM Adresses 
 										WHERE numero=:text_numero AND rue=:text_rue AND VillesidVilles=:BDDidVilles");
@@ -78,13 +78,13 @@ if(isset($_POST['btn-modifier']))
 				$row=$stmt->fetch(PDO::FETCH_ASSOC);
 				Dumper($row);
 				$BDDidAdresse=$row['idAdresse'];
-				echo "t555555t".$patientModif. "<br>".$BDDidAdress;
+				echo "--->".$BDDidAdresse;
 				if ($row['numero']==$text_numero and  $row['rue']==$text_rue and $row['VillesidVilles']==$BDDidVilles )
 				{
-									echo "tt6666".$patientModif. "<br>";
+					echo "<br> dans la boucle : ";
 					// -- Ajout Patient
-					$ajoutpatient = $auth_user->conn->prepare("UPDATE Patients 
-															   SET numSS =:text_numSS, 
+					$ajoutpatient = $auth_user->runQuery("UPDATE Patients 
+															    
 															   nom=:text_nom, 
 															   prenom:text_prenom, 
 															   dateNaissance=:text_dateNaissance, 
@@ -97,7 +97,7 @@ if(isset($_POST['btn-modifier']))
 															   AdressesidAdresse=:BDDidAdresse
 															   WHERE numSS :=patientModif");
 		
-					$ajoutpatient->execute(array('text_numSS'=>$text_numSS,
+					$ajoutpatient->execute(array(
 											     'text_nom'=>$text_nom,
 											     'text_prenom'=>$text_prenom,
 											     'text_dateNaissance'=>$text_dateNaissance,
@@ -107,7 +107,8 @@ if(isset($_POST['btn-modifier']))
 											     'text_taille'=>$text_taille,
 											     'text_poids'=>$text_poids,
 												 'text_commentaires'=>$text_commentaires,
-											     'BDDidAdresse'=>$BDDidAdresse));								
+											     'BDDidAdresse'=>$BDDidAdresse,
+												 'patientModif'=>$patientModif));								
 					//-------------
 					$auth_user->redirect('FichePatientCreer.php?Valide');
 				}
@@ -228,14 +229,17 @@ if(isset($_POST['btn-modifier']))
 			}
 			else
 			{
+				echo $_SESSION['patient'];
 				$req_patient = $auth_user->runQuery("SELECT * 
 										FROM Patients Join Adresses JOIN Villes
 										WHERE Patients.AdressesidAdresse = Adresses.idAdresse
-										AND Adresses.idAdresse = Villes.idVilles
+										AND Adresses.VillesidVilles = Villes.idVilles
 										AND Patients.numSS = :numSS");
 	
 				$req_patient->execute(array("numSS"=>$_SESSION['patient']));
 				$patientInfo=$req_patient -> fetch(PDO::FETCH_ASSOC);
+				
+				Dumper ($patientInfo);
 				include ('../Formulaires/FichePatientModifier.php');; // recherche patient existe pas (redirection fiche patient)
 				
 			}
