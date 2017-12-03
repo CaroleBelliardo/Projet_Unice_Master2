@@ -56,13 +56,13 @@ if(isset($_POST['btn-login']))
       <form method="post" id="login-form">
         <header> S'authentifier <hr></header>
 
-            <div id="error"> <!-- A FAIRE -->
+            <div id="error">
             <?php
                 if(isset($error))
                     {
                         ?>
-                            <div class="alert alert-danger">
-                            <?php echo $error; ?> !
+                            <div class="alert">
+                            <?php echo $error; ?> ! Veuillez recommencer.
                             </div>
                         <?php
                      }

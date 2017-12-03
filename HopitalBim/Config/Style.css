@@ -135,25 +135,8 @@ form header {
   cursor: pointer;
 }
 
-#footer {
-    margin : 0px;
-    border-top: 1px solid #87CEFA;
-  /*  bottom: 0; */
-    left:0;
-    right:0;
-    color: white;
-    text-align: center;
-    height: 35px;
-    padding-top: 15px;
-    background-color: #17202A;
-}
-
-#footer a:link {
-  color : white;
-}
-
-#footer a:hover {
-    color: #87CEFA;
+#error {
+  color : red;
 }
 
 /*                     */
@@ -286,7 +269,7 @@ form header {
   margin-left: -50px;
   box-shadow: 0 0 0.5rem black; 
   position:absolute;
-  z-index: 2;
+  z-index: 1; /*2*/
 }
 
 .profile .photo img {
@@ -301,7 +284,7 @@ form header {
   height: 100%;
   top: -5px;
   left: 20px;
-  z-index: 1;
+  z-index: 0; /*1*/
 }
 
 .profile .content::before {   /* fond de biais */
@@ -345,3 +328,23 @@ h6 {
 /*                 */
 /*                 */
 
+#footer {
+    margin : 0px;
+    border-top: 1px solid #87CEFA;
+  /*  bottom: 0; */
+    left:0;
+    right:0;
+    color: white;
+    text-align: center;
+    height: 35px;
+    padding-top: 15px;
+    background-color: #17202A;
+}
+
+#footer a:link {
+  color : white;
+}
+
+#footer a:hover {
+    color: #87CEFA;
+}
