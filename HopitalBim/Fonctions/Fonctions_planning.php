@@ -1,6 +1,6 @@
 <?php	// Requetes ---
 		// -- Service à affiché, par defaut celui du service d'appartenance de l'utilisateur
-	function infoPlanning ($auth_user)
+	function infoPlanning ($auth_user,$a_utilisateur)
 	{
 		if (!array_key_exists('serviceModifier',$_SESSION))
 	{
@@ -84,8 +84,8 @@
 		
 		
 	$infoServiceJour = $auth_user->runQuery("SELECT TIME_FORMAT(CreneauxInterventions.heure_rdv,'%H:%i'),
-			Interventions.acte, Patients.nom, Patients.prenom, Patients.numSS,
-			CreneauxInterventions.niveauUrgence, CreneauxInterventions.statut 
+			Interventions.acte, Patients.nom, Patients.prenom, Patients.numSS, id_rdv,
+			CreneauxInterventions.niveauUrgence, CreneauxInterventions.statut
 			FROM `CreneauxInterventions` JOIN Interventions JOIN Patients
 			WHERE CreneauxInterventions.InterventionsidIntervention = Interventions.idIntervention
 			AND CreneauxInterventions.PatientsnumSS = Patients.numSS
@@ -103,6 +103,7 @@
 																													"prenom"=>$row["prenom"],
 																													"numSS"=>$row["numSS"],
 																													"niveauUrgence"=>$row["niveauUrgence"],
+																													"id_rdv"=>$row["id_rdv"],
 																													"statut"=>$row["statut"]];				
 				}
 				else
@@ -110,6 +111,7 @@
 					$infoServiceJours[$row["TIME_FORMAT(CreneauxInterventions.heure_rdv,'%H:%i')"]]=array($row["acte"] => ["nom"=>$row["nom"],
 										"prenom"=>$row["prenom"],
 										"numSS"=>$row["numSS"],
+										"id_rdv"=>$row["id_rdv"],
 										"niveauUrgence"=>$row["niveauUrgence"],
 										"statut"=>$row["statut"]]
 										);

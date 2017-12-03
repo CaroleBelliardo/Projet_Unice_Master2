@@ -11,11 +11,24 @@
 
 	$lien= 'Planning.php'; // redirection
 	
-	$a_ref=infoPlanning ($auth_user);
+	$a_ref=infoPlanning ($auth_user,$a_utilisateur);
 	$a_heures = $a_ref['heure'];
 	$a_idActes = $a_ref['actes'];
 	$infoServiceJours = $a_ref['info'];
 
+Dumper($_POST);
+	if (isset($_POST['btn-supp'])=="suppr_rdv")
+	{
+	//substr($_POST['btn-supp'],-15);
+	//$req_supprimerRDV = $auth_user->runQuery("UPDATE CreneauxInterventions 
+	//										SET statut = 'a'
+	//										WHERE idCreneau=:$num");
+	//$req_supprimerRDV->execute(array('idCreneau'=>$_POST["idCrenaux_supp"]));
+	$auth_user->redirect('Planning.php');
+	echo ' Rendez-vous supprimé';
+	}
+
+	
 // **************************  AFFICHAGE PAGE ********************************************   
 
 ?>
@@ -53,7 +66,7 @@
 	 
 		
 	 
-		 <table  BORDER="1",ALIGN="CENTER", VALIGN="MIDDLE " >
+		<CENTER> <table  BORDER="1",ALIGN="CENTER", VALIGN="MIDDLE " >
 		 <tr><th>Heure</th>
 		 <?php 
 			 foreach ($a_idActes as $idx=>$acte) // affichage de l'en-tete
@@ -78,16 +91,37 @@
 						 {
 		 ?>
 					 <td class= $infoServiceJours[$h][$acte]["statut"]>
+											<form method="post" >
+
 		 <?php
-						 echo $infoServiceJours[$h][$acte]["nom"]." ".$infoServiceJours[$h][$acte]["prenom"]."\n".$infoServiceJours[$h][$acte]["numSS"]."\n";
-						 }
-						 else
-						 {
+						
+						$num=$infoServiceJours[$h][$acte]["id_rdv"];
+						$tempo="<input name='suppr_rdv' value=$num type='submit'>";
+						echo $tempo;
+						echo $infoServiceJours[$h][$acte]["nom"]." ".$infoServiceJours[$h][$acte]["prenom"]."\n".$infoServiceJours[$h][$acte]["numSS"]."\n";
+		?>
+							<button type="submit"  name="btn-suppr_rdv" action= >
+								<i class=""></i>
+							</button>
+								<!--<input type="hidden" value=<?php $num?>  name= <?php $num ?>">
+								<input type="button" name="boutton" value="suppri">-->
+								
+								
+						</div>
+					</form>
+						
+			<?php			
+						
+						
+						
+							}
+						else
+						{
 		 ?>
 							 <td class="pasRDV">
 		 <?php
 							 echo "Libre";
-						 }
+						}
 					 }
 					 else
 					 {
@@ -105,7 +139,7 @@
 		 <?php
 			 } 
 		 ?>
-		 </table>
+		 </table></CENTER>
 		 <?php 	quitter1()	?>	
 		 
 		 
