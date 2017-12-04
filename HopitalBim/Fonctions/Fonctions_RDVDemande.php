@@ -31,7 +31,7 @@
 						AND InterventionsidIntervention = :idIntervention
 						AND CreneauxInterventions.statut = 'p'
 						AND heure_rdv >= (SELECT horaire_ouverture FROM Interventions  JOIN Services WHERE idIntervention = :idIntervention AND Interventions.ServicesnomService = Services.nomService)
-						AND heure_rdv < (SELECT horaire_fermeture FROM Interventions  JOIN Services WHERE idIntervention = :idIntervention  AND Interventions.ServicesnomService = Services.nomService)
+						AND heure_rdv <= (SELECT horaire_fermeture FROM Interventions  JOIN Services WHERE idIntervention = :idIntervention  AND Interventions.ServicesnomService = Services.nomService)
 						ORDER BY  date_rdv DESC, heure_rdv DESC LIMIT 1 
 ) 
 					UNION
@@ -43,7 +43,7 @@
 						AND InterventionsidIntervention = :idIntervention
 						AND CreneauxInterventions.statut = 'p'
 						AND heure_rdv >= (SELECT horaire_ouverture FROM Interventions  JOIN Services WHERE idIntervention = :idIntervention AND Interventions.ServicesnomService = Services.nomService)
-						AND heure_rdv < (SELECT horaire_fermeture FROM Interventions  JOIN Services WHERE idIntervention = :idIntervention  AND Interventions.ServicesnomService = Services.nomService)
+						AND heure_rdv <= (SELECT horaire_fermeture FROM Interventions  JOIN Services WHERE idIntervention = :idIntervention  AND Interventions.ServicesnomService = Services.nomService)
                 			ORDER BY  date_rdv DESC, heure_rdv DESC LIMIT 1 
 ) )as d
                 UNION
@@ -56,7 +56,7 @@
 					AND CreneauxInterventions.statut = 'a'
 					AND InterventionsidIntervention = :idIntervention
 					AND heure_rdv >= (SELECT horaire_ouverture FROM Interventions  JOIN Services WHERE idIntervention = :idIntervention AND Interventions.ServicesnomService = Services.nomService)
-					AND heure_rdv < (SELECT horaire_fermeture FROM Interventions  JOIN Services WHERE idIntervention = :idIntervention  AND Interventions.ServicesnomService = Services.nomService)
+					AND heure_rdv <= (SELECT horaire_fermeture FROM Interventions  JOIN Services WHERE idIntervention = :idIntervention  AND Interventions.ServicesnomService = Services.nomService)
 					ORDER BY  date_rdv ASC , heure_rdv ASC LIMIT 1                
 					)
                 UNION
@@ -68,7 +68,7 @@
 					AND CreneauxInterventions.statut = 'a'
 					AND InterventionsidIntervention = :idIntervention
 					AND heure_rdv >= (SELECT horaire_ouverture FROM Interventions  JOIN Services WHERE idIntervention = :idIntervention AND Interventions.ServicesnomService = Services.nomService)
-					AND heure_rdv < (SELECT horaire_fermeture FROM Interventions  JOIN Services WHERE idIntervention = :idIntervention  AND Interventions.ServicesnomService = Services.nomService)
+					AND heure_rdv <= (SELECT horaire_fermeture FROM Interventions  JOIN Services WHERE idIntervention = :idIntervention  AND Interventions.ServicesnomService = Services.nomService)
                		ORDER BY  date_rdv ASC , heure_rdv ASC LIMIT 1              
 	 ) 
 			) as dd WHERE dateR IS NOT NULL ORDER BY dateR ASC, heureR ASC  LIMIT 1 
