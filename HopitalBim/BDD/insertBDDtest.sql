@@ -1,4 +1,4 @@
-# Insert SQL pour test
+﻿# Insert SQL pour test
 
 INSERT INTO `LocalisationServices` (`idLocalisation`, `batiment`, `aile`, `etage`) VALUES (NULL, 'B', 'a', '2');
 INSERT INTO `LocalisationServices` (`idLocalisation`, `batiment`, `aile`, `etage`) VALUES (NULL, 'D', 'a', '2');
@@ -69,7 +69,7 @@ INSERT INTO `Interventions` (`idIntervention`, `acte`, `ServicesnomService`) VAL
 (NULL, 'Operation','Gériatrie'), 
 (NULL, 'Hospitalisation', 'Pneumologie'),
 (NULL, 'IRM', 'Imagerie'), 
-(NULL, 'Radiologie','Imagerie');
+(NULL, 'Radiographie','Imagerie');
 
 # Pour les floats, il faut mettre des '.' et non pas des ','
 INSERT INTO `Tarifications` (`InterventionsidIntervention`, `tarif_euros`) VALUES ('1', '76'), 
