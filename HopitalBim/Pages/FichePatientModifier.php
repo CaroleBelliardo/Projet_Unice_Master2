@@ -59,7 +59,7 @@ if(isset($_POST['btn-modifier']))
 		try
 		{
 		// Test si la ville est presente 
-			$_SESSION['Patient']=$text_numSS ;	
+			$_SESSION['patient']=$text_numSS ;	
 
 			$stmt = $auth_user->runQuery("SELECT * FROM Villes 
 										WHERE codepostal=:text_codepostal AND nomVilles=:text_ville 

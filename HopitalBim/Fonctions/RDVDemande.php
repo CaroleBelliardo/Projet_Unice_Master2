@@ -71,7 +71,7 @@
 					AND heure_rdv < (SELECT horaire_fermeture FROM Interventions  JOIN Services WHERE idIntervention = :idIntervention  AND Interventions.ServicesnomService = Services.nomService)
                		ORDER BY  date_rdv ASC , heure_rdv ASC LIMIT 1              
 	 ) 
-			) as dd ORDER BY dateR ASC, heureR ASC  LIMIT 1 
+			) as dd WHERE dateR IS NOT NULL ORDER BY dateR ASC, heureR ASC  LIMIT 1 
 		");
 		$req_infoDateHeure->execute(array('idIntervention' => $idInterv)); // modifier variables
 		$a_infoDateHeure = reqToArrayPlusAttASSO($req_infoDateHeure); // retourne : [ MIN(dateR), MIN(heureR), statutR, idR ] heure = dernier rdv prevu ou premier rdv annulé 
@@ -83,9 +83,9 @@
     {
         $req_infoDateHeureUrg = $auth_user->runQuery("SELECT *
                     FROM  (
-                    	SELECT dateR1 as dateR, heureR1 as heureR, statutR1 as statutR, idR1 as idR
+                    	SELECT dateR1 as dateR, heureR1 as heureR, statutR1 as statutR, idR1 as idR, niveauUrgenceR1 as niveauUrgenceR
 					FROM  (
-                    (SELECT date_rdv as dateR1, heure_rdv as heureR1, CreneauxInterventions.statut as statutR1, CreneauxInterventions.id_rdv as idR1       
+                    (SELECT date_rdv as dateR1, heure_rdv as heureR1, CreneauxInterventions.statut as statutR1, CreneauxInterventions.id_rdv as idR1  , niveauUrgence as niveauUrgenceR1     
 						FROM CreneauxInterventions JOIN Interventions  JOIN Services 
                     WHERE  CreneauxInterventions.InterventionsidIntervention = Interventions.idIntervention
                     AND Interventions.ServicesnomService = Services.nomService
@@ -93,23 +93,23 @@
                     AND heure_rdv > CURRENT_TIMESTAMP()
                     AND InterventionsidIntervention = :idIntervention
                     AND CreneauxInterventions.statut = 'p'
-                    AND CreneauxInterventions.niveauUrgence >= :niveauUrgence
+                    AND CreneauxInterventions.niveauUrgence = :niveauUrgence
                     AND heure_rdv >= (SELECT horaire_ouverture FROM Interventions  JOIN Services WHERE idIntervention = :idIntervention AND Interventions.ServicesnomService = Services.nomService)
-					ORDER BY  date_rdv DESC, heure_rdv DESC LIMIT 1
+					ORDER BY date_rdv ASC, heure_rdv ASC
                         ) 
                     UNION
-                    (SELECT  date_rdv as dateR1, heure_rdv  as heureR1, CreneauxInterventions.statut as statutR1, CreneauxInterventions.id_rdv as idR1        
+                    (SELECT  date_rdv as dateR1, heure_rdv  as heureR1, CreneauxInterventions.statut as statutR1, CreneauxInterventions.id_rdv as idR1, niveauUrgence as niveauUrgenceR1  
 						FROM  CreneauxInterventions JOIN Interventions  JOIN Services 
                     WHERE  CreneauxInterventions.InterventionsidIntervention = Interventions.idIntervention
                     AND Interventions.ServicesnomService = Services.nomService
                     AND date_rdv > CURDATE() 
                     AND InterventionsidIntervention = :idIntervention
                     AND CreneauxInterventions.statut = 'p'
-                    AND CreneauxInterventions.niveauUrgence >= :niveauUrgence
-                    AND heure_rdv >= (SELECT horaire_ouverture FROM Interventions  JOIN Services WHERE idIntervention = :idIntervention AND Interventions.ServicesnomService = Services.nomService) ORDER BY  date_rdv DESC, heure_rdv DESC LIMIT 1 
+                    AND CreneauxInterventions.niveauUrgence = :niveauUrgence
+                    AND heure_rdv >= (SELECT horaire_ouverture FROM Interventions  JOIN Services WHERE idIntervention = :idIntervention AND Interventions.ServicesnomService = Services.nomService) ORDER BY niveauUrgenceR1 DESC, date_rdv DESC, heure_rdv DESC 
                     ) )as d
                     UNION
-                    (SELECT date_rdv as dateR, heure_rdv  as heureR, CreneauxInterventions.statut as statutR, CreneauxInterventions.id_rdv as idR      
+                    (SELECT date_rdv as dateR, heure_rdv  as heureR, CreneauxInterventions.statut as statutR, CreneauxInterventions.id_rdv as idR, niveauUrgence as niveauUrgenceR      
 					FROM CreneauxInterventions JOIN Interventions  JOIN Services 
                     WHERE CreneauxInterventions.InterventionsidIntervention = Interventions.idIntervention
                     AND Interventions.ServicesnomService = Services.nomService
@@ -117,10 +117,10 @@
                     AND heure_rdv > CURRENT_TIMESTAMP() 
                     AND CreneauxInterventions.statut = 'a'
                     AND InterventionsidIntervention = :idIntervention
-                    AND heure_rdv >= (SELECT horaire_ouverture FROM Interventions  JOIN Services WHERE idIntervention = :idIntervention AND Interventions.ServicesnomService = Services.nomService) ORDER BY  date_rdv ASC , heure_rdv ASC LIMIT 1
+                    AND heure_rdv >= (SELECT horaire_ouverture FROM Interventions  JOIN Services WHERE idIntervention = :idIntervention AND Interventions.ServicesnomService = Services.nomService) ORDER BY  date_rdv ASC , heure_rdv LIMIT 1
                     )
                     UNION
-                    (SELECT MIN(date_rdv) as dateR, MIN(heure_rdv)  as heureR, CreneauxInterventions.statut as statutR, CreneauxInterventions.id_rdv as idR
+                    (SELECT MIN(date_rdv) as dateR, MIN(heure_rdv)  as heureR, CreneauxInterventions.statut as statutR, CreneauxInterventions.id_rdv as idR,niveauUrgence as niveauUrgenceR
                     FROM CreneauxInterventions JOIN Interventions  JOIN Services 
                     WHERE CreneauxInterventions.InterventionsidIntervention = Interventions.idIntervention
                     AND Interventions.ServicesnomService = Services.nomService
@@ -129,7 +129,7 @@
                     AND InterventionsidIntervention = :idIntervention
                     AND heure_rdv >= (SELECT horaire_ouverture FROM Interventions  JOIN Services WHERE idIntervention = :idIntervention AND Interventions.ServicesnomService = Services.nomService) ORDER BY  date_rdv ASC , heure_rdv ASC LIMIT 1
                     ) 
-                ) as dd ORDER BY dateR ASC, heureR ASC  LIMIT 1 
+                ) as dd WHERE dateR IS NOT NULL ORDER BY niveauUrgenceR DESC, dateR ASC, heureR DESC LIMIT 1
             ");
         $req_infoDateHeureUrg->execute(array( 'niveauUrgence'=> $nivUrg,
 											 'idIntervention'=>$idInterv)); // modifier variables
@@ -140,17 +140,24 @@
     
     function prochainCreneauxUrgent($auth_user,$niveauUrgence, $idIntervention )  // fonction qui test tous les niveaux d'urgence jusqu'a trouver un creneaux compatible
     {
-        $a_infoDateHeureUrgence["dateR"]=null; //initialisation
+        $a_infoDateHeureUrgence=[]; //initialisation
         for ($i=$niveauUrgence; $i>=0; $i--)
         {
+			echo $i." : i <br>";
             //echo "etape :".$i."<br>";
-			if ($a_infoDateHeureUrgence["dateR"] != null )
+			if (array_key_exists('dateR',$a_infoDateHeureUrgence ) and ($a_infoDateHeureUrgence != "NULL")) 
             {
-                 return ($a_infoDateHeureUrgence);
+                 echo 'GG';
+				 return ($a_infoDateHeureUrgence);
+				 $i=-1;
             }
             else 
             {
-                $a_infoDateHeureUrgence= CreneauxUrgent($auth_user, $niveauUrgence, $idIntervention);
+				echo $i." : i boucle<br>";
+                $a_infoDateHeureUrgence= CreneauxUrgent($auth_user, $i, $idIntervention);
+				echo '<br> $a_infoDateHeureUrgence '; 
+				Dumper ($a_infoDateHeureUrgence);
+
             }
         }
     }

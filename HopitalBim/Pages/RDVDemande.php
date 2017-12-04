@@ -153,17 +153,20 @@ if(isset($_POST['btn_demandeRDV'])) // si utilisateur clique sur le bouton deman
 				if ($a_infoDateHeure["heureR"] > $finDelais) // si premier creneau dispo est hors delais on recherche un autre creneaux dont rdv < urgent et on decale les rendez-vous suivant
 				{
 				//-- Recherche le dernier creneau dont niveau d'urgence >= au niveau d'urgence
-					$a_infoDateHeureUrgence=prochainCreneauxUrgent($auth_user,$niveauUrgence,$idIntervention );  
+					$a_infoDateHeureUrgence=prochainCreneauxUrgent($auth_user,$niveauUrgence,$idIntervention ); 
+					
+					$a_infoDateHeure["dateR"]= heurePlus15($a_infoDateHeureUrgence["heureR"],'+15 minutes');					
 				//-- Decale rdv suivant  SI niveau urgence != 0
 				//recupere tous les creneaux suivant
-					
+					Dumper($a_infoDateHeureUrgence);
+					echo '***';
 					$req_CreneauSuivant = $auth_user->runQuery(" Select id_rdv, heure_rdv, statut FROM CreneauxInterventions 
 															WHERE InterventionsidIntervention = :idIntervention
 															AND date_rdv = :date
-															AND heure_rdv > :heure" ); 
+															AND heure_rdv >= :heure" ); 
 					$req_CreneauSuivant->execute(array('idIntervention'=> $idIntervention,
 														'date'=> $a_infoDateHeureUrgence["dateR"] ,
-														'heure'=> $a_infoDateHeureUrgence["heureR"]));
+														'heure'=> $a_infoDateHeure["heureR"]));
 					
 					$a_creneauSuiv= reqToArrayPlusligne($req_CreneauSuivant);
 					$req_CreneauSuivant->closeCursor(); 
@@ -173,23 +176,28 @@ if(isset($_POST['btn_demandeRDV'])) // si utilisateur clique sur le bouton deman
 																niveauUrgence = (niveauUrgence + '1') 
 																WHERE id_rdv = :id_rdv" );
 				
-				
-					foreach($a_creneauSuiv["id_rdv"] as $k=>$v) /////  ???  faire le while sur le fetch ??????????????????????????????????????
+					Dumper ($a_creneauSuiv);
+					echo '***';
+					if (array_key_exists("id_rdv",$a_creneauSuiv))
 					{
-						if ($a_creneauSuiv["statut"][$k]  == 'a')
+						foreach($a_creneauSuiv["id_rdv"] as $k=>$v) /////  ???  faire le while sur le fetch ??????????????????????????????????????
 						{
-							break;
+							if ($a_creneauSuiv["statut"][$k]  == 'a')
+							{
+								break;
+							}
+							else
+							{
+								$newHeure= heurePlus15($a_creneauSuiv["heure_rdv"][$k],'+15 minutes');
+								$req_upDateHoraire->execute(array("id_rdv" => $a_creneauSuiv["id_rdv"][$k],
+																  "newHeure" =>$newHeure
+																  ));
+								$req_upDateHoraire->closeCursor();
+							}
 						}
-						else
-						{
-							$newHeure= heurePlus15($a_creneauSuiv["heure_rdv"][$k],'+15 minutes');
-							$req_upDateHoraire->execute(array("id_rdv" => $a_creneauSuiv["id_rdv"][$k],
-															  "newHeure" =>$newHeure
-															  ));
-							$req_upDateHoraire->closeCursor();
-						}
+						$a_infoDateHeure['heureR']=$a_infoDateHeureUrgence['heureR'];
 					}
-	
+					echo $a_infoDateHeure['heureR'];
 				//-- Notification de Surbooking **********************************************************************************			
 					// recup horraire de fin de service reel pour le jour ou l'intervention demandée est insérée
 					$req_heureFinJour = $auth_user->runQuery(" SELECT MAX(heure_rdv)

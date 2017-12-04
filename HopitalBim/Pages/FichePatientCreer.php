@@ -31,7 +31,7 @@ if(isset($_POST['btn-signup']))
 	$text_poids = preg_replace("/[^0-9]/", "",trim($_POST['text_poids'], ' '));	
 	$text_commentaires = strip_tags($_POST['text_commentaires']);	
 
-	$_SESSION['Patient']=$text_numSS ;	
+	$_SESSION['patient']=$text_numSS ;	
 
 	// TEST SI NUMSS deja present
 	$stmt = $auth_user->runQuery("SELECT numSS FROM Patients WHERE numSS=:text_numSS ");
