@@ -10,7 +10,7 @@ if(isset($_POST['btn_facturation'])) // action du bouton btn_facture
 		$req_numSS->execute(array('numSS'=> $text_numSS));
 		$numSS= $req_numSS-> fetchColumn();
 
-		if ($numSS == "") // nom de d'INTERVENTION abscent de la base de donnée
+		if ($numSS == "") // nom de d'INTERVENTION absent de la base de donnée
 		{
 			$error[] =  "Saisir un numéro de sécurité sociale valide";
 		}

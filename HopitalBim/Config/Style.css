@@ -274,7 +274,7 @@ form header {
   padding-left: 10px; 
   margin-left: 0px;
   border-radius: 5px;
-  background-color: #d7dbdf; /* fafafa */
+  background-color: #fafafa; /* d7dbdf */
   overflow: hidden;
   border: 1px solid #414F5C;
 
@@ -357,12 +357,13 @@ h6 {
   margin: 15px;
   padding : 5px;
   border-radius: 5px;
-  border: 1px solid #414F5C;
+  border: 1px solid #00688B;
   background-color: white; /* d7dbdf*/
 }
 
 .containerFormu h2 {
   margin-left: 20px;
+  color: #00688B;
 }
 
 fieldset {
@@ -391,24 +392,27 @@ em {
   color: #00688B;
 }
 
-input:focus {
-  background: #eaeaea;
+input:focus {                /* Quand on clique dans l'input pour saisir les données */
+  background-color: #A8DEF0; /* eaeaea*/
 }
  
-input, textarea {
+input {
   width: 249px;
+  border : 1px solid #00688B;
+}
+
+input[type="radio"]{
+  width: 10px;
+}
+
+input[type="date"]{
+  margin-bottom: 2px;
 }
  
 textarea {
+  width: 245px;
   height: 100px;
-}
- 
-select {
-  width: 254px;
-}
- 
-input[type=checkbox] {
-  width: 10px;
+  border : 1px solid #00688B;
 }
  
 input[type=submit] {
@@ -423,9 +427,9 @@ input[type=submit] {
 /*                 */
 
 #footer {
-    margin : 15px 0px 0px 0px;
+    margin : 35px 0px 0px 0px;
     border-top: 1px solid #87CEFA;
-  /*  bottom: 0; */
+   /* bottom: 0; */
     left:0;
     right:0;
     color: white;
