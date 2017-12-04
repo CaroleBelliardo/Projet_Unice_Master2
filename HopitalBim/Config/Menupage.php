@@ -20,8 +20,6 @@ $a_utilisateur= reqToArrayPlusAttASSO($Req_utilisateur);  // Nom prénom et serv
 $Req_utilisateur->closeCursor();
 
 global $auth_user, $a_utilisateur;
-
-
 ?>
 
 
@@ -32,7 +30,6 @@ global $auth_user, $a_utilisateur;
 	</head>
 
 <body>
-	
 	<div id="container"> <!-- Motif à mettre sur chaque page-->
         <img name="logo" src="../Images/logo.png" alt="Logo hopital">
 
@@ -50,8 +47,6 @@ global $auth_user, $a_utilisateur;
 
 <div class="navbar"> 
 	<?php
-		if ((array_key_exists("idEmploye", $_SESSION))  and ($_SESSION["idEmploye"] != ""))
-		{
 	?>
 				<a href="<?php echo $LienSite ?>Pages/Planning.php">Planning</a>
 				<a href="<?php echo $LienSite ?>Pages/RDVDemande.php">Demande de rendez-vous </a>
@@ -107,7 +102,7 @@ global $auth_user, $a_utilisateur;
 		<a name="Déco" href="<?php echo $LienSite ?>logout.php?logout=true"><img name="logout" src="../Images/logout.png" alt="Logout logo" > Déconnexion</a>
 <?php
 
-		}
+	
 ?>
 	
 </div>
