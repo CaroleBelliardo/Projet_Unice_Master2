@@ -104,7 +104,7 @@ CREATE TABLE Pathologies (
 # Table regroupant toutes les interventions  
 CREATE TABLE Interventions (   
   idIntervention                       int(8) NOT NULL AUTO_INCREMENT,  
-  acte                                 varchar(15) NOT NULL, # 1ere lettre Maj : Radio 
+  acte                                 varchar(35) NOT NULL, # 1ere lettre Maj : Radio 
   ServicesnomService                   varchar(20),          # cf. nomService 
   PRIMARY KEY (idIntervention), 
   FOREIGN KEY (ServicesnomService) REFERENCES Services (nomService) ON DELETE SET NULL ON UPDATE CASCADE, 
