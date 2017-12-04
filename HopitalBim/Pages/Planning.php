@@ -27,8 +27,12 @@ Dumper($_POST);
 	$auth_user->redirect('Planning.php');
 	echo ' Rendez-vous supprimé';
 	}
+		if (isset ($_POST["btn-Annuler"]))
+	{
+		echo $_POST["btn-Annuler"];//ajouter la requette avec $idRDV le id du rdv
+	}
 
-	
+
 // **************************  AFFICHAGE PAGE ********************************************   
 
 ?>
@@ -79,7 +83,8 @@ Dumper($_POST);
 						//$tempo="<input name='suppr_rdv' value=$num type='submit'>";
 						//echo $tempo;
 						echo $infoServiceJours[$h][$acte]["nom"]." ".$infoServiceJours[$h][$acte]["prenom"]."\n".$infoServiceJours[$h][$acte]["numSS"]."\n";
-		?>
+						echo "<button type='submit' class='btn btn-primary' value=".$infoServiceJours[$h][$acte]["id_rdv"]." name='btn-Annuler'>Supprimer</button>";
+		?>				
 						
 						
 			<?php			
