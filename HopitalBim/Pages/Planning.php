@@ -40,31 +40,11 @@ Dumper($_POST);
 		<title>Bonjour</title>
 	</head>
 	
-	<CENTER><table>
-		<tr>
-			<td width=33%>
-				<fieldset>
-			 <legend> Date </legend> 
-			 <form method="post" action="traitement.php">
-				 <p>
-					 <input type="date" />
-					 <input type="submit" value="Envoyer" />
-				 </p>
-			 </form>
-		 </fieldset>
-			</td>
-			<td width=33%>
-			  <?php 
-					 include ('../Formulaires/RechercheService.php');; // recherche service
-		 ?>
-			</td>
-		</tr>
-	</table></CENTER>
+
 	<body>
-		
+	<?php include ("../Formulaires/RechercheServiceDate.php"); ?>	
 		 
-	 
-		
+	<br> 
 	 
 		<CENTER> <table  BORDER="1",ALIGN="CENTER", VALIGN="MIDDLE " >
 		 <tr><th>Heure</th>
@@ -135,7 +115,7 @@ Dumper($_POST);
 		 <?php 	quitter1()	?>	
 		 
 		 
-		
+	
 		
 	</body>
 </html>
