@@ -9,6 +9,7 @@
 	// reinitialise les variables d'utilisation
 	unset($_SESSION["patient"]);
 	unset($_SESSION["serviceModifier"]);
+	unset($_SESSION['utilisateurModifier']);
 	unset($_SESSION["dateModifier"]);
 
 	

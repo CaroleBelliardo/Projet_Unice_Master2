@@ -34,7 +34,7 @@ avis personnels
 Améliorations
 remerciements
 # -- Code
-renommer fichier accueil = index
+FINI : (renommer fichier accueil = index) il est pas renommé mais index redirige vers Accueil.php
 	FINI : une redirection vers accueil que l'on soit connecté ou pas, et si l'utilisateur est perdu dans le site ex : hopitalbim/Pages/
 
 redirection selon droit utilisateurs pour chaque page privée
@@ -54,7 +54,7 @@ tableau de synthèse
 
 demande rdv 
 - Modifier le nom des variables pour les relier au formulaire
-- ecrire la fonction des verif des incompatibilités
+FINI - ecrire la fonction des verif des incompatibilités
 - ecrire la fonctin de la notification
 
 FINI :modifier 
