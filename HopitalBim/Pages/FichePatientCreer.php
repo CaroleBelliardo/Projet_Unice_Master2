@@ -42,7 +42,7 @@ if(isset($_POST['btn-signup']))
 	 // pas besoin car s auto incremente : $text_idAdresse = strip_tags($_POST['text_idAdresse']);	
 	//  pour la gestion des erreurs plus bas aussi ajouter un include et tout foutre dans un autre dossier
 	if($text_numSS==""  or (is_numeric($text_numSS)==FALSE ) or (strlen($text_numSS) < 15 ) or (strlen($text_numSS) > 15 ))	{
-		$error[] = "Vérifiez que le numéro de sécurité sociale est correct"; }
+		$error[] = "Veuillez vérifier que le numéro de sécurité sociale est correct !"; }
 	else if((preg_match('/[0-9]+/',$text_nom) == 1)or ($text_nom=="")) {// string only contain the a to z , A to Z,
 		$error[] = "Veuillez entrer un nom uniquement composé de lettres !";}
 	else if((preg_match('/[0-9]+/',$text_prenom) == 1)or ($text_prenom=="")) {// string only contain the a to z , A to Z,
@@ -61,12 +61,12 @@ if(isset($_POST['btn-signup']))
 		$error[] = "Veuillez entrer un pays (caractères numériques non acceptés)!"; }
 	// TEST SI NUMSS deja present
 	else if ($row['numSS']==$text_numSS ) {
-		$error[] = "Le patient est déjà présent dans la base de donnée</br> Pour le modifier : <a href =# >ici</a>"; }   
+		$error[] = "Le patient est déjà présent dans la base de donnée ! Pour le modifier : <a href =# >cliquez ici</a>"; }   
 	else
 	{
 		try
 		{
-		// Test si la ville est presente 
+		// Test si la ville est présente 
 
 			$stmt = $auth_user->runQuery("SELECT * FROM Villes 
 										WHERE codepostal=:text_codepostal AND nomVilles=:text_ville 
@@ -202,13 +202,20 @@ $auth_user->redirect('RDVDemande.php');
 <!DOCTYPE html PUBLIC >
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Bonjour</title>
-</head>
+	<title> Nouveau Patient </title> <!-- Titre de l'onglet -->
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<link rel="stylesheet" href="Config/Style.css" type="text/css">
+	<link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Josefin+Slab" rel="stylesheet">
+	</head>
 <body>
 
 <?php include ('../Formulaires/FichePatientCreer.php');?>
-    
+ 
+<div id="footer"> <!-- Faire les liens vers les documents  -->
+    <a href="<?php echo $LienSite ?>Pages/readme.php"> Conditions d'utilisation </a> |
+    <a href="<?php echo $LienSite ?>Pages/contact.php"> Contact </a> | © 2017
+</div>  
 
 </body>
 </html>

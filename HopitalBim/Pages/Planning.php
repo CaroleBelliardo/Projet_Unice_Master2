@@ -118,9 +118,12 @@ Dumper($_POST);
 		 ?>
 		 </table></CENTER>
 		 <?php 	quitter1()	?>	
-		 
-		 
 	
+		 
+<div id="footer"> <!-- Faire les liens vers les documents  -->
+    <a href="<?php echo $LienSite ?>Pages/readme.php"> Conditions d'utilisation </a> |
+    <a href="<?php echo $LienSite ?>Pages/contact.php"> Contact </a> | © 2017
+    </div>		 
 		
 	</body>
 </html>

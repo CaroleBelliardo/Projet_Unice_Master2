@@ -250,7 +250,10 @@ if(isset($_POST['btn-signup']))
 </div>
 <?php quitter1() ?>	
 
-</body>
- 
+<div id="footer"> <!-- Faire les liens vers les documents  -->
+    <a href="<?php echo $LienSite ?>Pages/readme.php"> Conditions d'utilisation </a> |
+    <a href="<?php echo $LienSite ?>Pages/contact.php"> Contact </a> | © 2017
+</div>
 
+</body>
 </html>
