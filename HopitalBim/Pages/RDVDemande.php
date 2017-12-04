@@ -108,27 +108,32 @@ if(isset($_POST['btn_demandeRDV'])) // si utilisateur clique sur le bouton deman
 		
 			// Recherche le prochain creneau disponible pour l'intervention demandé ( dernier creneaux enregistré +15 min ou premier creneau annulé)
 			$a_infoDateHeure=prochainCreneauxDispo($auth_user,$idIntervention);
-			
+			Dumper($a_infoDateHeure);
 			if (!array_key_exists('heureR', $a_infoDateHeure )) // gestion erreur : si PAS DE RDV prevu pour ce service dans le planning, retour requete = null 
 			{
+				echo "1";
 				$a_infoDateHeure["heureR"] = ProchaineHeureArrondie(); //=> on affecte date & heure actuelles		
 				$a_infoDateHeure["dateR"] = date('Y-m-d');	
 				if ($a_infoDateHeure["heureR"] >= $a_horaireFermeture["horaire_fermeture"]  ) // gestion erreur : si service = ferme avant minuit 
 				{
+					echo "2";
 					$a_infoDateHeure["heureR"] = $a_horaireFermeture["horaire_ouverture"]; //=> on affecte date & heure actuelles
 					$a_infoDateHeure["dateR"] = date('Y-m-d', strtotime('+1 day'));	
 				}
 				elseif ($a_infoDateHeure["heureR"] <= $a_horaireFermeture["horaire_ouverture"]  )  // gestion erreur : si service = ferme après minuit  
 				{
+					echo "3";
 					$a_infoDateHeure["heureR"] = $a_horaireFermeture["horaire_ouverture"]; //=> on affecte date & heure actuelles
 					$a_infoDateHeure["dateR"] = date('Y-m-d');
 				}				
 			}
+			
 			elseif (((array_key_exists('heureR', $a_infoDateHeure )) and ($a_infoDateHeure["statutR"] = 'p')))//or ($a_infoDateHeure["heureR"] !=  $a_horaireFermeture["heure_ouverture"] )) // a verif si creneaux = prevu; alors ajoute  15 min pour obtenir l'heure de creneau a affecter au RDV 
 			{
+				echo "5";
 				$a_infoDateHeure["heureR"]=heurePlus15($a_infoDateHeure["heureR"],'+15 minutes');
 			}
-			
+			Dumper($a_infoDateHeure);
 
 // **************************************          Recherche Horaire APPROPRIEE SI niveau urgence != 0         *********************************
 		// Si la demande respect un certain delais (specifique a chaque niveau d'urgence) alors on ne perturbe pas le planning et on insert le rdv à la suite du planning ou a la place d'un rdv annule
@@ -140,9 +145,17 @@ if(isset($_POST['btn_demandeRDV'])) // si utilisateur clique sur le bouton deman
 				{
 					case 3:
 						$finDelais=heurePlus15($now,'+180 minutes'); 
+						if ($finDelais < $now)
+						{
+							$datedelais = date('Y-m-d', strtotime('+1 day'));
+						}else {$datedelais= date('Y-m-d');}
 						break;//alors on insert à la suite 
 					case 2:
 						$finDelais=heurePlus15($now,'+360 minutes');
+						if ($finDelais < $now)
+						{
+							$datedelais = date('Y-m-d', strtotime('+1 day'));
+						}else {$datedelais= date('Y-m-d');}
 						break;
 					case 1:
 						$datedelais = date('Y-m-d', strtotime('+1 day'));
@@ -150,12 +163,13 @@ if(isset($_POST['btn_demandeRDV'])) // si utilisateur clique sur le bouton deman
 						break;
 				}
 				
-				if ($a_infoDateHeure["heureR"] > $finDelais) // si premier creneau dispo est hors delais on recherche un autre creneaux dont rdv < urgent et on decale les rendez-vous suivant
+				if (($a_infoDateHeure["dateR"] >  $datedelais   ) or (($a_infoDateHeure["dateR"] <  $datedelais ) and   
+				($a_infoDateHeure["heureR"] > $finDelais))) // si premier creneau dispo est hors delais on recherche un autre creneaux dont rdv < urgent et on decale les rendez-vous suivant
 				{
 				//-- Recherche le dernier creneau dont niveau d'urgence >= au niveau d'urgence
 					$a_infoDateHeureUrgence=prochainCreneauxUrgent($auth_user,$niveauUrgence,$idIntervention ); 
 					
-					$a_infoDateHeure["dateR"]= heurePlus15($a_infoDateHeureUrgence["heureR"],'+15 minutes');					
+					$a_infoDateHeure["heureR"]= heurePlus15($a_infoDateHeureUrgence["heureR"],'+15 minutes');					
 				//-- Decale rdv suivant  SI niveau urgence != 0
 				//recupere tous les creneaux suivant
 					Dumper($a_infoDateHeureUrgence);
