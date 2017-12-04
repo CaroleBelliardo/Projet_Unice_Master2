@@ -112,9 +112,6 @@ global $auth_user, $a_utilisateur;
 	
 </div>
 
-
-
-<!-- TTTTTEEESSSSSTTT -->
 <div id=PagePrincipale>
     	<div class="profile">
   			<div class="photo">
