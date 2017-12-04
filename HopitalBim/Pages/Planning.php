@@ -95,20 +95,12 @@ Dumper($_POST);
 
 		 <?php
 						
-						$num=$infoServiceJours[$h][$acte]["id_rdv"];
-						$tempo="<input name='suppr_rdv' value=$num type='submit'>";
-						echo $tempo;
+						//$num=$infoServiceJours[$h][$acte]["id_rdv"];
+						//$tempo="<input name='suppr_rdv' value=$num type='submit'>";
+						//echo $tempo;
 						echo $infoServiceJours[$h][$acte]["nom"]." ".$infoServiceJours[$h][$acte]["prenom"]."\n".$infoServiceJours[$h][$acte]["numSS"]."\n";
 		?>
-							<button type="submit"  name="btn-suppr_rdv" action= >
-								<i class=""></i>
-							</button>
-								<!--<input type="hidden" value=<?php $num?>  name= <?php $num ?>">
-								<input type="button" name="boutton" value="suppri">-->
-								
-								
-						</div>
-					</form>
+						
 						
 			<?php			
 						
