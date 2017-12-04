@@ -46,26 +46,24 @@ if(isset($_POST['btn_nomService'])) // action du bouton btn_facture
 											</datalist>
 										</br >
 										</p>
+										<div class="clearfix"></div>
+										<hr />
+										<div class="form-group">
+											<button type="submit" class="btn btn-primary" name="btn_nomService">
+												<i class=""></i>Valider
+											</button>
+	<?php
+											quitter1($auth_user)
+	?>	
+										</div>
 								</fieldset>					
 							
 								<!-- bouton validé -->
 						</div>
-					<div class="clearfix"></div>
-					<hr />
-					<div class="form-group">
-						<button type="submit" class="btn btn-primary" name="btn_nomService">
-							<i class=""></i>Valider
-						</button>
-	<?php
-						quitter1($auth_user)
-	?>	
-					</div>
+					
 				</form>
 			</p>
 			
-	
-	
-		
 </body>
 
 

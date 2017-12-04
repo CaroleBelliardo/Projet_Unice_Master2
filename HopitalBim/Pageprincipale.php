@@ -6,9 +6,12 @@
 	require_once("session.php"); // requis pour se connecter la base de donnée 
 	require_once("classe.Systeme.php"); // va permettre d effectuer les requettes sql en orienté objet.
 	
+	// reinitialise les variables d'utilisation
 	unset($_SESSION["patient"]);
 	unset($_SESSION["serviceModifier"]);
 	unset($_SESSION['utilisateurModifier']);
+	unset($_SESSION["dateModifier"]);
+
 	
 	//variables Globales
 	$auth_user = new Systeme(); // Connection bdd	
