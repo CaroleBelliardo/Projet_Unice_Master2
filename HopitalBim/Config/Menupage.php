@@ -33,7 +33,6 @@ global $auth_user, $a_utilisateur;
 
 <body>
 	
-	
 	<div id="container"> <!-- Motif à mettre sur chaque page-->
         <img name="logo" src="../Images/logo.png" alt="Logo hopital">
 
@@ -47,7 +46,6 @@ global $auth_user, $a_utilisateur;
             </div>
         </div> <!-- containerTitre -->
     </div> <!-- container -->
-
 
 
 <div class="navbar"> 

@@ -5,9 +5,10 @@
 /*              */
 
 body {                        
-    background-image: url(../Images/background1.jpg);
+    background-image: url(../Images/background.png);
+    background-color: #00658D;
     font-family: "Josefin Slab", serif, Courier New, Verdana;
-    color: black; 
+    color: #17202A; 
     margin:0;
     height : 100%;
     text-align: justify;
@@ -238,10 +239,10 @@ form header {
 }
 
 #PagePrincipale p.Bienvenue{
-  color : #B3B6B7;
+  color : #17202A; /*17202A,B3B6B7*/
   font-size: 30px; 
   text-decoration : underline ;
-  text-decoration-color: #B3B6B7;
+  text-decoration-color: #17202A;
 }
 
 .profile{               /* Boite profile */
@@ -251,8 +252,9 @@ form header {
   padding-left: 10px;
   margin-left: 0px;
   border-radius: 5px;
-  background-color: #fafafa; 
+  background-color: #d7dbdf; /* fafafa */
   overflow: hidden;
+
 }
 
 .profile .photo, .profile .content {
@@ -293,7 +295,7 @@ form header {
   width: 350px;
   height: 150px;
   background-color: #B3B6B7;        /*e9f3e6*/
-  border-right: 3px solid #87CEFA;  /*87CEFA,5D6D7E  */
+  border-right: 3px solid #414F5C;  /*87CEFA,5D6D7E,00658D  */
   left: 0;
   top: -20px;
   z-index: -1;
