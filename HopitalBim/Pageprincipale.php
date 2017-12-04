@@ -72,7 +72,7 @@
 			if ( $_SESSION["idEmploye"] == $a_utilisateur["chef"])
 			{
 	?>			
-				<a href="<?php echo $LienSite ?>Pages/Facturation.php">Facturation</a>
+				<a href="<?php echo $LienSite ?>Fonctions/FactureEdit.php">Facturation</a>
 	
 	<?php
 				//break;

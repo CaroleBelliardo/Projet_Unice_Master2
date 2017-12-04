@@ -17,7 +17,6 @@ $Req_utilisateur = $auth_user->runQuery("SELECT DISTINCT nom,prenom,ServicesnomS
 $Req_utilisateur->execute(array("user_name"=>$user_id)); 
 $a_utilisateur= reqToArrayPlusAttASSO($Req_utilisateur);  // Nom prénom et service utilisateur 
 // ***********************************************************
-require_once('../html2pdf/htmlfpdf.class.php'); // !! necessaire ?
 
 //unset($_SESSION["Patient"]); // TEST 
 $patient='178854747412138'; // a recup !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! page precedente
@@ -113,8 +112,7 @@ $req_insertFacturation= $auth_user->runQuery("INSERT INTO Facturation (idFacture
             <td style="width: 75%;">
             </td>
             <td style="width: 25%; color: #444444;">
-                <img style="width: 100%;" src="./res/logo.gif" alt="Logo"><br>
-                LOGO
+                <img style="width: 100%;" src="../Images/logo.png" alt="Logo"><br>
             </td>
         </tr>
     </table>
@@ -177,8 +175,9 @@ $req_insertFacturation= $auth_user->runQuery("INSERT INTO Facturation (idFacture
     </table>
 <?php
 	$total=0;
-	foreach ($a_infoInterv["id_rdv"] as $cle=>$id) 
-	{
+    $a_infoInterv=[];
+    if (array_key_exists("id_rdv", $a_infoInterv))
+	{{
 ?>
     <table cellspacing="0" style="width: 100%; border: solid 1px black; background: #F7F7F7; text-align: center; font-size: 10pt;">
         <tr>
@@ -238,4 +237,4 @@ tr    { vertical-align: top; }
 td    { vertical-align: top; }
 
 </style>-->
-
+<?php } else echo  "pas de facture disponible pour ce patient" ;?> 
