@@ -27,8 +27,12 @@ Dumper($_POST);
 	$auth_user->redirect('Planning.php');
 	echo ' Rendez-vous supprimé';
 	}
+		if (isset ($_POST["btn-Annuler"]))
+	{
+		echo $_POST["btn-Annuler"];//ajouter la requette avec $idRDV le id du rdv
+	}
 
-	
+
 // **************************  AFFICHAGE PAGE ********************************************   
 
 ?>
@@ -40,31 +44,11 @@ Dumper($_POST);
 		<title>Bonjour</title>
 	</head>
 	
-	<CENTER><table>
-		<tr>
-			<td width=33%>
-				<fieldset>
-			 <legend> Date </legend> 
-			 <form method="post" action="traitement.php">
-				 <p>
-					 <input type="date" />
-					 <input type="submit" value="Envoyer" />
-				 </p>
-			 </form>
-		 </fieldset>
-			</td>
-			<td width=33%>
-			  <?php 
-					 include ('../Formulaires/RechercheService.php');; // recherche service
-		 ?>
-			</td>
-		</tr>
-	</table></CENTER>
+
 	<body>
-		
+	<?php include ("../Formulaires/RechercheServiceDate.php"); ?>	
 		 
-	 
-		
+	<br> 
 	 
 		<CENTER> <table  BORDER="1",ALIGN="CENTER", VALIGN="MIDDLE " >
 		 <tr><th>Heure</th>
@@ -99,7 +83,8 @@ Dumper($_POST);
 						//$tempo="<input name='suppr_rdv' value=$num type='submit'>";
 						//echo $tempo;
 						echo $infoServiceJours[$h][$acte]["nom"]." ".$infoServiceJours[$h][$acte]["prenom"]."\n".$infoServiceJours[$h][$acte]["numSS"]."\n";
-		?>
+						echo "<button type='submit' class='btn btn-primary' value=".$infoServiceJours[$h][$acte]["id_rdv"]." name='btn-Annuler'>Supprimer</button>";
+		?>				
 						
 						
 			<?php			
@@ -139,7 +124,6 @@ Dumper($_POST);
     <a href="<?php echo $LienSite ?>Pages/readme.php"> Conditions d'utilisation </a> |
     <a href="<?php echo $LienSite ?>Pages/contact.php"> Contact </a> | © 2017
     </div>		 
-		
 		
 	</body>
 </html>
