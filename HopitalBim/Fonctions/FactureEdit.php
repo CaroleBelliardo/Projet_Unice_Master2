@@ -112,7 +112,7 @@ $req_insertFacturation= $auth_user->runQuery("INSERT INTO Facturation (idFacture
             <td style="width: 75%;">
             </td>
             <td style="width: 25%; color: #444444;">
-                <img style="width: 100%;" src="../Images/logo.png" alt="Logo"><br>
+                <img style="width: 70%;" src="../Images/logoFacture2.png" alt="Logo"><br>
             </td>
         </tr>
     </table>
@@ -121,16 +121,16 @@ $req_insertFacturation= $auth_user->runQuery("INSERT INTO Facturation (idFacture
     <table cellspacing="0" style="width: 100%; text-align: left; font-size: 11pt;">
         <tr>
             <td style="width:50%;"></td>
-            <td style="width:14%; ">Client :</td>
-            <td style="width:36%"> <?php echo $a_patient['prenom'].$a_patient['nom'] ?> </td>
+            <td style="width:14%; ">Client : </td>
+            <td style="width:36%"> <?php echo $a_patient['prenom']." ".$a_patient['nom'] ?> </td>
         </tr>
         <tr>
             <td style="width:50%;"></td>
             <td style="width:14%; ">Adresse :</td>
             <td style="width:36%">
                 Résidence perdue<br>
-                <?php echo $a_patient['numero'].$a_patient['rue'] ?><br>
-                <?php echo $a_patient['codepostal'].$a_patient['nomVilles'] ?><br>
+                <?php echo $a_patient['numero']." ".$a_patient['rue'] ?><br>
+                <?php echo $a_patient['codepostal']." ".$a_patient['nomVilles'] ?><br>
                 <?php echo $a_patient['pays'] ?><br>
 
             </td>
@@ -156,16 +156,16 @@ $req_insertFacturation= $auth_user->runQuery("INSERT INTO Facturation (idFacture
     </table>
     <br>
     <i>
-        <b><u>Objet </u>: &laquo; Facture  <?php //echo $a_utilisateur['ServicesnomService'] ?> &raquo;</b><br>
+        <b><u>Objet </u>: &laquo; Facture  <?php //echo $a_utilisateur['ServicesnomService'] ?> &raquo;</b><br><br>
         N° de Sécurité Sociale : <?php echo $a_patient['numSS'] ?> <br>
-        N° du Facture : <?php echo $idfacture ?> <br>
+        N° de la facture : <?php echo $idfacture ?> <br>
     </i>
     <br>
     <br>
     Madame, Monsieur,<br>
     <br>
     <br>
-    Les interventions suivantes ont été aquitées à ce jour.<br>
+    Les interventions suivantes ont été acquitées à ce jour.<br>
     <br>
     <table cellspacing="0" style="width: 100%; border: solid 1px black; background: #E7E7E7; text-align: center; font-size: 10pt;">
         <tr>
@@ -237,4 +237,4 @@ tr    { vertical-align: top; }
 td    { vertical-align: top; }
 
 </style>-->
-<?php } else echo  "pas de facture disponible pour ce patient" ;?> 
+<?php } else echo  "Pas de facture disponible pour ce patient actuellement." ;?> 
