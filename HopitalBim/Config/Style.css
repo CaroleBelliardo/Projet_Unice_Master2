@@ -136,8 +136,30 @@ form header {
   cursor: pointer;
 }
 
-#error {
+#error {             /* ancienne classe "alert alert-danger" */
   color : red;
+  margin: 10px;
+}
+
+#error a:link{
+  color: #fafafa;
+  padding : 5px;
+  border-radius: 5px;
+  background-color: #17202A;
+}
+
+#error a:hover{
+  color: red;
+  box-shadow: 3px 3px 5px #888888;
+}
+
+#valide {            /* ancienne classe "alert alert-info" */
+  color: #00688B;
+  margin: 10px;
+}
+
+.abandon{
+  margin: 15px;
 }
 
 /*                     */
@@ -172,10 +194,10 @@ form header {
 
 .navbar a[name="Déco"] img[name="logout"]{
   height: 50%;
-  width: 25%;
   position : absolute;
   float: left;
-  margin-left: -35px;
+  margin-left: -30px;
+  margin-top: -3px;
 }
 
 .dropdown {                 /* Pr les 4 Div coulissants : Patient, Services, Compte User, Vérif */
@@ -249,11 +271,12 @@ form header {
   width: 50%;           /* Largeur */ /* 330 px */
   height: 100px;
   position: relative;
-  padding-left: 10px;
+  padding-left: 10px; 
   margin-left: 0px;
   border-radius: 5px;
   background-color: #d7dbdf; /* fafafa */
   overflow: hidden;
+  border: 1px solid #414F5C;
 
 }
 
@@ -327,11 +350,80 @@ h6 {
 }
 
 /*                 */
+/*   Formulaires   */
 /*                 */
+
+.containerFormu{
+  margin: 15px;
+  padding : 5px;
+  border-radius: 5px;
+  border: 1px solid #414F5C;
+  background-color: white; /* d7dbdf*/
+}
+
+.containerFormu h2 {
+  margin-left: 20px;
+}
+
+fieldset {
+  border: 1px solid #00688B;
+  border-radius: 5px;
+}
+
+legend{
+  font-weight: bold;
+  font-size: 20px;
+  color: #00688B;
+  font-variant: small-caps;
+  padding: 0px 3px;
+}
+
+label {
+  width: 140px;
+  display: inline-block;
+  vertical-align: top;
+  margin: 6px;
+}
+ 
+em {
+  font-weight: bold;
+  font-style: normal;
+  color: #00688B;
+}
+
+input:focus {
+  background: #eaeaea;
+}
+ 
+input, textarea {
+  width: 249px;
+}
+ 
+textarea {
+  height: 100px;
+}
+ 
+select {
+  width: 254px;
+}
+ 
+input[type=checkbox] {
+  width: 10px;
+}
+ 
+input[type=submit] {
+  width: 150px;
+  padding: 10px;
+}
+
+
+
+/*                 */
+/*      FOOTER     */
 /*                 */
 
 #footer {
-    margin : 0px;
+    margin : 15px 0px 0px 0px;
     border-top: 1px solid #87CEFA;
   /*  bottom: 0; */
     left:0;

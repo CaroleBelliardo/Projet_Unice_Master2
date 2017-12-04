@@ -32,6 +32,9 @@
 				include ('../Formulaires/CompteUtilModifier.php');; // recherche patient existe pas (redirection fiche patient)
 			}
 		?>
+
+
+
 	</body>
 
 </html>

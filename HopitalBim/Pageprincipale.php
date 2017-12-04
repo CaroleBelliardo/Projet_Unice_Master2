@@ -3,8 +3,8 @@
 	
 	include ('Fonctions/Affichage.php');
 	include ('Fonctions/ReqTraitement.php');
-	require_once("session.php"); // requis pour se connecter la base de donnée 
-	require_once("classe.Systeme.php"); // va permettre d effectuer les requettes sql en orienté objet.
+	require_once("session.php"); // requis pour se connecter à la base de donnée 
+	require_once("classe.Systeme.php"); // va permettre d'effectuer les requêtes sql en orienté objet.
 	
 	// reinitialise les variables d'utilisation
 	unset($_SESSION["patient"]);
@@ -20,7 +20,7 @@
 	$Req_utilisateur = $auth_user->runQuery("SELECT  CompteUtilisateursidEmploye, Employes.ServicesnomService ,nom, prenom, EmployesCompteUtilisateursidEmploye as chef
 											FROM Employes LEFT JOIN ChefServices ON Employes.CompteUtilisateursidEmploye  = ChefServices.EmployesCompteUtilisateursidEmploye
 											WHERE Employes.CompteUtilisateursidEmploye = :user_name
-											"); // NOM utilisateur = >> à mettre dans menuPage !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! TOUTES PAGES 
+											"); // NOM utilisateur = >> à mettre dans menuPage !!!!!!!!!!!! TOUTES PAGES 
 	$Req_utilisateur->execute(array("user_name"=>$user_id)); 
 	$a_utilisateur= reqToArrayPlusAttASSO($Req_utilisateur);  // Nom prénom et service utilisateur 
 	$Req_utilisateur->closeCursor();
@@ -35,6 +35,8 @@
 	<title> Bienvenue </title> <!-- Titre de l'onglet -->
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<link rel="stylesheet" href="Config/Style.css" type="text/css">
+	<link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Josefin+Slab" rel="stylesheet">
 	</head>
 
 	<body>
@@ -139,7 +141,7 @@
 
     </div> <!-- Page -->
 
-    <div id="footer"> <!-- Faire les liens vers les documents  -->
+    <div id="footer"> 
     <a href="<?php echo $LienSite ?>Pages/readme.php"> Conditions d'utilisation </a> |
     <a href="<?php echo $LienSite ?>Pages/contact.php"> Contact </a> | © 2017
     </div>
