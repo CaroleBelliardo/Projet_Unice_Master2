@@ -51,37 +51,32 @@
 	$req_horraireTravail->closeCursor();
 
 	//-- Gestion erreur : aucun rdv prevu pour la journée
-	if ($a_heureMinMax[1] >= $horraireTravail['horaire_fermeture'] ) 
+	//fermeture
+	if ( ($a_heureMinMax[1] != null ) and ($a_heureMinMax[1] >= $horraireTravail['horaire_fermeture'] ) )
 	{
-		$heureFin= $a_heureMinMax[1];
-		
+		$horraireTravail['horaire_fermeture'] = $a_heureMinMax[1];
 	}
-	elseif ($a_heureMinMax[1] < $horraireTravail['horaire_fermeture'] )
+
+	// ouverture
+	if (($a_heureMinMax[0] != null ) and ($a_heureMinMax[0] < $horraireTravail['horaire_ouverture'] ))
 	{
-		$heureFin= $horraireTravail['horaire_fermeture'];
+		$horraireTravail['horaire_ouverture']= $a_heureMinMax[1];
 	}
-	
-	if ($a_heureMinMax[0] < $horraireTravail['horaire_ouverture'] )
-	{
-		$heureDebut= $a_heureMinMax[1];
-	}
-	else
-	{
-		$heureDebut= $horraireTravail['horaire_ouverture'];
-	}
-	
-	
+
+	//echo "heure debut".$heureDebut[1];
+	//echo "heure fin".$heureDebut[1];
+	//
 	 //-- liste des creneaux à afficher 
 	$a_heures=[]; // liste des créneaux  
-	$range_heure=range(strtotime($heureDebut),strtotime($heureFin),15*60);
+	$range_heure=range(strtotime($horraireTravail['horaire_ouverture']),strtotime($horraireTravail['horaire_fermeture']),15*60);
 	foreach($range_heure as $time) // genere une liste d'heure
 	{
         array_push($a_heures,date("H:i",$time));
 	}
-	
+
 	// PLANNING du service ***
 	//-- horaires de début et fin de rendez-vous Pour la journée 
-		
+	
 		
 	$infoServiceJour = $auth_user->runQuery("SELECT TIME_FORMAT(CreneauxInterventions.heure_rdv,'%H:%i'),
 			Interventions.acte, Patients.nom, Patients.prenom, Patients.numSS, id_rdv,
