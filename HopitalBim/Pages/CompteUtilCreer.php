@@ -267,12 +267,9 @@ if(isset($_POST['btn-signup']))
 </div>
 
 <div class="abandon">
-<?php quitter1() ?>
-</div>
-
-<div id="footer"> <!-- Faire les liens vers les documents  -->
-    <a href="<?php echo $LienSite ?>readme.php"> Conditions d'utilisation </a> |
-    <a href="<?php echo $LienSite ?>contact.php"> Contact </a> | © 2017
+<?php quitter1();
+	include ('../Config/Footer.php'); //menu de navigation
+?>
 </div>
 
 </body>

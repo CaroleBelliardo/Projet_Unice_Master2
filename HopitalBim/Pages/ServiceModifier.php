@@ -122,6 +122,9 @@
 				$serviceInfo=$req_service -> fetch(PDO::FETCH_ASSOC);
 				include ('../Formulaires/ServiceModifier.php');; // recherche service existe pas (redirection fiche service)
 			}
+
+			include ('../Config/Footer.php'); //menu de navigation
+
 		?>
 	
 	</body>

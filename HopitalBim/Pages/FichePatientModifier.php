@@ -245,7 +245,7 @@
 		<?php // affichage
 			If (!array_key_exists("patient",$_SESSION )) 
 			{
-				include ('../Formulaires/RecherchePatient.php');; // recherche patient -> si n'existe pas : redirection fiche patient !
+				include ('../Formulaires/Formulaire_RecherchePatient.php');; // recherche patient -> si n'existe pas : redirection fiche patient !
 			}
 			else
 			{
@@ -259,6 +259,8 @@
 				$patientInfo=$req_patient -> fetch(PDO::FETCH_ASSOC);
 				include ('../Formulaires/FichePatientModifier.php');; // recherche patient -> si existe : redirection fiche patient !
 			}
+
+			include ('../Config/Footer.php'); //menu de navigation
 		?>
 
 	</body>

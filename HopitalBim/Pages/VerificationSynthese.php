@@ -177,7 +177,10 @@ $var1= ['nb_Interventions' ,'nb_InterventionsUrgentes' ];//,'nb incompatibilité
 			} 
 		?>
 	</table>
-<?php quitter1(); ?>	
+<?php quitter1();
+
+		include ('../Config/Footer.php'); //menu de navigation
+?>	
 	
 	
 </body>

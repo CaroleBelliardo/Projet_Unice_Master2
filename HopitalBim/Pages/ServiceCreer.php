@@ -92,6 +92,9 @@
 		<div id="footer"> <!-- Faire les liens vers les documents  -->
 			<a href="<?php echo $LienSite ?>readme.php"> Conditions d'utilisation </a> |
 			<a href="<?php echo $LienSite ?>contact.php"> Contact </a> | © 2017
-		</div> 
+		</div>
+		<?php 
+			include ('../Config/Footer.php'); //menu de navigation
+?>
 	</body>
 </html>
