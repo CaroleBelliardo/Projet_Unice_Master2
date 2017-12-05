@@ -23,11 +23,10 @@
 	$stmt = $auth_user->runQuery("SELECT nomService FROM Services WHERE nomService=:nomService ");
 	$stmt->execute(array('nomService'=>$text_nomService));
 	$rechercheService=$stmt->fetch(PDO::FETCH_ASSOC);
-	echo $rechercheService['nomService'];
 		// Apres avoir realisé une requete pour rechercher les services, on va tester si celui est present dans la bdd
 	if($text_nomService=="")	{
 		$error[] = "Il faut ajouter un nom de service"; }
-	else if ($rechercheService['nomService']=="" or $rechercheService['nomService']==$serviceInfo['nomService'])
+	else if ($rechercheService['nomService']=="" or $rechercheService['nomService']==$_SESSION['serviceModifier'])
 	{
 		try
 		{
@@ -90,9 +89,10 @@
 		{
 			echo $e->getMessage();
 		}
-		$auth_user->redirect('ServiceCreer.php?Valide'); // une fois l ensemble des messages affiché, 
+		$auth_user->redirect('ServiceModifier.php?Valide'); // une fois l ensemble des messages affiché, 
 	}
-
+	else{
+		$error[] = "Vous ne pouvez pas modifier le nom de service car ce nom est déjà pris"; }
 }
 ?>	
 
