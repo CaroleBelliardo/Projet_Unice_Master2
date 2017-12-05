@@ -236,15 +236,18 @@ if(isset($_POST['btn-modifier']))
 <!DOCTYPE html PUBLIC >
 <html>
 	<head>
-		<link rel="stylesheet" href=Style.css">
-		<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-		<title>Modifier fiche patient</title>
+		<title> Modifier Patient </title> <!-- Titre de l'onglet -->
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<link rel="stylesheet" href="../Config/Style.css" type="text/css">
+		<link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css?family=Josefin+Slab" rel="stylesheet">
 	</head>
+
 	<body>
 		<?php // affichage
 			If (!array_key_exists("patient",$_SESSION )) 
 			{
-				include ('../Formulaires/RecherchePatient.php');; // recherche patient existe pas (redirection fiche patient)
+				include ('../Formulaires/RecherchePatient.php');; // recherche patient -> si n'existe pas : redirection fiche patient !
 			}
 			else
 			{
@@ -256,10 +259,11 @@ if(isset($_POST['btn-modifier']))
 	
 				$req_patient->execute(array("numSS"=>$_SESSION['patient']));
 				$patientInfo=$req_patient -> fetch(PDO::FETCH_ASSOC);
-				include ('../Formulaires/FichePatientModifier.php');; // recherche patient existe pas (redirection fiche patient)
+				include ('../Formulaires/FichePatientModifier.php');; // recherche patient -> si existe : redirection fiche patient !
 				
 			}
 		?>
+
 	</body>
 
 </html>

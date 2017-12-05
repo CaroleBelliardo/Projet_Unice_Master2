@@ -9,7 +9,7 @@ include ('../Config/Menupage.php');
 if(isset($_POST['btn-signup']))
 {	
 
- // ici je pense faire un include de $dep a $adresse tout foutre dans un seul et meme document car c est chiant a regarder 
+ // ici je pense faire un include de $dep a $adresse tout mettre dans un seul et meme document sinon chiant a regarder 
 	$text_departement = trim($_POST['text_departement'], ' ' );	 // 
 	$text_pays = ucfirst(trim($_POST['text_pays'], ' '))	;
 	
@@ -61,7 +61,7 @@ if(isset($_POST['btn-signup']))
 		$error[] = "Veuillez entrer un pays (caractères numériques non acceptés)!"; }
 	// TEST SI NUMSS deja present
 	else if ($row['numSS']==$text_numSS ) {
-		$error[] = "Le patient est déjà présent dans la base de donnée ! Pour le modifier : <a href =# >cliquez ici</a>"; }   
+		$error[] = "Le patient est déjà présent dans la base de donnée ! Pour le modifier : <a href =# >Cliquez ici</a>"; }   
 	else
 	{
 		try
@@ -204,7 +204,7 @@ $auth_user->redirect('RDVDemande.php');
 <head>
 	<title> Nouveau Patient </title> <!-- Titre de l'onglet -->
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<link rel="stylesheet" href="Config/Style.css" type="text/css">
+	<link rel="stylesheet" href="../Config/Style.css" type="text/css">
 	<link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=Josefin+Slab" rel="stylesheet">
 	</head>
@@ -213,8 +213,8 @@ $auth_user->redirect('RDVDemande.php');
 <?php include ('../Formulaires/FichePatientCreer.php');?>
  
 <div id="footer"> <!-- Faire les liens vers les documents  -->
-    <a href="<?php echo $LienSite ?>Pages/readme.php"> Conditions d'utilisation </a> |
-    <a href="<?php echo $LienSite ?>Pages/contact.php"> Contact </a> | © 2017
+    <a href="<?php echo $LienSite ?>readme.php"> Conditions d'utilisation </a> |
+    <a href="<?php echo $LienSite ?>contact.php"> Contact </a> | © 2017
 </div>  
 
 </body>
