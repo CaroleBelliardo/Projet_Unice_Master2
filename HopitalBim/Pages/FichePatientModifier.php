@@ -245,7 +245,7 @@
 		<?php // affichage
 			If (!array_key_exists("patient",$_SESSION )) 
 			{
-				include ('../Formulaires/RecherchePatient.php');; // recherche patient -> si n'existe pas : redirection fiche patient !
+				include ('../Formulaires/Formulaire_RecherchePatient.php');; // recherche patient -> si n'existe pas : redirection fiche patient !
 			}
 			else
 			{
