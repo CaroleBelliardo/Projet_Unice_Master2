@@ -38,7 +38,7 @@ if(isset($_POST['btn-signup']))
 		$stmt = $auth_user->runQuery("SELECT idEmploye FROM CompteUtilisateurs WHERE idEmploye=:UtilisateurNom");
 		$stmt->execute(array(':UtilisateurNom'=>$UtilisateurNom));
 		$row=$stmt->fetch(PDO::FETCH_ASSOC);
-		if ($row['idEmploye']==$UtilisateurNom) {$error[] = "Nom d'utilisateur existant déjà"; }
+		if ($row['idEmploye']==$UtilisateurNom) {$error[] = "Nom d'utilisateur déjà existant !"; }
 		else 
 		{
 			//Ajout des informations dans la base de donnée :
@@ -166,14 +166,17 @@ if(isset($_POST['btn-signup']))
 
 ?>
 
-
 <!DOCTYPE html PUBLIC >
 <html>
-<head>
+	<head>
+	<title>Ajouter un utilisateur</title>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<link rel="stylesheet" href="../Config/Style.css" type="text/css">
+	<link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Josefin+Slab" rel="stylesheet">
+	</head>
 
-<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-<title>Ajouter un utilisateur</title>
-</head>
+
 
 <body>
     <p class="" style="margin-top:5px;">

@@ -23,18 +23,33 @@
 	//										SET statut = 'a'
 	//										WHERE idCreneau=:$num");
 	//$req_supprimerRDV->execute(array('idCreneau'=>$_POST["idCrenaux_supp"]));
-	$auth_user->redirect('Planning.php');
+	//$auth_user->redirect('Planning.php');
+	echo ' Rendez-vous supprimé';
 	}
-		if (isset ($_POST["btn-Annuler"]))
+	
+	if (isset ($_POST["btn-AnnulerOui"]))
 	{
-		/*echo $_POST["btn-Annuler"];//ajouter la requette avec $idRDV le id du rdv
 		$req_annulerRDV = $auth_user-> runQuery(" UPDATE CreneauxInterventions
 													SET statut = 'a' 
 													WHERE id_rdv =:rdvannulation");
-		$req_annulerRDV->execute(array('rdvannulation'=>$_POST["btn-Annuler"])); */
-		$auth_user->redirect('Planning.php?DemandeAnnuler');
+		$req_annulerRDV->execute(array('rdvannulation'=>$_POST["btn-AnnulerOui"]));
+		$auth_user->redirect('Planning.php?Suppression');
 
 	}
+if (isset ($_POST["btn-AnnulerNon"]))
+	{
+		$auth_user->redirect('Planning.php');
+	}
+if (isset ($_POST["btn-Realise"]))
+	{
+		$req_realiseRDV = $auth_user-> runQuery(" UPDATE CreneauxInterventions
+													SET statut = 'r' 
+													WHERE id_rdv =:rdvRealise");
+		$req_realiseRDV->execute(array('rdvRealise'=>$_POST["btn-Realise"]));
+		$auth_user->redirect('Planning.php?Valide');
+	}
+
+	
 
 
 // **************************  AFFICHAGE PAGE ********************************************   
@@ -57,35 +72,26 @@
 		<i class=""></i> &nbsp; <?php echo $error; ?>
 	</div>
 	<?php
+		}
 	}
-	}
-	else if(isset($_GET['Annuler'])) // si toutes les valeurs de champs ok et que bouton valider
+	 if(isset($_GET['Valide']))
 	{
-	?>
-	<div class="alert alert-info">
-	<i class=""></i> Voulez vous annuler le RDV ? </br>
-	</br><button type='submit' class='btn btn-primary' value="oui" name='btn-annuler-confirmation'>Oui</button>;
-	<button type='submit' class='btn btn-primary' value="non" name='btn-annuler-confirmation'>Non</button>;
-	
-	<?php if (isset($_POST['btn-annuler-confirmation'])=="oui")
-	{
-	substr($_POST['btn-supp'],-15);
-	$req_supprimerRDV = $auth_user->runQuery("UPDATE CreneauxInterventions 
-											SET statut = 'a'
-											WHERE idCreneau=:$num");
-	$req_supprimerRDV->execute(array('idCreneau'=>$_POST["idCrenaux_supp"]));
-	$auth_user->redirect('Planning.php');
+				 	?>
+                 <div id="valide"> <!-- Alert alert-info-->
+                      L'intérvention a été réalisée !
+					  <a href='../Pages/RDVDemande.php'>Demande de rendez-vous avec ce nouveau patient ?</a>
+                 </div>
+                 <?php
 	}
-	if (isset ($_POST["btn-annuler-confirmation"])=="non")
-	{
-		$auth_user->redirect('Planning.php');
-
-	}?>
-	
-	</div>
-	<?php
-	}
-	?>
+	if(isset($_GET['?Suppression']))
+			{
+				 	?>
+                 <div id="valide"> <!-- Alert alert-info-->
+                    Le RDV a été annulé !
+                 </div>
+                 <?php
+			}
+			?>
 							
 
 	<body>
@@ -126,8 +132,15 @@
 						//$tempo="<input name='suppr_rdv' value=$num type='submit'>";
 						//echo $tempo;
 						echo $infoServiceJours[$h][$acte]["nom"]." ".$infoServiceJours[$h][$acte]["prenom"]."\n".$infoServiceJours[$h][$acte]["numSS"]."\n";
-						echo "</br><button type='submit' class='btn btn-primary' value=".$infoServiceJours[$h][$acte]["id_rdv"]." name='btn-realiser'>RDV annulé</button>";
-						echo "<button type='submit' class='btn btn-primary' value=".$infoServiceJours[$h][$acte]["id_rdv"]." name='btn-Annuler'>RDV réalisé</button>";
+						echo "</br><button type='submit' class='btn btn-primary' value='' name='btn-Annuler".$infoServiceJours[$h][$acte]["id_rdv"]."'>Annuler le RDV</button>";
+						echo "<button type='submit' class='btn btn-primary' value=".$infoServiceJours[$h][$acte]["id_rdv"]." name='btn-Realise'>RDV réalisé</button>";
+						if (isset ($_POST["btn-Annuler".$infoServiceJours[$h][$acte]["id_rdv"]]))
+						{
+						echo "<br> Annuler le RDV ? <br>";//ajouter la requette avec $idRDV le id du rdv
+						echo "<button type='submit' class='btn btn-primary' value=".$infoServiceJours[$h][$acte]["id_rdv"]." name='btn-AnnulerOui'>Oui</button>";
+						echo "<button type='submit' class='btn btn-primary' value='' name='btn-AnnulerNon'>Non</button>";
+						}
+		
 		?>				
 						
 						

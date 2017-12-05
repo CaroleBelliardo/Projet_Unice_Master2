@@ -25,8 +25,13 @@
 	$rechercheService=$stmt->fetch(PDO::FETCH_ASSOC);
 		// Apres avoir realisé une requete pour rechercher les services, on va tester si celui est present dans la bdd
 	if($text_nomService=="")	{
+<<<<<<< HEAD
 		$error[] = "Il faut ajouter un nom de service"; }
 	else if ($rechercheService['nomService']=="" or $rechercheService['nomService']==$_SESSION['serviceModifier'])
+=======
+		$error[] = "Veuillez ajouter un nom de service !"; }
+	else if ($rechercheService['nomService']=="" or $rechercheService['nomService']==$serviceInfo['nomService'])
+>>>>>>> master
 	{
 		try
 		{
@@ -89,7 +94,11 @@
 		{
 			echo $e->getMessage();
 		}
+<<<<<<< HEAD
 		$auth_user->redirect('ServiceModifier.php?Valide'); // une fois l ensemble des messages affiché, 
+=======
+		$auth_user->redirect('ServiceCreer.php?Valide'); // une fois l ensemble des messages affichés 
+>>>>>>> master
 	}
 	else{
 		$error[] = "Vous ne pouvez pas modifier le nom de service car ce nom est déjà pris"; }
@@ -98,12 +107,15 @@
 
 <!DOCTYPE html PUBLIC >
 <html>
-	<head>
-		<link rel="stylesheet" href=Style.css">
-		<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-		<title>Modifier le service</title>
-	</head>
-	<body>
+<head>
+	<title>Modifier le service</title>
+	<link rel="stylesheet" href="Style.css">
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Josefin+Slab" rel="stylesheet">
+</head>
+<body>
+
 		<?php // affichage
 			If (!array_key_exists("serviceModifier",$_SESSION )) 
 			{
@@ -117,9 +129,9 @@
 				
 				$req_service->execute(array("nomService"=>$_SESSION['serviceModifier']));
 				$serviceInfo=$req_service -> fetch(PDO::FETCH_ASSOC);
-				include ('../Formulaires/ServiceModifier.php');; // recherche patient existe pas (redirection fiche patient)
+				include ('../Formulaires/ServiceModifier.php');; // recherche service existe pas (redirection fiche service)
 			}
 		?>
-	</body>
 
+</body>
 </html>

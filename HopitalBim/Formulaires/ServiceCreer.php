@@ -1,19 +1,8 @@
-<!DOCTYPE html PUBLIC >
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-
-<title>ServiceCreer</title>
-</head>
-
-<body>
-<p class="" style="margin-top:5px;">
-
-<div class="signin-form">
+<div class="containerFormu">
     	
         <form method="post" class="form-signin">
 
-            <h2 class="form-signin-heading">Ajouter un nouveau service</h2><hr />
+            <h2 class="form-signin-heading">Ajouter un nouveau service</h2> <hr />
 
             <?php
 			if(isset($error))
@@ -21,40 +10,45 @@
 			 	foreach($error as $error)
 			 	{
 					 ?>
-                     <div class="alert alert-danger">
-                        <i class=""></i> &nbsp; <?php echo $error; ?>
-                     </div>
+                     <div id="error"> &nbsp; <?php echo $error; ?> </div> <!-- Alert alert-danger-->
+
                      <?php
 				}
 			}
 			else if(isset($_GET['Valide']))
 			{
 			?>
-                 <div class="alert alert-info">
-                      <i class=""></i>Service ajouté avec succes<br><a href='../Pageprincipale.php'>Page principale</a>
+                 <div id="valide"> <!-- Alert alert-info-->
+                      Service ajouté avec succés ! <a href='../Pageprincipale.php'> Page principale </a>
                  </div>
             <?php
 			}
 			?>
 			
-			<div class="form-group" >
-			
+			<p><i>Complétez le formulaire. Les champs marqués par </i><em>*</em> sont <em>obligatoires.</em></p>
+
+			<div class="form-group">
 			<fieldset>
 			<legend> Service </legend> <!-- Titre du fieldset --> 
-			<p>
-				<input type="text" class="form-control" name="text_nomService" pattern="[A-Za-z]{1-20}" title="Majuscule en première lettre"        placeholder="Nom du service :" value="<?php if(isset($error)){echo $text_nomService;}?>" /><br><br>
-				<input type="tel" class="form-control" name="text_telephone" pattern="[0-9]{1-15}" title="Veuillez rentrer un n° de téléphone correct"    placeholder="N° téléphone :" value="<?php if(isset($error)){echo $text_telephone;}?>" /><br><br>
-				<label class="form-control"> Horaire d'ouverture : &nbsp;&nbsp;
-				<input type="time" class="form-control" name="text_ouverture" value="<?php if(isset($error)){echo $text_ouverture;}?>" /><br><br>
-				<label class="form-control"> Horaire de fermeture : &nbsp;&nbsp;
-				<input type="time" class="form-control" name="text_fermeture" value="<?php if(isset($error)){echo $text_fermeture;}?>" />
-			</p>
-			</fieldset>
+
+				<label for="text_nomService">Nom du service <em>* </em> </label>
+				<input type="text" class="form-control" name="text_nomService" pattern="[A-Za-z]{1-20}" title="Majuscule en première lettre"        placeholder=" Service" value="<?php if(isset($error)){echo $text_nomService;}?>" /><br>
+
+				<label for="text_telephone">Téléphone </label>
+				<input type="tel" class="form-control" name="text_telephone" pattern="[0-9]{1-15}" title="Veuillez rentrer un n° de téléphone correct"    placeholder=" 06xxxxxxxx " value="<?php if(isset($error)){echo $text_telephone;}?>" /><br>
+
+				<label for="text_ouverture">Horaire d'ouverture </label>
+				<input type="time" class="form-control" name="text_ouverture" value="<?php if(isset($error)){echo $text_ouverture;}?>" /><br>
+
+				<label for="text_fermeture">Horaire de fermeture </label>
+				<input type="time" class="form-control" name="text_fermeture" value="<?php if(isset($error)){echo $text_fermeture;}?>" /><br>
+
+			</fieldset> <br>
 			
 			<fieldset>
 			<legend> Localisation </legend> <!-- Titre du fieldset --> 
-			<p>
-				Batiment : 
+
+				<label for="text_batiment">Bâtiment </label>  
 				<select name="text_batiment">
 					<option value="A">A</option>
 					<option value="B">B</option>
@@ -62,8 +56,9 @@
 					<option value="D">D</option>
 					<option value="E">E</option>
 					<option value="F">F</option>
-				</select><br><br>  
-				Etage :  
+				</select><br> 
+
+				<label for="text_etage">Étage </label>  
 				<select name="text_etage"> 
 					<option value="0">RDC</option>
 					<option value="1">1</option>
@@ -71,8 +66,9 @@
 					<option value="3">3</option>
 					<option value="4">4</option>
 					<option value="-1">-1</option>
-				</select><br><br> 
-				Aile :  
+				</select><br>
+
+				<label for="text_aile">Aile </label>  
 				<select name="text_aile">
 					<option value="a">a</option>
 					<option value="b">b</option>
@@ -82,21 +78,17 @@
 					<option value="f">f</option>
 				</select>
 			
-			</p>
-			</fieldset>
-			
-			</div>
-            <div class="clearfix"></div><hr />
-            <div class="form-group">
-            	<button type="submit" class="btn btn-primary" name="btn-valider">
-                	<i class=""></i>Valider
-                </button>
-            </div>
-        </form>
-       </div>
-</div>
-	<?php 	quitter1()	;?>	
-</body>
+			</fieldset> <br>
+			</div> <!-- form-group // Formulaire principal --> 
 
- 
-</html>
+            <div class="form-group">
+            	<button type="submit" class="btn btn-primary" name="btn-valider">Valider</button>
+            </div> <!-- form-group // Bouton Valider -->
+
+        </form> <!-- form-signin -->
+
+</div> <!-- containerFormu -->
+
+<div class="abandon">
+<?php quitter1() ?>
+</div>
