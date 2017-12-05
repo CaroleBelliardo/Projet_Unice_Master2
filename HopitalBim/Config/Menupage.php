@@ -11,7 +11,7 @@ $auth_user = new Systeme(); // Connection bdd
 $user_id = $_SESSION['idEmploye']; // IDENTIFIANT compte utilisateur !!!!!
 
 //info identité utilisateur
-$Req_utilisateur = $auth_user->runQuery("SELECT  CompteUtilisateursidEmploye, Employes.ServicesnomService ,nom, prenom, EmployesCompteUtilisateursidEmploye as chef
+$Req_utilisateur = $auth_user->runQuery("SELECT  CompteUtilisateursidEmploye, Employes.ServicesnomService as service ,nom, prenom, EmployesCompteUtilisateursidEmploye as chef
 										FROM Employes LEFT JOIN ChefServices ON Employes.CompteUtilisateursidEmploye  = ChefServices.EmployesCompteUtilisateursidEmploye
 										WHERE Employes.CompteUtilisateursidEmploye = :user_name
 										"); // NOM utilisateur = >> à mettre dans menuPage !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! TOUTES PAGES 
@@ -19,7 +19,7 @@ $Req_utilisateur->execute(array("user_name"=>$user_id));
 $a_utilisateur= reqToArrayPlusAttASSO($Req_utilisateur);  // Nom prénom et service utilisateur 
 $Req_utilisateur->closeCursor();
 
-$_SESSION['service']=$a_utilisateur['Employes.ServicesnomService'];
+$_SESSION['service']=$a_utilisateur['service'];
 if ($a_utilisateur["chef"] != "")
 { $_SESSION["chefService"]= TRUE;}
 
@@ -66,7 +66,7 @@ global $auth_user, $a_utilisateur;
 			if ( $_SESSION["chefService"]= TRUE )
 			{
 	?>			
-				<a href="<?php echo $LienSite ?>Pages/Faturation.php">Facturation</a>
+				<a href="<?php echo $LienSite ?>Pages/Facturation.php">Facturation</a>
 	
 	<?php
 				//break;
@@ -120,7 +120,7 @@ global $auth_user, $a_utilisateur;
 			<div class="content">
     			<div class="text">
       			<h3> <?php  echo($a_utilisateur['prenom']." ".$a_utilisateur['nom']); ?> </h3>
-      			<h6> Service : <?php echo($a_utilisateur['ServicesnomService']); ?> </h6>
+      			<h6> Service : <?php echo($_SESSION['service']); ?> </h6>
     			</div>
   			</div>
 		</div>

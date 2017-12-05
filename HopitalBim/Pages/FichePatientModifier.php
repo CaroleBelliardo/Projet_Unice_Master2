@@ -36,7 +36,7 @@ if(isset($_POST['btn-modifier']))
 	 // pas besoin car s auto incremente : $text_idAdresse = strip_tags($_POST['text_idAdresse']);	
 	//  pour la gestion des erreurs plus bas aussi ajouter un include et tout foutre dans un autre dossier
 	if($text_numSS==""  or (is_numeric($text_numSS)==FALSE ) or (strlen($text_numSS) < 15 ) or (strlen($text_numSS) > 15 ))	{
-		$error[] = "Vérifiez que le numéro de sécurité sociale est correct"; }
+		$error[] = "Vérifiez que le numéro de sécurité sociale est correct !"; }
 	else if((preg_match('/[0-9]+/',$text_nom) == 1)or ($text_nom=="")) {// string only contain the a to z , A to Z,
 		$error[] = "Veuillez entrer un nom uniquement composé de lettres !";}
 	else if((preg_match('/[0-9]+/',$text_prenom) == 1)or ($text_prenom=="")) {// string only contain the a to z , A to Z,
@@ -46,9 +46,9 @@ if(isset($_POST['btn-modifier']))
 	else if((preg_match('/[0-9]+/',$text_numero) == 0)or ($text_numero=="") )	{
 		$error[] = "Veuillez entrer un numéro de rue !"; }
 	else if($text_rue=="" )	{
-		$error[] = "Il faut entrer un nom de rue valide !"; }
+		$error[] = "Veuillez entrer un nom de rue valide !"; }
 	else if(strlen($text_codepostal) > 5)	{
-		$error[] = "Il faut entrer un code postal valide !"; }
+		$error[] = "Veuillez entrer un code postal valide !"; }
 	else if(strlen($text_departement) > 3) 	{
 		$error[] = "Veuillez entrer un numéro de département de maximum 3 caractères alphanumériques (entrez 99 si le patient réside à l'étranger) !"; }
 	else if ((preg_match('/[0-9]+/',$text_pays) == 1)or ($text_pays=="") or (strlen($text_pays) > 25))	{
@@ -58,7 +58,7 @@ if(isset($_POST['btn-modifier']))
 	{
 		try
 		{
-		// Test si la ville est presente 
+		// Test si la ville est présente 
 			$_SESSION['patient']=$text_numSS ;	
 
 			$stmt = $auth_user->runQuery("SELECT * FROM Villes 
