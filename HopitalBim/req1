@@ -1,0 +1,38 @@
+SELECT *
+                    FROM  (
+                    	SELECT dateR1 as dateR, heureR1 as heureR, statutR1 as statutR, idR1 as idR, niveauUrgenceR1 as niveauUrgenceR
+					FROM  (
+                    (SELECT date_rdv as dateR1, heure_rdv as heureR1, CreneauxInterventions.statut as statutR1, CreneauxInterventions.id_rdv as idR1  , niveauUrgence as niveauUrgenceR1     
+						FROM CreneauxInterventions JOIN Interventions  JOIN Services 
+                    WHERE  CreneauxInterventions.InterventionsidIntervention = Interventions.idIntervention
+                    AND Interventions.ServicesnomService = Services.nomService
+                    AND date_rdv = CURDATE() 
+                    AND heure_rdv > CURRENT_TIMESTAMP()
+                    AND InterventionsidIntervention = '1'
+                    AND CreneauxInterventions.statut = 'p'
+                    AND CreneauxInterventions.niveauUrgence = '1'
+                    AND heure_rdv >= (SELECT horaire_ouverture FROM Interventions  JOIN Services WHERE idIntervention = '1' AND Interventions.ServicesnomService = Services.nomService)
+                        ) 
+                    UNION
+                    (SELECT  date_rdv as dateR1, heure_rdv  as heureR1, CreneauxInterventions.statut as statutR1, CreneauxInterventions.id_rdv as idR1, niveauUrgence as niveauUrgenceR1  
+						FROM  CreneauxInterventions JOIN Interventions  JOIN Services 
+                    WHERE  CreneauxInterventions.InterventionsidIntervention = Interventions.idIntervention
+                    AND Interventions.ServicesnomService = Services.nomService
+                    AND date_rdv > CURDATE() 
+                    AND InterventionsidIntervention = '1'
+                    AND CreneauxInterventions.statut = 'p'
+                    AND CreneauxInterventions.niveauUrgence = '1'
+                    AND heure_rdv >= (SELECT horaire_ouverture FROM Interventions  JOIN Services WHERE idIntervention = '1' AND Interventions.ServicesnomService = Services.nomService) ORDER BY niveauUrgenceR1 DESC, date_rdv DESC, heure_rdv DESC 
+                    ) )as d ORDER BY date_rdv DESC, heure_rdv DESC LIMIT 1
+                    UNION
+                    (SELECT date_rdv as dateR, heure_rdv  as heureR, CreneauxInterventions.statut as statutR, CreneauxInterventions.id_rdv as idR, niveauUrgence as niveauUrgenceR      
+					FROM CreneauxInterventions JOIN Interventions  JOIN Services 
+                    WHERE CreneauxInterventions.InterventionsidIntervention = Interventions.idIntervention
+                    AND Interventions.ServicesnomService = Services.nomService
+                    AND date_rdv = CURDATE() 
+                    AND heure_rdv > CURRENT_TIMESTAMP() 
+                    AND CreneauxInterventions.statut = 'a'
+                    AND InterventionsidIntervention = '1'
+                    AND heure_rdv >= (SELECT horaire_ouverture FROM Interventions  JOIN Services WHERE idIntervention = '1' AND Interventions.ServicesnomService = Services.nomService) ORDER BY  date_rdv ASC , heure_rdv LIMIT 1
+                    )
+                ) as dd WHERE dateR IS NOT NULL ORDER BY niveauUrgenceR DESC, dateR DESC, heureR DESC LIMIT 1
