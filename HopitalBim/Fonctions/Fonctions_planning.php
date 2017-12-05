@@ -4,7 +4,8 @@
 	{
 		if (!array_key_exists('serviceModifier',$_SESSION))
 	{
-		$_SESSION['serviceModifier'] =  $a_utilisateur["ServicesnomService"];
+		$_SESSION['serviceModifier'] =  $_SESSION["service"];
+		
 	
 	}
 	

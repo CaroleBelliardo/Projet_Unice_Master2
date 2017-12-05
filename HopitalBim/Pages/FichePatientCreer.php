@@ -190,32 +190,30 @@ if(isset($_POST['btn-signup']))
 			echo $e->getMessage();
 		}	
 	}
-}
-if(isset($_POST['redirection']))
-{ 
-$auth_user->redirect('RDVDemande.php');
-}
+	}
+	if(isset($_POST['redirection']))
+	{ 
+	$auth_user->redirect('RDVDemande.php');
+	}
 
 
 ?>
 
 <!DOCTYPE html PUBLIC >
 <html>
-<head>
-	<title> Nouveau Patient </title> <!-- Titre de l'onglet -->
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<link rel="stylesheet" href="../Config/Style.css" type="text/css">
-	<link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
-	<link href="https://fonts.googleapis.com/css?family=Josefin+Slab" rel="stylesheet">
-</head>
-<body>
-
-<?php include ('../Formulaires/FichePatientCreer.php');?>
- 
-<div id="footer"> <!-- Faire les liens vers les documents  -->
-    <a href="<?php echo $LienSite ?>readme.php"> Conditions d'utilisation </a> |
-    <a href="<?php echo $LienSite ?>contact.php"> Contact </a> | © 2017
-</div>  
-
-</body>
+	<head>
+		<title> Nouveau Patient </title> <!-- Titre de l'onglet -->
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<link rel="stylesheet" href="../Config/Style.css" type="text/css">
+	</head>
+	<body>
+	
+	<?php include ('../Formulaires/FichePatientCreer.php');?>
+	 
+	<div id="footer"> <!-- Faire les liens vers les documents  -->
+		<a href="<?php echo $LienSite ?>readme.php"> Conditions d'utilisation </a> |
+		<a href="<?php echo $LienSite ?>contact.php"> Contact </a> | © 2017
+	</div>  
+	
+	</body>
 </html>

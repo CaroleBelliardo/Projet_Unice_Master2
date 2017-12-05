@@ -9,15 +9,18 @@
 <!DOCTYPE html PUBLIC >
 <html>
 	<head>
-		<link rel="stylesheet" href=Style.css">
+		<title>Modifier un utilisateur</title>
+		<link rel="stylesheet" href="Style.css">
 		<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-		<title>Modifier le service</title>
+		<link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css?family=Josefin+Slab" rel="stylesheet">
 	</head>
+
 	<body>
 		<?php // affichage
 			If (!array_key_exists("utilisateurModifier",$_SESSION )) 
 			{
-				include ('../Formulaires/RechercheUtilisateur.php');; // recherche le service
+				include ('../Formulaires/Formulaire_RechercheUtilisateur.php');; // recherche le service
 			}
 			else
 			{
@@ -29,12 +32,9 @@
 				
 				$req_utilisateur->execute(array("utilisateur"=>$_SESSION['utilisateurModifier']));
 				$utilisateurInfo=$req_utilisateur -> fetch(PDO::FETCH_ASSOC);
-				include ('../Formulaires/CompteUtilModifier.php');; // recherche patient existe pas (redirection fiche patient)
+				include ('../Formulaires/Formulaire_CompteUtilModifier.php');; // recherche patient existe pas (redirection fiche patient)
 			}
 		?>
 
-
-
 	</body>
-
 </html>

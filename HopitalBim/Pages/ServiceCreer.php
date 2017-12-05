@@ -1,9 +1,4 @@
 <?php
-	// fonction qui permet d afficher les requetes sql et donc permet de jouer avec les données 
-	/*  A FAIRE : 
-		- plop
-
-	*/
 	include ('../Config/Menupage.php');
 
 	if(isset($_POST['btn-valider']))
@@ -78,7 +73,6 @@
 		}
 		$auth_user->redirect('ServiceCreer.php?Valide'); // une fois l ensemble des messages affichés 
 	}
-
 }
 
 
@@ -86,21 +80,18 @@
 
 <!DOCTYPE html PUBLIC >
 <html>
-<head>
-	<title> Nouveau Service </title> <!-- Titre de l'onglet -->
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<link rel="stylesheet" href="../Config/Style.css" type="text/css">
-	<link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
-	<link href="https://fonts.googleapis.com/css?family=Josefin+Slab" rel="stylesheet">
+	<head>
+		<title> Nouveau Service </title> <!-- Titre de l'onglet -->
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<link rel="stylesheet" href="../Config/Style.css" type="text/css">
 	</head>
-<body>
-
-<?php include ('../Formulaires/ServiceCreer.php'); ?>
-
-<div id="footer"> <!-- Faire les liens vers les documents  -->
-    <a href="<?php echo $LienSite ?>readme.php"> Conditions d'utilisation </a> |
-    <a href="<?php echo $LienSite ?>contact.php"> Contact </a> | © 2017
-</div> 
-
-</body>
+	<body>
+	
+		<?php include ('../Formulaires/Formulaire_ServiceCreer.php'); ?>
+		
+		<div id="footer"> <!-- Faire les liens vers les documents  -->
+			<a href="<?php echo $LienSite ?>readme.php"> Conditions d'utilisation </a> |
+			<a href="<?php echo $LienSite ?>contact.php"> Contact </a> | © 2017
+		</div> 
+	</body>
 </html>
