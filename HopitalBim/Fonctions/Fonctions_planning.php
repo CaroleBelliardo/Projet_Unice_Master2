@@ -5,6 +5,7 @@
 		if (!array_key_exists('serviceModifier',$_SESSION))
 	{
 		$_SESSION['serviceModifier'] =  $_SESSION["service"];
+		
 	
 	}
 	
