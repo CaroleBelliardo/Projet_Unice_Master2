@@ -25,13 +25,9 @@
 	$rechercheService=$stmt->fetch(PDO::FETCH_ASSOC);
 		// Apres avoir realisé une requete pour rechercher les services, on va tester si celui est present dans la bdd
 	if($text_nomService=="")	{
-<<<<<<< HEAD
 		$error[] = "Il faut ajouter un nom de service"; }
 	else if ($rechercheService['nomService']=="" or $rechercheService['nomService']==$_SESSION['serviceModifier'])
-=======
-		$error[] = "Veuillez ajouter un nom de service !"; }
-	else if ($rechercheService['nomService']=="" or $rechercheService['nomService']==$serviceInfo['nomService'])
->>>>>>> master
+
 	{
 		try
 		{
