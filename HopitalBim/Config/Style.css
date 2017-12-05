@@ -441,6 +441,10 @@ h6 {
     height: 35px;
     padding-top: 15px;
     background-color: #17202A;
+    position: absolute;
+    bottom: 0;
+}
+
 }
 
 #footer a:link {

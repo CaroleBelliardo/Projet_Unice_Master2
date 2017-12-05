@@ -21,5 +21,8 @@
 				include ('../Fonctions/Fonctions_Facturation.php');
 			
 			}
-		}	
+		}
+		
+	include ('../Config/Footer.php'); //menu de navigation
+
 ?>

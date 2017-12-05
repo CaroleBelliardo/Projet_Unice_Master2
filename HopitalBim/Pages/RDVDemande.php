@@ -190,7 +190,10 @@ if(isset($_POST['btn_demandeRDV'])) // si utilisateur clique sur le bouton deman
 				include ('../Formulaires/Formulaire_DemandeRDV.php');; // recherche patient existe pas (redirection fiche patient)
 				
 			}
+		include ('../Config/Footer.php'); //menu de navigation
+
 		?>
+	
 	</body>
 
 </html>

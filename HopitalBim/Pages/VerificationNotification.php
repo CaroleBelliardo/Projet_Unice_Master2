@@ -222,6 +222,8 @@ $service->closeCursor(); // Termine le traitement de la requête
 <!--//-->
 <!--//$array=$test2;-->
 <!--<!--//echo build_table($array);-->
-<?php quitter1(); ?>	
+	<?php quitter1();
+		include ('../Config/Footer.php'); //menu de navigation
+	 ?>	
 </body>
 </html>

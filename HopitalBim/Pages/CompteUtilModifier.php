@@ -34,6 +34,9 @@
 				$utilisateurInfo=$req_utilisateur -> fetch(PDO::FETCH_ASSOC);
 				include ('../Formulaires/Formulaire_CompteUtilModifier.php');; // recherche patient existe pas (redirection fiche patient)
 			}
+
+			include ('../Config/Footer.php'); //menu de navigation
+
 		?>
 
 	</body>

@@ -259,6 +259,8 @@
 				$patientInfo=$req_patient -> fetch(PDO::FETCH_ASSOC);
 				include ('../Formulaires/FichePatientModifier.php');; // recherche patient -> si existe : redirection fiche patient !
 			}
+
+			include ('../Config/Footer.php'); //menu de navigation
 		?>
 
 	</body>
