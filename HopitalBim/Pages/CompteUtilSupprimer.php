@@ -24,16 +24,23 @@ if(isset($_POST['btn-signup']))
 	$req_chefDeService->execute(array ('idEmploye'=>$text_utilisateur));
     $utilisateurChef= $req_chefDeService ->fetch(PDO::FETCH_ASSOC);
 	if ($utilisateurChef != NULL )
-	{Dumper( $utilisateurChef); }
+	 {$error[] = "Impossible de supprimer un chef de service"; }
 	
-	/*
-    $ajoutchef = $auth_user->conn->prepare("DELETE FROM CompteUtilisateurs WHERE 
-                          idEmploye=:text_utilisateur");
-      $ajoutchef->bindparam(":text_utilisateur", $text_utilisateur);
-      $ajoutchef->execute();
-      $auth_user->redirect('CompteUtilSupprimer.php?Valide');
- }
-*/
+	else 
+	{
+		$archiverService = $auth_user->runQuery("INSERT INTO EmployesArchive 
+														SELECT *   
+														FROM Employes 
+														WHERE CompteUtilisateursidEmploye=:employe");
+		$archiverService->execute(array('employe'=>$text_utilisateur));
+		$ajoutchef = $auth_user->conn->prepare("DELETE FROM CompteUtilisateurs 
+											WHERE 
+											idEmploye=:text_utilisateur");
+		$ajoutchef->bindparam(":text_utilisateur", $text_utilisateur);
+		$ajoutchef->execute();
+		$auth_user->redirect('CompteUtilSupprimer.php?Valide');
+	}
+	
 	}
 	catch(PDOException $e)
 	 {
