@@ -142,7 +142,6 @@ while ($Services =  $service-> fetchColumn())
 </head>
 
 <body>
-    <?php include ('./Config/Menupage.php');?> 
 <table>
 	<?php foreach ($a_services as $service)
 	{

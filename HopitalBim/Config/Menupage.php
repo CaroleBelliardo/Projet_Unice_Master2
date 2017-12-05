@@ -1,7 +1,7 @@
 <?php $LienSite = 'http://'.$_SERVER['HTTP_HOST'].'/projetm2/HopitalBim/';
 
-include ('../Fonctions/Affichage.php'); // lien Page principale
-include ('../Fonctions/ReqTraitement.php');
+include ('../Fonctions/Fonctions_Affichage.php'); // lien Page principale
+include ('../Fonctions/Fonctions_ReqTraitement.php');
 require_once("../session.php"); // requis pour se connecter la base de donnée 
 require_once("../classe.Systeme.php"); // va permettre d effectuer les requettes sql en orienté objet.
 

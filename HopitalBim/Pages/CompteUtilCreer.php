@@ -169,94 +169,79 @@ if(isset($_POST['btn-signup']))
 <!DOCTYPE html PUBLIC >
 <html>
 	<head>
-	<title>Ajouter un utilisateur</title>
-	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-	<link rel="stylesheet" href="../Config/Style.css" type="text/css">
-	<link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
-	<link href="https://fonts.googleapis.com/css?family=Josefin+Slab" rel="stylesheet">
+		<title>Ajouter un utilisateur</title>
+		<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+		<link rel="stylesheet" href="../Config/Style.css" type="text/css">
 	</head>
 
 
 
-<body>
-    <p class="" style="margin-top:5px;">
-<div class="signin-form">
-
-<div class="container">
-    	
-<form method="post" class="form-signin">
-            <h2 class="form-signin-heading">Ajouter un utilisateur</h2><hr />
-            <?php
+	<body>
+		<form method="post" class="form-signin">
+			<h2 class="form-signin-heading">Ajouter un utilisateur</h2><hr />
+	<?php
 			if(isset($error))
 			{
-			 	foreach($error as $error)
-			 	{
+				foreach($error as $error)
+				{
 			?>
-                    <div class="alert alert-danger">
-                    <i class=""></i> &nbsp; <?php echo $error; ?>
-                    </div>
-					<?php
+					<div class="alert alert-danger">
+					<i class=""></i> &nbsp; <?php echo $error; ?>
+					</div>
+	<?php
 				}
 			}
 			else if(isset($_GET['Valide']))
 			{
-					?>
-                <div class="alert alert-info">
-                <i class=""></i>Utilisateur enregistré avec succes<a href='../Pageprincipale.php'>Page principale</a>
-                </div>
-            <?php
+	?>
+				<div class="alert alert-info">
+				<i class=""></i>Utilisateur enregistré avec succes<a href='../Pageprincipale.php'>Page principale</a>
+				</div>
+	<?php
 			}
-			?>
+	?>
 			
-            <div class="form-group" >
-			<fieldset>
-			<legend> Employé </legend> <!-- Titre du fieldset --> 
-			<p>
-				<input type="text" class="form-control" name="text_nom" pattern="[A-Za-z]{1-25}" title="Caractère alphabetique, 25 caractères maximum"     placeholder="Nom :" value="<?php if(isset($error)){echo $text_nom;}?>" /><br>
-				<input type="text" class="form-control" name="text_prenom" pattern="[A-Za-z]{1-25}" title="Caractère alphabetique, 25 caractères maximum"  placeholder="Prénom :" value="<?php if(isset($error)){echo $text_prenom;}?>" /><br>
-				<input type="text" class="form-control" name="text_telephone" pattern="[0-9]{1-15}" title="Caractère numérique, 15 caractères acceptés"    placeholder="Numero de telephone :" value="<?php if(isset($error)){echo $text_telephone;}?>" /><br>
-				<input type="text" class="form-control" name="text_mail" pattern="{1-60}" title="Caractère numérique, 15 caractères acceptés" placeholder="Mail :" value="<?php if(isset($error)){echo $text_mail;}?>" /><br>			
-				</br>
+			<div class="form-group" >
+				<fieldset>
+					<legend> Employé </legend> <!-- Titre du fieldset --> 
+					<p>
+						<input type="text" class="form-control" name="text_nom" pattern="[A-Za-z]{1-25}" title="Caractère alphabetique, 25 caractères maximum"     placeholder="Nom :" value="<?php if(isset($error)){echo $text_nom;}?>" /><br>
+						<input type="text" class="form-control" name="text_prenom" pattern="[A-Za-z]{1-25}" title="Caractère alphabetique, 25 caractères maximum"  placeholder="Prénom :" value="<?php if(isset($error)){echo $text_prenom;}?>" /><br>
+						<input type="text" class="form-control" name="text_telephone" pattern="[0-9]{1-15}" title="Caractère numérique, 15 caractères acceptés"    placeholder="Numero de telephone :" value="<?php if(isset($error)){echo $text_telephone;}?>" /><br>
+						<input type="text" class="form-control" name="text_mail" pattern="{1-60}" title="Caractère numérique, 15 caractères acceptés" placeholder="Mail :" value="<?php if(isset($error)){echo $text_mail;}?>" /><br>			
+						</br>
+						Service : <?php liste_Services($auth_user) ?>
+						Chef : 	<input type="hidden"   name="text_chef" value="0">
+								<input type="checkbox" name="text_chef" value="1"></br>   
+						<input type="text" class="form-control" name="text_motdepasse" pattern="[A-Za-z]{1-25}" title="Caractère alphabetique, 25 caractères maximum"  placeholder="Mot de passe utilisateur :" value="<?php if(isset($error)){echo $text_motdepasse;}?>" /><br>
+					</p>
+				</fieldset>
 			
-				Service : <?php liste_Services($auth_user) ?>
-				
-				Chef : 	<input type="hidden"   name="text_chef" value="0">
-						<input type="checkbox" name="text_chef" value="1"></br>   
-				<input type="text" class="form-control" name="text_motdepasse" pattern="[A-Za-z]{1-25}" title="Caractère alphabetique, 25 caractères maximum"  placeholder="Mot de passe utilisateur :" value="<?php if(isset($error)){echo $text_motdepasse;}?>" /><br>
-
-			</p>
-			</fieldset>
-			
-			<fieldset>
-			<legend> Adresse employé </legend> <!-- Titre du fieldset --> 
-			<p>
-				<input type="text" class="form-control" name="text_numero" pattern="[0-9]{1-6}" title="Caractère numérique, 6 caractères acceptés"          placeholder="Entrer numero de la rue :" value="<?php if(isset($error)){echo $text_numero;}?>" /><br>
-				<input type="text" class="form-control" name="text_rue"    pattern="[A-Za-z]{1-100}" title="Caractère alphabetique, 100 caractères maximum" placeholder="Entrer le nom de la rue :" value="<?php if(isset($error)){echo $text_rue;}?>" /><br>
-				<input type="text" class="form-control" name="text_ville"  pattern="[A-Za-z]{1-150}" title="Caractère alphabetique, 150 caractères maximum" placeholder="Entrer le nom de la ville :" value="<?php if(isset($error)){echo $text_ville;}?>" /><br>
-				<input type="text" class="form-control" name="text_codepostal" pattern="[0-9]{5}" title="Caractère numérique, 5 caractères maximum"         placeholder="Entrer le code postal :" value="<?php if(isset($error)){echo $text_codepostal;}?>" /><br>
-				<input type="text" class="form-control" name="text_departement" pattern="[0-9]{2}" title="Caractère numérique, 5 caractères maximum"        placeholder="Entrer le departement :" value="<?php if(isset($error)){echo $text_departement;}?>" /><br>
-				<input type="text" class="form-control" name="text_pays"   pattern="[A-Za-z]{1-25}" title="Caractère alphabetique, 25 caractères maximum"   placeholder="Entrer le pays :" value="<?php if(isset($error)){echo $text_pays;}?>" /><br>
-			</p>
-			</fieldset>
+				<fieldset>
+					<legend> Adresse employé </legend> <!-- Titre du fieldset --> 
+					<p>
+						<input type="text" class="form-control" name="text_numero" pattern="[0-9]{1-6}" title="Caractère numérique, 6 caractères acceptés"          placeholder="Entrer numero de la rue :" value="<?php if(isset($error)){echo $text_numero;}?>" /><br>
+						<input type="text" class="form-control" name="text_rue"    pattern="[A-Za-z]{1-100}" title="Caractère alphabetique, 100 caractères maximum" placeholder="Entrer le nom de la rue :" value="<?php if(isset($error)){echo $text_rue;}?>" /><br>
+						<input type="text" class="form-control" name="text_ville"  pattern="[A-Za-z]{1-150}" title="Caractère alphabetique, 150 caractères maximum" placeholder="Entrer le nom de la ville :" value="<?php if(isset($error)){echo $text_ville;}?>" /><br>
+						<input type="text" class="form-control" name="text_codepostal" pattern="[0-9]{5}" title="Caractère numérique, 5 caractères maximum"         placeholder="Entrer le code postal :" value="<?php if(isset($error)){echo $text_codepostal;}?>" /><br>
+						<input type="text" class="form-control" name="text_departement" pattern="[0-9]{2}" title="Caractère numérique, 5 caractères maximum"        placeholder="Entrer le departement :" value="<?php if(isset($error)){echo $text_departement;}?>" /><br>
+						<input type="text" class="form-control" name="text_pays"   pattern="[A-Za-z]{1-25}" title="Caractère alphabetique, 25 caractères maximum"   placeholder="Entrer le pays :" value="<?php if(isset($error)){echo $text_pays;}?>" /><br>
+					</p>
+				</fieldset>
 			</div>
-            <div class="clearfix"></div><hr />
-            <div class="form-group">
-            	<button type="submit" class="btn btn-primary" name="btn-signup">
-                	<i class=""></i>Valider
-                </button>
-            </div>
-        </form>
-
-       </div>
-</div>
-
-</div>
-<?php quitter1() ?>	
-
-<div id="footer"> <!-- Faire les liens vers les documents  -->
-    <a href="<?php echo $LienSite ?>Pages/readme.php"> Conditions d'utilisation </a> |
-    <a href="<?php echo $LienSite ?>Pages/contact.php"> Contact </a> | © 2017
-</div>
-
-</body>
+			<div class="clearfix"></div><hr />
+			<div class="form-group">
+				<button type="submit" class="btn btn-primary" name="btn-signup">
+					<i class=""></i>Valider
+				</button>
+			</div>
+		</form>
+		</div>
+		<?php quitter1() ?>	
+		
+		<div id="footer"> <!-- Faire les liens vers les documents  -->
+			<a href="<?php echo $LienSite ?>Pages/readme.php"> Conditions d'utilisation </a> |
+			<a href="<?php echo $LienSite ?>Pages/contact.php"> Contact </a> | © 2017
+		</div>
+	</body>
 </html>
