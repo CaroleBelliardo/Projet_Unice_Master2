@@ -9,10 +9,13 @@
 <!DOCTYPE html PUBLIC >
 <html>
 	<head>
-		<link rel="stylesheet" href=Style.css">
+		<title>Modifier un utilisateur</title>
+		<link rel="stylesheet" href="Style.css">
 		<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-		<title>Modifier le service</title>
+		<link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css?family=Josefin+Slab" rel="stylesheet">
 	</head>
+
 	<body>
 		<?php // affichage
 			If (!array_key_exists("utilisateurModifier",$_SESSION )) 
@@ -33,8 +36,5 @@
 			}
 		?>
 
-
-
 	</body>
-
 </html>
