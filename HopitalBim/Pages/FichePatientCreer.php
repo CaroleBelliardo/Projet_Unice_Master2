@@ -207,7 +207,7 @@ $auth_user->redirect('RDVDemande.php');
 	<link rel="stylesheet" href="../Config/Style.css" type="text/css">
 	<link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=Josefin+Slab" rel="stylesheet">
-	</head>
+</head>
 <body>
 
 <?php include ('../Formulaires/FichePatientCreer.php');?>

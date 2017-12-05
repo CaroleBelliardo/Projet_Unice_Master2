@@ -32,10 +32,10 @@
 			<legend> Patient </legend> <!-- Titre du fieldset --> 
 			
 				<label for="text_numSS">N° Sécurité Sociale <em>* </em> </label>
-				<input type="text" class="" name="text_numSS" pattern="[0-9]{15}" title="Caractère numérique, 15 caractères acceptés"        placeholder="<?php echo $patientInfo['numSS'] ;?>" value="<?php if(isset($error)){echo $text_numSS;}else {echo $patientInfo['numSS'];}?>" /><br>
+				<input type="text" class="" name="text_numSS" pattern="[0-9]{15}" title="Caractère numérique, 15 caractères acceptés"        placeholder=" <?php echo $patientInfo[' numSS'] ;?>" value="<?php if(isset($error)){echo $text_numSS;}else {echo $patientInfo['numSS'];}?>" /><br>
 
 				<label for="text_nom">Nom <em>* </em></label>
-				<input type="text" class="" name="text_nom" pattern="[A-Za-z]{1-25}" title="Caractère alphabétique, 25 caractères maximum"     placeholder="<?php echo $patientInfo['nom'] ;?>" value="<?php if(isset($error)){echo $text_nom;}else {echo $patientInfo['nom'];}?>" /><br>
+				<input type="text" class="" name="text_nom" pattern="[A-Za-z]{1-25}" title="Caractère alphabétique, 25 caractères maximum"     placeholder=" <?php echo $patientInfo[' nom'] ;?>" value="<?php if(isset($error)){echo $text_nom;}else {echo $patientInfo['nom'];}?>" /><br>
 
 				<label for="text_prenom">Prénom <em>* </em></label>
 				<input type="text" class="" name="text_prenom" pattern="[A-Za-z]{1-25}" title="Caractère alphabétique, 25 caractères maximum"  placeholder="<?php echo $patientInfo['prenom'] ;?>" value="<?php if(isset($error)){echo $text_prenom;}else {echo $patientInfo['prenom'];}?>" /><br>
@@ -110,4 +110,9 @@
 
 <div class="abandon">
 <?php quitter1() ?>	
+</div>  
+
+<div id="footer"> <!-- Faire les liens vers les documents  -->
+    <a href="<?php echo $LienSite ?>../Pages/readme.php"> Conditions d'utilisation </a> |
+    <a href="<?php echo $LienSite ?>../Pages/contact.php"> Contact </a> | © 2017
 </div>   

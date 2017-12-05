@@ -13,7 +13,7 @@ if(isset($_POST['btn-supprimerService']))
 	 
 	// ici je pense faire un include de $dep a $adresse tout foutre dans un seul et meme document car c est chiant a regarder 
 		 // Gestion des erreurs : 
-	if ($text_nomService==""){$error[] = "Il faut un selectionner un service !"; }
+	if ($text_nomService==""){$error[] = "Il faut un sélectionner un service !"; }
 	else 
 	{ 
 		
@@ -38,41 +38,40 @@ if(isset($_POST['btn-supprimerService']))
 }
 ?>
 
-
 <!DOCTYPE html PUBLIC >
 <html>
-<head>
-
-<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-<title>Supprimer un service</title>
+	<head>
+	<title>Supprimer un service</title>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<link rel="stylesheet" href="../Config/Style.css" type="text/css">
+	<link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Josefin+Slab" rel="stylesheet">
 </head>
 
 <body>
-    <p class="" style="margin-top:5px;">
-<div class="signin-form">
-
-<div class="container">
+<div class="containerFormu">
     	
-<form method="post" class="form-signin">
+	<form method="post" class="form-signin">
+
             <h2 class="form-signin-heading">Supprimer un service</h2><hr />
+
             <?php
 			if(isset($error))
 			{
 			 	foreach($error as $error)
 			 	{
 			?>
-                    <div class="alert alert-danger">
-                    <i class=""></i> &nbsp; <?php echo $error; ?>
-                    </div>
+                    <div id="error"> &nbsp; <?php echo $error; ?> </div> <!-- Alert alert-danger-->
 					<?php
 				}
 			}
 			else if(isset($_GET['Valide']))
 			{
 					?>
-                <div class="alert alert-info">
-                <i class=""></i>Service supprimé avec succes<br><a href='../Pageprincipale.php'>Page principale</a>
+                <div id="valide"> <!-- Alert alert-danger-->
+                Service supprimé avec succés ! <a href='../Pageprincipale.php'>Page principale</a>
                 </div>
+
             <?php
 			}
 			?>
@@ -80,28 +79,25 @@ if(isset($_POST['btn-supprimerService']))
             <div class="form-group" >
 			<fieldset>
 			<legend> Service </legend> <!-- Titre du fieldset --> 
-			<p>
-			Suppression du service : <?php liste_Services($auth_user) ?>		
-			</br >
-			</div>
 			
-			</p>
-			</fieldset>
-            <div class="clearfix"></div><hr />
+			<br>
+			<?php liste_Services($auth_user) ?> 
+			<br>
+
+			</fieldset> <br>
+			</div>
+            
             <div class="form-group">
-            	<button type="submit" class="btn btn-primary" name="btn-supprimerService">
-                	<i class=""></i>Valider
-                </button>
+            	<button type="submit" class="btn btn-primary" name="btn-supprimerService"> Valider </button>
             </div>
-        </form>
 
-       </div>
-</div>
+        </form> <!-- form-signin -->
 
+</div> <!-- containerFormu -->
+
+<div class="abandon">
+<?php quitter1() ?>
 </div>
-<?php quitter1() ?>	
 
 </body>
-
- 
 </html>
