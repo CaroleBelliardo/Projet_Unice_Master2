@@ -1,9 +1,7 @@
 <?php
-	include ('../Config/Menupage.php');
 
 // -- requetes
-   $_SESSION['patient']='178854747412138 ';
-    $_SESSION['service'] ='imagerie';
+
     // info coordonnees patient
     $req_adressePatient= $auth_user->runQuery("SELECT DISTINCT nom, prenom, numSS, telephone, mail,
                                                 numero, rue, nomVilles, departement , codepostal, pays
@@ -104,7 +102,6 @@
             <td style="width:50%;"></td>
             <td style="width:14%; ">Adresse :</td>
             <td style="width:36%">
-                Résidence perdue<br>
                 <?php echo $a_patient['numero']." ".$a_patient['rue'] ?><br>
                 <?php echo $a_patient['codepostal']." ".$a_patient['nomVilles'] ?><br>
                 <?php echo $a_patient['pays'] ?><br>
@@ -144,15 +141,34 @@
     Les interventions suivantes ont été acquitées à ce jour.<br>
     <br>
     <table cellspacing="0" style="width: 100%; border: solid 1px black; background: #E7E7E7; text-align: center; font-size: 10pt;">
+       
+       <!--en tete -->
         <tr>
-            <th style="width: 50%">Acte</th>
-            <th style="width: 50%">Prix Net</th>
+            <th>
+          
+            </th>
+            <th>
+          
+            </th>
         </tr>
+        <!--corps du tableau-->
+        <!--<tr>-->
+        <!--    <td>-->
+        <!--  -->
+        <!--    </td>-->
+        <!--    <td>-->
+        <!--  -->
+        <!--    </t>-->
+        <!--</tr>-->
+        <!---->
+   
+   
     </table>
 <?php
-	$total=0;
-    $a_infoInterv=[];
+	
+          ?>
   
+
 ?>
     <table cellspacing="0" style="width: 100%; border: solid 1px black; background: #F7F7F7; text-align: center; font-size: 10pt;">
         <tr>
