@@ -90,11 +90,9 @@
 		{
 			echo $e->getMessage();
 		}
-<<<<<<< HEAD
+
 		$auth_user->redirect('ServiceModifier.php?Valide'); // une fois l ensemble des messages affiché, 
-=======
-		$auth_user->redirect('ServiceCreer.php?Valide'); // une fois l ensemble des messages affichés 
->>>>>>> master
+
 	}
 	else{
 		$error[] = "Vous ne pouvez pas modifier le nom de service car ce nom est déjà pris"; }
