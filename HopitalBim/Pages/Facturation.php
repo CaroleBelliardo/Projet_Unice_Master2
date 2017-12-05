@@ -1,51 +1,25 @@
 <?php
-include ('../Config/Menupage.php');
+	include ('../Config/Menupage.php');
 
-$lien='Facturation.php'
+	$lien='Facturation.php';
 
-// variables 
 
-?>
-
-<!DOCTYPE html PUBLIC >
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-<title>Demande RDV</title>
-</head>
-
-<body>
-
-	<?php // affichage
-		if ($user_id != 'admin00' and $test_chef == FALSE)  // si pas chef de service 
+	if ($user_id != 'admin00' and $_SESSION["chefService"] != TRUE)  // si pas chef de service 
+		{
+			echo "Pas d'accès à cette fonctionnalité de la plateforme";
+			sleep(5);
+			$auth_user->redirect('../Pageprincipale.php');
+		}
+		else
+		{
+			If (!array_key_exists("patient",$_SESSION )) // recherche si patient existe (redirection fiche patient)
 			{
-				$auth_user->redirect('../Pageprincipale.php');
-				echo "medecin";
+				include ('../Formulaires/RecherchePatient.php');
 			}
-			Else 
+			else
 			{
-				If (!array_key_exists("patient",$_SESSION )) // recherche si patient existe (redirection fiche patient)
-				{
-					include ('../Formulaires/RecherchePatient.php');;
-			?>
-				
-			<?php
-					//include ('../Fonctions/patientRecherche.php');
-				}
-				else
-				{
-					quitter1($auth_user);
-					?>
-
-				
-				<?php
-				}
-			}	
-	?>
-	
-	
-		
-</body>
-
-
-</html>
+				include ('../Fonctions/Facturation.php');
+			
+			}
+		}	
+?>

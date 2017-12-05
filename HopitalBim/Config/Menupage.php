@@ -19,6 +19,10 @@ $Req_utilisateur->execute(array("user_name"=>$user_id));
 $a_utilisateur= reqToArrayPlusAttASSO($Req_utilisateur);  // Nom prénom et service utilisateur 
 $Req_utilisateur->closeCursor();
 
+$_SESSION['service']=$a_utilisateur['Employes.ServicesnomService'];
+if ($a_utilisateur["chef"] != "")
+{ $_SESSION["chefService"]= TRUE;}
+
 global $auth_user, $a_utilisateur;
 ?>
 
@@ -59,7 +63,7 @@ global $auth_user, $a_utilisateur;
 				</div>
 				
 	<?php
-			if ( $_SESSION["idEmploye"] == $a_utilisateur["chef"])
+			if ( $_SESSION["chefService"]= TRUE )
 			{
 	?>			
 				<a href="<?php echo $LienSite ?>Pages/Faturation.php">Facturation</a>
