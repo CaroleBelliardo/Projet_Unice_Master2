@@ -159,7 +159,7 @@ form header {
 }
 
 .abandon{
-  margin: 15px;
+  margin: 15px 29px;
 }
 
 /*                     */
@@ -354,7 +354,7 @@ h6 {
 /*                 */
 
 .containerFormu{
-  margin: 25px;
+  margin: 0px 29px;
   padding : 5px;
   border-radius: 5px;
   border: 1px solid #00688B;
@@ -406,6 +406,10 @@ input[type="radio"]{
 }
 
 input[type="date"]{
+  margin-bottom: 2px;
+}
+
+input[type="time"]{
   margin-bottom: 2px;
 }
  
