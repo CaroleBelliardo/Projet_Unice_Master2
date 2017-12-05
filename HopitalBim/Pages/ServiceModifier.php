@@ -23,11 +23,11 @@
 	$stmt = $auth_user->runQuery("SELECT nomService FROM Services WHERE nomService=:nomService ");
 	$stmt->execute(array('nomService'=>$text_nomService));
 	$rechercheService=$stmt->fetch(PDO::FETCH_ASSOC);
-	echo $rechercheService['nomService'];
 		// Apres avoir realisé une requete pour rechercher les services, on va tester si celui est present dans la bdd
 	if($text_nomService=="")	{
-		$error[] = "Veuillez ajouter un nom de service !"; }
-	else if ($rechercheService['nomService']=="" or $rechercheService['nomService']==$serviceInfo['nomService'])
+		$error[] = "Il faut ajouter un nom de service"; }
+	else if ($rechercheService['nomService']=="" or $rechercheService['nomService']==$_SESSION['serviceModifier'])
+
 	{
 		try
 		{
@@ -35,19 +35,18 @@
 			$stmt = $auth_user->runQuery("SELECT * FROM LocalisationServices WHERE batiment=:batiment AND aile=:aile AND etage=:etage");
 			$stmt->execute(array('batiment'=>$text_batiment, 'aile'=>$text_aile,'etage'=>$text_etage));
 			$row=$stmt->fetch(PDO::FETCH_ASSOC);
-			
 			if($row['batiment']==$text_batiment and $row['aile']==$text_aile and $row['etage']==$text_etage)  
 			{
 				$BddidLocalisation=$row['idLocalisation'];
 				$ajoutService = $auth_user->runQuery("UPDATE Services 
-																SET 
-																nomService=:text_nomService,
-															   telephone=:text_telephone, 
-																mail=:text_mail,
-																horaire_ouverture=:text_ouverture,
-																horaire_fermeture=:text_fermeture,
-																LocalisationServicesidLocalisation=:BddidLocalisation
-																WHERE nomService=:serviceModifier");
+													SET 
+													nomService=:text_nomService,
+													telephone=:text_telephone, 
+													mail=:text_mail,
+													horaire_ouverture=:text_ouverture,
+													horaire_fermeture=:text_fermeture,
+													LocalisationServicesidLocalisation=:BddidLocalisation
+													WHERE nomService=:serviceModifier");
 				$ajoutService->execute(array('text_nomService'=>$text_nomService,
 											'text_telephone'=>$text_telephone,
 											'text_mail'=>$text_mail,
@@ -71,7 +70,7 @@
 				$ajoutService = $auth_user->runQuery("UPDATE Services 
 																SET 
 																nomService=:text_nomService,
-															   telephone=:text_telephone, 
+															    telephone=:text_telephone, 
 																mail=:text_mail,
 																horaire_ouverture=:text_ouverture,
 																horaire_fermeture=:text_fermeture,
@@ -90,23 +89,24 @@
 		{
 			echo $e->getMessage();
 		}
-		$auth_user->redirect('ServiceCreer.php?Valide'); // une fois l ensemble des messages affichés 
-	}
 
+		$auth_user->redirect('ServiceModifier.php?Valide'); // une fois l ensemble des messages affiché, 
+
+	}
+	else{
+		$error[] = "Vous ne pouvez pas modifier le nom de service car ce nom est déjà pris"; }
 }
 ?>	
 
 <!DOCTYPE html PUBLIC >
 <html>
-<head>
-	<title>Modifier le service</title>
-	<link rel="stylesheet" href="Style.css">
-	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-	<link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
-	<link href="https://fonts.googleapis.com/css?family=Josefin+Slab" rel="stylesheet">
-</head>
-<body>
-
+	<head>
+		<title>Modifier le service</title>
+		<link rel="stylesheet" href="Style.css">
+		<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	</head>
+	<body>
+	
 		<?php // affichage
 			If (!array_key_exists("serviceModifier",$_SESSION )) 
 			{
@@ -123,6 +123,6 @@
 				include ('../Formulaires/ServiceModifier.php');; // recherche service existe pas (redirection fiche service)
 			}
 		?>
-
-</body>
+	
+	</body>
 </html>

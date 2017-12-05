@@ -14,11 +14,11 @@
 		{
 			If (!array_key_exists("patient",$_SESSION )) // recherche si patient existe (redirection fiche patient)
 			{
-				include ('../Formulaires/RecherchePatient.php');
+				include ('../Formulaires/Formulaire_RecherchePatient.php');
 			}
 			else
 			{
-				include ('../Fonctions/Facturation.php');
+				include ('../Fonctions/Fonctions_Facturation.php');
 			
 			}
 		}	

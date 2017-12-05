@@ -11,9 +11,9 @@
 		-->
 <?php
 include ('../Config/Menupage.php'); //menu de navigation
-include ('../Fonctions/RDVDemande.php'); // fonctions specifiques à demande RDV
-include ('../Fonctions/Notifications.php'); // fonctions specifiques à demande RDV
-include ('../Fonctions/GestionUrgences.php'); // fonctions specifiques à demande RDV
+include ('../Fonctions/Fonctions_RDVDemande.php'); // fonctions specifiques à demande RDV
+include ('../Fonctions/Fonctions_Notifications.php'); // fonctions specifiques à demande RDV
+include ('../Fonctions/Fonctions_GestionUrgences.php'); // fonctions specifiques à demande RDV
 
 $lien= 'RDVDemande.php';
 
@@ -31,7 +31,7 @@ if(isset($_POST['btn_demandeRDV'])) // si utilisateur clique sur le bouton deman
 // *******************************        GESTION D'ERREUR SAISIES       ************************************************************************
 	if ($idIntervention == "")  // Gestion erreur : nom de d'intervention non renseigné
 	{
-		$error[] =  " Saisir le nom de l'intervention souhaitée";  
+		$error[] =  "Saisir le nom de l'intervention souhaitée";  
 	} 
 	else if ($nomPathologie == "" )  // Gestion erreur : nom de de la pathologie non renseigné
 	{
@@ -183,11 +183,11 @@ if(isset($_POST['btn_demandeRDV'])) // si utilisateur clique sur le bouton deman
 		<?php // affichage
 			If (!array_key_exists("patient",$_SESSION )) 
 			{
-				include ('../Formulaires/RecherchePatient.php');; // recherche patient existe pas (redirection fiche patient)
+				include ('../Formulaires/Formulaire_RecherchePatient.php');; // recherche patient existe pas (redirection fiche patient)
 			}
 			else
 			{
-				include ('../Formulaires/DemandeRDV.php');; // recherche patient existe pas (redirection fiche patient)
+				include ('../Formulaires/Formulaire_DemandeRDV.php');; // recherche patient existe pas (redirection fiche patient)
 				
 			}
 		?>

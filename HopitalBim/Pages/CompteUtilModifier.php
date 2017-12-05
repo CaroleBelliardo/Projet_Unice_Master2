@@ -20,7 +20,7 @@
 		<?php // affichage
 			If (!array_key_exists("utilisateurModifier",$_SESSION )) 
 			{
-				include ('../Formulaires/RechercheUtilisateur.php');; // recherche le service
+				include ('../Formulaires/Formulaire_RechercheUtilisateur.php');; // recherche le service
 			}
 			else
 			{
@@ -32,7 +32,7 @@
 				
 				$req_utilisateur->execute(array("utilisateur"=>$_SESSION['utilisateurModifier']));
 				$utilisateurInfo=$req_utilisateur -> fetch(PDO::FETCH_ASSOC);
-				include ('../Formulaires/CompteUtilModifier.php');; // recherche patient existe pas (redirection fiche patient)
+				include ('../Formulaires/Formulaire_CompteUtilModifier.php');; // recherche patient existe pas (redirection fiche patient)
 			}
 		?>
 
