@@ -143,7 +143,34 @@
     <table cellspacing="0" style="width: 100%; border: solid 1px black; background: #E7E7E7; text-align: center; font-size: 10pt;">
        
        <!--en tete -->
+       <?php $a_entete= [""=>$a_infoInterv["attribut"],""=>$a_infoInterv["attribut"],""=>$a_infoInterv["attribut"]""=>$a_infoInterv["attribut"]]          ?>
         <tr>
+             <?php
+             foreach ($a_entete as $k=>$v)
+             {
+            ?>
+            <th>
+          <?php echo $k ;?>
+            </th>
+             <?php
+             
+             }
+             ?>
+        </tr>
+        <tr>
+           <?php
+           foreach (  $a_infoInterv["id_rdv"] as $rdv=>$value)
+             {
+            ?>
+            <th>
+          <?php echo $value ;?>
+            </th>
+             <?php
+             
+             }
+             ?> 
+           
+           
             <th>
           
             </th>
