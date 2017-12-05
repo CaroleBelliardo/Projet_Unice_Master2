@@ -10,7 +10,7 @@
 			 	foreach($error as $error)
 			 	{
 					 ?>
-                     <div id="error"> &nbsp; <?php echo $error; ?> </div>  <!-- Alert alert-danger-->
+                     <div id="error"> &nbsp; <?php echo $error; ?> </div>  
                      <?php
 				}
 			}
