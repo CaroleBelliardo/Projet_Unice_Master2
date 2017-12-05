@@ -16,7 +16,6 @@
 	$a_idActes = $a_ref['actes'];
 	$infoServiceJours = $a_ref['info'];
 
-Dumper($_POST);
 	if (isset($_POST['btn-supp'])=="suppr_rdv")
 	{
 	//substr($_POST['btn-supp'],-15);
@@ -25,11 +24,16 @@ Dumper($_POST);
 	//										WHERE idCreneau=:$num");
 	//$req_supprimerRDV->execute(array('idCreneau'=>$_POST["idCrenaux_supp"]));
 	$auth_user->redirect('Planning.php');
-	echo ' Rendez-vous supprimé';
 	}
 		if (isset ($_POST["btn-Annuler"]))
 	{
-		echo $_POST["btn-Annuler"];//ajouter la requette avec $idRDV le id du rdv
+		/*echo $_POST["btn-Annuler"];//ajouter la requette avec $idRDV le id du rdv
+		$req_annulerRDV = $auth_user-> runQuery(" UPDATE CreneauxInterventions
+													SET statut = 'a' 
+													WHERE id_rdv =:rdvannulation");
+		$req_annulerRDV->execute(array('rdvannulation'=>$_POST["btn-Annuler"])); */
+		$auth_user->redirect('Planning.php?DemandeAnnuler');
+
 	}
 
 
@@ -43,7 +47,46 @@ Dumper($_POST);
 		<link rel="stylesheet" href="Style.css" type="text/css"  />  
 		<title>Bonjour</title>
 	</head>
+	<?php
+	if(isset($error)) // affichage messages erreurs si valeurs != format attendu
+	{
+	foreach($error as $error) // pour chaque champs
+	{
+	?>
+	<div class="alert alert-danger">
+		<i class=""></i> &nbsp; <?php echo $error; ?>
+	</div>
+	<?php
+	}
+	}
+	else if(isset($_GET['Annuler'])) // si toutes les valeurs de champs ok et que bouton valider
+	{
+	?>
+	<div class="alert alert-info">
+	<i class=""></i> Voulez vous annuler le RDV ? </br>
+	</br><button type='submit' class='btn btn-primary' value="oui" name='btn-annuler-confirmation'>Oui</button>;
+	<button type='submit' class='btn btn-primary' value="non" name='btn-annuler-confirmation'>Non</button>;
 	
+	<?php if (isset($_POST['btn-annuler-confirmation'])=="oui")
+	{
+	substr($_POST['btn-supp'],-15);
+	$req_supprimerRDV = $auth_user->runQuery("UPDATE CreneauxInterventions 
+											SET statut = 'a'
+											WHERE idCreneau=:$num");
+	$req_supprimerRDV->execute(array('idCreneau'=>$_POST["idCrenaux_supp"]));
+	$auth_user->redirect('Planning.php');
+	}
+	if (isset ($_POST["btn-annuler-confirmation"])=="non")
+	{
+		$auth_user->redirect('Planning.php');
+
+	}?>
+	
+	</div>
+	<?php
+	}
+	?>
+							
 
 	<body>
 	<?php include ("../Formulaires/RechercheServiceDate.php"); ?>	
@@ -83,7 +126,8 @@ Dumper($_POST);
 						//$tempo="<input name='suppr_rdv' value=$num type='submit'>";
 						//echo $tempo;
 						echo $infoServiceJours[$h][$acte]["nom"]." ".$infoServiceJours[$h][$acte]["prenom"]."\n".$infoServiceJours[$h][$acte]["numSS"]."\n";
-						echo "<button type='submit' class='btn btn-primary' value=".$infoServiceJours[$h][$acte]["id_rdv"]." name='btn-Annuler'>Supprimer</button>";
+						echo "</br><button type='submit' class='btn btn-primary' value=".$infoServiceJours[$h][$acte]["id_rdv"]." name='btn-realiser'>RDV annulé</button>";
+						echo "<button type='submit' class='btn btn-primary' value=".$infoServiceJours[$h][$acte]["id_rdv"]." name='btn-Annuler'>RDV réalisé</button>";
 		?>				
 						
 						
