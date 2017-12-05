@@ -366,12 +366,12 @@ h6 {
   color: #00688B;
 }
 
-fieldset {
+.containerFormu fieldset {
   border: 1px solid #00688B;
   border-radius: 5px;
 }
 
-legend{
+.containerFormu legend{
   font-weight: bold;
   font-size: 20px;
   color: #00688B;
@@ -379,47 +379,47 @@ legend{
   padding: 0px 3px;
 }
 
-label {
+.containerFormu label {
   width: 140px;
   display: inline-block;
   vertical-align: top;
   margin: 6px;
 }
  
-em {
+.containerFormu em {
   font-weight: bold;
   font-style: normal;
   color: #00688B;
 }
 
-input:focus {                /* Quand on clique dans l'input pour saisir les données */
+.containerFormu input:focus {                /* Quand on clique dans l'input pour saisir les données */
   background-color: #A8DEF0; /* eaeaea*/
 }
  
-input {
+.containerFormu input {
   width: 249px;
   border : 1px solid #00688B;
 }
 
-input[type="radio"]{
+.containerFormu input[type="radio"]{
   width: 10px;
 }
 
-input[type="date"]{
+.containerFormu input[type="date"]{
   margin-bottom: 2px;
 }
 
-input[type="time"]{
+.containerFormu input[type="time"]{
   margin-bottom: 2px;
 }
  
-textarea {
+.containerFormu textarea {
   width: 245px;
   height: 100px;
   border : 1px solid #00688B;
 }
  
-input[type=submit] {
+.containerFormu input[type=submit] {
   width: 150px;
   padding: 10px;
 }
