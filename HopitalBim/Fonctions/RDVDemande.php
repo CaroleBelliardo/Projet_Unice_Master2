@@ -80,8 +80,6 @@
     }
     
 	
-	
-	
     function CreneauxUrgent($auth_user, $nivUrg, $idInterv) // recherche le dernier creneau occupé ou le premier creneau annulé avec nivUrgence 
     {
         $req_infoDateHeureUrg = $auth_user->runQuery("SELECT *
@@ -96,7 +94,7 @@
                     AND heure_rdv > CURRENT_TIMESTAMP()
                     AND InterventionsidIntervention = :idIntervention
                     AND CreneauxInterventions.statut = 'p'
-                    AND CreneauxInterventions.niveauUrgence = :niveauUrgence
+                    AND CreneauxInterventions.niveauUrgence >= :niveauUrgence
                     AND heure_rdv >= (SELECT horaire_ouverture FROM Interventions  JOIN Services WHERE idIntervention = :idIntervention AND Interventions.ServicesnomService = Services.nomService) ORDER BY date_rdv DESC, heure_rdv DESC LIMIT 1
                         ) 
                     UNION
@@ -107,7 +105,7 @@
                     AND date_rdv > CURDATE() 
                     AND InterventionsidIntervention = :idIntervention
                     AND CreneauxInterventions.statut = 'p'
-                    AND CreneauxInterventions.niveauUrgence = :niveauUrgence
+                    AND CreneauxInterventions.niveauUrgence >= :niveauUrgence
                     AND heure_rdv >= (SELECT horaire_ouverture FROM Interventions  JOIN Services WHERE idIntervention = :idIntervention AND Interventions.ServicesnomService = Services.nomService)  ORDER BY date_rdv DESC, heure_rdv DESC LIMIT 1
                     ) )as d 
                     UNION
@@ -127,45 +125,33 @@
 											 'idIntervention'=>$idInterv)); // modifier variables
 		$a_infoDateHeureUrg = reqToArrayPlusAttASSO($req_infoDateHeureUrg); // retourne : [ MIN(dateR), MIN(heureR), statutR, idR ] heure = dernier rdv prevu ou premier rdv annulé 
 		$req_infoDateHeureUrg->closeCursor();
+		
         return ($a_infoDateHeureUrg);
     }
     
-    function prochainCreneauxUrgent($auth_user,$niveauUrgence, $idIntervention )  // fonction qui test tous les niveaux d'urgence jusqu'a trouver un creneaux compatible
-    {
-        $a_infoDateHeureUrgence=[]; //initialisation
-        for ($i=$niveauUrgence; $i>=0; $i--)
-        {
-			echo $i." : i <br>";
-            //echo "etape :".$i."<br>";
-			if (array_key_exists('dateR',$a_infoDateHeureUrgence ) and ($a_infoDateHeureUrgence != "NULL")) 
-            {
-                 echo 'GG';
-				 return ($a_infoDateHeureUrgence);
-				 $i=-1;
-            }
-            else 
-            {
-				echo $i." : i boucle<br>";
-                $a_infoDateHeureUrgence= CreneauxUrgent($auth_user, $i, $idIntervention);
-				echo '<br> $a_infoDateHeureUrgence '; 
-				Dumper ($a_infoDateHeureUrgence);
-
-            }
-        }
-    }
+//    function prochainCreneauxUrgent($auth_user,$niveauUrgence, $idIntervention )  // fonction qui test tous les niveaux d'urgence jusqu'a trouver un creneaux compatible
+//    {
+//        $a_infoDateHeureUrgence=[]; //initialisation
+//        for ($i=$niveauUrgence; $i>=0; $i--)
+//        {
+//			echo $i." : i <br>";
+//            //echo "etape :".$i."<br>";
+//			if (array_key_exists('dateR',$a_infoDateHeureUrgence ) and ($a_infoDateHeureUrgence != "NULL")) 
+//            {
+//                 echo 'GG';
+//				 return ($a_infoDateHeureUrgence);
+//				 $i=-1;
+//            }
+//            else 
+//            {
+//				echo $i." : i boucle<br>";
+//                $a_infoDateHeureUrgence= CreneauxUrgent($auth_user, $i, $idIntervention);
+//				echo '<br> $a_infoDateHeureUrgence '; 
+//				Dumper ($a_infoDateHeureUrgence);
+//
+//            }
+//        }
+//    }
 	
-	//
-	//function VerificationPathologie ($auth_user,$niveauUrgence ) 
-	//{
-	//	$recupUrgMaxMin=$auth_user->runQuery("SELECT niveauUrgenceMax, niveauUrgenceMin
-	//									FROM InterventionsPatho  
-	//									WHERE PathologiesidPatho =:idPatho 
-	//									AND InterventionsidIntervention=:idIntervention "); 
-	//	$recupUrgMaxMin->execute(array('idPatho'=>$idPatho,
-	//								'idIntervention'=>$idIntervention));
-	//
-	//	$var=$recupUrgMaxMin->fetch(PDO::FETCH_ASSOC);
-	//return ($var);
-	//}
     
 ?>
