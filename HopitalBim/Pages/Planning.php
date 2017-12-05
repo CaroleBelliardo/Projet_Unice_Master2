@@ -78,7 +78,7 @@ if (isset ($_POST["btn-Realise"]))
 	{
 				 	?>
                  <div id="valide"> <!-- Alert alert-info-->
-                      L'intérvention a été réalisée !
+                      L'intervention a été réalisée !
 					  <a href='../Pages/RDVDemande.php'>Demande de rendez-vous avec ce nouveau patient ?</a>
                  </div>
                  <?php
