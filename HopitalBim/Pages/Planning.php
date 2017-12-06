@@ -137,27 +137,52 @@ if (isset ($_POST["btn-Modifier"]))
 												<form method="post" >
 		<?php
 							echo $infoServiceJours[$h][$acte]["nom"]." ".$infoServiceJours[$h][$acte]["prenom"]."</br>";
-							If (( $_SESSION["chefService"] == TRUE) or ($infoServiceJours[$h][$acte]["idEmploye"] == $_SESSION["idEmploye"] ))
+							
+							//bouton modifier -- annuler
+							// s'affiche si l'utilisateur est chef du service consulté ou la personne qui a effectué la requete
+							// et si si la date d'auj < date consultée
+							If ((( $_SESSION["chefService"] == TRUE) and ($_SESSION["service"] == $_SESSION['serviceModifier'] )) // chef du service
+								or ($infoServiceJours[$h][$acte]["idEmploye"] == $_SESSION["idEmploye"] )) // utilisateur a demandé rdv
 							{
-								echo "<button type='submit' class='btn btn-primary' value=".$infoServiceJours[$h][$acte]["id_rdv"]." name='btn-Modifier'>   M   </button>";
-								echo "<button type='submit' class='btn btn-primary' value='' name='btn-Annuler".$infoServiceJours[$h][$acte]["id_rdv"]."'>X</button>";						
-								if (isset ($_POST["btn-Annuler".$infoServiceJours[$h][$acte]["id_rdv"]]))
+								if (( $dateCourant < $_SESSION["dateModifier"]) // jour précédent
+								or  (( $dateCourant >= $_SESSION["dateModifier"])  and ( $heureCourante <= $h ))) // jour actuel mais heure précédent
 								{
-									echo "<br> Annuler le RDV ? <br>";//ajouter la requette avec $idRDV le id du rdv
-									echo "<button type='submit' class='btn btn-primary' value=".$infoServiceJours[$h][$acte]["id_rdv"]." name='btn-AnnulerOui'>Oui</button>";
-									echo "<button type='submit' class='btn btn-primary' value='' name='btn-AnnulerNon'>Non</button>";
+									echo "<button type='submit' class='btn btn-primary' value=".$infoServiceJours[$h][$acte]["id_rdv"]." name='btn-Modifier'>   M   </button>";
+									echo "<button type='submit' class='btn btn-primary' value='' name='btn-Annuler".$infoServiceJours[$h][$acte]["id_rdv"]."'>X</button>";						
+									if (isset ($_POST["btn-Annuler".$infoServiceJours[$h][$acte]["id_rdv"]]))
+									{
+										echo "<br> Annuler le RDV ? <br>";//ajouter la requette avec $idRDV le id du rdv
+										echo "<button type='submit' class='btn btn-primary' value=".$infoServiceJours[$h][$acte]["id_rdv"]." name='btn-AnnulerOui'>Oui</button>";
+										echo "<button type='submit' class='btn btn-primary' value='' name='btn-AnnulerNon'>Non</button>";
+									}
 								}
 							}
-							if (( $dateCourant > $_SESSION["dateModifier"]) or  (( $dateCourant = $_SESSION["dateModifier"])  and ( $heureCourante >= $h )))
-							// si le rdv est passé :
-							// cad la page consultée est celle d'un jour précédent ou si la page est celle du jour actuel et que l'heure est = ou  < à l'heure actuelle
+							echo "<br>".$dateCourant."dateCourant"."<br>";
+							echo $_SESSION["dateModifier"]."dateModifier"."<br>";
+							echo $heureCourante."heureCourante"."<br>";
+							echo $h."$h"."<br>";
+							
+							
+							// bouton pour confirmer que l'acte a été réalisé
+							// s'afiche si la date d'auj > date consultée, si la date = et heure actuel >= heure prevu, et si le statut du rdv est "prévu"
+							if ($infoServiceJours[$h][$acte]["statut"] != 'r' )
 							{
-								echo "<button type='submit' class='btn btn-primary' value=".$infoServiceJours[$h][$acte]["id_rdv"]." name='btn-Realise'>R</button>";
-							}
+								if (( $dateCourant > $_SESSION["dateModifier"]) or (( $dateCourant = $_SESSION["dateModifier"]) and ( $heureCourante >= $h )))
+								{
+								// si le rdv est passé :
+								// cad la page consultée est celle d'un jour précédent ou si la page est celle du jour actuel et que l'heure est = ou  < à l'heure actuelle
+									echo "<button type='submit' class='btn btn-primary' value=".$infoServiceJours[$h][$acte]["id_rdv"]." name='btn-Realise'>R</button>";
+								}
+								elseif ($infoServiceJours[$h][$acte]["statut"] == 'r' )
+								// si le rdv est passé :
+								// cad la page consultée est celle d'un jour précédent ou si la page est celle du jour actuel et que l'heure est = ou  < à l'heure actuelle
+								{
+									echo "réalisé";
+								}
 
 		?>				
 				
-			<?php			
+			<?php			}
 	
 						}
 						else
