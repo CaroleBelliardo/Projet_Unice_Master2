@@ -66,7 +66,7 @@
 							<fieldset>
 								<legend> Commentaires </legend> <!-- Titre du fieldset --> 
 									<p>
-										<textarea type="text" class="" name="text_commentaires"   value="<?php if(isset($error)){echo $text_commentaires;}?>" ></textarea><br>
+										<textarea type="text" class="" name="text_commentaires"   value="<?php if(isset($error)){echo $commentaires;}?>" ></textarea><br>
 									</p>
 								
 							</fieldset>
