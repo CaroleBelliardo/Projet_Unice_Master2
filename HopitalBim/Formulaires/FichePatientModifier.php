@@ -1,9 +1,6 @@
-<div class="containerFormu">
-    	
+<div class="containerFormu">	
         <form method="post" class="form-signin">
-
             <h2 class="form-signin-heading">Modifier une fiche patient</h2> <hr />
-
             <?php
 			if(isset($error))
 			{

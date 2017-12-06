@@ -2,8 +2,21 @@
 
 if(isset($_POST['btn_utilisateur'])) // action du bouton btn_facture
 {	 	
-	$_SESSION["utilisateurModifier"] = trim($_POST['text_utilisateur'], ' ');
-	$auth_user->redirect($lien);
+	
+	$req_util = $auth_user->runQuery("SELECT idEmploye FROM Employes 
+								WHERE CompteUtilisateursidEmploye = :employe ");
+	$req_util->execute(array('employe' =>  trim($_POST['text_utilisateur'], ' ')));
+	$util = $req_util->fetchColumn();
+	if (($util == ""))
+	{
+		$error[] = "echo Entrer un nom d'utilisateur valide !";
+	}
+	else
+	{
+		$_SESSION["utilisateurModifier"] = trim($_POST['text_utilisateur'], ' ');
+		$auth_user->redirect($lien);
+	}
+
 }	
 ?>
 
