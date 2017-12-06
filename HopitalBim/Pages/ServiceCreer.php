@@ -8,8 +8,8 @@
 	$text_nomService = ucfirst(trim($_POST['text_nomService']));	
 	$text_telephone = strip_tags($_POST['text_telephone']);	
 	$text_mail = $text_nomService."@hopitalbim.fr";   // l'adresse mail sera toujours = au nom de service+@hotpitalbim.fr
-	$text_ouverture = date('h:i', strtotime($_POST['text_ouverture']));
-	$text_fermeture = date('h:i', strtotime($_POST['text_fermeture'])); 
+	$text_ouverture = date('H:i', strtotime($_POST['text_ouverture']));
+	$text_fermeture = date('H:i', strtotime($_POST['text_fermeture'])); 
 	// recuperation des information relatif à la table LocalisationServices
 	$text_batiment = $_POST['text_batiment'];	
 	$text_etage = $_POST['text_etage'];	
@@ -92,6 +92,9 @@
 		<div id="footer"> <!-- Faire les liens vers les documents  -->
 			<a href="<?php echo $LienSite ?>readme.php"> Conditions d'utilisation </a> |
 			<a href="<?php echo $LienSite ?>contact.php"> Contact </a> | © 2017
-		</div> 
+		</div>
+		<?php 
+			include ('../Config/Footer.php'); //menu de navigation
+?>
 	</body>
 </html>

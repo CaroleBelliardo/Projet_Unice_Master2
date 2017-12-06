@@ -214,6 +214,9 @@ if(isset($_POST['btn-signup']))
 		<a href="<?php echo $LienSite ?>readme.php"> Conditions d'utilisation </a> |
 		<a href="<?php echo $LienSite ?>contact.php"> Contact </a> | © 2017
 	</div>  
-	
+<?php
+
+			include ('../Config/Footer.php'); //menu de navigation
+?>
 	</body>
 </html>

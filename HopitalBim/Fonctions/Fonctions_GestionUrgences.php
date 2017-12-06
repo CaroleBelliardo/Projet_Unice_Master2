@@ -38,15 +38,21 @@
             }
             echo "...*****************<br>";
        
+       // delais pas respecté mais le service est fermé
        
-            if (($a_infoDateHeure["dateR"] >  $day   ) or (($a_infoDateHeure["dateR"] =  $day ) and   
-            ($a_infoDateHeure["heureR"] > $heureDelais))) // si premier creneau dispo est hors delais on recherche un autre creneaux dont rdv < urgent et on decale les rendez-vous suivant
+       
+       
+       
+            if (($a_infoDateHeure["dateR"] >  $day   )
+                or (($a_infoDateHeure["dateR"] =  $day ) and  ($a_infoDateHeure["heureR"] > $heureDelais))) // si premier creneau dispo est hors delais on recherche un autre creneaux dont rdv < urgent et on decale les rendez-vous suivant
+        
             {
                 echo '1.1 dateR = dateDelais et dateR > dateDelais ou   dateR > dateDelais et heureR > heureDelais; on appel la fonction gestion d urgences <br>';
                 $a_infoDateHeureUrgence=CreneauxUrgent($auth_user,$niveauUrgence,$idIntervention ); 
        
             //-- Recherche le dernier creneau dont niveau d'urgence >= au niveau d'urgence
-                if ($a_infoDateHeureUrgence != "NULL")
+                Dumper($a_infoDateHeureUrgence);
+                if ($a_infoDateHeureUrgence != FALSE)
                 {
                     echo "dernier creneaux ou niveau urgence >= niveau demandé(".$a_infoDateHeureUrgence['dateR'].$a_infoDateHeureUrgence['heureR']."<br>";
 
@@ -66,6 +72,22 @@
                 }
                 else
                 {
+                   if (($now > $a_horaireFermeture['horaire_fermeture']) and ($now > $a_horaireFermeture['horaire_ouverture']))
+                   {
+                    echo "Il n'y a pas de rendez vous prevu d'urgence identique ou > donc on va mettre le rdv mtn " ;
+                    Dumper ($a_infoDateHeureUrgence);
+                    $a_infoDateHeureUrgence['dateR']= date('Y-m-d', strtotime('+1 day')); /// $day + 1 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+                    $a_infoDateHeureUrgence['heureR']= $a_horaireFermeture['horaire_ouverture'];
+                    echo " 1.2 : ".$a_infoDateHeureUrgence['dateR']." ".$a_infoDateHeureUrgence['heureR']."<br>";
+                    echo " 1.2 donc il y a un rdv de meme niveau urgence => on prend le creneaux suivant <br>";
+                   }
+                   elseif (($now <  $a_horaireFermeture['horaire_fermeture']) and ($now < $a_horaireFermeture['horaire_ouverture']))
+                   {
+                     $a_infoDateHeureUrgence['dateR']= $day; 
+                    $a_infoDateHeureUrgence['heureR']= $a_horaireFermeture['horaire_ouverture'];
+                   }
+                   else
                     echo "Il n'y a pas de rendez vous prevu d'urgence identique ou > donc on va mettre le rdv mtn " ;
                     Dumper ($a_infoDateHeureUrgence);
                     $a_infoDateHeureUrgence['dateR']= $day; 

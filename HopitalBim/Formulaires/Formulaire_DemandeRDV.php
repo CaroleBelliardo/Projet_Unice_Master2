@@ -30,8 +30,8 @@
 							<fieldset>
 								<legend> Pathologie du patient </legend> <!-- Titre du fieldset --> 
 									<p>
-									<input type="text" class="" name="text_nomPathologie"  pattern="[a-zA-Z]{1-100}" title="Caractère alphabetique, 100 caractères maximum"  placeholder="Entrer le nom de la pathologie :" value="<?php if(isset($error)){echo $text_nomPathologie;}?>" /><br><br>
-									<input type="text" class="" name="text_indicationPathologie" pattern="[a-zA-Z]{0-30}" title="Caractère alphabetique, 30 caractères maximum"       placeholder="Entrer les indactions :" value="<?php if(isset($error)){echo $text_indicationPathologie;}?>" /><br><br>
+									<input type="text" class="" name="text_nomPathologie"  pattern="[a-zA-Z]{1-100}" title="Caractère alphabetique, 100 caractères maximum"  placeholder="Entrer le nom de la pathologie :" value="<?php if(isset($error)){echo $nomPathologie;}?>" /><br><br>
+									<input type="text" class="" name="text_indicationPathologie" pattern="[a-zA-Z]{0-30}" title="Caractère alphabetique, 30 caractères maximum"       placeholder="Entrer les indactions :" value="<?php if(isset($error)){echo $indicationPathologie;}?>" /><br><br>
 		 
 									</p>
 							</fieldset>
@@ -66,7 +66,7 @@
 							<fieldset>
 								<legend> Commentaires </legend> <!-- Titre du fieldset --> 
 									<p>
-										<textarea type="text" class="" name="text_commentaires"   value="<?php if(isset($error)){echo $text_commentaires;}?>" ></textarea><br>
+										<textarea type="text" class="" name="text_commentaires"   value="<?php if(isset($error)){echo $commentaires;}?>" ></textarea><br>
 									</p>
 								
 							</fieldset>

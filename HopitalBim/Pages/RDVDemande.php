@@ -15,6 +15,8 @@ include ('../Fonctions/Fonctions_RDVDemande.php'); // fonctions specifiques à d
 include ('../Fonctions/Fonctions_Notifications.php'); // fonctions specifiques à demande RDV
 include ('../Fonctions/Fonctions_GestionUrgences.php'); // fonctions specifiques à demande RDV
 
+//echo ( date('Y-m-d', strtotime('+1 day', '2017-02-12' )));
+
 $lien= 'RDVDemande.php';
 
 if(isset($_POST['btn_demandeRDV'])) // si utilisateur clique sur le bouton demande de rendez vous
@@ -31,11 +33,11 @@ if(isset($_POST['btn_demandeRDV'])) // si utilisateur clique sur le bouton deman
 // *******************************        GESTION D'ERREUR SAISIES       ************************************************************************
 	if ($idIntervention == "")  // Gestion erreur : nom de d'intervention non renseigné
 	{
-		$error[] =  "Saisir le nom de l'intervention souhaitée";  
+		$error[] =  "Saisir le nom de la pathologie";		
 	} 
 	else if ($nomPathologie == "" )  // Gestion erreur : nom de de la pathologie non renseigné
 	{
-		$error[] =  "Saisir le nom de la pathologie"; 
+		$error[] =  "Saisir le nom de l'intervention souhaitée";  
 	}
 	else 
 	{
@@ -44,12 +46,12 @@ if(isset($_POST['btn_demandeRDV'])) // si utilisateur clique sur le bouton deman
 											FROM Interventions
 											WHERE idIntervention = :idIntervention" ); // recherche l'idIntervention dans la bdd
 		$req_idInt->execute(array('idIntervention'=> $idIntervention));
-		$id= $req_idInt-> fetchColumn();
-		if ($id == FALSE) // nom de d'INTERVENTION abscent de la base de donnée
+		$id= $req_idInt-> fetch();
+		if ($id == FALSE ) // nom de d'INTERVENTION abscent de la base de donnée
 		{
 			$error[] =  "Saisir un nom d'intervention valide";										  
 		}
-		else ; // Saisie OK
+		elseif ($id != FALSE ) // Saisie OK
 		{
 // ************************************** RECHERCHE LES VALEURS des variables NECESSAIRE  POUR ENREGISTRER LE RDV *********************************
 		// recup horraire de fin de service prévu 
@@ -107,35 +109,39 @@ if(isset($_POST['btn_demandeRDV'])) // si utilisateur clique sur le bouton deman
 				$req_refUrgence->closeCursor();
 				$a_niveauUrgence=array( "niveauUrgenceMax" => 0,"niveauUrgenceMin" =>0); // affectation niveauUrgence de reference pour test administrateur
 			}
+
+
 // **************************************          Recherche l'HEURE de creneau dispo la plus proche         *********************************
 		
 			// Recherche le prochain creneau disponible pour l'intervention demandé ( dernier creneaux enregistré +15 min ou premier creneau annulé)
 			$a_infoDateHeure=prochainCreneauxDispo($auth_user,$idIntervention);
 			if (!array_key_exists('heureR', $a_infoDateHeure )) // gestion erreur : si PAS DE RDV prevu pour ce service dans le planning, retour requete = null 
 			{
-				echo "prochainCreneauDispo = ok"."<br>";
 				$a_infoDateHeure["heureR"] = ProchaineHeureArrondie(); //=> on affecte date & heure actuelles		
 				$a_infoDateHeure["dateR"] = date('Y-m-d');	
 				if ($a_infoDateHeure["heureR"] >= $a_horaireFermeture["horaire_fermeture"]  ) // gestion erreur : si service = ferme avant minuit 
 				{
-					echo "prochainCreneauDispo = supp ou = a l'heure de fermeture"."<br>";
 					$a_infoDateHeure["heureR"] = $a_horaireFermeture["horaire_ouverture"]; //=> on affecte date & heure actuelles
 					$a_infoDateHeure["dateR"] = date('Y-m-d', strtotime('+1 day'));	
 				}
-				elseif (( $a_infoDateHeure["heureR"] <= $a_horaireFermeture["horaire_ouverture"]  )  // gestion erreur : si service = ferme après minuit  
-						and ( $a_infoDateHeure["heureR"] > $a_horaireFermeture["horaire_fermeture"]  )) 
+				elseif (( $a_infoDateHeure["heureR"] < $a_horaireFermeture["horaire_ouverture"]  )  // gestion erreur : si service = ferme après minuit  
+						and ( $a_infoDateHeure["heureR"] < $a_horaireFermeture["horaire_fermeture"]  )) 
 				{
-					echo "prochainCreneauDispo = inf ou = à l'heure d'ouverture et > heure de fermeture"."<br>";
 					$a_infoDateHeure["heureR"] = $a_horaireFermeture["horaire_ouverture"]; //=> on affecte date & heure actuelles
-					$a_infoDateHeure["dateR"] = date('Y-m-d');
 				}				
 			}
 			elseif (((array_key_exists('heureR', $a_infoDateHeure )) and ($a_infoDateHeure["statutR"] = 'p')))//or ($a_infoDateHeure["heureR"] !=  $a_horaireFermeture["heure_ouverture"] )) // a verif si creneaux = prevu; alors ajoute  15 min pour obtenir l'heure de creneau a affecter au RDV 
 			{
-				echo " il y a un creneau prevu ";
-				$a_infoDateHeure["heureR"]=heurePlus15($a_infoDateHeure["heureR"],'+15 minutes'); 
+				if ($a_infoDateHeure["heureR"] >= $a_horaireFermeture["horaire_fermeture"])
+				{
+					$a_infoDateHeure["heureR"]= $a_horaireFermeture["horaire_ouverture"];
+					$a_infoDateHeure["dateR"] = date('Y-m-d', strtotime($a_infoDateHeure["dateR"] . ' +1 day'));
+				}
+				else
+				{
+				$a_infoDateHeure["heureR"]=heurePlus15($a_infoDateHeure["heureR"],'+15 minutes'); 					
+				}
 			}
-			echo " 1. prochainCrenauDispo = ".$a_infoDateHeure['dateR'],$a_infoDateHeure['heureR']."<br>";
 
 // **************************************          Recherche Horaire APPROPRIEE SI niveau urgence != 0         *********************************
 
@@ -158,15 +164,10 @@ if(isset($_POST['btn_demandeRDV'])) // si utilisateur clique sur le bouton deman
 								'PatientsnumSS'=> $_SESSION["patient"],
 								'EmployesCompteUtilisateursIdEmploye'=> $user_id));
 			$ajoutRDV->closeCursor();
-			
-		}	// si tous les champs du formulaire sont renseignés et valide
 		
-		 Eval_notif_incompUrgence($auth_user,$niveauUrgence,$a_niveauUrgence);
-	
-	
+			Eval_notif_incompUrgence($auth_user,$niveauUrgence,$a_niveauUrgence);	
+		}	// si tous les champs du formulaire sont renseignés et valide
 	} // fin des instructions realisées si niveauUrgence !=0
-
-	
 } // tout ce qui est fait par le bouton
 ?>
 
@@ -190,7 +191,10 @@ if(isset($_POST['btn_demandeRDV'])) // si utilisateur clique sur le bouton deman
 				include ('../Formulaires/Formulaire_DemandeRDV.php');; // recherche patient existe pas (redirection fiche patient)
 				
 			}
+		include ('../Config/Footer.php'); //menu de navigation
+
 		?>
+	
 	</body>
 
 </html>

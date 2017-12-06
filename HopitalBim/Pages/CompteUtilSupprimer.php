@@ -91,7 +91,7 @@ if(isset($_POST['btn-signup']))
 										Recherche d'un utilisateur :
 										<input list="text_utilisateur" name="text_utilisateur" size='35'> 
 										<datalist id="text_utilisateur" >
-										<?php 
+	<?php 
 										$stmt = $auth_user->runQuery("SELECT * FROM Employes"); // permet de rechercher le nom d utilisateur 
 										$stmt->execute(); // la meme 
 										while ($row = $stmt->fetch(PDO::FETCH_ASSOC))
@@ -115,6 +115,8 @@ if(isset($_POST['btn-signup']))
 			 </div>
 			</div>
 		</div> 
-		<?php quitter1(); ?>  
+		<?php quitter1();
+			include ('../Config/Footer.php'); //menu de navigation
+	?>  
 	</body>
 </html>
