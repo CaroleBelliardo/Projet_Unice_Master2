@@ -22,7 +22,15 @@
 
  <!-- N'apparait pas !!! a faire !!!  --> 						
 		<div id="valide">
-			Rendez-vous fixé le (date) à (heure) <a href='../Pageprincipale.php'>Page principale</a>
+			Rendez-vous fixé pour le patient <?php  
+			$req_dateHeureRDV = $auth_user->runQuery("SELECT * FROM CreneauxInterventions 
+											WHERE id_rdv = (SELECT MAX(id_rdv) 
+											FROM CreneauxInterventions) AND PatientsnumSS=:patientnumss");
+			$req_dateHeureRDV->execute(array('patientnumss'=>$_SESSION['patient']));
+			$dateHeureRDV=$req_dateHeureRDV->fetch(PDO::FETCH_ASSOC);
+			echo " à ".$dateHeureRDV['heure_rdv']." le ".$dateHeureRDV['date_rdv'];
+			?>
+			<a href='../Pageprincipale.php'>Page principale</a>
 		</div>
 
 		<?php
