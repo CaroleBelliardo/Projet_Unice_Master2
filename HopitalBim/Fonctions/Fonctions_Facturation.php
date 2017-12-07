@@ -40,12 +40,13 @@
     
     //info intervention
     $req_intervention= $auth_user->runQuery("SELECT  *
-                                        FROM CreneauxInterventions JOIN Interventions
+                                        FROM CreneauxInterventions JOIN Interventions JOIN Pathologies
                                         WHERE CreneauxInterventions.InterventionsidIntervention= Interventions.idIntervention
+                                        AND CreneauxInterventions.PathologiesidPatho= Pathologies.idPatho
                                         AND Interventions.ServicesnomService = :service
                                         AND CreneauxInterventions.PatientsnumSS = :patient
                                         AND CreneauxInterventions.statut = 'r'
-                                            "); 
+                                        "); 
     $req_intervention->execute(array('service'=> $_SESSION['service'],
                                      'patient'=>  $_SESSION['patient']));
     $a_infoInterv=reqToArrayPlusligne($req_intervention);
@@ -56,10 +57,10 @@
     // numero de facture
     if (array_key_exists( "id_rdv", $a_infoInterv))
     { 
-        $req_facturation= $auth_user->runQuery("SELECT MAX(idFacture) 
+        $req_facturation= $auth_user->runQuery("SELECT MAX(idFacture) +1
                                                 FROM Facturation   "); 
         $req_facturation->execute(); // remplacer par $_SESSION['patient']
-        $idfacture = intval($req_facturation->fetchColumn()) +1 ;
+        $idfacture = $req_facturation->fetchColumn()  ;
         $req_facturation->closeCursor();
         
         
@@ -76,22 +77,21 @@
         }
     
     // ************************************************** REQUETES ******************
-    
+ 
 ?>
-
-<page backcolor="#FEFEFE" backimg="./res/bas_page.png" backimgx="center" backimgy="bottom" backimgw="100%" backtop="0" backbottom="30mm" footer="date;time;page" style="font-size: 12pt">
-    <bookmark title="Lettre" level="0" ></bookmark>
+    <!--logo-->
     <table cellspacing="0" style="width: 80%; text-align: center; font-size: 14px">
         <tr>
-            <td style="width: 75%;">
-            </td>
+            <td style="width: 75%;"></td>
             <td style="width: 25%; color: #444444;">
                 <img style="width: 70%;" src="../Images/logoFacture2.png" alt="Logo"><br>
             </td>
         </tr>
     </table>
+    
     <br>
     <br>
+    <!--info patient-->
     <table cellspacing="0" style="width: 100%; text-align: left; font-size: 11pt;">
         <tr>
             <td style="width:50%;"></td>
@@ -119,38 +119,49 @@
             <td style="width:36%"> <?php echo $a_patient['telephone'] ?> </td>
         </tr>
     </table>
+    
     <br>
     <br>
+    <!--info hopital-->
     <table cellspacing="0" style="width: 100%; text-align: left;font-size: 10pt">
         <tr>
             <td style="width:50%;"></td>
             <td style="width:50%; "><?php echo $a_hopital['nomVilles'] ?>, le <?php echo date('d/m/Y'); ?></td>
         </tr>
     </table>
+    
     <br>
+    
+    <!--entete-->
     <i>
         <b><u>Objet </u>: &laquo; Facture  <?php //echo $a_utilisateur['ServicesnomService'] ?> &raquo;</b><br><br>
         N° de Sécurité Sociale : <?php echo $a_patient['numSS'] ?> <br>
         N° de la facture : <?php echo $idfacture ?> <br>
     </i>
-    <br>
-    <br>
-    Madame, Monsieur,<br>
-    <br>
-    <br>
+    
+    <br><br>
+    Madame, Monsieur,<br><br><br>
     Les interventions suivantes ont été acquitées à ce jour.<br>
     <br>
+    
     <table cellspacing="0" style="width: 100%; border: solid 1px black; background: #E7E7E7; text-align: center; font-size: 10pt;">
        
        <!--en tete -->
-       <?php $a_entete= [""=>$a_infoInterv["attribut"],""=>$a_infoInterv["attribut"],""=>$a_infoInterv["attribut"]""=>$a_infoInterv["attribut"]]          ?>
-        <tr>
-             <?php
+       <?php 
+       $a_entete= ["n° RDV"=>$a_infoInterv["id_rdv"],
+                   "Date"=>$a_infoInterv["date_rdv"],
+                   "Heure"=>$a_infoInterv["heure_rdv"],
+                   "Heure"=>$a_infoInterv["acte"],
+                   "Pathologie"=>$a_infoInterv["nomPathologie"],
+                   "Information Pathologie"=>$a_infoInterv["indication"],
+                   "Niveau d'urgence" =>$a_infoInterv["niveauUrgence"]]
+       ?>        <tr>
+             <?php Dumper($a_entete);
              foreach ($a_entete as $k=>$v)
              {
             ?>
             <th>
-          <?php echo $k ;?>
+          <?php echo "k".$k ;echo "v".$v['1'] ?>
             </th>
              <?php
              
@@ -159,15 +170,15 @@
         </tr>
         <tr>
            <?php
-           foreach (  $a_infoInterv["id_rdv"] as $rdv=>$value)
-             {
+           //foreach (  //$a_infoInterv["id_rdv"] as $rdv=>$value)
+           //  {
             ?>
             <th>
-          <?php echo $value ;?>
+          <?php //echo $value ;?>
             </th>
              <?php
              
-             }
+             //}
              ?> 
            
            
@@ -199,15 +210,15 @@
 ?>
     <table cellspacing="0" style="width: 100%; border: solid 1px black; background: #F7F7F7; text-align: center; font-size: 10pt;">
         <tr>
-            <td style="width: 50%; text-align: left"><?php echo $id ; ?></td>
-            <td style="width: 50%; text-align: left"><?php echo $id; ?></td>
+            <td style="width: 50%; text-align: left"><?php //echo $id ; ?></td>
+            <td style="width: 50%; text-align: left"><?php //echo $id; ?></td>
     <!--        <td style="width: 13%; text-align: right"><?php echo number_format(intval($id), 2, ',', ' '); ?> &euro;</td>
             <td style="width: 10%"><?php echo $qua; ?></td>
             <td style="width: 13%; text-align: right;"><?php echo number_format(intval($id)*$qua, 2, ',', ' '); ?> &euro;</td>
         --></tr>
     </table>
 <?php
-	$total=$total+intval($id);
+//	$total=$total+intval($id);
     
 ?>
     <table cellspacing="0" style="width: 100%; border: solid 1px black; background: #E7E7E7; text-align: center; font-size: 10pt;">
@@ -244,8 +255,6 @@
                 </td>
             </tr>
         </table>
-    </nobreak>
-</page>
 
 
 <!--<style type="text/css">
