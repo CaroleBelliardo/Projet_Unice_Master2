@@ -2,7 +2,7 @@
 
 // -- requetes
 
-    // info coordonnees patient
+// info coordonnees patient
     $req_adressePatient= $auth_user->runQuery("SELECT DISTINCT nom, prenom, numSS, telephone, mail,
                                                 numero, rue, nomVilles, departement , codepostal, pays
                                                 FROM Patients JOIN Adresses JOIN Villes
@@ -14,7 +14,7 @@
     $a_patient=reqToArrayPlusAttASSO($req_adressePatient);
     $req_adressePatient->closeCursor();
     
-    // info coordonnees service
+// info coordonnees service
     $req_service= $auth_user->runQuery("SELECT DISTINCT *
                                                 FROM Services JOIN LocalisationServices 
                                                 WHERE LocalisationServices.idLocalisation = Services.LocalisationServicesidLocalisation
@@ -22,10 +22,9 @@
                                                 ");
     $req_service->execute(array("service"=>$_SESSION['service']));
     $a_service=reqToArrayPlusAttASSO($req_service);
-    //Dumper($a_service);
     $req_service->closeCursor();
     
-    //info coordonnees Hopital
+//info coordonnees Hopital
     $req_hopital= $auth_user->runQuery("SELECT *
                                        FROM Adresses JOIN Villes
                                        WHERE Adresses.VillesidVilles = Villes.idVilles
@@ -33,65 +32,77 @@
                                         "); 
     $req_hopital->execute();
     $a_hopital=reqToArrayPlusAttASSO($req_hopital);
-    //Dumper($a_hopital);
     $req_hopital->closeCursor();
     
     
-    
-    //info intervention
-    $req_intervention= $auth_user->runQuery("SELECT  *
-                                        FROM CreneauxInterventions JOIN Interventions
+
+//info intervention
+    $req_intervention= $auth_user->runQuery("SELECT  *, Tarifications.tarif_euros * 0.90 as tarif_ht,
+                                            Tarifications.tarif_euros * 0.25 as ss, Tarifications.tarif_euros * 0.75 as mutuelle
+                                        FROM CreneauxInterventions JOIN Interventions JOIN Pathologies JOIN Tarifications
                                         WHERE CreneauxInterventions.InterventionsidIntervention= Interventions.idIntervention
+                                        AND CreneauxInterventions.InterventionsidIntervention = Tarifications.InterventionsidIntervention
+                                        AND CreneauxInterventions.PathologiesidPatho= Pathologies.idPatho
                                         AND Interventions.ServicesnomService = :service
                                         AND CreneauxInterventions.PatientsnumSS = :patient
                                         AND CreneauxInterventions.statut = 'r'
-                                            "); 
+                                        "); 
     $req_intervention->execute(array('service'=> $_SESSION['service'],
                                      'patient'=>  $_SESSION['patient']));
     $a_infoInterv=reqToArrayPlusligne($req_intervention);
     $req_intervention->closeCursor();
     
-    
-    
-    // numero de facture
+
+// numero de facture
     if (array_key_exists( "id_rdv", $a_infoInterv))
     { 
-        $req_facturation= $auth_user->runQuery("SELECT MAX(idFacture) 
+        $req_facturation= $auth_user->runQuery("SELECT MAX(idFacture) +1
                                                 FROM Facturation   "); 
         $req_facturation->execute(); // remplacer par $_SESSION['patient']
-        $idfacture = intval($req_facturation->fetchColumn()) +1 ;
+        $idfacture = $req_facturation->fetchColumn()  ;
         $req_facturation->closeCursor();
         
         
-        //insert num facture
-        
-        $req_insertFacturation= $auth_user->runQuery("INSERT INTO Facturation (idFacture,CreneauxInterventionsidRdv) 
-                                                        VALUES (:idfacture, :idRdv)");    
-        foreach ($a_infoInterv["id_rdv"] as $cle=>$id) 
-        {
-            $req_insertFacturation->execute(array("idfacture"=> $idfacture,
-                                                "idRdv"=> $id
-                                                )); // remplacer par $_SESSION['patient']
-            $req_insertFacturation->closeCursor();
-        }
+//insert num facture
+    $req_insertFacturation= $auth_user->runQuery("INSERT INTO Facturation (idFacture,CreneauxInterventionsidRdv) 
+                                                    VALUES (:idfacture, :idRdv)");    
+    foreach ($a_infoInterv["id_rdv"] as $cle=>$id) 
+    {
+        $req_insertFacturation->execute(array("idfacture"=> $idfacture,
+                                            "idRdv"=> $id)); 
+        $req_insertFacturation->closeCursor();
+    }
     
-    // ************************************************** REQUETES ******************
+//Structure tableau
+    $a_entete= ["n° RDV"=>$a_infoInterv["id_rdv"],
+               "Date"=>$a_infoInterv["date_rdv"],
+               "Heure"=>$a_infoInterv["heure_rdv"],
+               "Acte"=>$a_infoInterv["acte"],
+               "Niveau d'urgence" =>$a_infoInterv["niveauUrgence"],
+               "Tarif TTC"=>$a_infoInterv["tarif_euros"],
+               "Tarif HT"=>$a_infoInterv["tarif_ht"],
+               "Prise en charge SS"=>$a_infoInterv["ss"],
+               "Part mutuelle"=>$a_infoInterv["mutuelle"]
+               ];
     
-?>
+//nb ligne tableau
+    $nb_intervR= count($a_infoInterv["id_rdv"]);
 
-<page backcolor="#FEFEFE" backimg="./res/bas_page.png" backimgx="center" backimgy="bottom" backimgw="100%" backtop="0" backbottom="30mm" footer="date;time;page" style="font-size: 12pt">
-    <bookmark title="Lettre" level="0" ></bookmark>
+// ************************************************** REQUETES ******************
+?>
+    <!--logo-->
     <table cellspacing="0" style="width: 80%; text-align: center; font-size: 14px">
         <tr>
-            <td style="width: 75%;">
-            </td>
+            <td style="width: 75%;"></td>
             <td style="width: 25%; color: #444444;">
                 <img style="width: 70%;" src="../Images/logoFacture2.png" alt="Logo"><br>
             </td>
         </tr>
     </table>
+    
     <br>
     <br>
+    <!--info patient-->
     <table cellspacing="0" style="width: 100%; text-align: left; font-size: 11pt;">
         <tr>
             <td style="width:50%;"></td>
@@ -119,101 +130,89 @@
             <td style="width:36%"> <?php echo $a_patient['telephone'] ?> </td>
         </tr>
     </table>
+    
     <br>
     <br>
+    <!--info hopital-->
     <table cellspacing="0" style="width: 100%; text-align: left;font-size: 10pt">
         <tr>
             <td style="width:50%;"></td>
             <td style="width:50%; "><?php echo $a_hopital['nomVilles'] ?>, le <?php echo date('d/m/Y'); ?></td>
         </tr>
     </table>
+    
     <br>
+
+
+    <!--entete-->
     <i>
         <b><u>Objet </u>: &laquo; Facture  <?php //echo $a_utilisateur['ServicesnomService'] ?> &raquo;</b><br><br>
         N° de Sécurité Sociale : <?php echo $a_patient['numSS'] ?> <br>
         N° de la facture : <?php echo $idfacture ?> <br>
     </i>
-    <br>
-    <br>
-    Madame, Monsieur,<br>
-    <br>
-    <br>
+    
+    <br><br>
+    Madame, Monsieur,<br><br><br>
     Les interventions suivantes ont été acquitées à ce jour.<br>
     <br>
-    <table cellspacing="0" style="width: 100%; border: solid 1px black; background: #E7E7E7; text-align: center; font-size: 10pt;">
-       
-       <!--en tete -->
-       <?php $a_entete= [""=>$a_infoInterv["attribut"],""=>$a_infoInterv["attribut"],""=>$a_infoInterv["attribut"]""=>$a_infoInterv["attribut"]]          ?>
-        <tr>
-             <?php
-             foreach ($a_entete as $k=>$v)
-             {
-            ?>
-            <th>
-          <?php echo $k ;?>
-            </th>
-             <?php
-             
-             }
-             ?>
-        </tr>
-        <tr>
-           <?php
-           foreach (  $a_infoInterv["id_rdv"] as $rdv=>$value)
-             {
-            ?>
-            <th>
-          <?php echo $value ;?>
-            </th>
-             <?php
-             
-             }
-             ?> 
-           
-           
-            <th>
-          
-            </th>
-            <th>
-          
-            </th>
-        </tr>
-        <!--corps du tableau-->
-        <!--<tr>-->
-        <!--    <td>-->
-        <!--  -->
-        <!--    </td>-->
-        <!--    <td>-->
-        <!--  -->
-        <!--    </t>-->
-        <!--</tr>-->
-        <!---->
-   
-   
-    </table>
-<?php
-	
-          ?>
-  
-
-?>
-    <table cellspacing="0" style="width: 100%; border: solid 1px black; background: #F7F7F7; text-align: center; font-size: 10pt;">
-        <tr>
-            <td style="width: 50%; text-align: left"><?php echo $id ; ?></td>
-            <td style="width: 50%; text-align: left"><?php echo $id; ?></td>
-    <!--        <td style="width: 13%; text-align: right"><?php echo number_format(intval($id), 2, ',', ' '); ?> &euro;</td>
-            <td style="width: 10%"><?php echo $qua; ?></td>
-            <td style="width: 13%; text-align: right;"><?php echo number_format(intval($id)*$qua, 2, ',', ' '); ?> &euro;</td>
-        --></tr>
-    </table>
-<?php
-	$total=$total+intval($id);
     
-?>
+   <?php ////////////////////////////////Dumper($a_infoInterv); ?>
+    
+    <!--TABLEAU-->
+    <table cellspacing="0" style="width: 100%; border: solid 1px black; background: #E7E7E7; text-align: center; font-size: 10pt;">
+        <!--en tete -->
+        <tr>
+	<?php
+            foreach ($a_entete as $col=>$line) // $col = colonne
+            {
+    ?>		<th><?php echo $col ?></th>
+    <?php							
+            }
+    ?>
+        </tr>
+        <tr>
+	<?php echo $nb_intervR;
+            for ($i = 0; $i < $nb_intervR; $i++)
+            {
+    ?>
+                <tr>
+    <?php
+                foreach ($a_entete as $col=>$line) // $col = colonne
+                { 
+    ?>
+                    <td>
+                        <?php echo $line[$i] ?>
+                    </td>
+    <?php		}
+    ?>
+    
+    <?php   
+            }
+        ?>
+        </tr>
+    </table>
+    
+    <!--pied de page-->
+     
     <table cellspacing="0" style="width: 100%; border: solid 1px black; background: #E7E7E7; text-align: center; font-size: 10pt;">
         <tr>
-            <th style="width: 87%; text-align: right;">Total : </th>
-            <th style="width: 13%; text-align: right;"><?php echo number_format($total, 2, ',', ' '); ?> &euro;</th>
+            <th style="width: 40%; text-align: right;">Total :
+            </th>
+    <?php
+    $tot=[
+    $sumTTC= array_sum($a_infoInterv["tarif_euros"]),
+    $sumHT= array_sum($a_infoInterv["tarif_ht"]),
+    $sumSS= array_sum($a_infoInterv["ss"]),
+    $sumMut= array_sum($a_infoInterv["mutuelle"])
+    ];
+    
+                foreach ($tot as $col=>$line) // $col = colonne
+                        {
+    ?>		<th style="width:9.2%;"><?php echo $line ?> &euro;</th>
+    <?php							
+                        }
+    ?>
+    
         </tr>
     </table>
         <br>
@@ -221,7 +220,7 @@
             <tr>
                 <td style="width:65%;"></td>
                 <td style="width:40%; ">
-                    <?php echo $a_utilisateur['prenom']." ".$a_utilisateur['nom']." <br> Responsable du service ".$a_utilisateur['ServicesnomService'] ?> <br>
+                    <?php echo $a_utilisateur['prenom']." ".$a_utilisateur['nom']." <br> Responsable du service ".$_SESSION['service'] ?> <br>
 					<?php  $a_service ?> 
                     <?php echo 'tel. : '.$a_service["telephone"]."<br>".
 'mail : '.$a_service["mail"]."<br>".
@@ -244,8 +243,6 @@
                 </td>
             </tr>
         </table>
-    </nobreak>
-</page>
 
 
 <!--<style type="text/css">

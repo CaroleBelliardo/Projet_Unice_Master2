@@ -8,6 +8,12 @@
 	if(isset($_POST['btn-suppr_CU']))
 	{   
 		$text_utilisateur=$_POST['text_utilisateur'];
+		$req_utilisateur = $auth_user->runQuery("SELECT * 
+												FROM CompteUtilisateurs
+												WHERE idEmploye =:idEmploye");
+				
+				$req_utilisateur->execute(array("idEmploye"=>$text_utilisateur));
+				$utilisateurSupprimer=$req_utilisateur -> fetch(PDO::FETCH_ASSOC);
 		if ($text_utilisateur=="")
 		{
 			$error[] = "Il faut un selectionner un utilisateur !";
@@ -16,49 +22,52 @@
 		{
 			$error[] = "Impossible de supprimer l'Admin";
 		}
+		else if($utilisateurSupprimer['idEmploye']=="")
+		{
+			$error[] = "Il faut un selectionner un utilisateur existant !";
+		}
 		else 
 		{
 			if  ($_SESSION["chefService"] == TRUE)
 			{
-			try
-			{
-				// Recherche si la personne à supprimer est chef de service
-				$req_chefDeService = $auth_user-> runQuery("Select * 
-															FROM ChefServices 
-															WHERE EmployesCompteUtilisateursidEmploye =:idEmploye");
-															
-				$req_chefDeService->execute(array ('idEmploye'=>$text_utilisateur));
-				$utilisateurChef= $req_chefDeService ->fetch(PDO::FETCH_ASSOC);
-				if ($utilisateurChef != NULL )
+				try
 				{
-					$error[] = "Impossible de supprimer un chef de service";
+					// Recherche si la personne à supprimer est chef de service
+					$req_chefDeService = $auth_user-> runQuery("Select * 
+																FROM ChefServices 
+																WHERE EmployesCompteUtilisateursidEmploye =:idEmploye");
+																
+					$req_chefDeService->execute(array ('idEmploye'=>$text_utilisateur));
+					$utilisateurChef= $req_chefDeService ->fetch(PDO::FETCH_ASSOC);
+					if ($utilisateurChef != NULL )
+					{
+						$error[] = "Impossible de supprimer un chef de service";
+					}
+					else 
+					{
+						$archiverEmployer = $auth_user->runQuery("INSERT INTO EmployesArchive 
+																		SELECT *   
+																		FROM Employes 
+																		WHERE CompteUtilisateursidEmploye=:employe");
+						$archiverEmployer->execute(array('employe'=>$text_utilisateur));
+						$req_supprimer = $auth_user->runQuery("DELETE FROM CompteUtilisateurs 
+															WHERE 
+															idEmploye=:text_utilisateur");
+						$req_supprimer->bindparam(":text_utilisateur", $text_utilisateur);
+						$req_supprimer->execute();
+						$auth_user->redirect('CompteUtilSupprimer.php?Valide');
+					}
+			
 				}
-				else 
+				catch(PDOException $e)
 				{
-					$archiverService = $auth_user->runQuery("INSERT INTO EmployesArchive 
-																	SELECT *   
-																	FROM Employes 
-																	WHERE CompteUtilisateursidEmploye=:employe");
-					$archiverService->execute(array('employe'=>$text_utilisateur));
-					$ajoutchef = $auth_user->conn->prepare("DELETE FROM CompteUtilisateurs 
-														WHERE 
-														idEmploye=:text_utilisateur");
-					$ajoutchef->bindparam(":text_utilisateur", $text_utilisateur);
-					$ajoutchef->execute();
-					$auth_user->redirect('CompteUtilSupprimer.php?Valide');
-				}
-		
+					echo $e->getMessage();
+				}  
 			}
-		catch(PDOException $e)
-		 {
-				echo $e->getMessage();
-			}  
-		
 		}
-	}
-	 
-	?>
-	 <!DOCTYPE html PUBLIC >
+	} 
+?>
+<!DOCTYPE html PUBLIC >
 	 
 	<html>
 		<head>
@@ -123,7 +132,8 @@
 			</div>
 		</div> 
 		<?php quitter1();
-			include ('../Config/Footer.php'); //menu de navigation
+			include ('../Config/Footer.php'); 
+			//menu de navigation
 	?>  
 	</body>
 </html>

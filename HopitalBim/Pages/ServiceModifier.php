@@ -20,9 +20,9 @@
 	$text_aile = $_POST['text_aile'];	
 	
 	// TEST si le service est deja present : 
-	$stmt = $auth_user->runQuery("SELECT nomService FROM Services WHERE nomService=:nomService ");
-	$stmt->execute(array('nomService'=>$text_nomService));
-	$rechercheService=$stmt->fetch(PDO::FETCH_ASSOC);
+	$req_rechercheService = $auth_user->runQuery("SELECT nomService FROM Services WHERE nomService=:nomService ");
+	$req_rechercheService->execute(array('nomService'=>$text_nomService));
+	$rechercheService=$req_rechercheService->fetch(PDO::FETCH_ASSOC);
 		// Apres avoir realisé une requete pour rechercher les services, on va tester si celui est present dans la bdd
 	if($text_nomService=="")	{
 		$error[] = "Il faut ajouter un nom de service"; }
