@@ -32,11 +32,9 @@
 			{
 				$tempo=$intab[$temp2["ServicesnomService"]]; //stock le tableau des stats du service  
 				$a_info= ["idEmploye" => $temp2["EmployesCompteUtilisateursidEmploye"],  
-				"Patient" => $temp2["Patient.numSS"]]; 
+				"Patient" => $temp2["numSS"]]; 
 				array_push($tempo,["Med_Patient-MultiUrgence"=>$a_info]); 
 				$intab[$temp2["ServicesnomService"]] = $tempo;
-				Dumper($a_info);
-				Dumper($tempo);
 			}
 		}
 		return($intab);
