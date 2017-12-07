@@ -229,7 +229,7 @@ if(isset($_POST['btn-signup']))
 				?>
 
                 <div id="valide"> <!-- Alert alert-info-->
-                	Utilisateur enregistré avec succés !<a href='../Pageprincipale.php'>Page principale</a>
+                	Utilisateur enregistré avec succés ! <a href='../Pageprincipale.php'>Page principale</a>
                 </div>
 
             	<?php
@@ -252,8 +252,6 @@ if(isset($_POST['btn-signup']))
 						<label for="text_telephone">Téléphone </label>
 						<input type="tel" class="form-control" name="text_telephone" pattern="[0-9]{1-15}" title="Caractère numérique, 15 caractères acceptés"    placeholder=" 06xxxxxxxx" value="<?php if(isset($error)){echo $text_telephone;}?>" /><br>
 
-						<label for="text_nomService" > Service <em>* </em> </label>
-						<input list="text_nomService" name="text_nomService" size='85'>
 						<label for="text_nomService"> Service </label>
 							<input list="text_nomService" name="text_nomService" size='85'> 
 							<datalist id="text_nomService" >
