@@ -4,66 +4,73 @@
     - champs html du departement et du pays afficher une liste ( plutot que de le taper) 
     - les includes a faire.
   */ 
-include ('../Config/Menupage.php');
-if(isset($_POST['btn-signup']))
-{   
-  $text_utilisateur=$_POST['text_utilisateur'];
-   // ici je pense faire un include de $dep a $adresse tout foutre dans un seul et meme document car c est chiant a regarder 
-     // Gestion des erreurs : 
-  if ($text_utilisateur==""){$error[] = "Il faut un selectionner un utilisateur !"; }
-  else if($text_utilisateur=="admin00")  {$error[] = "Impossible de supprimer l'Admin"; }
-  else 
-  { 
-    try
-	{
-	// Recherche si la personne à supprimer est chef de service
-	$req_chefDeService = $auth_user-> runQuery("Select * 
-												FROM ChefServices 
-												WHERE EmployesCompteUtilisateursidEmploye =:idEmploye");
-												
-	$req_chefDeService->execute(array ('idEmploye'=>$text_utilisateur));
-    $utilisateurChef= $req_chefDeService ->fetch(PDO::FETCH_ASSOC);
-	if ($utilisateurChef != NULL )
-	 {$error[] = "Impossible de supprimer un chef de service"; }
-	
-	else 
-	{
-		$archiverService = $auth_user->runQuery("INSERT INTO EmployesArchive 
-														SELECT *   
-														FROM Employes 
-														WHERE CompteUtilisateursidEmploye=:employe");
-		$archiverService->execute(array('employe'=>$text_utilisateur));
-		$ajoutchef = $auth_user->conn->prepare("DELETE FROM CompteUtilisateurs 
-											WHERE 
-											idEmploye=:text_utilisateur");
-		$ajoutchef->bindparam(":text_utilisateur", $text_utilisateur);
-		$ajoutchef->execute();
-		$auth_user->redirect('CompteUtilSupprimer.php?Valide');
+	include ('../Config/Menupage.php');
+	if(isset($_POST['btn-suppr_CU']))
+	{   
+		$text_utilisateur=$_POST['text_utilisateur'];
+		if ($text_utilisateur=="")
+		{
+			$error[] = "Il faut un selectionner un utilisateur !";
+		}
+		else if($text_utilisateur=="admin00")
+		{
+			$error[] = "Impossible de supprimer l'Admin";
+		}
+		else 
+		{
+			if  ($_SESSION["chefService"] == TRUE)
+			{
+			try
+			{
+				// Recherche si la personne à supprimer est chef de service
+				$req_chefDeService = $auth_user-> runQuery("Select * 
+															FROM ChefServices 
+															WHERE EmployesCompteUtilisateursidEmploye =:idEmploye");
+															
+				$req_chefDeService->execute(array ('idEmploye'=>$text_utilisateur));
+				$utilisateurChef= $req_chefDeService ->fetch(PDO::FETCH_ASSOC);
+				if ($utilisateurChef != NULL )
+				{
+					$error[] = "Impossible de supprimer un chef de service";
+				}
+				else 
+				{
+					$archiverService = $auth_user->runQuery("INSERT INTO EmployesArchive 
+																	SELECT *   
+																	FROM Employes 
+																	WHERE CompteUtilisateursidEmploye=:employe");
+					$archiverService->execute(array('employe'=>$text_utilisateur));
+					$ajoutchef = $auth_user->conn->prepare("DELETE FROM CompteUtilisateurs 
+														WHERE 
+														idEmploye=:text_utilisateur");
+					$ajoutchef->bindparam(":text_utilisateur", $text_utilisateur);
+					$ajoutchef->execute();
+					$auth_user->redirect('CompteUtilSupprimer.php?Valide');
+				}
+		
+			}
+		catch(PDOException $e)
+		 {
+				echo $e->getMessage();
+			}  
+		
+		}
 	}
-	
-	}
-	catch(PDOException $e)
-	 {
-      echo $e->getMessage();
-    }  
-  
-  }
-}
- 
-?>
- <!DOCTYPE html PUBLIC >
- 
-<html>
-	<head>
-		<meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
-		<title>Supprimer un utilisateur</title>
-	</head>
-	<body>
-		<div class="signin-form">
-			<div class="container">
-			<form method="post" class="form-signin">
-					<h2 class="form-signin-heading">Supprimer un utilisateur</h2><hr />
-									<?php
+	 
+	?>
+	 <!DOCTYPE html PUBLIC >
+	 
+	<html>
+		<head>
+			<meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+			<title>Supprimer un utilisateur</title>
+		</head>
+		<body>
+			<div class="signin-form">
+				<div class="container">
+				<form method="post" class="form-signin">
+						<h2 class="form-signin-heading">Supprimer un utilisateur</h2><hr />
+										<?php
 						if(isset($error))
 						{
 							foreach($error as $error)
@@ -107,7 +114,7 @@ if(isset($_POST['btn-signup']))
 					 </div>
 						<div class="clearfix"></div><hr /> 
 						<div class="form-group">
-							<button type="submit" class="btn btn-primary" name="btn-signup">
+							<button type="submit" class="btn btn-primary" name="btn-suppr_CU">
 									<i class=""></i>Valider
 								</button>
 						</div>

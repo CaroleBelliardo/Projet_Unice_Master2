@@ -11,7 +11,10 @@
 	unset($_SESSION["serviceModifier"]);
 	unset($_SESSION['utilisateurModifier']);
 	unset($_SESSION["dateModifier"]);
+	unset($_SESSION["servicePlanning"]);
 	unset($_SESSION["idRDV"]);
+
+	
 
 
 	//variables Globales

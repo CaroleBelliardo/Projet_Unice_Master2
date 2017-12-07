@@ -141,9 +141,10 @@ if (isset ($_POST["btn-Modifier"]))
 							//bouton modifier -- annuler
 							// s'affiche si l'utilisateur est chef du service consulté ou la personne qui a effectué la requete
 							// et si si la date d'auj < date consultée
-							If ((( $_SESSION["chefService"] == TRUE) and ($_SESSION["service"] == $_SESSION['serviceModifier'] )) // chef du service
+							If ((( $_SESSION["chefService"] == 'TRUE') and ($_SESSION["service"] == $_SESSION['servicePlanning'] )) // chef du service
 								or ($infoServiceJours[$h][$acte]["idEmploye"] == $_SESSION["idEmploye"] )) // utilisateur a demandé rdv
 							{
+								
 								if (( $dateCourant < $_SESSION["dateModifier"]) // jour précédent
 								or  (( $dateCourant >= $_SESSION["dateModifier"])  and ( $heureCourante <= $h ))) // jour actuel mais heure précédent
 								{
@@ -157,17 +158,12 @@ if (isset ($_POST["btn-Modifier"]))
 									}
 								}
 							}
-							echo "<br>".$dateCourant."dateCourant"."<br>";
-							echo $_SESSION["dateModifier"]."dateModifier"."<br>";
-							echo $heureCourante."heureCourante"."<br>";
-							echo $h."$h"."<br>";
-							
-							
+
 							// bouton pour confirmer que l'acte a été réalisé
 							// s'afiche si la date d'auj > date consultée, si la date = et heure actuel >= heure prevu, et si le statut du rdv est "prévu"
 							if ($infoServiceJours[$h][$acte]["statut"] != 'r' )
 							{
-								if (( $dateCourant > $_SESSION["dateModifier"]) or (( $dateCourant = $_SESSION["dateModifier"]) and ( $heureCourante >= $h )))
+								if (( $dateCourant > $_SESSION["dateModifier"]) or (( $dateCourant == $_SESSION["dateModifier"]) and ( $heureCourante >= $h )))
 								{
 								// si le rdv est passé :
 								// cad la page consultée est celle d'un jour précédent ou si la page est celle du jour actuel et que l'heure est = ou  < à l'heure actuelle
@@ -178,12 +174,8 @@ if (isset ($_POST["btn-Modifier"]))
 								// cad la page consultée est celle d'un jour précédent ou si la page est celle du jour actuel et que l'heure est = ou  < à l'heure actuelle
 								{
 									echo "réalisé";
-								}
-
-		?>				
-				
-			<?php			}
-	
+								}					
+							}
 						}
 						else
 						{

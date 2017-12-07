@@ -32,7 +32,6 @@
 			{
 				$a_out_reqToArray[$cle]=$valeur;
 			}
-		
 		}
 		return ($a_out_reqToArray);
 	}
@@ -54,6 +53,26 @@
 				{
 					$a_out_reqToArray[$attribut]=[$col];
 				}
+			}
+		
+		}
+		return ($a_out_reqToArray);
+	}
+	
+		function reqToArray1AttPlusligne1($requete) // une requete qui retroune 1 plusieurs attributs  (plusieurs colonnes) pour plusieurs tuples (plusieurs ligne) -- retourne un tableau  de tableau contenant toutes les valeurs des attributs, tableau 2D
+	{
+		$a_out_reqToArray=[];
+		while ($row = $requete->fetch(PDO::FETCH_ASSOC))
+		{
+			foreach ( $row as $attribut=>$col)
+			{
+				//Dumper($row); echo $row[$attribut]."<br>";
+					echo $attribut."<br>";
+					//echo $col."<br>";
+					//echo $v."<br>";
+					
+					//$a_out_reqToArray[$attribut]=$col;
+				
 			}
 		
 		}

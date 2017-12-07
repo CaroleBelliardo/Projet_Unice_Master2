@@ -15,7 +15,6 @@
             die("Erreur : " . $e->getMessage());
     }
     
-	
 	function Dumper ($var){ // affichage des valeurs des variables tableaux
 		echo '<pre>';
 		var_dump($var);

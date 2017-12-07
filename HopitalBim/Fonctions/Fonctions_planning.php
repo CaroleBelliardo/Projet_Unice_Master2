@@ -2,15 +2,15 @@
 		// -- Service à affiché, par defaut celui du service d'appartenance de l'utilisateur
 	function infoPlanning ($auth_user,$a_utilisateur,$dateCourant,$heureCourante)
 	{
-		if (!array_key_exists('serviceModifier',$_SESSION))
+		if (!array_key_exists('servicePlanningier',$_SESSION))
 		{
-			$_SESSION['serviceModifier'] =  $_SESSION["service"];
+			$_SESSION['servicePlanningier'] =  $_SESSION["service"];
 		}
 	
 	$idActes = $auth_user->runQuery("SELECT acte
 							  FROM Interventions 
 							  WHERE ServicesnomService = :service");
-		$idActes->execute(array('service'=> $_SESSION['serviceModifier']));//$donnees = mysqli_fetch_array($Actes)
+		$idActes->execute(array('service'=> $_SESSION['servicePlanningier']));//$donnees = mysqli_fetch_array($Actes)
 		$a_idActes=reqToArray1Att($idActes); // tableau 1D , k: idx, v : nom acte proposé par le service
 		$idActes->closeCursor();
 	
@@ -32,7 +32,7 @@
 		WHERE CreneauxInterventions.InterventionsidIntervention = Interventions.idIntervention
 		AND date_rdv= :date
 		AND ServicesnomService = :service ");
-	$heureMinMax->execute(array('service'=> $_SESSION['serviceModifier'],
+	$heureMinMax->execute(array('service'=> $_SESSION['servicePlanningier'],
 								'date'=>$dateCourant));
 	$a_heureMinMax=reqToArrayPlusAtt($heureMinMax);
 	$heureMinMax->closeCursor(); /*a recuperer sur le array pour limiter nb req*/
@@ -41,7 +41,7 @@
 	$req_horraireTravail= $auth_user->runQuery(" SELECT horaire_ouverture, horaire_fermeture
 													FROM Services 
 													WHERE  nomService = :service   "); // Renseigne les valeurs de priorité = par default :0
-	$req_horraireTravail->execute(array("service" => $_SESSION['serviceModifier']));
+	$req_horraireTravail->execute(array("service" => $_SESSION['servicePlanningier']));
 	$horraireTravail = $req_horraireTravail->fetch(PDO::FETCH_ASSOC);
 	$req_horraireTravail->closeCursor();
 
@@ -83,7 +83,7 @@
 			AND date_rdv= :date
 			AND ServicesnomService = :service ");
 		$infoServiceJour->execute(array('date' => $dateCourant,
-										'service'=> $_SESSION['serviceModifier']));
+										'service'=> $_SESSION['servicePlanningier']));
 		$infoServiceJours=[];	
 		while ($row = $infoServiceJour->fetch(PDO::FETCH_ASSOC))
 			{
@@ -96,7 +96,6 @@
 																													"id_rdv"=>$row["id_rdv"],
 																													"idEmploye"=>$row["idEmploye"],
 																													"statut"=>$row["statut"]];
-					
 				}	
 				else
 				{
