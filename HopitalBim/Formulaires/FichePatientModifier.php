@@ -14,7 +14,7 @@
 			else if(isset($_GET['Valide']))
 			{
 				 ?>
-                 <div id="Valide"> <!-- Alert alert-info-->
+                 <div id="valide"> <!-- Alert alert-info-->
                       Patient enregistré avec succés ! <a href='../Pages/RDVDemande.php'>
 					  Demande de rendez-vous avec ce patient ? </a>
                  </div>

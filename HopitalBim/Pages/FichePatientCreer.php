@@ -216,9 +216,9 @@ if(isset($_POST['btn-signup']))
 
 	<body>
 		<!-- Ajout du formulaire pour enregistrer un nouveau patient -->
-	<?php include ('../Formulaires/FichePatientCreer.php');?>
+		<?php include ('../Formulaires/FichePatientCreer.php');?>
 	
-	<?php include ('../Config/Footer.php'); //menu de navigation ?> <!-- Footer grande page -->
+		<?php include ('../Config/Footer.php'); //menu de navigation ?> <!-- Footer grande page -->
 
 	</body>
 </html>

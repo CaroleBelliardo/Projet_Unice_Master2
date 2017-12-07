@@ -10,18 +10,22 @@
 			 	foreach($error as $error)
 			 	{
 					 ?>
-                     <div id="error"> &nbsp; <?php echo $error; ?> </div>  
-                     <?php
+
+            <div id="error"> &nbsp; <?php echo $error; ?> </div>  
+
+            <?php
 				}
 			}
 			else if(isset($_GET['Valide']))
 			{
-				 	?>
-                 <div id="valide"> <!-- Alert alert-info-->
-                      Patient enregistré avec succés ! <a href='../Pages/RDVDemande.php'> 
-					  Demande de rendez-vous avec ce nouveau patient ?</a>
-                 </div>
-                 <?php
+			?>
+
+            <div id="valide"> <!-- Alert alert-info-->
+                Patient enregistré avec succés ! <a href='../Pages/RDVDemande.php'> 
+				Demande de rendez-vous avec ce nouveau patient ?</a>
+            </div>
+
+            <?php
 			}
 			?>
 			

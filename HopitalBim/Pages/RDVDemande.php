@@ -31,13 +31,13 @@ if(isset($_POST['btn_demandeRDV'])) // si utilisateur clique sur le bouton deman
 	$commentaires = trim($_POST['text_commentaires'], ' ');
 	
 // *******************************        GESTION D'ERREUR SAISIES       ************************************************************************
-	if ($idIntervention == "")  // Gestion erreur : nom de d'intervention non renseigné
+	if ($nomPathologie == "")  // Gestion erreur : nom de d'intervention non renseigné
 	{
-		$error[] =  "Saisir le nom de la pathologie";		
+		$error[] =  "Veuillez saisir le nom de la pathologie";		
 	} 
-	else if ($nomPathologie == "" )  // Gestion erreur : nom de de la pathologie non renseigné
+	elseif ($idIntervention == "")  // Gestion erreur : nom de de la pathologie non renseigné
 	{
-		$error[] =  "Saisir le nom de l'intervention souhaitée";  
+		$error[] =  "Veuillez saisir un nom valide d'intervention";  
 	}
 	else 
 	{
@@ -49,7 +49,7 @@ if(isset($_POST['btn_demandeRDV'])) // si utilisateur clique sur le bouton deman
 		$id= $req_idInt-> fetch();
 		if ($id == FALSE ) // nom de d'INTERVENTION abscent de la base de donnée
 		{
-			$error[] =  "Saisir un nom d'intervention valide";										  
+			$error[] =  "Veuillez saisir un nom valide d'intervention ";										  
 		}
 		elseif ($id != FALSE ) // Saisie OK
 		{
@@ -176,17 +176,19 @@ if(isset($_POST['btn_demandeRDV'])) // si utilisateur clique sur le bouton deman
 		}	// si tous les champs du formulaire sont renseignés et valide
 	} // fin des instructions realisées si niveauUrgence !=0
 } // tout ce qui est fait par le bouton
+
+
 ?>
-
-
 
 <!DOCTYPE html PUBLIC >
 <html>
 	<head>
-		<link rel="stylesheet" href=Style.css">
-		<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
 		<title>Demande RDV</title>
+		<link rel="stylesheet" href="Style.css">
+		<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+		<link href="https://fonts.googleapis.com/css?family=Josefin+Slab" rel="stylesheet">
 	</head>
+
 	<body>
 		<?php // affichage
 			If (!array_key_exists("patient",$_SESSION )) 
@@ -198,8 +200,6 @@ if(isset($_POST['btn_demandeRDV'])) // si utilisateur clique sur le bouton deman
 				include ('../Formulaires/Formulaire_DemandeRDV.php');; // recherche patient existe pas (redirection fiche patient)
 				
 			}
-		include ('../Config/Footer.php'); //menu de navigation
-
 		?>
 	
 	</body>
