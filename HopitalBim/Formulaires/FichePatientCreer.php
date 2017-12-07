@@ -74,7 +74,7 @@
 				<label for="text_rue"> Rue <em>* </em></label>
 				<input type="text" class="" name="text_rue"    pattern="{1-100}" title="Caractère alphabetique, 100 caractères maximum" placeholder=" Rue" value="<?php if(isset($error)){echo $text_rue;}?>" /><br>
 
-				<label for="text_ville"> Ville </label>
+				<label for="text_ville"> Ville <em>* </em></label>
 				<input type="text" class="" name="text_ville"  pattern="{1-150}" title="Caractère alphabetique, 150 caractères maximum" placeholder=" Ville" value="<?php if(isset($error)){echo $text_ville;}?>" /><br>
 
 				<label for="text_codepostal"> Code Postal </label>

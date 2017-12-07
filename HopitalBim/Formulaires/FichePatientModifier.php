@@ -72,7 +72,7 @@
 				<label for="text_rue"> Nom de la rue <em>* </em></label>
 				<input type="text" class="" name="text_rue"    pattern="{1-100}" title="Caractère alphabétique, 100 caractères maximum" placeholder="<?php echo $patientInfo['rue'] ;?>" value="<?php if(isset($error)){echo $text_rue;}else {echo $patientInfo['rue'];}?>" /><br>
 
-				<label for="text_ville"> Ville </label>
+				<label for="text_ville"> Ville <em>* </em></label>
 				<input type="text" class="" name="text_ville"  pattern="[A-Za-z]{1-150}" title="Caractère alphabétique, 150 caractères maximum" placeholder="<?php echo $patientInfo['nomVilles'] ;?>" value="<?php if(isset($error)){echo $text_ville;}else {echo $patientInfo['nomVilles'];}?>" /><br>
 
 				<label for="text_codepostal"> Code Postal </label>

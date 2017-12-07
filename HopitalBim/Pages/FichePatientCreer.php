@@ -20,7 +20,7 @@ if(isset($_POST['btn-signup']))
 	$text_departement = trim($_POST['text_departement'], ' ' );
 	$text_pays = ucfirst(trim($_POST['text_pays'], ' '));
 	$text_ville = ucfirst(trim($_POST['text_ville'], ' '));
-	$text_codepostal = trim($_POST['text_codepostal'], ' ');
+	$text_codepostal = str_replace(' ','',$_POST['text_codepostal']);
 	$text_numero = trim($_POST['text_numero'], ' ' );
 	$text_rue = ucfirst(trim($_POST['text_rue'], ' '));
 	$text_numSS = trim($_POST['text_numSS'], ' ' );
@@ -28,7 +28,7 @@ if(isset($_POST['btn-signup']))
 	$text_prenom = ucfirst(trim($_POST['text_prenom'], ' '));
 	$text_dateNaissance = strip_tags($_POST['text_dateNaissance']);
 	$text_telephone = trim($_POST['text_telephone'], ' ' );
-	$text_mail = strip_tags($_POST['text_mail']);
+	$text_mail = str_replace(' ','',$_POST['text_mail']);
 	$text_sexe = strip_tags($_POST['text_sexe']);
 	$text_taille = preg_replace("/[^0-9]/", "",trim($_POST['text_taille'], ' '));
 	$text_poids = preg_replace("/[^0-9]/", "",trim($_POST['text_poids'], ' '));
@@ -66,6 +66,8 @@ if(isset($_POST['btn-signup']))
 		$error[] = "Veuillez entrer un numéro de rue !"; }
 	else if($text_rue=="" )	{
 		$error[] = "Il faut entrer un nom de rue valide !"; }
+	else if($text_ville=="" )	{
+		$error[] = "Veuillez entrer le nom d'une ville valide !"; }
 	else if((strlen($text_codepostal) > 5) or  ($text_codepostal==""))	{
 		$error[] = "Il faut entrer un code postal valide !"; }
 	else if((strlen($text_departement) > 3)or  ($text_departement=="")) 	{
