@@ -46,8 +46,8 @@ if(isset($_POST['btn_demandeRDV'])) // si utilisateur clique sur le bouton deman
 											FROM Interventions
 											WHERE idIntervention = :idIntervention" ); // recherche l'idIntervention dans la bdd
 		$req_idInt->execute(array('idIntervention'=> $idIntervention));
-		$id= $req_idInt-> fetch();
-		if ($id == FALSE ) // nom de d'INTERVENTION abscent de la base de donnée
+		$id= $req_idInt-> fetchColumn();
+		if ($id == '' ) // nom de d'INTERVENTION abscent de la base de donnée
 		{
 			$error[] =  "Veuillez saisir un nom valide d'intervention ";										  
 		}
@@ -84,7 +84,7 @@ if(isset($_POST['btn_demandeRDV'])) // si utilisateur clique sur le bouton deman
 			// Association de niveau d'urgence de reference a la nouvelle pathologie
 				$req_idPathoRecup = $auth_user->runQuery(" SELECT MAX(idPatho)
 															FROM Pathologies");  // recupere l'idPatho
-				$req_idPathoRecup->execute(array());  
+				$req_idPathoRecup->execute();  
 				$idPatho= $req_idPathoRecup-> fetchColumn(); // affecte l'id de ce dernier insert à la variable $PathoExist
 				$req_idPathoRecup->closeCursor();
 			}
@@ -202,7 +202,7 @@ if(isset($_POST['btn_demandeRDV'])) // si utilisateur clique sur le bouton deman
 			Eval_notif_incompUrgence($auth_user,$niveauUrgence,$a_niveauUrgence);	
 		}	// si tous les champs du formulaire sont renseignés et valide
 	} // fin des instructions realisées si niveauUrgence !=0
-	$auth_user->redirect('RDVDemande.php?Valide');
+	//$auth_user->redirect('RDVDemande.php?Valide');
 } // tout ce qui est fait par le bouton
 
 
