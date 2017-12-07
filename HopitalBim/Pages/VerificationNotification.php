@@ -31,6 +31,7 @@
 											 Patients.prenom, CreneauxInterventions.commentaires
 											 FROM Notifications JOIN CreneauxInterventions JOIN Patients JOIN Employes JOIN InterventionsPatho
 											 WHERE Notifications.CreneauxInterventionsidRdv = CreneauxInterventions.id_rdv
+											 AND  WEEK(CreneauxInterventions.date_rdv) = WEEK( CURRENT_DATE) 
 											 AND Patients.numSS=CreneauxInterventions.PatientsnumSS
 											 AND InterventionsPatho.InterventionsidIntervention=CreneauxInterventions.InterventionsidIntervention
 											 AND Employes.CompteUtilisateursidEmploye =CreneauxInterventions.EmployesCompteUtilisateursidEmploye
@@ -47,6 +48,7 @@
 											 Patients.prenom, CreneauxInterventions.commentaires
 											 FROM Notifications JOIN CreneauxInterventions JOIN Patients JOIN Employes
 											 WHERE Notifications.CreneauxInterventionsidRdv = CreneauxInterventions.id_rdv
+											 AND WEEK(CreneauxInterventions.date_rdv) = WEEK( CURRENT_DATE) 
 											 AND Patients.numSS=CreneauxInterventions.PatientsnumSS
 											 AND Employes.CompteUtilisateursidEmploye =CreneauxInterventions.EmployesCompteUtilisateursidEmploye
 											 AND Notifications.ServicesnomService = :service GROUP BY id_rdv");
@@ -90,16 +92,12 @@
 	<?php					}
 	?>
 							</tr>
-	<?php
-							
-							
+	<?php						
 						}
-   
-						
+
 	?>				
 					</table>
 				</CENTER>
-		
 <?php
 			}
 	include ('../Config/Footer.php'); //menu de navigation

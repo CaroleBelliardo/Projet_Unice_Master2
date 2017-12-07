@@ -281,7 +281,7 @@
 
 				$req_patient->execute(array("numSS"=>$_SESSION['patient']));
 				$patientInfo=$req_patient -> fetch(PDO::FETCH_ASSOC);
-				include ('../Formulaires/FichePatientModifier.php');; // recherche patient -> si existe : redirection fiche patient !
+				include ('../Formulaires/Formulaire_FichePatientModifier.php');; // recherche patient -> si existe : redirection fiche patient !
 			}
 
 		?>

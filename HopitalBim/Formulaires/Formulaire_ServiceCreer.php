@@ -38,10 +38,10 @@
 				<input type="tel" class="form-control" name="text_telephone" pattern="[0-9]{1-15}" title="Veuillez rentrer un n° de téléphone correct"    placeholder=" 06xxxxxxxx " value="<?php if(isset($error)){echo $text_telephone;}?>" /><br>
 
 				<label for="text_ouverture">Horaire d'ouverture </label>
-				<input type="time" class="form-control" name="text_ouverture" value="<?php if(isset($error)){echo $text_ouverture;}?>" /><br>
+				<input type="time" step="900" class="form-control" name="text_ouverture" value="<?php if(isset($error)){echo $text_ouverture;}?>" /><br>
 
 				<label for="text_fermeture">Horaire de fermeture </label>
-				<input type="time" class="form-control" name="text_fermeture" value="<?php if(isset($error)){echo $text_fermeture;}?>" /><br>
+				<input type="time" step="900" class="form-control" name="text_fermeture" value="<?php if(isset($error)){echo $text_fermeture;}?>" /><br>
 
 			</fieldset> <br>
 			

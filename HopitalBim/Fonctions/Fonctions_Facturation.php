@@ -39,10 +39,9 @@
 //info intervention
     $req_intervention= $auth_user->runQuery("SELECT  *, Tarifications.tarif_euros * 0.90 as tarif_ht,
                                             Tarifications.tarif_euros * 0.25 as ss, Tarifications.tarif_euros * 0.75 as mutuelle
-                                        FROM CreneauxInterventions JOIN Interventions JOIN Pathologies JOIN Tarifications
+                                        FROM CreneauxInterventions JOIN Interventions  JOIN Tarifications
                                         WHERE CreneauxInterventions.InterventionsidIntervention= Interventions.idIntervention
                                         AND CreneauxInterventions.InterventionsidIntervention = Tarifications.InterventionsidIntervention
-                                        AND CreneauxInterventions.PathologiesidPatho= Pathologies.idPatho
                                         AND Interventions.ServicesnomService = :service
                                         AND CreneauxInterventions.PatientsnumSS = :patient
                                         AND CreneauxInterventions.statut = 'r'
@@ -88,6 +87,13 @@
 //nb ligne tableau
     $nb_intervR= count($a_infoInterv["id_rdv"]);
 
+//totaux tarifs
+    $tot=[
+        $sumTTC= array_sum($a_infoInterv["tarif_euros"]),
+        $sumHT= array_sum($a_infoInterv["tarif_ht"]),
+        $sumSS= array_sum($a_infoInterv["ss"]),
+        $sumMut= array_sum($a_infoInterv["mutuelle"])
+        ];
 // ************************************************** REQUETES ******************
 ?>
     <!--logo-->
@@ -156,14 +162,13 @@
     Les interventions suivantes ont été acquitées à ce jour.<br>
     <br>
     
-   <?php ////////////////////////////////Dumper($a_infoInterv); ?>
     
     <!--TABLEAU-->
     <table cellspacing="0" style="width: 100%; border: solid 1px black; background: #E7E7E7; text-align: center; font-size: 10pt;">
         <!--en tete -->
         <tr>
 	<?php
-            foreach ($a_entete as $col=>$line) // $col = colonne
+            foreach ($a_entete as $col=>$line) 
             {
     ?>		<th><?php echo $col ?></th>
     <?php							
@@ -171,7 +176,7 @@
     ?>
         </tr>
         <tr>
-	<?php echo $nb_intervR;
+	<?php 
             for ($i = 0; $i < $nb_intervR; $i++)
             {
     ?>
@@ -198,14 +203,7 @@
         <tr>
             <th style="width: 40%; text-align: right;">Total :
             </th>
-    <?php
-    $tot=[
-    $sumTTC= array_sum($a_infoInterv["tarif_euros"]),
-    $sumHT= array_sum($a_infoInterv["tarif_ht"]),
-    $sumSS= array_sum($a_infoInterv["ss"]),
-    $sumMut= array_sum($a_infoInterv["mutuelle"])
-    ];
-    
+    <?php 
                 foreach ($tot as $col=>$line) // $col = colonne
                         {
     ?>		<th style="width:9.2%;"><?php echo $line ?> &euro;</th>

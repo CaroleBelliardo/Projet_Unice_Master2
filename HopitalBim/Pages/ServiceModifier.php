@@ -9,8 +9,10 @@
 
 	// Recuperation des champs entrés dans le formulaire : 
 	// recuperation des information relatif à la table Services
-	$text_nomService = ucfirst(trim($_POST['text_nomService']));	
-	$text_telephone = strip_tags($_POST['text_telephone']);	
+	
+	$text_nomService = ucfirst(str_replace(' ','',$_POST['text_nomService']));	
+	$text_telephone = str_replace(' ','',$_POST['text_telephone']));
+	
 	$text_mail = $text_nomService."@hopitalbim.fr";   // l'adresse mail sera toujours = au nom de service+@hotpitalbim.fr
 	$text_ouverture = date('H:i', strtotime($_POST['text_ouverture']));
 	$text_fermeture = date('H:i', strtotime($_POST['text_fermeture'])); 
@@ -112,7 +114,7 @@
 		<?php // affichage
 			If (!array_key_exists("serviceModifier",$_SESSION )) 
 			{
-				include ('../Formulaires/RechercheService.php');; // recherche le service
+				include ('../Formulaires/Formulaire_RechercheService.php');; // recherche le service
 			}
 			else
 			{
