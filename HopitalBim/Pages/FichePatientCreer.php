@@ -36,8 +36,8 @@ if(isset($_POST['btn-signup']))
 
 	// Requete afin de verifier si le numéro de sécurité sociale entré est deja present dans la base de donnée
 	$stmt = $auth_user->runQuery("SELECT numSS
-																FROM Patients
-																WHERE numSS=:text_numSS");
+									FROM Patients
+									WHERE numSS=:text_numSS");
 	$stmt->execute(array('text_numSS'=>$text_numSS));
 	$row=$stmt->fetch(PDO::FETCH_ASSOC);
 

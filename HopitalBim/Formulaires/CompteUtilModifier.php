@@ -2,27 +2,53 @@
 	
 if(isset($_POST['btn-modifierutilisateur']))
 {	
-	 // ici je pense faire un include de $dep a $adresse tout foutre dans un seul et meme document car c est chiant a regarder 
-	$text_pays = strip_tags($_POST['text_pays']);	
-	$text_departement = strip_tags($_POST['text_departement']);	
-	$text_codepostal = strip_tags($_POST['text_codepostal']);			
-	$text_ville = strip_tags($_POST['text_ville']);
-	$text_rue = strip_tags($_POST['text_rue']);	
-	$text_numero = strip_tags($_POST['text_numero']);	
+		$text_departement = trim($_POST['text_departement'], ' ' );
+	$text_pays = ucfirst(trim($_POST['text_pays'], ' '))	;
 
-	$text_nom = strip_tags($_POST['text_nom']);	
-	$text_prenom = strip_tags($_POST['text_prenom']);	
-	$text_telephone = strip_tags($_POST['text_telephone']);	
-	$text_mail = strip_tags($_POST['text_mail']);	
-	
+	$text_ville = ucfirst(trim($_POST['text_ville'], ' '))	;
+	$text_codepostal = str_replace(' ','',$_POST['text_codepostal']);
+
+	$text_numero = trim($_POST['text_numero'], ' ' );
+	$text_rue = ucfirst(trim($_POST['text_rue'], ' '))	;
+
+	$text_nom =  ucfirst(trim($_POST['text_nom'], ' '))	;
+	$text_prenom = ucfirst(trim($_POST['text_prenom'], ' '))	;
+
+	$text_telephone = trim($_POST['text_telephone'], ' ' );
 	$text_nomService = strip_tags($_POST['text_nomService']);	
 	$text_motdepasse = strip_tags($_POST['text_motdepasse']);
+	$text_motdepasse2 = strip_tags($_POST['text_motdepasse2']);
 
-		 // Gestion des erreurs : 
-	if ($text_nom==""){$error[] = "Il faut un nom !"; }
-	else if($text_prenom=="")	{$error[] = "Il faut un prénom !"; }
-	else if ($text_motdepasse=="")	{$error[] = "Il faut un mot de passe !"; }
-	
+	$req_rechercheNomService = $auth_user->runQuery("SELECT nomService
+									FROM Services
+									WHERE nomService=:nomService");
+	$req_rechercheNomService->execute(array('nomService'=>$text_nomService));
+	$rechercheNomService=$req_rechercheNomService->fetch(PDO::FETCH_ASSOC);
+		
+	// Gestion des erreurs : 
+	if((preg_match('/[0-9]+/',$text_nom) == 1)or ($text_nom=="")) {
+		$error[] = "Veuillez entrer un nom uniquement composé de lettres !";}
+	else if((preg_match('/[0-9]+/',$text_prenom) == 1)or ($text_prenom=="")) {
+		$error[] = "Veuillez entrer un prénom uniquement composé de lettres !";}
+	else if((preg_match('/[0-9]+/',$text_numero) == 0)or ($text_numero=="") )	{
+		$error[] = "Veuillez entrer un numéro de rue !"; }
+	else if($text_rue=="" )	{
+		$error[] = "Il faut entrer un nom de rue valide !"; }
+	else if($text_ville=="" )	{
+		$error[] = "Veuillez entrer le nom d'une ville valide !"; }
+	else if((strlen($text_codepostal) > 5) or  ($text_codepostal==""))	{
+		$error[] = "Il faut entrer un code postal valide !"; }
+	else if((strlen($text_departement) > 3)or  ($text_departement=="")) 	{
+		$error[] = "Veuillez entrer un numéro de département de maximum 3 caractères alphanumériques (entrez 99 si le patient réside à l'étranger) !"; }
+	else if ((preg_match('/[0-9]+/',$text_pays) == 1)or ($text_pays=="") or (strlen($text_pays) > 25))	{
+		$error[] = "Veuillez entrer un pays (caractères numériques non acceptés)!"; }
+	else if ($rechercheNomService['nomService'] ==""){
+		$error[] = "Veuillez choisir un service valide !"; }
+	// TEST SI NUMSS deja present
+	else if ($text_motdepasse != $text_motdepasse2 ) {
+		$error[] = "Vos deux mots de passe sont différents"; }
+	else if (strlen($text_motdepasse) < 8) {
+		$error[] = "Votre mot de passe est trop court"; }
 		else 
 		{
 			//Ajout des informations dans la base de donnée :
@@ -206,7 +232,7 @@ if(isset($_POST['btn-modifierutilisateur']))
 				<input type="tel" class="form-control" name="text_telephone" pattern="[0-9]{1-15}" title="Caractère numérique, 15 caractères acceptés"    placeholder="<?php echo $utilisateurInfo['telephone'] ;?>" value="<?php if(isset($error)){echo $text_telephone;}else {echo $utilisateurInfo['telephone'];}?>" /><br>
 
 				<label for="text_mail">Mail </label>
-				<input type="text" class="form-control" name="text_mail" pattern="{1-60}" title="Caractère numérique, 15 caractères acceptés" placeholder="<?php echo $utilisateurInfo['mail'] ;?>" value="<?php if(isset($error)){echo $text_mail;}else {echo $utilisateurInfo['mail'];}?>" /><br>			
+				<input>input <br>			
 <!-- MOOODIIIIIIFFF -->	
 				Service : <?php liste_Services($auth_user) ?> 
 
