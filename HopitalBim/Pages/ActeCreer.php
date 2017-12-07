@@ -22,19 +22,19 @@
 			else
 			{
 				If (!array_key_exists("serviceModifier",$_SESSION )) 
-				{
+				{ 
 					include ('../Formulaires/Formulaire_RechercheService.php');; // recherche le service
+		
 				}
 				else
 				{
 					include ('../Formulaires/Formulaire_AjoutActe.php');
 			
 				}
-				include ('../Config/Footer.php'); //menu de navigation
+				
 			}
 			include ('../Config/Footer2.php'); //menu de navigation
 		?>
 
-?>
 	</body>
 </html>
