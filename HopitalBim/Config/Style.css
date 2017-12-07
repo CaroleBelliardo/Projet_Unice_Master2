@@ -439,6 +439,72 @@ h6 {
 }
 
 /*                 */
+/*    Tableaux     */
+/*                 */
+
+.containerTab{
+  margin: 0px 29px;
+  padding : 5px;
+}
+
+caption {
+  color: white;
+  font-size: 25px; 
+  margin-bottom: 8px;
+}
+
+table {
+  border: medium solid #000000; 
+  background-color: white;
+  border-collapse: collapse;
+}
+
+.haut { /* Cellules d'en tête -- ligne -- */
+  border: thin solid #5D6D7E; 
+  padding: 5px;
+  text-align: center;
+  color : white;
+  background: -webkit-linear-gradient(#5D6D7E, #17202A);
+  background:    -moz-linear-gradient(#5D6D7E, #17202A);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, .3),
+                0 3px 5px rgba(0, 0, 0, .2);
+}
+
+.colonne { /* Cellules d'en tête -- colonne -- */
+  border: thin solid #5D6D7E; 
+  padding: 5px;
+  text-align: center;
+  background-color: #1b2631;
+  color: white;
+}
+
+.Totalth{
+  border: thin solid #5D6D7E; 
+  background-color: #486484;
+  text-align: center;
+  color: white;
+  padding: 5px;
+}
+
+td { /* Cellules de contenu */
+  border: thin solid #6495ed;
+  font-family: monospace;
+  padding: 5px;
+  text-align: right;
+  background-color: #ffffff;
+}
+
+.Totaltd{
+  background-color: #bdcbdb;
+}
+
+td:hover {
+ background-color: #17202A;
+ color: white;
+}
+
+
+/*                 */
 /*      FOOTER     */
 /*                 */
 
