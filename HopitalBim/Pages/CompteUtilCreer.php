@@ -181,6 +181,7 @@ if(isset($_POST['btn-signup']))
 					$ajoutchef->execute(array(':UtilisateurNom'=>$UtilisateurNom, 
 												':text_nomService'=>$text_nomService));
 				}
+			$_SESSION['utilisateurModifier'] = $UtilisateurNom;
 			$auth_user->redirect('CompteUtilCreer.php?Valide');
 			}
 			catch(PDOException $e)
@@ -229,7 +230,7 @@ if(isset($_POST['btn-signup']))
 				?>
 
                 <div id="valide"> <!-- Alert alert-info-->
-                	Utilisateur enregistré avec succés ! <a href='../Pageprincipale.php'>Page principale</a>
+                	Utilisateur <?php echo $_SESSION['utilisateurModifier'];?> enregistré avec succés ! <a href='../Pageprincipale.php'>Page principale</a>
                 </div>
 
             	<?php

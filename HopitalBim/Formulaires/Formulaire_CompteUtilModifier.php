@@ -57,7 +57,14 @@ if(isset($_POST['btn-modifierutilisateur']))
 	
 			try
 			{
-				//creation de l'utilisateur
+				
+				$Crypt_motdepasse = password_hash($text_motdepasse, PASSWORD_DEFAULT);//creation de l'utilisateur
+				$req_motdepasse = $auth_user->runQuery("UPDATE CompteUtilisateurs
+											SET passwd =:Crypt_motdepasse
+											WHERE idEmploye=:utilisateurModif");
+				$req_motdepasse->execute(array('Crypt_motdepasse'=>$Crypt_motdepasse,'utilisateurModif'=>$utilisateurInfo['CompteUtilisateursidEmploye'] ));
+				
+				
 				$stmt = $auth_user->runQuery("SELECT * FROM Villes 
 										WHERE codepostal=:text_codepostal AND nomVilles=:text_ville 
 										AND departement=:text_departement AND pays=:text_pays");
@@ -80,7 +87,6 @@ if(isset($_POST['btn-modifierutilisateur']))
 																nom =:text_nom,
 																prenom=:text_prenom,
 																telephone=:text_telephone,
-																mail=:text_mail,
 																ServicesnomService=:text_nomService,
 																AdressesidAdresse=:BDDidAdresse
 																WHERE  CompteUtilisateursidEmploye =:utilisateurModif");
@@ -88,7 +94,6 @@ if(isset($_POST['btn-modifierutilisateur']))
 						$modifierEmployes->execute(array(":text_nom"=>$text_nom,
 														":text_prenom"=>$text_prenom,
 														":text_telephone"=>$text_telephone,
-														":text_mail"=>$text_mail,
 														":text_nomService"=>$text_nomService,
 														":BDDidAdresse"=>$BDDidAdresse,
 														":utilisateurModif"=>$utilisateurInfo['CompteUtilisateursidEmploye']));						
@@ -112,7 +117,6 @@ if(isset($_POST['btn-modifierutilisateur']))
 																nom =:text_nom,
 																prenom=:text_prenom,
 																telephone=:text_telephone,
-																mail=:text_mail,
 																ServicesnomService=:text_nomService,
 																AdressesidAdresse=:BDDidAdresse
 																WHERE  CompteUtilisateursidEmploye =:utilisateurModif");
@@ -120,7 +124,6 @@ if(isset($_POST['btn-modifierutilisateur']))
 						$modifierEmployes->execute(array(":text_nom"=>$text_nom,
 														":text_prenom"=>$text_prenom,
 														":text_telephone"=>$text_telephone,
-														":text_mail"=>$text_mail,
 														":text_nomService"=>$text_nomService,
 														":BDDidAdresse"=>$BDDidAdresse,
 														":utilisateurModif"=>$utilisateurInfo['CompteUtilisateursidEmploye']));	
@@ -163,7 +166,6 @@ if(isset($_POST['btn-modifierutilisateur']))
 																nom =:text_nom,
 																prenom=:text_prenom,
 																telephone=:text_telephone,
-																mail=:text_mail,
 																ServicesnomService=:text_nomService,
 																AdressesidAdresse=:BDDidAdresse
 																WHERE  CompteUtilisateursidEmploye =:utilisateurModif");
@@ -171,7 +173,6 @@ if(isset($_POST['btn-modifierutilisateur']))
 					$modifierEmployes->execute(array(":text_nom"=>$text_nom,
 														":text_prenom"=>$text_prenom,
 														":text_telephone"=>$text_telephone,
-														":text_mail"=>$text_mail,
 														":text_nomService"=>$text_nomService,
 														":BDDidAdresse"=>$BDDidAdresse,
 														":utilisateurModif"=>$utilisateurInfo['CompteUtilisateursidEmploye']));	
@@ -244,7 +245,7 @@ if(isset($_POST['btn-modifierutilisateur']))
             <div class="form-group" >
 
 				<fieldset>
-				<legend> Employé </legend> <!-- Titre du fieldset --> 
+				<legend> Employé <?php echo $_SESSION["utilisateurModifier"];?></legend> <!-- Titre du fieldset --> 
 			
 					<label for="text_nom">Nom <em>* </em> </label>
 					<input type="text" class="form-control" name="text_nom" pattern="[A-Za-z]{1-25}" title="Caractère alphabétique, 25 caractères maximum"     placeholder="<?php echo $utilisateurInfo['nom'] ;?>" value="<?php if(isset($error)){echo $text_nom;}else {echo $utilisateurInfo['nom'];}?>" /><br>
@@ -283,7 +284,7 @@ if(isset($_POST['btn-modifierutilisateur']))
 				</fieldset> <br>
 			
 				<fieldset>
-				<legend> Adresse employé </legend> <!-- Titre du fieldset --> 
+				<legend> Adresse employé <?php echo $_SESSION["utilisateurModifier"];?></legend> <!-- Titre du fieldset --> 
 			
 					<label for="text_numero">Numéro de la rue <em>* </em></label>
 					<input type="number" class="form-control" min="1" name="text_numero" pattern="[0-9]{1-6}" title="Caractère numérique, 6 caractères acceptés" placeholder="<?php echo $utilisateurInfo['numero'] ;?>" value="<?php if(isset($error)){echo $text_numero;}else {echo $utilisateurInfo['numero'];}?>" /><br>	
