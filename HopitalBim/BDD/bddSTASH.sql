@@ -117,6 +117,13 @@ CREATE TABLE Tarifications (
   PRIMARY KEY (InterventionsidIntervention), 
   FOREIGN KEY (InterventionsidIntervention) REFERENCES Interventions (idIntervention) ON DELETE CASCADE ON UPDATE CASCADE); 
  
+# Table regroupant les tarifs liés à chaque intervention 
+CREATE TABLE TarificationsArchive (  
+  InterventionsidIntervention int(8) NOT NULL,      # cf.idInterventions auto_increment 
+  tarif_euros                 float UNSIGNED,       # 30.02 // pas de virgule mais des "." 
+  PRIMARY KEY (InterventionsidIntervention), 
+  FOREIGN KEY (InterventionsidIntervention) REFERENCES Interventions (idIntervention) ON DELETE CASCADE ON UPDATE CASCADE); 
+
 # Table regroupant les créneaux pour chaque intervention  
 CREATE TABLE CreneauxInterventions (
   id_rdv	int(8) NOT NULL AUTO_INCREMENT, 

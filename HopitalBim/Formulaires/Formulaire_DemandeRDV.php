@@ -71,7 +71,7 @@
 			</fieldset> </br>
 
 			<fieldset>
-			<legend> Commentaires sur le patient </legend> <!-- Titre du fieldset --> 
+			<legend> Commentaires sur le patient ou l'intervention </legend> <!-- Titre du fieldset --> 
 							
 			<textarea type="text" name="text_commentaires"   value="<?php if(isset($error)){echo $commentaires;}?>" ></textarea><br>
 										
