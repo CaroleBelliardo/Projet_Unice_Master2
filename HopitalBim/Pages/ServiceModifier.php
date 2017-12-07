@@ -11,7 +11,7 @@
 	// recuperation des information relatif à la table Services
 	
 	$text_nomService = ucfirst(str_replace(' ','',$_POST['text_nomService']));	
-	$text_telephone = str_replace(' ','',$_POST['text_telephone']));
+	$text_telephone = str_replace(' ','',$_POST['text_telephone']);
 	
 	$text_mail = $text_nomService."@hopitalbim.fr";   // l'adresse mail sera toujours = au nom de service+@hotpitalbim.fr
 	$text_ouverture = date('H:i', strtotime($_POST['text_ouverture']));
