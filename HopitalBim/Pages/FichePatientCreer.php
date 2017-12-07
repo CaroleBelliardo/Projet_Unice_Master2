@@ -74,7 +74,7 @@ if(isset($_POST['btn-signup']))
 		$error[] = "Veuillez entrer un pays (caractères numériques non acceptés)!"; }
 	// TEST SI NUMSS deja present
 	else if ($row['numSS']==$text_numSS ) {
-		$error[] = "Le patient est déjà présent dans la base de donnée ! Pour le modifier : <a href ='../Pages/FichePatientModifier.php' >Voulez vous prendre un rendez vous pour ce patient ?</a>"; }
+		$error[] = "Le patient est déjà présent dans la base de données ! Pour le modifier : <a href ='../Pages/FichePatientModifier.php' >Voulez vous prendre un rendez vous pour ce patient ?</a>"; }
 	else
 	{	// Apres gestion des erreurs, on ajoute les informations du formulaires dans la base de donnée
 		try

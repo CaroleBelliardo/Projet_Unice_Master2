@@ -3,26 +3,22 @@
 
 	$lien='Facturation.php';
 
-
-	if ($user_id != 'admin00' and $_SESSION["chefService"]= TRUE)  // si pas chef de service 
+	If ($_SESSION['chefService'] != TRUE) 
+	{
+		$auth_user->redirect('../PagePrincipale.php'); // recherche le service
+	}
+	else
+	{
+		If (!array_key_exists("patient",$_SESSION )) // recherche si patient existe (redirection fiche patient)
 		{
-			//echo "Pas d'accès à cette fonctionnalité de la plateforme";
-			//sleep(5);
-			$auth_user->redirect('../Pageprincipale.php');
+			include ('../Formulaires/Formulaire_RecherchePatient.php');
 		}
 		else
 		{
-			If (!array_key_exists("patient",$_SESSION )) // recherche si patient existe (redirection fiche patient)
-			{
-				include ('../Formulaires/Formulaire_RecherchePatient.php');
-			}
-			else
-			{
-				include ('../Fonctions/Fonctions_Facturation.php');
-			
-			}
-		}
+			include ('../Fonctions/Fonctions_Facturation.php');
 		
+		}
+	}
 	include ('../Config/Footer.php'); //menu de navigation
 
 ?>
