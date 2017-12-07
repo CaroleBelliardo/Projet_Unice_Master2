@@ -98,11 +98,9 @@ $_SESSION['service']=$a_utilisateur['service'];
 					  <a href="<?php echo $LienSite ?>Pages/ServiceCreer.php">Création</a>
 					  <a href="<?php echo $LienSite ?>Pages/ServiceModifier.php">Modification</a>
 					  <a href="<?php echo $LienSite ?>Pages/ServiceSupprimer.php">Suppression</a>
-					   <a href="<?php echo $LienSite ?>Pages/ActeCreer.php">Ajout un acte</a>
-					  <a href="<?php echo $LienSite ?>Pages/ActeSupprimer.php">Suppression un acte</a>
+					   <a href="<?php echo $LienSite ?>Pages/ActeCreer.php">Ajouter un acte</a>
+					  <a href="<?php echo $LienSite ?>Pages/ActeSupprimer.php">Supprimer un acte</a>
 					</div>
-				</div>
-	
 				</div>
 
 				<div class="dropdown">
