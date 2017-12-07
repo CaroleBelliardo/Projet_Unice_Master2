@@ -5,8 +5,9 @@
 {
  // Recuperation des champs entrés dans le formulaire : 
 	// recuperation des information relatif à la table Services
-	$text_nomService = ucfirst(trim($_POST['text_nomService']));	
-	$text_telephone = strip_tags($_POST['text_telephone']);	
+	$text_nomService = ucfirst(str_replace(' ','',$_POST['text_nomService']));	
+	$text_telephone = str_replace(' ','',$_POST['text_telephone']));
+	
 	$text_mail = $text_nomService."@hopitalbim.fr";   // l'adresse mail sera toujours = au nom de service+@hotpitalbim.fr
 	$text_ouverture = date('H:i', strtotime($_POST['text_ouverture']));
 	$text_fermeture = date('H:i', strtotime($_POST['text_fermeture'])); 
@@ -14,7 +15,6 @@
 	$text_batiment = $_POST['text_batiment'];	
 	$text_etage = $_POST['text_etage'];	
 	$text_aile = $_POST['text_aile'];	
-	
 	// TEST si le service est deja present : 
 	$stmt = $auth_user->runQuery("SELECT nomService FROM Services WHERE nomService=:nomService ");
 	$stmt->execute(array('nomService'=>$text_nomService));
@@ -22,6 +22,12 @@
 		// Apres avoir realisé une requete pour rechercher les services, on va tester si celui est present dans la bdd
 	if($text_nomService=="")	{
 		$error[] = "Il faut ajouter un nom de service ! "; }
+	else if((preg_match('/[0-9]+/',$text_telephone) == 0)or ($text_telephone==""))	 {
+		$error[] = "Veuillez entrer le numéro de téléphone du service !"; }
+	else if ($text_ouverture == $text_fermeture) {
+		$error[] = "Veuillez entrer des horaires d'ouverture et de fermeture valide !"; }
+	else if ($text_ouverture > $text_fermeture) {
+		$error[] = "L'heure d'ouverture ne peut pas excéder l'heure de fermeture !"; }
 	else if ($rechercheService['nomService']==$text_nomService) {
 		$error[] = "Le service est déjà présent dans la base de données !"; }
 	else

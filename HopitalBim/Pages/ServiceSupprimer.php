@@ -8,11 +8,15 @@
 	
 	if(isset($_POST['btn-supprimerService']))
 	{	 
-		$text_nomService=$_POST['text_nomService'];
-
-		// ici je pense faire un include de $dep a $adresse tout foutre dans un seul et meme document car c est chiant a regarder 
-			 // Gestion des erreurs : 
-		if ($text_nomService==""){$error[] = "Il faut un sélectionner un service !"; }
+		$text_nomService=trim($_POST['text_nomService'], ' ');
+		$req_Service = $auth_user->runQuery("SELECT nomService FROM Services 
+									WHERE nomService = :nomService");
+		$req_Service->execute(array('nomService' => $text_nomService));
+		$service = $req_Service->fetch(PDO::FETCH_ASSOC);
+		if (($service['nomService'] == "")) {
+			$error[] = "Entrer un service valide !";}
+		else if ($text_nomService==""){
+			$error[] = "Il faut un sélectionner un service !"; }
 		else 
 		{ 
 			
@@ -83,11 +87,18 @@
 
 						<legend> Service </legend> <!-- Titre du fieldset --> 		
 			
-							<label for="text_service"> Liste des services </label>
-							<input list="text_service" name="text_service" size='85'>
-							<datalist id="text_service">
-								<?php liste_Services($auth_user); ?> 
-							</datalist>
+							<label for="text_nomService"> Liste des services </label>
+							<input list="text_nomService" name="text_nomService" size='85'> 
+							<datalist id="text_nomService" >
+							<?php 
+							$req_service = $auth_user->runQuery("SELECT * FROM Services"); // permet de rechercher le nom d utilisateur 
+							$req_service->execute(); // la meme 
+							while ($row_service = $req_service->fetch(PDO::FETCH_ASSOC))
+							{
+								echo "<option value='".$row_service['nomService']."'label='".$row_service['nomService']."'>".$row_service['nomService']."</option>";
+							}
+							?>
+						</datalist> </br >
 
 					</fieldset> <br>
 
