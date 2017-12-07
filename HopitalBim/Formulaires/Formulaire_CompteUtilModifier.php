@@ -226,22 +226,22 @@ if(isset($_POST['btn-modifierutilisateur']))
 				<fieldset>
 				<legend> Adresse employé </legend> <!-- Titre du fieldset --> 
 			
-					<label for="text_numero">Numéro </label>
+					<label for="text_numero">Numéro de la rue </label>
 					<input type="number" class="form-control" min="1" name="text_numero" pattern="[0-9]{1-6}" title="Caractère numérique, 6 caractères acceptés" placeholder="<?php echo $utilisateurInfo['numero'] ;?>" value="<?php if(isset($error)){echo $text_numero;}else {echo $utilisateurInfo['numero'];}?>" /><br>	
 
-					<label for="text_numSS">N° Sécurité Sociale <em>* </em> </label>
+					<label for="text_numSS">Rue </label>
 					<input type="text" class="form-control" name="text_rue"    pattern="[A-Za-z]{1-100}" title="Caractère alphabetique, 100 caractères maximum" placeholder="<?php echo $utilisateurInfo['rue'] ;?>" value="<?php if(isset($error)){echo $text_rue;}else {echo $utilisateurInfo['rue'];}?>" /><br>
 
-					<label for="text_numSS">N° Sécurité Sociale <em>* </em> </label>
+					<label for="text_numSS">Ville </label>
 					<input type="text" class="form-control" name="text_ville"  pattern="[A-Za-z]{1-150}" title="Caractère alphabetique, 150 caractères maximum" placeholder="<?php echo $utilisateurInfo['nomVilles'] ;?>" value="<?php if(isset($error)){echo $text_ville;}else {echo $utilisateurInfo['nomVilles'];}?>" /><br>
 
-					<label for="text_numSS">N° Sécurité Sociale <em>* </em> </label>
+					<label for="text_numSS">Code Postal </label>
 					<input type="text" class="form-control" name="text_codepostal" pattern="[0-9]{5}" title="Caractère numérique, 5 caractères maximum"         placeholder="<?php echo $utilisateurInfo['codepostal'] ;?>" value="<?php if(isset($error)){echo $text_codepostal;}else {echo $utilisateurInfo['codepostal'];}?>" /><br>
 
-					<label for="text_numSS">N° Sécurité Sociale <em>* </em> </label>
+					<label for="text_numSS">Département </label>
 					<input type="text" class="form-control" name="text_departement" pattern="[0-9]{2}" title="Caractère numérique, 5 caractères maximum"        placeholder="<?php echo $utilisateurInfo['departement'] ;?>" value="<?php if(isset($error)){echo $text_departement;}else {echo $utilisateurInfo['departement'];}?>" /><br>
 
-					<label for="text_numSS">N° Sécurité Sociale <em>* </em> </label>
+					<label for="text_numSS">Pays </label>
 					<input type="text" class="form-control" name="text_pays"   pattern="[A-Za-z]{1-25}" title="Caractère alphabetique, 25 caractères maximum"   placeholder="<?php echo $utilisateurInfo['pays'] ;?>" value="<?php if(isset($error)){echo $text_pays;}else {echo $utilisateurInfo['pays'];}?>" /><br>
 			
 				</fieldset> <br>
