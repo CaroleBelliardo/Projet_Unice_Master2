@@ -114,7 +114,7 @@ if (isset ($_POST["btn-Modifier"]))
 		
 	 	<div class="containerTab">
 
-			<table id="synthese" border="1",ALIGN="CENTER", VALIGN="MIDDLE " >
+			<CENTER><table id="synthese" border="1",ALIGN="CENTER", VALIGN="MIDDLE " >
 			<caption> Planning de service </caption>
 
 			<tr>
@@ -229,7 +229,7 @@ if (isset ($_POST["btn-Modifier"]))
 			 	} 
 			?>
 
-			</table>
+			</table></CENTER>
 
 		</div>
 
