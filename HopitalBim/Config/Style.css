@@ -435,11 +435,12 @@ h6 {
 }
 
 .containerFormu select{
-  width: 6em;
+  width: 10em;
 }
 
 /*                 */
 /*    Tableaux     */
+/*    PLANNING     */
 /*                 */
 
 .containerTab{
@@ -501,6 +502,10 @@ td { /* Cellules de contenu */
 td:hover {
  background-color: #17202A;
  color: white;
+}
+
+.recherchePlanning{
+  display: inline-block;
 }
 
 

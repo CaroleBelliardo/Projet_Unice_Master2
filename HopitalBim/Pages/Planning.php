@@ -119,14 +119,14 @@ if (isset ($_POST["btn-Modifier"]))
 
 			<tr>
 
-				<th>Heure</th>
+				<th class="haut">Heure</th>
 		 
 		 		<?php 
 					foreach ($a_idActes as $idx=>$acte) // affichage de l'en-tete
 			 		{
 		 		?>
 				 
-				<th> <?php echo $acte ?></th> 
+				<th class="haut"> <?php echo $acte ?></th> 
 
 		 		<?php
 				 	}
@@ -141,10 +141,10 @@ if (isset ($_POST["btn-Modifier"]))
 			
 			<tr>
 
-				<th> <?php echo $h ?> </th> 
+				<th class="colonne"> <?php echo $h ?> </th> 
 		 
 		 		<?php 
-				 	foreach ($a_idActes as $idx=>$acte) // Pou chaque colonne
+				 	foreach ($a_idActes as $idx=>$acte) // Pour chaque colonne
 				 	{
 					 if (array_key_exists($h,$infoServiceJours))
 					 {
