@@ -18,7 +18,7 @@
 			{
 			?>
                  <div id="valide"> 
-                 	Service modifié avec succés ! <br> 
+                 	Service modifié avec succés !
                 	<a href='../Pageprincipale.php'>Page principale</a>
                  </div>
             <?php
@@ -90,11 +90,8 @@
 
 </div> <!-- containerFormu -->
 
-<div class="abandon">
+<button class="abandon">
 <?php quitter1() ?>
-</div>
+</button>
 
-<div id="footer"> <!-- Faire les liens vers les documents  -->
-    <a href="<?php echo $LienSite ?>../Pages/readme.php"> Conditions d'utilisation </a> |
-    <a href="<?php echo $LienSite ?>../Pages/contact.php"> Contact </a> | © 2017
-</div> 
+<?php include ('../Config/Footer.php'); //menu de navigation ?>

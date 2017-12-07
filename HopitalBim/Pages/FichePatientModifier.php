@@ -239,6 +239,7 @@
 		<title> Modifier Patient </title> <!-- Titre de l'onglet -->
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 		<link rel="stylesheet" href="../Config/Style.css" type="text/css">
+		<link href="https://fonts.googleapis.com/css?family=Josefin+Slab" rel="stylesheet">
 	</head>
 
 	<body>
@@ -260,9 +261,7 @@
 				include ('../Formulaires/FichePatientModifier.php');; // recherche patient -> si existe : redirection fiche patient !
 			}
 
-			include ('../Config/Footer.php'); //menu de navigation
 		?>
 
 	</body>
-
 </html>

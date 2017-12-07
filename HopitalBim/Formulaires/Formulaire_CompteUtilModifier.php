@@ -167,7 +167,7 @@ if(isset($_POST['btn-modifierutilisateur']))
     	
 	<form method="post" class="form-signin">
 
-        <h2 class="form-signin-heading">Modifier un utilisateur</h2><hr />
+        <h2 class="form-signin-heading">Modifier un utilisateur </h2><hr />
 
             <?php
 			if(isset($error))
@@ -175,16 +175,19 @@ if(isset($_POST['btn-modifierutilisateur']))
 			 	foreach($error as $error)
 			 	{
 			?>
-                    <div id="error"> &nbsp; <?php echo $error; ?> </div>
-					<?php
+
+            <div id="error"> &nbsp; <?php echo $error; ?> </div>
+
+			<?php
 				}
 			}
 			else if(isset($_GET['Valide']))
 			{
-					?>
-                <div id="valide"> 
-                	Utilisateur modifié avec succés ! <a href='../Pageprincipale.php'>Page principale</a>
-                </div>
+			?>
+
+            <div id="valide"> 
+                Utilisateur modifié avec succés ! <a href='../Pageprincipale.php'>Page principale</a>
+            </div>
 
             <?php
 			}
@@ -193,66 +196,69 @@ if(isset($_POST['btn-modifierutilisateur']))
 			<p><i>Complétez le formulaire. Les champs marqués par </i><em>*</em> sont <em>obligatoires.</em></p>
 
             <div class="form-group" >
-			<fieldset>
-			<legend> Employé </legend> <!-- Titre du fieldset --> 
+
+				<fieldset>
+				<legend> Employé </legend> <!-- Titre du fieldset --> 
 			
-				<label for="text_nom">Nom <em>* </em> </label>
-				<input type="text" class="form-control" name="text_nom" pattern="[A-Za-z]{1-25}" title="Caractère alphabétique, 25 caractères maximum"     placeholder="<?php echo $utilisateurInfo['nom'] ;?>" value="<?php if(isset($error)){echo $text_nom;}else {echo $utilisateurInfo['nom'];}?>" /><br>
+					<label for="text_nom">Nom <em>* </em> </label>
+					<input type="text" class="form-control" name="text_nom" pattern="[A-Za-z]{1-25}" title="Caractère alphabétique, 25 caractères maximum"     placeholder="<?php echo $utilisateurInfo['nom'] ;?>" value="<?php if(isset($error)){echo $text_nom;}else {echo $utilisateurInfo['nom'];}?>" /><br>
 
-				<label for="text_prenom">Prénom <em>* </em> </label>
-				<input type="text" class="form-control" name="text_prenom" pattern="[A-Za-z]{1-25}" title="Caractère alphabétique, 25 caractères maximum"  placeholder="<?php echo $utilisateurInfo['prenom'] ;?>" value="<?php if(isset($error)){echo $text_prenom;}else {echo $utilisateurInfo['prenom'];}?>" /><br>
+					<label for="text_prenom">Prénom <em>* </em> </label>
+					<input type="text" class="form-control" name="text_prenom" pattern="[A-Za-z]{1-25}" title="Caractère alphabétique, 25 caractères maximum"  placeholder="<?php echo $utilisateurInfo['prenom'] ;?>" value="<?php if(isset($error)){echo $text_prenom;}else {echo $utilisateurInfo['prenom'];}?>" /><br>
 
-				<label for="text_telephone">Téléphone </label>
-				<input type="tel" class="form-control" name="text_telephone" pattern="[0-9]{1-15}" title="Caractère numérique, 15 caractères acceptés"    placeholder="<?php echo $utilisateurInfo['telephone'] ;?>" value="<?php if(isset($error)){echo $text_telephone;}else {echo $utilisateurInfo['telephone'];}?>" /><br>
+					<label for="text_telephone">Téléphone </label>
+					<input type="tel" class="form-control" name="text_telephone" pattern="[0-9]{1-15}" title="Caractère numérique, 15 caractères acceptés"    placeholder="<?php echo $utilisateurInfo['telephone'] ;?>" value="<?php if(isset($error)){echo $text_telephone;}else {echo $utilisateurInfo['telephone'];}?>" /><br>
 
-				<label for="text_mail">Mail </label>
-				<input type="text" class="form-control" name="text_mail" pattern="{1-60}" title="Caractère numérique, 15 caractères acceptés" placeholder="<?php echo $utilisateurInfo['mail'] ;?>" value="<?php if(isset($error)){echo $text_mail;}else {echo $utilisateurInfo['mail'];}?>" /><br>			
-<!-- MOOODIIIIIIFFF -->	
-				Service : <?php liste_Services($auth_user) ?> 
+					<label for="text_mail">Mail </label>
+					<input type="text" class="form-control" name="text_mail" pattern="{1-60}" title="Caractère numérique, 15 caractères acceptés" placeholder="<?php echo $utilisateurInfo['mail'] ;?>" value="<?php if(isset($error)){echo $text_mail;}else {echo $utilisateurInfo['mail'];}?>" /><br>			
 
-				<label for="text_motdepasse">Mot de passe <em>* </em> </label>
-				<input type="text" class="form-control" name="text_motdepasse" pattern="[A-Za-z]{1-25}" title="Caractère alphabétique, 25 caractères maximum"  placeholder=" xxxxxxxx " value="<?php if(isset($error)){echo $text_motdepasse;}?>" /><br>
+					<label for="text_service"> Service </label>
+						<input list="text_service" name="text_service" size='85'>
+						<datalist id="text_service">
+							<?php liste_Services($auth_user) ?> 
+						</datalist> <br>
 
-			</fieldset> <br>
+					<label for="text_motdepasse">Mot de passe <em>* </em> </label>
+					<input type="text" class="form-control" name="text_motdepasse" pattern="[A-Za-z]{1-25}" title="Caractère alphabétique, 25 caractères maximum"  placeholder=" xxxxxxxx " value="<?php if(isset($error)){echo $text_motdepasse;}?>" /><br>
+
+				</fieldset> <br>
 			
-			<fieldset>
-			<legend> Adresse employé </legend> <!-- Titre du fieldset --> 
+				<fieldset>
+				<legend> Adresse employé </legend> <!-- Titre du fieldset --> 
 			
-				<label for="text_numero">Numéro </label>
-				<input type="number" class="form-control" min="1" name="text_numero" pattern="[0-9]{1-6}" title="Caractère numérique, 6 caractères acceptés" placeholder="<?php echo $utilisateurInfo['numero'] ;?>" value="<?php if(isset($error)){echo $text_numero;}else {echo $utilisateurInfo['numero'];}?>" /><br>	
+					<label for="text_numero">Numéro </label>
+					<input type="number" class="form-control" min="1" name="text_numero" pattern="[0-9]{1-6}" title="Caractère numérique, 6 caractères acceptés" placeholder="<?php echo $utilisateurInfo['numero'] ;?>" value="<?php if(isset($error)){echo $text_numero;}else {echo $utilisateurInfo['numero'];}?>" /><br>	
 
-				<label for="text_numSS">N° Sécurité Sociale <em>* </em> </label>
-				<input type="text" class="form-control" name="text_rue"    pattern="[A-Za-z]{1-100}" title="Caractère alphabetique, 100 caractères maximum" placeholder="<?php echo $utilisateurInfo['rue'] ;?>" value="<?php if(isset($error)){echo $text_rue;}else {echo $utilisateurInfo['rue'];}?>" /><br>
+					<label for="text_numSS">N° Sécurité Sociale <em>* </em> </label>
+					<input type="text" class="form-control" name="text_rue"    pattern="[A-Za-z]{1-100}" title="Caractère alphabetique, 100 caractères maximum" placeholder="<?php echo $utilisateurInfo['rue'] ;?>" value="<?php if(isset($error)){echo $text_rue;}else {echo $utilisateurInfo['rue'];}?>" /><br>
 
-				<label for="text_numSS">N° Sécurité Sociale <em>* </em> </label>
-				<input type="text" class="form-control" name="text_ville"  pattern="[A-Za-z]{1-150}" title="Caractère alphabetique, 150 caractères maximum" placeholder="<?php echo $utilisateurInfo['nomVilles'] ;?>" value="<?php if(isset($error)){echo $text_ville;}else {echo $utilisateurInfo['nomVilles'];}?>" /><br>
+					<label for="text_numSS">N° Sécurité Sociale <em>* </em> </label>
+					<input type="text" class="form-control" name="text_ville"  pattern="[A-Za-z]{1-150}" title="Caractère alphabetique, 150 caractères maximum" placeholder="<?php echo $utilisateurInfo['nomVilles'] ;?>" value="<?php if(isset($error)){echo $text_ville;}else {echo $utilisateurInfo['nomVilles'];}?>" /><br>
 
-				<label for="text_numSS">N° Sécurité Sociale <em>* </em> </label>
-				<input type="text" class="form-control" name="text_codepostal" pattern="[0-9]{5}" title="Caractère numérique, 5 caractères maximum"         placeholder="<?php echo $utilisateurInfo['codepostal'] ;?>" value="<?php if(isset($error)){echo $text_codepostal;}else {echo $utilisateurInfo['codepostal'];}?>" /><br>
+					<label for="text_numSS">N° Sécurité Sociale <em>* </em> </label>
+					<input type="text" class="form-control" name="text_codepostal" pattern="[0-9]{5}" title="Caractère numérique, 5 caractères maximum"         placeholder="<?php echo $utilisateurInfo['codepostal'] ;?>" value="<?php if(isset($error)){echo $text_codepostal;}else {echo $utilisateurInfo['codepostal'];}?>" /><br>
 
-				<label for="text_numSS">N° Sécurité Sociale <em>* </em> </label>
-				<input type="text" class="form-control" name="text_departement" pattern="[0-9]{2}" title="Caractère numérique, 5 caractères maximum"        placeholder="<?php echo $utilisateurInfo['departement'] ;?>" value="<?php if(isset($error)){echo $text_departement;}else {echo $utilisateurInfo['departement'];}?>" /><br>
+					<label for="text_numSS">N° Sécurité Sociale <em>* </em> </label>
+					<input type="text" class="form-control" name="text_departement" pattern="[0-9]{2}" title="Caractère numérique, 5 caractères maximum"        placeholder="<?php echo $utilisateurInfo['departement'] ;?>" value="<?php if(isset($error)){echo $text_departement;}else {echo $utilisateurInfo['departement'];}?>" /><br>
 
-				<label for="text_numSS">N° Sécurité Sociale <em>* </em> </label>
-				<input type="text" class="form-control" name="text_pays"   pattern="[A-Za-z]{1-25}" title="Caractère alphabetique, 25 caractères maximum"   placeholder="<?php echo $utilisateurInfo['pays'] ;?>" value="<?php if(isset($error)){echo $text_pays;}else {echo $utilisateurInfo['pays'];}?>" /><br>
+					<label for="text_numSS">N° Sécurité Sociale <em>* </em> </label>
+					<input type="text" class="form-control" name="text_pays"   pattern="[A-Za-z]{1-25}" title="Caractère alphabetique, 25 caractères maximum"   placeholder="<?php echo $utilisateurInfo['pays'] ;?>" value="<?php if(isset($error)){echo $text_pays;}else {echo $utilisateurInfo['pays'];}?>" /><br>
 			
-			</fieldset>
-			</div>
+				</fieldset> <br>
+
+			</div> <!-- form-group -->
             
             <div class="form-group">
             	<button type="submit" class="btn btn-primary" name="btn-modifierutilisateur">Valider</button>
             </div>
 
-        </form>
+    </form>
 
-       </div>
-</div>
+</div> <!-- containerFormu -->
 
-</div>
+<button class="abandon">
 <?php quitter1() ?>	
+</button>
 
-<div id="footer"> <!-- Faire les liens vers les documents  -->
-    <a href="<?php echo $LienSite ?>../Pages/readme.php"> Conditions d'utilisation </a> |
-    <a href="<?php echo $LienSite ?>../Pages/contact.php"> Contact </a> | © 2017
-</div> 
+<?php include ('../Config/Footer.php'); //menu de navigation ?> <!-- Footer grande page -->
 

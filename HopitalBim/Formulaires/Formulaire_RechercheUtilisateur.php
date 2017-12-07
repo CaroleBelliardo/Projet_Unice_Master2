@@ -13,8 +13,9 @@ if(isset($_POST['btn_utilisateur'])) // action du bouton btn_facture
 								
 		<h2 class="form-signin-heading">Rechercher un(e) employé(e)</h2><hr />
 			
-			<div class="form-group" >									
-			<fieldset>
+			<div class="form-group" >	
+
+				<fieldset>
 				<legend> Employé(e) </legend> <!-- Titre du fieldset --> 
 										
 					<!-- Affichage formulaire : moteur recherche du patient-->
@@ -31,10 +32,9 @@ if(isset($_POST['btn_utilisateur'])) // action du bouton btn_facture
 										label='".$utilisateur['CompteUtilisateursidEmploye'].$utilisateur['nom'].$utilisateur['prenom']."'>".$utilisateur['CompteUtilisateursidEmploye'].$utilisateur['nom'].$utilisateur['prenom']."</option>";
 									}
 							?>
-						
 						</datalist> </br >
 										
-			</fieldset>	<br>	
+				</fieldset>	<br>	
 			</div> <!-- form-group // Formulaire principal --> 			
 								
 			<div class="form-group">
@@ -42,8 +42,11 @@ if(isset($_POST['btn_utilisateur'])) // action du bouton btn_facture
 			</div> <!-- Valider -->
 
 	</form>
+	
 </div> <!-- containerFormu -->
 
-<div class="abandon">
-<?php quitter1($auth_user) ?>
-</div>
+<button class="abandon">
+	<?php quitter1($auth_user) ?>
+</button>
+
+<?php include ('../Config/Footer2.php'); //menu de navigation?>

@@ -30,7 +30,6 @@ if(isset($_POST['btn-login']))
     <title> Accueil </title> <!-- Titre de l'onglet -->
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <link rel="stylesheet" href="Config/Style.css">
-    <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Josefin+Slab" rel="stylesheet">
     </head>
     
@@ -64,7 +63,7 @@ if(isset($_POST['btn-login']))
                     {
                         ?>
                             <div class="alert">
-                            <?php echo $error; ?> ! Veuillez recommencer.
+                            <?php echo $error; ?> ! <br> Mot de passe/Nom d'utilisateur invalide: Veuillez recommencer.
                             </div>
                         <?php
                      }

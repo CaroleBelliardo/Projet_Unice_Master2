@@ -30,7 +30,6 @@ if(isset($_POST['btn_facturation'])) // action du bouton btn_facture
 		<title>Demande RDV</title>
 		<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
 		<link rel="stylesheet" href="../Config/Style.css" type="text/css">
-		<link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
 		<link href="https://fonts.googleapis.com/css?family=Josefin+Slab" rel="stylesheet">
 	</head>
 
@@ -97,11 +96,13 @@ if(isset($_POST['btn_facturation'])) // action du bouton btn_facture
 			</form>
 		</div> <!-- containerFormu -->
 
-		<div class="abandon">
+		<button class="abandon">
 			<?php
 				quitter1($auth_user)
 			?>	
-		</div> <!-- abandon -->
+		</button> <!-- abandon -->
+
+		<?php include ('../Config/Footer2.php'); //menu de navigation ?> 
 
 	</body>
 </html>

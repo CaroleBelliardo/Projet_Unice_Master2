@@ -43,53 +43,69 @@
 		<title>Supprimer un service</title>
 		<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
 		<link rel="stylesheet" href="../Config/Style.css" type="text/css">
+		<link href="https://fonts.googleapis.com/css?family=Josefin+Slab" rel="stylesheet">
 	</head>
 	
 	<body>
 		<div class="containerFormu">
 				
 			<form method="post" class="form-signin">
+
 				<h2 class="form-signin-heading">Supprimer un service</h2><hr />
-			<?php
-				if(isset($error))
-				{
-					foreach($error as $error)
+
+				<?php
+					if(isset($error))
 					{
-			?>
-						<div id="error"> &nbsp; <?php echo $error; ?> </div> 
-			<?php
+						foreach($error as $error)
+						{
+				?>
+					
+				<div id="error"> &nbsp; <?php echo $error; ?> </div> 
+
+				<?php
 					}
 				}
-				else if(isset($_GET['Valide']))
+					else if(isset($_GET['Valide']))
 				{
-			?>
-					<div id="valide"> <!-- Alert alert-danger-->
-						Service supprimé avec succés ! <a href='../Pageprincipale.php'>Page principale</a>
-					</div>
-			<?php
-				}
-			?>
+				?>
 					
-				<div class="form-group" >
-					<fieldset>
-						<legend> Service </legend><br> <!-- Titre du fieldset --> 		
-			<?php
-				liste_Services($auth_user);
-			?> 
-				<br>
-					</fieldset> <br>
+				<div id="valide"> <!-- Alert alert-danger-->
+					Service supprimé avec succés ! <a href='../Pageprincipale.php'>Page principale</a>
 				</div>
+			
+				<?php
+					}
+				?>
+					
+				<div class="form-group">
+
+					<fieldset>
+
+						<legend> Service </legend> <!-- Titre du fieldset --> 		
+			
+							<label for="text_service"> Liste des services </label>
+							<input list="text_service" name="text_service" size='85'>
+							<datalist id="text_service">
+								<?php liste_Services($auth_user); ?> 
+							</datalist>
+
+					</fieldset> <br>
+
+				</div> <!-- form-group -->
+
 				<div class="form-group">
 					<button type="submit" class="btn btn-primary" name="btn-supprimerService"> Valider </button>
-				</div>
+				</div> <!-- form-group -->
+
 			</form> <!-- form-signin -->
 		
 		</div> <!-- containerFormu -->
-		<div class="abandon">
-			<?php quitter1();
-			include ('../Config/Footer.php'); //menu de navigation
-			?>
-		</div>
+
+		<button class="abandon">
+			<?php quitter1(); ?>
+		</button>
+
+		<?php include ('../Config/Footer2.php'); //menu de navigation ?>
 	
 	</body>
 </html>

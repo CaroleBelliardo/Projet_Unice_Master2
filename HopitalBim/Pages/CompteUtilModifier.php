@@ -12,7 +12,6 @@
 		<title>Modifier un utilisateur</title>
 		<link rel="stylesheet" href="Style.css">
 		<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-		<link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
 		<link href="https://fonts.googleapis.com/css?family=Josefin+Slab" rel="stylesheet">
 	</head>
 
@@ -34,8 +33,6 @@
 				$utilisateurInfo=$req_utilisateur -> fetch(PDO::FETCH_ASSOC);
 				include ('../Formulaires/Formulaire_CompteUtilModifier.php');; // recherche patient existe pas (redirection fiche patient)
 			}
-
-			include ('../Config/Footer.php'); //menu de navigation
 
 		?>
 

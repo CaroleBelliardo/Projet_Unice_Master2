@@ -71,7 +71,7 @@
 				<label for="text_numero"> Numéro de la rue <em>* </em></label>
 				<input type="number" class="" min="1" name="text_numero" pattern="[0-9]{1-6}" title="Caractère numérique, 6 caractères acceptés"         placeholder=" Numéro" value="<?php if(isset($error)){echo $text_numero;}?>" /><br>
 
-				<label for="text_rue"> Nom de la rue <em>* </em></label>
+				<label for="text_rue"> Rue <em>* </em></label>
 				<input type="text" class="" name="text_rue"    pattern="[A-Za-z]{1-100}" title="Caractère alphabetique, 100 caractères maximum" placeholder=" Rue" value="<?php if(isset($error)){echo $text_rue;}?>" /><br>
 
 				<label for="text_ville"> Ville </label>
@@ -106,6 +106,6 @@
 
 </div> <!-- containerFormu -->
 
-<div class="abandon">
+<button class="abandon"> <!-- bouton abandon redirection Page principale -->
 <?php quitter1() ?>
-</div>
+</button>

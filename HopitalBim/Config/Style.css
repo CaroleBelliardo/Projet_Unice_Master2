@@ -33,8 +33,8 @@ body img[name="logo"]{
 }
 
 #entete { 
-    font-family: 'Lobster', cursive;
-    padding: 10px 0;                    /* top right bottom left */
+    font-family: cursive;
+    padding: 10px 0 0 0 ;                    /* top right bottom left */
     text-align: center;
     font-size: 40px;
     text-shadow: 2px 2px 5px black;
@@ -137,7 +137,7 @@ form header {
 }
 
 #error {             /* ancienne classe "alert alert-danger" */
-  color : red;
+  color : red;       /* messages d'erreur */
   margin: 10px;
 }
 
@@ -158,8 +158,18 @@ form header {
   margin: 10px;
 }
 
+#valide a{
+  color: #00688B;
+  padding : 5px;
+  border-radius: 5px;
+  border : 1px solid #00688B;
+  background-color: #E5ECEE;
+  box-shadow: 5px 5px 5px #DCE3E5
+}
+
 .abandon{
   margin: 15px 29px;
+  border-radius: 5px;
 }
 
 /*                     */
@@ -424,7 +434,9 @@ h6 {
   padding: 10px;
 }
 
-
+.containerFormu select{
+  width: 6em;
+}
 
 /*                 */
 /*      FOOTER     */
@@ -433,7 +445,6 @@ h6 {
 #footer {
     margin : 35px 0px 0px 0px;
     border-top: 1px solid #87CEFA;
-   /* bottom: 0; */
     left:0;
     right:0;
     color: white;
@@ -444,12 +455,32 @@ h6 {
     position: absolute;
 }
 
-}
-
-#footer a:link {
+#footer a:link{
   color : white;
 }
 
-#footer a:hover {
+#footer a:hover{
+    color: #87CEFA;
+}
+
+#footer2 {
+    margin : 35px 0px 0px 0px;
+    border-top: 1px solid #87CEFA;
+    color: white;
+    text-align: center;
+    height: 35px;
+    padding-top: 15px;
+    background-color: #17202A;
+    position: fixed;
+    bottom:0;
+    left:0;
+    right:0;
+}
+
+#footer2 a:link{
+  color : white;
+}
+
+#footer2 a:hover{
     color: #87CEFA;
 }

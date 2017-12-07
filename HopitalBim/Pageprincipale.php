@@ -35,6 +35,7 @@
 		<title> Bienvenue </title> <!-- Titre de l'onglet -->
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 		<link rel="stylesheet" href="Config/Style.css" type="text/css">
+		<link href="https://fonts.googleapis.com/css?family=Josefin+Slab" rel="stylesheet">
 	</head>
 
 	<body>
@@ -132,7 +133,9 @@
   			</div>
 		</div>
 
-		<p class="infoUser"> ICI les conneries regardant le gars connecté.</p>
+		<p class="infoUser"> Bonjour <?php  echo($a_utilisateur['prenom']); ?>, <br><br> 
+			Nous sommes aujourd'hui le <?php echo($today=date("j / m / Y")) ?>. 
+		</p>
 
     	<img name="stetho" src="Images/stetho.png" alt="Image stethoscope bleu" height="30%" width="30%">
      </div>

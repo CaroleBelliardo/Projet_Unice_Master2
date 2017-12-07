@@ -44,11 +44,11 @@ if(isset($_POST['btn-signup']))
 	if($text_numSS==""  or (is_numeric($text_numSS)==FALSE ) or (strlen($text_numSS) < 15 ) or (strlen($text_numSS) > 15 ))	{
 		$error[] = "Veuillez vérifier que le numéro de sécurité sociale est correct !"; }
 	else if((preg_match('/[0-9]+/',$text_nom) == 1)or ($text_nom=="")) {// string only contain the a to z , A to Z,
-		$error[] = "Veuillez entrer un nom uniquement composé de lettres !";}
+		$error[] = "Veuillez entrer un nom uniquement composé de lettres / Saisir un nom !";}
 	else if((preg_match('/[0-9]+/',$text_prenom) == 1)or ($text_prenom=="")) {// string only contain the a to z , A to Z,
-		$error[] = "Veuillez entrer un prénom uniquement composé de lettres !";}
+		$error[] = "Veuillez entrer un prénom uniquement composé de lettres  / Saisir un prénom !";}
 	else if(($_POST['text_dateNaissance'])=="")	{
-		$error[] = "Veuillez respecter le format jj/mm/aaaa !"; }
+		$error[] = "Veuillez respecter le format jj / mm / aaaa pour la date de naissance !"; }
 	else if((preg_match('/[0-9]+/',$text_numero) == 0)or ($text_numero=="") )	{
 		$error[] = "Veuillez entrer un numéro de rue !"; }
 	else if($text_rue=="" )	{
@@ -61,7 +61,7 @@ if(isset($_POST['btn-signup']))
 		$error[] = "Veuillez entrer un pays (caractères numériques non acceptés)!"; }
 	// TEST SI NUMSS deja present
 	else if ($row['numSS']==$text_numSS ) {
-		$error[] = "Le patient est déjà présent dans la base de donnée ! Pour le modifier : <a href =# >Cliquez ici</a>"; }   
+		$error[] = "Le patient est déjà présent dans la base de données ! Pour le modifier : <a href =# >Cliquez ici</a>"; }   
 	else
 	{
 		try
@@ -205,18 +205,14 @@ if(isset($_POST['btn-signup']))
 		<title> Nouveau Patient </title> <!-- Titre de l'onglet -->
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 		<link rel="stylesheet" href="../Config/Style.css" type="text/css">
+		<link href="https://fonts.googleapis.com/css?family=Josefin+Slab" rel="stylesheet">
 	</head>
+
 	<body>
 	
 	<?php include ('../Formulaires/FichePatientCreer.php');?>
-	 
-	<div id="footer"> <!-- Faire les liens vers les documents  -->
-		<a href="<?php echo $LienSite ?>readme.php"> Conditions d'utilisation </a> |
-		<a href="<?php echo $LienSite ?>contact.php"> Contact </a> | © 2017
-	</div>  
-<?php
+	
+	<?php include ('../Config/Footer.php'); //menu de navigation ?> <!-- Footer grande page -->
 
-			include ('../Config/Footer.php'); //menu de navigation
-?>
 	</body>
 </html>

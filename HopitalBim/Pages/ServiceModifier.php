@@ -104,7 +104,9 @@
 		<title>Modifier le service</title>
 		<link rel="stylesheet" href="Style.css">
 		<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+		<link href="https://fonts.googleapis.com/css?family=Josefin+Slab" rel="stylesheet">
 	</head>
+	
 	<body>
 	
 		<?php // affichage
@@ -122,8 +124,6 @@
 				$serviceInfo=$req_service -> fetch(PDO::FETCH_ASSOC);
 				include ('../Formulaires/ServiceModifier.php');; // recherche service existe pas (redirection fiche service)
 			}
-
-			include ('../Config/Footer.php'); //menu de navigation
 
 		?>
 	
