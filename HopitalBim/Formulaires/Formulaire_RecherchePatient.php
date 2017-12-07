@@ -27,7 +27,7 @@ if(isset($_POST['btn_facturation'])) // action du bouton btn_facture
 <!DOCTYPE html PUBLIC >
 <html>
 	<head>
-		<title>Demande RDV</title>
+		<title>Recherche Patient</title>
 		<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
 		<link rel="stylesheet" href="../Config/Style.css" type="text/css">
 		<link href="https://fonts.googleapis.com/css?family=Josefin+Slab" rel="stylesheet">
