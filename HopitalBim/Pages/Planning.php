@@ -57,7 +57,7 @@ if (isset ($_POST["btn-Realise"]))
 
 if (isset ($_POST["btn-Modifier"]))
 	{
-		$_SESSION['idRDV']= $_POST["btn-Modifier"];
+		$_SESSION['rdvModifier']= $_POST["btn-Modifier"];
 		$auth_user->redirect('RDVModification.php');
 	}
 	

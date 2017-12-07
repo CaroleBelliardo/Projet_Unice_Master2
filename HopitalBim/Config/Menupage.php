@@ -73,10 +73,14 @@
 			{
 	?>			
 				<a href="<?php echo $LienSite ?>Pages/Facturation.php">Facturation</a>
-	
 	<?php
-				//break;
-				if ($_SESSION["idEmploye"]== "admin00")
+				if ($_SESSION["idEmploye"] != "admin00")
+				{
+	?>
+				<a href="<?php echo $LienSite ?>Pages/VerificationNotification.php">Notifications</a>
+	<?php
+				}
+				elseif ($_SESSION["idEmploye"]== "admin00")
 				{
 	?>
 		<div class="dropdown">
@@ -85,6 +89,8 @@
 			  <a href="<?php echo $LienSite ?>Pages/ServiceCreer.php">Création</a>
 			  <a href="<?php echo $LienSite ?>Pages/ServiceModifier.php">Modification</a>
 			  <a href="<?php echo $LienSite ?>Pages/ServiceSupprimer.php">Suppression</a>
+			   <a href="<?php echo $LienSite ?>Pages/ActeCreer.php">Ajout acte</a>
+			  <a href="<?php echo $LienSite ?>Pages/ActeSupprimer.php">Suppression acte</a>
 			</div>
 		</div>
 	

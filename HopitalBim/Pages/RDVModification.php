@@ -17,27 +17,13 @@
 
 	<body>
 		<?php // affichage
-			If (!array_key_exists("idRDV",$_SESSION ) or ($_SESSION["chefService"] != TRUE)) 
+			If (!array_key_exists("rdvModifier",$_SESSION ) or ($_SESSION["chefService"] != TRUE)) 
 			{
 				include ('../Pages/Planning.php');; // recherche le service
 			}
 			else
-			{
-				
-				
-				
-				
-				
-				
-				$req_utilisateur = $auth_user->runQuery("SELECT * 
-														FROM Employes Join Adresses JOIN Villes
-														WHERE Employes.AdressesidAdresse = Adresses.idAdresse
-														AND Adresses.VillesidVilles = Villes.idVilles
-														AND  CompteUtilisateursidEmploye = :utilisateur");
-				
-				$req_utilisateur->execute(array("utilisateur"=>$_SESSION['utilisateurModifier']));
-				$utilisateurInfo=$req_utilisateur -> fetch(PDO::FETCH_ASSOC);
-				include ('../Formulaires/Formulaire_CompteUtilModifier.php');; // recherche patient existe pas (redirection fiche patient)
+			{	
+				include ('../Formulaires/Formulaire_RDVModification.php');; // recherche patient existe pas (redirection fiche patient)
 			}
 			include ('../Config/Footer.php'); //menu de navigation
 		?>

@@ -4,7 +4,7 @@
 
 	if(isset($_POST['btn-planning'])) // action du bouton btn_facture
 	{	 
-		$_SESSION["serviceModifier"] = $_POST['text_nomService'];
+		$_SESSION["servicePlanning"] = $_POST['text_nomService'];
 		$_SESSION["dateModifier"] = $_POST['text_date'];
 
 		$auth_user->redirect($lien);

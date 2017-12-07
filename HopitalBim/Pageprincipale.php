@@ -12,7 +12,7 @@
 	unset($_SESSION['utilisateurModifier']);
 	unset($_SESSION["dateModifier"]);
 	unset($_SESSION["servicePlanning"]);
-	unset($_SESSION["idRDV"]);
+	unset($_SESSION["rdvModifier"]);
 
 	
 
@@ -79,14 +79,16 @@ $_SESSION['service']=$a_utilisateur['service'];
 <?php
 		if ( $_SESSION["chefService"] == TRUE )
 		{
-	?>
-			<a href="<?php echo $LienSite ?>Fonctions/FactureEdit.php">Facturation</a>
-	<?php
-			
-			?>
-	<?php
-			//break;
-			if ($_SESSION["idEmploye"]== "admin00")
+		?>			
+			<a href="<?php echo $LienSite ?>Pages/Facturation.php">Facturation</a>
+		<?php
+			if ($_SESSION["idEmploye"] != "admin00")
+			{
+		?>
+			<a href="<?php echo $LienSite ?>Pages/VerificationNotification.php">Notifications</a>
+		<?php
+			}
+			elseif ($_SESSION["idEmploye"]== "admin00")
 			{
 ?>
 				<div class="dropdown">
