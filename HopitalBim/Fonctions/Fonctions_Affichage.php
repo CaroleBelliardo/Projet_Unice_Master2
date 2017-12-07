@@ -17,8 +17,7 @@ function liste_Services($auth_user) // affiche un menu déroulant listant les se
 			$stmt->execute(); // la meme 
 			while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
 			echo "<option value='".$row['nomService']."'>".$row['nomService']."</option>";
-			}
-	?>
+			} ?>
 			</select>
 		</div>
 	
