@@ -9,9 +9,15 @@
 	include ('../Config/Menupage.php'); //menu de navigation
 	include ('../Fonctions/Fonctions_planning.php'); //menu de navigation
 
+	if (!array_key_exists("dateModifier",$_SESSION))
+	{
+		$_SESSION["dateModifier"] = date("Y-m-d");
+	}
 	$lien= 'Planning.php'; // redirection
 	
-	$a_ref=infoPlanning ($auth_user,$a_utilisateur);
+	$dateCourant = date("Y-m-d");
+	$heureCourante = date("H:i:s");
+	$a_ref=infoPlanning ($auth_user,$a_utilisateur,$dateCourant,$heureCourante);
 	$a_heures = $a_ref['heure'];
 	$a_idActes = $a_ref['actes'];
 	$infoServiceJours = $a_ref['info'];
@@ -49,8 +55,12 @@ if (isset ($_POST["btn-Realise"]))
 		$auth_user->redirect('Planning.php?Valide');
 	}
 
+if (isset ($_POST["btn-Modifier"]))
+	{
+		$_SESSION['rdvModifier']= $_POST["btn-Modifier"];
+		$auth_user->redirect('RDVModification.php');
+	}
 	
-
 
 // **************************  AFFICHAGE PAGE ********************************************   
 
@@ -123,32 +133,50 @@ if (isset ($_POST["btn-Realise"]))
 						 if (array_key_exists($acte,$infoServiceJours[$h]))
 						 {
 		 ?>
-					 <td class= $infoServiceJours[$h][$acte]["statut"]>
-											<form method="post" >
-
-		 <?php
-						
-						//$num=$infoServiceJours[$h][$acte]["id_rdv"];
-						//$tempo="<input name='suppr_rdv' value=$num type='submit'>";
-						//echo $tempo;
-						echo $infoServiceJours[$h][$acte]["nom"]." ".$infoServiceJours[$h][$acte]["prenom"]."\n".$infoServiceJours[$h][$acte]["numSS"]."\n";
-						echo "</br><button type='submit' class='btn btn-primary' value='' name='btn-Annuler".$infoServiceJours[$h][$acte]["id_rdv"]."'>Annuler le RDV</button>";
-						echo "<button type='submit' class='btn btn-primary' value=".$infoServiceJours[$h][$acte]["id_rdv"]." name='btn-Realise'>RDV réalisé</button>";
-						if (isset ($_POST["btn-Annuler".$infoServiceJours[$h][$acte]["id_rdv"]]))
-						{
-						echo "<br> Annuler le RDV ? <br>";//ajouter la requette avec $idRDV le id du rdv
-						echo "<button type='submit' class='btn btn-primary' value=".$infoServiceJours[$h][$acte]["id_rdv"]." name='btn-AnnulerOui'>Oui</button>";
-						echo "<button type='submit' class='btn btn-primary' value='' name='btn-AnnulerNon'>Non</button>";
-						}
-		
-		?>				
-						
-						
-			<?php			
-						
-						
-						
+							<td class= $infoServiceJours[$h][$acte]["statut"]>
+												<form method="post" >
+		<?php
+							echo $infoServiceJours[$h][$acte]["nom"]." ".$infoServiceJours[$h][$acte]["prenom"]."</br>";
+							
+							//bouton modifier -- annuler
+							// s'affiche si l'utilisateur est chef du service consulté ou la personne qui a effectué la requete
+							// et si si la date d'auj < date consultée
+							If ((( $_SESSION["chefService"] == 'TRUE') and ($_SESSION["service"] == $_SESSION['servicePlanning'] )) // chef du service
+								or ($infoServiceJours[$h][$acte]["idEmploye"] == $_SESSION["idEmploye"] )) // utilisateur a demandé rdv
+							{
+								
+								if (( $dateCourant < $_SESSION["dateModifier"]) // jour précédent
+								or  (( $dateCourant >= $_SESSION["dateModifier"])  and ( $heureCourante <= $h ))) // jour actuel mais heure précédent
+								{
+									echo "<button type='submit' class='btn btn-primary' value=".$infoServiceJours[$h][$acte]["id_rdv"]." name='btn-Modifier'>   M   </button>";
+									echo "<button type='submit' class='btn btn-primary' value='' name='btn-Annuler".$infoServiceJours[$h][$acte]["id_rdv"]."'>X</button>";						
+									if (isset ($_POST["btn-Annuler".$infoServiceJours[$h][$acte]["id_rdv"]]))
+									{
+										echo "<br> Annuler le RDV ? <br>";//ajouter la requette avec $idRDV le id du rdv
+										echo "<button type='submit' class='btn btn-primary' value=".$infoServiceJours[$h][$acte]["id_rdv"]." name='btn-AnnulerOui'>Oui</button>";
+										echo "<button type='submit' class='btn btn-primary' value='' name='btn-AnnulerNon'>Non</button>";
+									}
+								}
 							}
+
+							// bouton pour confirmer que l'acte a été réalisé
+							// s'afiche si la date d'auj > date consultée, si la date = et heure actuel >= heure prevu, et si le statut du rdv est "prévu"
+							if ($infoServiceJours[$h][$acte]["statut"] != 'r' )
+							{
+								if (( $dateCourant > $_SESSION["dateModifier"]) or (( $dateCourant == $_SESSION["dateModifier"]) and ( $heureCourante >= $h )))
+								{
+								// si le rdv est passé :
+								// cad la page consultée est celle d'un jour précédent ou si la page est celle du jour actuel et que l'heure est = ou  < à l'heure actuelle
+									echo "<button type='submit' class='btn btn-primary' value=".$infoServiceJours[$h][$acte]["id_rdv"]." name='btn-Realise'>R</button>";
+								}
+								elseif ($infoServiceJours[$h][$acte]["statut"] == 'r' )
+								// si le rdv est passé :
+								// cad la page consultée est celle d'un jour précédent ou si la page est celle du jour actuel et que l'heure est = ou  < à l'heure actuelle
+								{
+									echo "réalisé";
+								}					
+							}
+						}
 						else
 						{
 		 ?>

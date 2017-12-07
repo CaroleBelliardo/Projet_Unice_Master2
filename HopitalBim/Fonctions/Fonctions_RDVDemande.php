@@ -129,29 +129,7 @@
         return ($a_infoDateHeureUrg);
     }
     
-//    function prochainCreneauxUrgent($auth_user,$niveauUrgence, $idIntervention )  // fonction qui test tous les niveaux d'urgence jusqu'a trouver un creneaux compatible
-//    {
-//        $a_infoDateHeureUrgence=[]; //initialisation
-//        for ($i=$niveauUrgence; $i>=0; $i--)
-//        {
-//			echo $i." : i <br>";
-//            //echo "etape :".$i."<br>";
-//			if (array_key_exists('dateR',$a_infoDateHeureUrgence ) and ($a_infoDateHeureUrgence != "NULL")) 
-//            {
-//                 echo 'GG';
-//				 return ($a_infoDateHeureUrgence);
-//				 $i=-1;
-//            }
-//            else 
-//            {
-//				echo $i." : i boucle<br>";
-//                $a_infoDateHeureUrgence= CreneauxUrgent($auth_user, $i, $idIntervention);
-//				echo '<br> $a_infoDateHeureUrgence '; 
-//				Dumper ($a_infoDateHeureUrgence);
-//
-//            }
-//        }
-//    }
+
 	
     
 ?>

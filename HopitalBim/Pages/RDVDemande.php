@@ -119,18 +119,18 @@ if(isset($_POST['btn_demandeRDV'])) // si utilisateur clique sur le bouton deman
 			{
 				$a_infoDateHeure["heureR"] = ProchaineHeureArrondie(); //=> on affecte date & heure actuelles		
 				$a_infoDateHeure["dateR"] = date('Y-m-d');	
-				if ($a_infoDateHeure["heureR"] >= $a_horaireFermeture["horaire_fermeture"]  ) // gestion erreur : si service = ferme avant minuit 
+				if ($a_infoDateHeure["heureR"] >= $a_horaireFermeture["horaire_fermeture"]  ) // gestion erreur : si service = ferme, avant minuit 
 				{
 					$a_infoDateHeure["heureR"] = $a_horaireFermeture["horaire_ouverture"]; //=> on affecte date & heure actuelles
 					$a_infoDateHeure["dateR"] = date('Y-m-d', strtotime('+1 day'));	
 				}
-				elseif (( $a_infoDateHeure["heureR"] < $a_horaireFermeture["horaire_ouverture"]  )  // gestion erreur : si service = ferme après minuit  
+				elseif (( $a_infoDateHeure["heureR"] < $a_horaireFermeture["horaire_ouverture"]  )  // gestion erreur : si service = ferme, après minuit  
 						and ( $a_infoDateHeure["heureR"] < $a_horaireFermeture["horaire_fermeture"]  )) 
 				{
 					$a_infoDateHeure["heureR"] = $a_horaireFermeture["horaire_ouverture"]; //=> on affecte date & heure actuelles
 				}				
 			}
-			elseif (((array_key_exists('heureR', $a_infoDateHeure )) and ($a_infoDateHeure["statutR"] = 'p')))//or ($a_infoDateHeure["heureR"] !=  $a_horaireFermeture["heure_ouverture"] )) // a verif si creneaux = prevu; alors ajoute  15 min pour obtenir l'heure de creneau a affecter au RDV 
+			elseif (((array_key_exists('heureR', $a_infoDateHeure )) and ($a_infoDateHeure["statutR"] == 'p')))//or ($a_infoDateHeure["heureR"] !=  $a_horaireFermeture["heure_ouverture"] )) // a verif si creneaux = prevu; alors ajoute  15 min pour obtenir l'heure de creneau a affecter au RDV 
 			{
 				if ($a_infoDateHeure["heureR"] >= $a_horaireFermeture["horaire_fermeture"])
 				{
@@ -141,6 +141,14 @@ if(isset($_POST['btn_demandeRDV'])) // si utilisateur clique sur le bouton deman
 				{
 				$a_infoDateHeure["heureR"]=heurePlus15($a_infoDateHeure["heureR"],'+15 minutes'); 					
 				}
+			}
+			elseif (((array_key_exists('heureR', $a_infoDateHeure )) and ($a_infoDateHeure["statutR"] == 'a')))
+			{
+				$req_rdvAnnule = $auth_user-> runQuery(" UPDATE CreneauxInterventions
+													SET statut = 's' 
+													WHERE id_rdv =:rdv");
+				$req_rdvAnnule->execute(array('rdv'=>$a_infoDateHeure["idR"]));
+				$req_rdvAnnule->closeCursor();
 			}
 
 // **************************************          Recherche Horaire APPROPRIEE SI niveau urgence != 0         *********************************
@@ -164,7 +172,6 @@ if(isset($_POST['btn_demandeRDV'])) // si utilisateur clique sur le bouton deman
 								'PatientsnumSS'=> $_SESSION["patient"],
 								'EmployesCompteUtilisateursIdEmploye'=> $user_id));
 			$ajoutRDV->closeCursor();
-		
 			Eval_notif_incompUrgence($auth_user,$niveauUrgence,$a_niveauUrgence);	
 		}	// si tous les champs du formulaire sont renseignés et valide
 	} // fin des instructions realisées si niveauUrgence !=0

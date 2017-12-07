@@ -6,19 +6,19 @@ if(isset($_POST['btn_facturation'])) // action du bouton btn_facture
 	// Gestion erreur : idPatient n'existe pas dans la bdd
 		$req_numSS = $auth_user->runQuery(" SELECT numSS
 											FROM Patients
-											WHERE numSS = :numSS" ); // recherche le numSS dans la bdd
-		$req_numSS->execute(array('numSS'=> $text_numSS));
-		$numSS= $req_numSS-> fetchColumn();
+										WHERE numSS = :numSS" ); // recherche le numSS dans la bdd
+	$req_numSS->execute(array('numSS'=> $text_numSS));
+	$numSS= $req_numSS-> fetchColumn();
 
-		if ($numSS == "") // nom de d'INTERVENTION absent de la base de données
-		{
-			$error[] =  "Veuillez saisir un numéro de sécurité sociale valide !";
-		}
-		else 
-		{
-			$_SESSION["patient"] = $text_numSS;
-			$auth_user->redirect($lien);
-		}
+	if ($numSS == "") // nom de d'INTERVENTION absent de la base de données
+	{
+		$error[] =  "Veuillez saisir un numéro de sécurité sociale valide !";
+	}
+	else 
+	{
+		$_SESSION["patient"] = $text_numSS;
+		$auth_user->redirect($lien);
+	}
 }	
 
 

@@ -1,29 +1,35 @@
 <?php $LienSite = 'http://'.$_SERVER['HTTP_HOST'].'/projetm2/HopitalBim/';
 
-include ('../Fonctions/Fonctions_Affichage.php'); // lien Page principale
-include ('../Fonctions/Fonctions_ReqTraitement.php');
-require_once("../session.php"); // requis pour se connecter la base de donnée 
-require_once("../classe.Systeme.php"); // va permettre d effectuer les requettes sql en orienté objet.
+	include ('../Fonctions/Fonctions_Affichage.php'); // lien Page principale
+	include ('../Fonctions/Fonctions_ReqTraitement.php');
+	require_once("../session.php"); // requis pour se connecter la base de donnée 
+	require_once("../classe.Systeme.php"); // va permettre d effectuer les requettes sql en orienté objet.
+	
+	
+	//variables Globales
+	$auth_user = new Systeme(); // Connection bdd	
+	$user_id = $_SESSION['idEmploye']; // IDENTIFIANT compte utilisateur !!!!!
+	
+	//info identité utilisateur
+	$Req_utilisateur = $auth_user->runQuery("SELECT  CompteUtilisateursidEmploye, Employes.ServicesnomService as service ,nom, prenom, EmployesCompteUtilisateursidEmploye as chef
+											FROM Employes LEFT JOIN ChefServices ON Employes.CompteUtilisateursidEmploye  = ChefServices.EmployesCompteUtilisateursidEmploye
+											WHERE Employes.CompteUtilisateursidEmploye = :user_name
+											"); // NOM utilisateur = >> à mettre dans menuPage !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! TOUTES PAGES 
+	$Req_utilisateur->execute(array("user_name"=>$user_id)); 
+	$a_utilisateur= reqToArrayPlusAttASSO($Req_utilisateur);  // Nom prénom et service utilisateur 
+	$Req_utilisateur->closeCursor();
+	if ($a_utilisateur["chef"] != NULL)
+	{
+		$_SESSION["chefService"]= TRUE;
+		}
+	else
+	{
+		$_SESSION["chefService"]= FALSE;
+	}
+	$_SESSION['service']=$a_utilisateur['service'];
 
 
-//variables Globales
-$auth_user = new Systeme(); // Connection bdd	
-$user_id = $_SESSION['idEmploye']; // IDENTIFIANT compte utilisateur !!!!!
-
-//info identité utilisateur
-$Req_utilisateur = $auth_user->runQuery("SELECT  CompteUtilisateursidEmploye, Employes.ServicesnomService as service ,nom, prenom, EmployesCompteUtilisateursidEmploye as chef
-										FROM Employes LEFT JOIN ChefServices ON Employes.CompteUtilisateursidEmploye  = ChefServices.EmployesCompteUtilisateursidEmploye
-										WHERE Employes.CompteUtilisateursidEmploye = :user_name
-										"); // NOM utilisateur = >> à mettre dans menuPage !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! TOUTES PAGES 
-$Req_utilisateur->execute(array("user_name"=>$user_id)); 
-$a_utilisateur= reqToArrayPlusAttASSO($Req_utilisateur);  // Nom prénom et service utilisateur 
-$Req_utilisateur->closeCursor();
-
-$_SESSION['service']=$a_utilisateur['service'];
-if ($a_utilisateur["chef"] != "")
-{ $_SESSION["chefService"]= TRUE;}
-
-global $auth_user, $a_utilisateur;
+	global $auth_user, $a_utilisateur;
 ?>
 
 
@@ -63,14 +69,18 @@ global $auth_user, $a_utilisateur;
 				</div>
 				
 	<?php
-			if ( $_SESSION["chefService"]= TRUE )
+			if ( $_SESSION["chefService"] == TRUE )
 			{
 	?>			
 				<a href="<?php echo $LienSite ?>Pages/Facturation.php">Facturation</a>
-	
 	<?php
-				//break;
-				if ($_SESSION["idEmploye"]== "admin00")
+				if ($_SESSION["idEmploye"] != "admin00")
+				{
+	?>
+				<a href="<?php echo $LienSite ?>Pages/VerificationNotification.php">Notifications</a>
+	<?php
+				}
+				elseif ($_SESSION["idEmploye"]== "admin00")
 				{
 	?>
 		<div class="dropdown">
@@ -79,6 +89,8 @@ global $auth_user, $a_utilisateur;
 			  <a href="<?php echo $LienSite ?>Pages/ServiceCreer.php">Création</a>
 			  <a href="<?php echo $LienSite ?>Pages/ServiceModifier.php">Modification</a>
 			  <a href="<?php echo $LienSite ?>Pages/ServiceSupprimer.php">Suppression</a>
+			   <a href="<?php echo $LienSite ?>Pages/ActeCreer.php">Ajout acte</a>
+			  <a href="<?php echo $LienSite ?>Pages/ActeSupprimer.php">Suppression acte</a>
 			</div>
 		</div>
 	

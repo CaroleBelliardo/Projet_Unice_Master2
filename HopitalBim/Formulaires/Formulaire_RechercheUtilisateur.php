@@ -2,8 +2,21 @@
 
 if(isset($_POST['btn_utilisateur'])) // action du bouton btn_facture
 {	 	
-	$_SESSION["utilisateurModifier"] = trim($_POST['text_utilisateur'], ' ');
-	$auth_user->redirect($lien);
+	
+	$req_util = $auth_user->runQuery("SELECT idEmploye FROM Employes 
+								WHERE CompteUtilisateursidEmploye = :employe ");
+	$req_util->execute(array('employe' =>  trim($_POST['text_utilisateur'], ' ')));
+	$util = $req_util->fetchColumn();
+	if (($util == ""))
+	{
+		$error[] = "Entrer un nom d'utilisateur valide !";
+	}
+	else
+	{
+		$_SESSION["utilisateurModifier"] = trim($_POST['text_utilisateur'], ' ');
+		$auth_user->redirect($lien);
+	}
+
 }	
 ?>
 
@@ -12,12 +25,21 @@ if(isset($_POST['btn_utilisateur'])) // action du bouton btn_facture
 	<form method="post" class="form-signin">
 								
 		<h2 class="form-signin-heading">Rechercher un(e) employé(e)</h2><hr />
-			
-			<div class="form-group" >	
-
-				<fieldset>
+		<?php
+			if(isset($error))
+			{
+			 	foreach($error as $error)
+			 	{
+					 ?>
+                     <div id="error"> &nbsp; <?php echo $error; ?> </div>  
+                     <?php
+				}
+			}
+		?>
+		<div class="form-group" >									
+			<fieldset>
 				<legend> Employé(e) </legend> <!-- Titre du fieldset --> 
-										
+							
 					<!-- Affichage formulaire : moteur recherche du patient-->
 					<label for="text_utilisateur"> Identifiant employé </label>
 					<input list="text_utilisateur" name="text_utilisateur" size='85'> 

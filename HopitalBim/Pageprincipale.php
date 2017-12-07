@@ -11,19 +11,32 @@
 	unset($_SESSION["serviceModifier"]);
 	unset($_SESSION['utilisateurModifier']);
 	unset($_SESSION["dateModifier"]);
+	unset($_SESSION["servicePlanning"]);
+	unset($_SESSION["rdvModifier"]);
 
 	
+
+
 	//variables Globales
 	$auth_user = new Systeme(); // Connection bdd	
 	$user_id = $_SESSION['idEmploye']; // IDENTIFIANT compte utilisateur !!!!!
 	//info identité utilisateur
-	$Req_utilisateur = $auth_user->runQuery("SELECT  CompteUtilisateursidEmploye, Employes.ServicesnomService ,nom, prenom, EmployesCompteUtilisateursidEmploye as chef
+	$Req_utilisateur = $auth_user->runQuery("SELECT  CompteUtilisateursidEmploye, Employes.ServicesnomService as service,nom, prenom, EmployesCompteUtilisateursidEmploye as chef
 											FROM Employes LEFT JOIN ChefServices ON Employes.CompteUtilisateursidEmploye  = ChefServices.EmployesCompteUtilisateursidEmploye
 											WHERE Employes.CompteUtilisateursidEmploye = :user_name
 											"); // NOM utilisateur = >> à mettre dans menuPage !!!!!!!!!!!! TOUTES PAGES 
 	$Req_utilisateur->execute(array("user_name"=>$user_id)); 
-	$a_utilisateur= reqToArrayPlusAttASSO($Req_utilisateur);  // Nom prénom et service utilisateur 
+	$a_utilisateur= reqToArrayPlusAttASSO($Req_utilisateur);  // Nom prénom et service utilisateur 	
 	$Req_utilisateur->closeCursor();
+	if ($a_utilisateur["chef"] != NULL)
+	{
+		$_SESSION["chefService"]= TRUE;
+		}
+	else
+	{
+		$_SESSION["chefService"]= FALSE;
+	}
+$_SESSION['service']=$a_utilisateur['service'];
 	
 	global $auth_user, $a_utilisateur;
 
@@ -55,60 +68,59 @@
 	    </div> <!-- container -->
 
 		<div class="navbar"> 
-	<?php
-		if ((array_key_exists("idEmploye", $_SESSION))  and ($_SESSION["idEmploye"] != ""))
-		{
-	?>
-			<a href="<?php echo $LienSite ?>Pages/Planning.php">Planning</a>
-			<a href="<?php echo $LienSite ?>Pages/RDVDemande.php">Demande de rendez-vous </a>
-			<div class="dropdown">
-				<button class="dropbtn">Patient </button>
-				<div class="dropdown-content">
-				  <a href="<?php echo $LienSite ?>Pages/FichePatientCreer.php">Création</a>
-				  <a href="<?php echo $LienSite ?>Pages/FichePatientModifier.php">Modification</a>
-				</div>
+		<a href="<?php echo $LienSite ?>Pages/Planning.php">Planning</a>
+		<a href="<?php echo $LienSite ?>Pages/RDVDemande.php">Demande de rendez-vous </a>
+		<div class="dropdown">
+			<button class="dropbtn">Patient </button>
+			<div class="dropdown-content">
+			  <a href="<?php echo $LienSite ?>Pages/FichePatientCreer.php">Création</a>
+			  <a href="<?php echo $LienSite ?>Pages/FichePatientModifier.php">Modification</a>
 			</div>
-				
-	<?php
-			if ( $_SESSION["idEmploye"] == $a_utilisateur["chef"])
+		</div>
+<?php
+		if ( $_SESSION["chefService"] == TRUE )
+		{
+		?>			
+			<a href="<?php echo $LienSite ?>Pages/Facturation.php">Facturation</a>
+		<?php
+			if ($_SESSION["idEmploye"] != "admin00")
 			{
-	?>			
-				<a href="<?php echo $LienSite ?>Fonctions/FactureEdit.php">Facturation</a>
-	
-	<?php
-				//break;
-				if ($_SESSION["idEmploye"]== "admin00")
-				{
-	?>
-					<div class="dropdown">
-						<button class="dropbtn">Services </button>
-						<div class="dropdown-content">
-						  <a href="<?php echo $LienSite ?>Pages/ServiceCreer.php">Création</a>
-						  <a href="<?php echo $LienSite ?>Pages/ServiceModifier.php">Modification</a>
-						  <a href="<?php echo $LienSite ?>Pages/ServiceSupprimer.php">Suppression</a>
-						</div>
+		?>
+			<a href="<?php echo $LienSite ?>Pages/VerificationNotification.php">Notifications</a>
+		<?php
+			}
+			elseif ($_SESSION["idEmploye"]== "admin00")
+			{
+?>
+				<div class="dropdown">
+					<button class="dropbtn">Services </button>
+					<div class="dropdown-content">
+					  <a href="<?php echo $LienSite ?>Pages/ServiceCreer.php">Création</a>
+					  <a href="<?php echo $LienSite ?>Pages/ServiceModifier.php">Modification</a>
+					  <a href="<?php echo $LienSite ?>Pages/ServiceSupprimer.php">Suppression</a>
 					</div>
-	
-					<div class="dropdown">
-						<button class="dropbtn">Compte Utilisateur </button>
-						<div class="dropdown-content">
-						  <a href="<?php echo $LienSite ?>Pages/CompteUtilCreer.php">Création</a>
-						  <a href="<?php echo $LienSite ?>Pages/CompteUtilModifier.php">Modification</a>
-						  <a href="<?php echo $LienSite ?>Pages/CompteUtilSupprimer.php">Suppression</a>
-						</div>
+				</div>
+
+				<div class="dropdown">
+					<button class="dropbtn">Compte Utilisateur </button>
+					<div class="dropdown-content">
+					  <a href="<?php echo $LienSite ?>Pages/CompteUtilCreer.php">Création</a>
+					  <a href="<?php echo $LienSite ?>Pages/CompteUtilModifier.php">Modification</a>
+					  <a href="<?php echo $LienSite ?>Pages/CompteUtilSupprimer.php">Suppression</a>
 					</div>
-				
-					<div class="dropdown">
-						<button class="dropbtn">Vérification </button>
-						<div class="dropdown-content">
-						  <a href="<?php echo $LienSite ?>Pages/VerificationSynthese.php">Synthèse des demandes</a>
-						  <a href="<?php echo $LienSite ?>Pages/VerificationNotification.php">Notifications</a>
-						</div>
+				</div>
+			
+				<div class="dropdown">
+					<button class="dropbtn">Vérification </button>
+					<div class="dropdown-content">
+					  <a href="<?php echo $LienSite ?>Pages/VerificationSynthese.php">Synthèse des demandes</a>
+					  <a href="<?php echo $LienSite ?>Pages/VerificationNotification.php">Notifications</a>
 					</div>
+				</div>
 
 <?php
-				}
 			}
+		
 ?>
 		<a name="Déco" href="<?php echo $LienSite ?>logout.php?logout=true"><img name="logout" src="Images/logout.png" alt="Logout logo" > Déconnexion</a>
 <?php
@@ -129,7 +141,7 @@
 			<div class="content">
     			<div class="text">
 				<h3> <?php  echo($a_utilisateur['prenom']." ".$a_utilisateur['nom']); ?> </h3>
-      			<h6> Service : <?php echo($a_utilisateur['ServicesnomService']); ?> </h6>  			</div>
+      			<h6> Service : <?php echo($a_utilisateur['service']); ?> </h6>  			</div>
   			</div>
 		</div>
 

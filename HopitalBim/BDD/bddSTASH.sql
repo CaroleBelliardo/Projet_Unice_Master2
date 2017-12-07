@@ -122,13 +122,13 @@ CREATE TABLE CreneauxInterventions (
   id_rdv	int(8) NOT NULL AUTO_INCREMENT, 
   date_rdv                            date NOT NULL, # 2017-11-02 format sql 
   heure_rdv                           time NOT NULL, # 15:00:00 format 24h 
-  InterventionsidIntervention         int(8) NOT NULL,   # cf.idInterventions auto_increment 
+  InterventionsidIntervention         int(8) ,   # cf.idInterventions auto_increment 
   niveauUrgence                       tinyint(1) UNSIGNED NOT NULL,   
   statut                              char(1) NOT NULL DEFAULT 'p',  # p = prévue / r = réalisée / a = annulée / f = payé 
   PathologiesidPatho                  int(8) ,  
   commentaires                        text,  
-  PatientsnumSS                       char(15)NOT NULL,  
-  EmployesCompteUtilisateursidEmploye char(7) NOT NULL, # cf. idEmploye np00000 
+  PatientsnumSS                       char(15),  
+  EmployesCompteUtilisateursidEmploye char(7) , # cf. idEmploye np00000 
   PRIMARY KEY (id_rdv),   
   FOREIGN KEY (InterventionsidIntervention) REFERENCES Interventions (idIntervention) ON DELETE SET NULL ON UPDATE CASCADE, 
   FOREIGN KEY (PatientsnumSS) REFERENCES Patients (numSS) ON DELETE SET NULL ON UPDATE CASCADE, 

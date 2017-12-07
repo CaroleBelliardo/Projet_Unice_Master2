@@ -1,18 +1,16 @@
 <?php	// Requetes ---
 		// -- Service à affiché, par defaut celui du service d'appartenance de l'utilisateur
-	function infoPlanning ($auth_user,$a_utilisateur)
+	function infoPlanning ($auth_user,$a_utilisateur,$dateCourant,$heureCourante)
 	{
-		if (!array_key_exists('serviceModifier',$_SESSION))
-	{
-		$_SESSION['serviceModifier'] =  $_SESSION["service"];
-		
-	
-	}
+		if (!array_key_exists('servicePlanning',$_SESSION))
+		{
+			$_SESSION['servicePlanning'] =  $_SESSION["service"];
+		}
 	
 	$idActes = $auth_user->runQuery("SELECT acte
 							  FROM Interventions 
 							  WHERE ServicesnomService = :service");
-		$idActes->execute(array('service'=> $_SESSION['serviceModifier']));//$donnees = mysqli_fetch_array($Actes)
+		$idActes->execute(array('service'=> $_SESSION['servicePlanning']));//$donnees = mysqli_fetch_array($Actes)
 		$a_idActes=reqToArray1Att($idActes); // tableau 1D , k: idx, v : nom acte proposé par le service
 		$idActes->closeCursor();
 	
@@ -25,11 +23,7 @@
 				$heureCourante = '08:00:00' ; // ? a remplacer par h debut service 
 			}
 		}
-	else
-	{
-			$dateCourant = date("Y-m-d");
-			$heureCourante = date("H:i:s");
-	}
+
 	
 	//-- PLANNING du service ***
 	//-- horaires reel de début et fin de rendez-vous Pour la journée 
@@ -38,7 +32,7 @@
 		WHERE CreneauxInterventions.InterventionsidIntervention = Interventions.idIntervention
 		AND date_rdv= :date
 		AND ServicesnomService = :service ");
-	$heureMinMax->execute(array('service'=> $_SESSION['serviceModifier'],
+	$heureMinMax->execute(array('service'=> $_SESSION['servicePlanning'],
 								'date'=>$dateCourant));
 	$a_heureMinMax=reqToArrayPlusAtt($heureMinMax);
 	$heureMinMax->closeCursor(); /*a recuperer sur le array pour limiter nb req*/
@@ -47,7 +41,7 @@
 	$req_horraireTravail= $auth_user->runQuery(" SELECT horaire_ouverture, horaire_fermeture
 													FROM Services 
 													WHERE  nomService = :service   "); // Renseigne les valeurs de priorité = par default :0
-	$req_horraireTravail->execute(array("service" => $_SESSION['serviceModifier']));
+	$req_horraireTravail->execute(array("service" => $_SESSION['servicePlanning']));
 	$horraireTravail = $req_horraireTravail->fetch(PDO::FETCH_ASSOC);
 	$req_horraireTravail->closeCursor();
 
@@ -80,7 +74,7 @@
 	
 		
 	$infoServiceJour = $auth_user->runQuery("SELECT TIME_FORMAT(CreneauxInterventions.heure_rdv,'%H:%i'),
-			Interventions.acte, Patients.nom, Patients.prenom, Patients.numSS, id_rdv,
+			Interventions.acte, Patients.nom, Patients.prenom, Patients.numSS, id_rdv,  CreneauxInterventions.EmployesCompteUtilisateursidEmploye as idEmploye ,
 			CreneauxInterventions.niveauUrgence, CreneauxInterventions.statut
 			FROM `CreneauxInterventions` JOIN Interventions JOIN Patients
 			WHERE CreneauxInterventions.InterventionsidIntervention = Interventions.idIntervention
@@ -89,7 +83,7 @@
 			AND date_rdv= :date
 			AND ServicesnomService = :service ");
 		$infoServiceJour->execute(array('date' => $dateCourant,
-										'service'=> $_SESSION['serviceModifier']));
+										'service'=> $_SESSION['servicePlanning']));
 		$infoServiceJours=[];	
 		while ($row = $infoServiceJour->fetch(PDO::FETCH_ASSOC))
 			{
@@ -100,17 +94,19 @@
 																													"numSS"=>$row["numSS"],
 																													"niveauUrgence"=>$row["niveauUrgence"],
 																													"id_rdv"=>$row["id_rdv"],
-																													"statut"=>$row["statut"]];				
-				}
+																													"idEmploye"=>$row["idEmploye"],
+																													"statut"=>$row["statut"]];
+				}	
 				else
 				{
 					$infoServiceJours[$row["TIME_FORMAT(CreneauxInterventions.heure_rdv,'%H:%i')"]]=array($row["acte"] => ["nom"=>$row["nom"],
-										"prenom"=>$row["prenom"],
-										"numSS"=>$row["numSS"],
-										"id_rdv"=>$row["id_rdv"],
-										"niveauUrgence"=>$row["niveauUrgence"],
-										"statut"=>$row["statut"]]
-										);
+																															"prenom"=>$row["prenom"],
+																															"numSS"=>$row["numSS"],
+																															"id_rdv"=>$row["id_rdv"],
+																															"niveauUrgence"=>$row["niveauUrgence"],
+																															"idEmploye"=>$row["idEmploye"],
+																															"statut"=>$row["statut"]]
+																															);
 				}
 			}
 			$infoServiceJour->closeCursor(); /*a recuperer sur le array pour limiter nb req*/
