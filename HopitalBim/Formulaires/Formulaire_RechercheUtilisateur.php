@@ -9,7 +9,7 @@ if(isset($_POST['btn_utilisateur'])) // action du bouton btn_facture
 	$util = $req_util->fetchColumn();
 	if (($util == ""))
 	{
-		$error[] = "echo Entrer un nom d'utilisateur valide !";
+		$error[] = "Entrer un nom d'utilisateur valide !";
 	}
 	else
 	{
@@ -25,11 +25,21 @@ if(isset($_POST['btn_utilisateur'])) // action du bouton btn_facture
 	<form method="post" class="form-signin">
 								
 		<h2 class="form-signin-heading">Rechercher un(e) employé(e)</h2><hr />
-			
-			<div class="form-group" >									
+		<?php
+			if(isset($error))
+			{
+			 	foreach($error as $error)
+			 	{
+					 ?>
+                     <div id="error"> &nbsp; <?php echo $error; ?> </div>  
+                     <?php
+				}
+			}
+		?>
+		<div class="form-group" >									
 			<fieldset>
 				<legend> Employé(e) </legend> <!-- Titre du fieldset --> 
-										
+							
 					<!-- Affichage formulaire : moteur recherche du patient-->
 					<label for="text_utilisateur"> Identifiant employé </label>
 					<input list="text_utilisateur" name="text_utilisateur" size='85'> 
