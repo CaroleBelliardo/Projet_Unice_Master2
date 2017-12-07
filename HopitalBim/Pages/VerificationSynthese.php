@@ -211,53 +211,57 @@ $last_key = endKey($a_total);
 
 ?>
 	
-	
 
 <!DOCTYPE html>
 <html>
 	<head>
+		<title>Synthèse</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<link rel="stylesheet" href="../Config/Style.css" type="text/css"  /> 
-		<title>Synthèse</title>
+		<link href="https://fonts.googleapis.com/css?family=Josefin+Slab" rel="stylesheet">	
 	</head>
 	
 	<body>
-		</CENTER><table  BORDER="1",ALIGN="CENTER", VALIGN="MIDDLE " >
-			<tr><th>Service</th> 
-	<?php // header
-				foreach ($a_total as $colonne=>$value)
-				{
-	?>
-					<th> <?php echo $colonne ?></th>
-	<?php
-				}
-	?>
+
+		<div class="containerTab">
+
+		<table id="synthese" border="1", ALIGN="CENTER", VALIGN="MIDDLE " >
+		<caption> Tableau de synthèse des demandes d'intervention </caption> <!-- légende du tableau -->
+			
+			<tr>  <!-- 1ère ligne  - -->
+
+				<th class="haut"> Service </th>  <!-- en tête - 1ère ligne / 1ère colonne - -->
+
+					<?php // header
+					foreach ($a_total as $colonne=>$value)
+					{
+					?>
+					
+				<th class="haut"> <?php echo $colonne ?> </th>  <!-- en tête - 1ère ligne / tt les autres colonnes - -->
+
+					<?php
+					}
+					?>
+			
 			</tr>
-			<tr><th>Total</th>
-	<?php // Total
-				foreach ($a_total as $colonne=>$value)
-				{
-	?>
-					<td> <?php echo $value ?></td>
-	<?php
-				}
 				
-				
-				
-				//Corps du tableau
-	?>
-			</tr>
-	<?php
-				foreach ($a_services as $idx=>$nomService) 
-				{	
-	?>
-				<tr><th><?php echo $nomService ?></th>
-	<?php
+					<?php
+					foreach ($a_services as $idx=>$nomService) 
+					{	
+					?>
+
+			<tr> <!-- toutes les autres lignes (sauf Total) -->
+
+				<th class="colonne"> <?php echo $nomService ?> </th> <!-- 1ère colonne sauf : Total et Service -->
+
+					<?php
 					foreach ($a_total as $colonne=>$valueTotal) 
 					{
-	?>
-					<td>
-	<?php
+					?>
+			
+				<td> <!-- le corps du tableau (sauf colonne/ligne : Total ) -->
+
+					<?php
 						if (array_key_exists($nomService,$a_info))
 						{
 							if (array_key_exists($colonne,$a_info[$nomService]))
@@ -290,19 +294,43 @@ $last_key = endKey($a_total);
 							echo "0";
 						}
 			
-	?> 
-					</td>
-	<?php
+					?>
+
+				</td>
+
+					<?php
 					} 
-	?>		
-				</tr>
-	<?php
+					?>
+
+			</tr>
+
+				<?php
 				} 
-	?>
-		</table></CENTER>
+				?>
+
+			<tr> <!-- dernière ligne  -->
+
+				<th class="Totalth"> Total </th>  <!-- Colonne - 2ème ligne, 1ère colonne - -->
+
+					<?php 	// Total
+					foreach ($a_total as $colonne=>$value)
+					{
+					?>
+					
+				<td class="Totaltd"> <?php echo $value ?> </td> <!-- 2ème ligne / tt les autres colonnes de la ligne : Total -->
+		
+					<?php
+					}   
+					?>
+
+			</tr>
+
+		</table>
 	
-	<?php 
-	include ('../Config/Footer.php'); //menu de navigation
-	?>		
+
+		</div> <!-- div containerTab -->
+	
+		<?php include ('../Config/Footer.php'); //menu de navigation?>		
+
 	</body>
 </html>

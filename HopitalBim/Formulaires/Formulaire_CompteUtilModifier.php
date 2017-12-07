@@ -2,7 +2,7 @@
 	
 if(isset($_POST['btn-modifierutilisateur']))
 {	
-		$text_departement = trim($_POST['text_departement'], ' ' );
+	$text_departement = trim($_POST['text_departement'], ' ' );
 	$text_pays = ucfirst(trim($_POST['text_pays'], ' '))	;
 
 	$text_ville = ucfirst(trim($_POST['text_ville'], ' '))	;
@@ -16,6 +16,7 @@ if(isset($_POST['btn-modifierutilisateur']))
 
 	$text_telephone = trim($_POST['text_telephone'], ' ' );
 	$text_nomService = strip_tags($_POST['text_nomService']);
+	$text_chef = strip_tags($_POST['text_chef']);
 	$text_motdepasse = strip_tags($_POST['text_motdepasse']);
 	$text_motdepasse2 = strip_tags($_POST['text_motdepasse2']);
 
@@ -56,7 +57,14 @@ if(isset($_POST['btn-modifierutilisateur']))
 	
 			try
 			{
-				//creation de l'utilisateur
+				
+				$Crypt_motdepasse = password_hash($text_motdepasse, PASSWORD_DEFAULT);//creation de l'utilisateur
+				$req_motdepasse = $auth_user->runQuery("UPDATE CompteUtilisateurs
+											SET passwd =:Crypt_motdepasse
+											WHERE idEmploye=:utilisateurModif");
+				$req_motdepasse->execute(array('Crypt_motdepasse'=>$Crypt_motdepasse,'utilisateurModif'=>$utilisateurInfo['CompteUtilisateursidEmploye'] ));
+				
+				
 				$stmt = $auth_user->runQuery("SELECT * FROM Villes 
 										WHERE codepostal=:text_codepostal AND nomVilles=:text_ville 
 										AND departement=:text_departement AND pays=:text_pays");
@@ -79,7 +87,6 @@ if(isset($_POST['btn-modifierutilisateur']))
 																nom =:text_nom,
 																prenom=:text_prenom,
 																telephone=:text_telephone,
-																mail=:text_mail,
 																ServicesnomService=:text_nomService,
 																AdressesidAdresse=:BDDidAdresse
 																WHERE  CompteUtilisateursidEmploye =:utilisateurModif");
@@ -87,7 +94,6 @@ if(isset($_POST['btn-modifierutilisateur']))
 						$modifierEmployes->execute(array(":text_nom"=>$text_nom,
 														":text_prenom"=>$text_prenom,
 														":text_telephone"=>$text_telephone,
-														":text_mail"=>$text_mail,
 														":text_nomService"=>$text_nomService,
 														":BDDidAdresse"=>$BDDidAdresse,
 														":utilisateurModif"=>$utilisateurInfo['CompteUtilisateursidEmploye']));						
@@ -111,7 +117,6 @@ if(isset($_POST['btn-modifierutilisateur']))
 																nom =:text_nom,
 																prenom=:text_prenom,
 																telephone=:text_telephone,
-																mail=:text_mail,
 																ServicesnomService=:text_nomService,
 																AdressesidAdresse=:BDDidAdresse
 																WHERE  CompteUtilisateursidEmploye =:utilisateurModif");
@@ -119,7 +124,6 @@ if(isset($_POST['btn-modifierutilisateur']))
 						$modifierEmployes->execute(array(":text_nom"=>$text_nom,
 														":text_prenom"=>$text_prenom,
 														":text_telephone"=>$text_telephone,
-														":text_mail"=>$text_mail,
 														":text_nomService"=>$text_nomService,
 														":BDDidAdresse"=>$BDDidAdresse,
 														":utilisateurModif"=>$utilisateurInfo['CompteUtilisateursidEmploye']));	
@@ -156,26 +160,42 @@ if(isset($_POST['btn-modifierutilisateur']))
 					$row=$stmt->fetch(PDO::FETCH_ASSOC);
 					$BDDidAdresse=$row['idAdresse'];
 					// -- Ajout Employes
-		$modifierEmployes = $auth_user->runQuery("
+					$modifierEmployes = $auth_user->runQuery("
 																UPDATE Employes 
 																SET 
 																nom =:text_nom,
 																prenom=:text_prenom,
 																telephone=:text_telephone,
-																mail=:text_mail,
 																ServicesnomService=:text_nomService,
 																AdressesidAdresse=:BDDidAdresse
 																WHERE  CompteUtilisateursidEmploye =:utilisateurModif");
 					
-						$modifierEmployes->execute(array(":text_nom"=>$text_nom,
+					$modifierEmployes->execute(array(":text_nom"=>$text_nom,
 														":text_prenom"=>$text_prenom,
 														":text_telephone"=>$text_telephone,
-														":text_mail"=>$text_mail,
 														":text_nomService"=>$text_nomService,
 														":BDDidAdresse"=>$BDDidAdresse,
 														":utilisateurModif"=>$utilisateurInfo['CompteUtilisateursidEmploye']));	
 				}
-			$auth_user->redirect('CompteUtilModifier.php?Valide');
+				
+				$req_sichef = $auth_user->runQuery("SELECT * 
+													FROM ChefServices 
+													WHERE EmployesCompteUtilisateursidEmploye =:idUtilisateur");
+				$req_sichef->execute(array("idUtilisateur"=>$_SESSION["utilisateurModifier"]));	
+				$sichef=$req_sichef->fetch(PDO::FETCH_ASSOC);
+				if ($sichef['EmployesCompteUtilisateursidEmploye'] ==$_SESSION["utilisateurModifier"])
+				{
+					$req_sichef = $auth_user->runQuery("DELETE FROM ChefServices
+														WHERE EmployesCompteUtilisateursidEmploye=:idUtilisateur");
+					$req_sichef->execute(array("idUtilisateur"=>$_SESSION["utilisateurModifier"]));	
+				}
+				if ($text_chef =='1')
+				{
+					$req_sichef = $auth_user->runQuery("INSERT INTO ChefServices (EmployesCompteUtilisateursidEmploye, ServicesnomService) 
+														VALUES (:idUtilisateur, :nomService)");
+					$req_sichef->execute(array("idUtilisateur"=>$_SESSION["utilisateurModifier"],"nomService"=>$text_nomService ));	
+				}
+				$auth_user->redirect('CompteUtilModifier.php?Valide');
 			}
 			catch(PDOException $e)
 			{			
@@ -225,7 +245,7 @@ if(isset($_POST['btn-modifierutilisateur']))
             <div class="form-group" >
 
 				<fieldset>
-				<legend> Employé </legend> <!-- Titre du fieldset --> 
+				<legend> Employé <?php echo $_SESSION["utilisateurModifier"];?></legend> <!-- Titre du fieldset --> 
 			
 					<label for="text_nom">Nom <em>* </em> </label>
 					<input type="text" class="form-control" name="text_nom" pattern="[A-Za-z]{1-25}" title="Caractère alphabétique, 25 caractères maximum"     placeholder="<?php echo $utilisateurInfo['nom'] ;?>" value="<?php if(isset($error)){echo $text_nom;}else {echo $utilisateurInfo['nom'];}?>" /><br>
@@ -237,7 +257,7 @@ if(isset($_POST['btn-modifierutilisateur']))
 					<input type="tel" class="form-control" name="text_telephone" pattern="[0-9]{1-15}" title="Caractère numérique, 15 caractères acceptés"    placeholder="<?php echo $utilisateurInfo['telephone'] ;?>" value="<?php if(isset($error)){echo $text_telephone;}else {echo $utilisateurInfo['telephone'];}?>" /><br>
 
 					<label for="text_mail">Mail </label>
-					<input type="text" class="form-control" name="text_mail" value="<?php echo $utilisateurInfo['mail'];?>" disabled><br>			
+					<input type="text" class="form-control" name="text_mail" placeholder="<?php echo $utilisateurInfo['mail'];?>" value="<?php $utilisateurInfo['mail'];?>" disabled><br>			
 
 					<label for="text_nomService"> Service </label>
 						<input list="text_nomService" name="text_nomService" size='85'> 
@@ -253,6 +273,9 @@ if(isset($_POST['btn-modifierutilisateur']))
 							?>
 						</datalist>
 						<br>
+					<label for="text_chef">Chef </label>
+						<input type="hidden"   name="text_chef" value="0"> Cochez si oui
+						<input type="checkbox" name="text_chef" value="1">  </br> 
 					<label for="text_motdepasse">Mot de passe <em>* </em></label>	 
 					<input type="text" class="form-control" name="text_motdepasse" placeholder=" xxxxxxx " value="<?php if(isset($error)){echo $text_motdepasse;}?>"/><br>
 					<label for="text_motdepasse2">Confirmer le mdp <em>* </em></label>	 
@@ -261,7 +284,7 @@ if(isset($_POST['btn-modifierutilisateur']))
 				</fieldset> <br>
 			
 				<fieldset>
-				<legend> Adresse employé </legend> <!-- Titre du fieldset --> 
+				<legend> Adresse employé <?php echo $_SESSION["utilisateurModifier"];?></legend> <!-- Titre du fieldset --> 
 			
 					<label for="text_numero">Numéro de la rue <em>* </em></label>
 					<input type="number" class="form-control" min="1" name="text_numero" pattern="[0-9]{1-6}" title="Caractère numérique, 6 caractères acceptés" placeholder="<?php echo $utilisateurInfo['numero'] ;?>" value="<?php if(isset($error)){echo $text_numero;}else {echo $utilisateurInfo['numero'];}?>" /><br>	
