@@ -102,7 +102,7 @@ if(isset($_POST['btn_facturation'])) // action du bouton btn_facture
 			?>	
 		</button> <!-- abandon -->
 
-		<?php include ('../Config/Footer2.php'); //menu de navigation ?> 
+		<?php include ('../Config/Footer2.php'); //menu de navigation ?> <!-- petit footer -->
 
 	</body>
 </html>
