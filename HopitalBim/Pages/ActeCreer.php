@@ -9,7 +9,9 @@
 		<title> Ajouter un acte </title> <!-- Titre de l'onglet -->
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 		<link rel="stylesheet" href="../Config/Style.css" type="text/css">
+		<link href="https://fonts.googleapis.com/css?family=Josefin+Slab" rel="stylesheet">	
 	</head>
+
 	<body>
 		
 		<?php // affichage
@@ -30,6 +32,9 @@
 				}
 				include ('../Config/Footer.php'); //menu de navigation
 			}
+			include ('../Config/Footer2.php'); //menu de navigation
+		?>
+
 ?>
 	</body>
 </html>

@@ -330,7 +330,7 @@ $last_key = endKey($a_total);
 
 		</div> <!-- div containerTab -->
 	
-		<?php include ('../Config/Footer.php'); //menu de navigation?>		
+	<?php include ('../Config/Footer.php'); //menu de navigation?>		
 
 	</body>
 </html>
