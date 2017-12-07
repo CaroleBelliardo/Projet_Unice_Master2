@@ -61,6 +61,7 @@ if(isset($_POST['btn_demandeRDV'])) // si utilisateur clique sur le bouton deman
 			$req_horraireFermeture->execute(array("idIntervention" => $idIntervention));
 			$a_horaireFermeture = $req_horraireFermeture->fetch(PDO::FETCH_ASSOC);
 			$req_horraireFermeture->closeCursor();
+		
 		//-- recherche si l'association (nomPathologie -- indication) existe deja, si oui recupere la cle primaire sinon insert l'entree
 			$req_PathoExist = $auth_user->runQuery(" SELECT idPatho 
 												   FROM Pathologies
@@ -86,29 +87,55 @@ if(isset($_POST['btn_demandeRDV'])) // si utilisateur clique sur le bouton deman
 				$req_idPathoRecup->execute(array());  
 				$idPatho= $req_idPathoRecup-> fetchColumn(); // affecte l'id de ce dernier insert à la variable $PathoExist
 				$req_idPathoRecup->closeCursor();
-				
 			}
-		//-- recherche niveauUrgence de reference
-			$req_IntervPathoExist = $auth_user->runQuery(" SELECT niveauUrgenceMax, niveauUrgenceMin
+		
+		//-- recherche si l'association (nomPathologie -- intervention) existe deja, si oui recupere la cle primaire sinon insert l'entree
+			$req_pathoIntervExist = $auth_user->runQuery(" SELECT niveauUrgenceMax, niveauUrgenceMin 
 												   FROM InterventionsPatho
 												   WHERE PathologiesidPatho = :idPatho
-												   And InterventionsidIntervention = :idIntervention" ); 
-			$req_IntervPathoExist->execute(array('idPatho'=> $idPatho, 
-										   'idIntervention'=> $idIntervention));
-			$a_niveauUrgence= $req_IntervPathoExist-> fetch(PDO::FETCH_ASSOC);			
-			$req_IntervPathoExist->closeCursor();
-			
-		// Si l'association interv--patho existe pas dans la bdd alors affecte des valeurs par defaut
-			if ( $a_niveauUrgence["niveauUrgenceMax"] == "") // si patho existe pas dans bdd
+												   AND InterventionsidIntervention= :idInterv " ); 
+			$req_pathoIntervExist->execute(array('idPatho'=> $idPatho,
+											'idInterv'=> $idIntervention));
+			$a_niveauUrgence= $req_PathoExist-> fetch(PDO::FETCH_ASSOC);
+			$req_pathoIntervExist->closeCursor();
+			if ($a_niveauUrgence == FALSE ) // si (nomPathologie -- intervention) n'existe pas dans bdd alors insertion => Enregistre la les niveau d'urgence de référence
 			{
-				
-				$req_refUrgence = $auth_user->runQuery("INSERT INTO InterventionsPatho (InterventionsidIntervention, PathologiesidPatho)
-														VALUES ( :idInter, :idPatho)"); // Renseigne les valeurs de priorité = par default :0
-				$req_refUrgence->execute(array('idInter'=> $idIntervention,
-											   'idPatho'=> $idPatho));
-				$req_refUrgence->closeCursor();
-				$a_niveauUrgence=array( "niveauUrgenceMax" => 0,"niveauUrgenceMin" =>0); // affectation niveauUrgence de reference pour test administrateur
+				$req_interPatho = $auth_user->runQuery(" INSERT INTO InterventionsPatho (PathologiesidPatho, InterventionsidIntervention, niveauUrgenceMax, niveauUrgenceMin) 
+														VALUES ( :idPatho, :idInterv, :nivMax, :nivMin)");  // insert la patho et son indication
+				$req_interPatho->execute(array('idPatho'=> $idPatho,
+											   'idInterv'=> $idIntervention,
+											   'nivMax'=> 0, 
+												'nivMin'=> 0)); 
+				$req_interPatho->closeCursor();
+				$a_niveauUrgence = ["niveauUrgenceMax"=> 0,"niveauUrgenceMin"=>0];
 			}
+			
+		//
+		////-- recherche niveauUrgence de reference
+		//
+		//
+		////else assoc existe
+		//
+		//	$req_IntervPathoExist = $auth_user->runQuery(" SELECT niveauUrgenceMax, niveauUrgenceMin
+		//										   FROM InterventionsPatho
+		//										   WHERE PathologiesidPatho = :idPatho
+		//										   And InterventionsidIntervention = :idIntervention" ); 
+		//	$req_IntervPathoExist->execute(array('idPatho'=> $idPatho, 
+		//								   'idIntervention'=> $idIntervention));
+		//	$a_niveauUrgence= $req_IntervPathoExist-> fetch(PDO::FETCH_ASSOC);			
+		//	$req_IntervPathoExist->closeCursor();
+		//	
+		//// Si l'association interv--patho existe pas dans la bdd alors affecte des valeurs par defaut
+		//	if ( $a_niveauUrgence["niveauUrgenceMax"] == FALSE) // si patho existe pas dans bdd
+		//	{
+		//		
+		//		$req_refUrgence = $auth_user->runQuery("INSERT INTO InterventionsPatho (InterventionsidIntervention, PathologiesidPatho)
+		//												VALUES ( :idInter, :idPatho)"); // Renseigne les valeurs de priorité = par default :0
+		//		$req_refUrgence->execute(array('idInter'=> $idIntervention,
+		//									   'idPatho'=> $idPatho));
+		//		$req_refUrgence->closeCursor();
+		//		$a_niveauUrgence=array( "niveauUrgenceMax" => 0,"niveauUrgenceMin" =>0); // affectation niveauUrgence de reference pour test administrateur
+		//	}
 
 
 // **************************************          Recherche l'HEURE de creneau dispo la plus proche         *********************************

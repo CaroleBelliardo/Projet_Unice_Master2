@@ -9,7 +9,6 @@
 	}
 
 	
-	
 ?>	
 
 <!DOCTYPE html PUBLIC >
@@ -33,7 +32,6 @@
 											 Patients.prenom, CreneauxInterventions.commentaires
 											 FROM Notifications JOIN CreneauxInterventions JOIN Patients JOIN Employes JOIN InterventionsPatho
 											 WHERE Notifications.CreneauxInterventionsidRdv = CreneauxInterventions.id_rdv
-											 AND  WEEK(CreneauxInterventions.date_rdv) = WEEK( CURRENT_DATE) 
 											 AND Patients.numSS=CreneauxInterventions.PatientsnumSS
 											 AND InterventionsPatho.InterventionsidIntervention=CreneauxInterventions.InterventionsidIntervention
 											 AND Employes.CompteUtilisateursidEmploye =CreneauxInterventions.EmployesCompteUtilisateursidEmploye
@@ -99,10 +97,12 @@
 		<tr> <!-- lignes suivantes -->
 	
 			<?php
-							foreach ($a_infoNotif as $col=>$line) // $col = colonne
-							{
+				foreach ($a_infoNotif as $col=>$line) // $col = colonne
+				{
 			?>
-								
+				<td> <?php // echo "<button type='submit' class='btn btn-primary' value=".$infoServiceJours[$h][$acte]["id_rdv"]." name='btn-Valider'>   Valider   </button>";
+			?>
+				</td>
 			<td> <?php echo $a_infoNotif[$col][$i] ?> </td>
 
 			<?php					

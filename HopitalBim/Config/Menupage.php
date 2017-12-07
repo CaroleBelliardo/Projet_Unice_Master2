@@ -89,8 +89,8 @@
 			  <a href="<?php echo $LienSite ?>Pages/ServiceCreer.php">Création</a>
 			  <a href="<?php echo $LienSite ?>Pages/ServiceModifier.php">Modification</a>
 			  <a href="<?php echo $LienSite ?>Pages/ServiceSupprimer.php">Suppression</a>
-			   <a href="<?php echo $LienSite ?>Pages/ActeCreer.php">Ajout acte</a>
-			  <a href="<?php echo $LienSite ?>Pages/ActeSupprimer.php">Suppression acte</a>
+			   <a href="<?php echo $LienSite ?>Pages/ActeCreer.php">Ajout un acte</a>
+			  <a href="<?php echo $LienSite ?>Pages/ActeSupprimer.php">Suppression un acte</a>
 			</div>
 		</div>
 	
