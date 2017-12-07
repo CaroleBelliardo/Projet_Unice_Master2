@@ -43,7 +43,7 @@
 <!--mise en page du formulaire-->
 <div class="containerFormu">
         <form method="post" class="form-signin">
-            <h2 class="form-signin-heading">Ajouter un nouveau service</h2> <hr />
+            <h2 class="form-signin-heading">Ajouter un nouvel acte médical</h2> <hr />
         <?php
 		if(isset($error))
 		{
@@ -59,7 +59,7 @@
 		{
 	?>
 		<div id="valide"> <!-- Alert alert-info-->
-		     L'acte médical ajouté avec succés ! <a href='../Pageprincipale.php'> Page principale </a>
+		     L'acte médical a été ajouté avec succés ! <a href='../Pageprincipale.php'> Page principale </a>
 		</div>
         <?php
 		}
@@ -74,7 +74,7 @@
 
 				<label for="text_tarif">Tarif (en €)  <em>* </em></label>
 				<input type="tel" class="form-control" name="text_tarif" pattern="[0-9]{1-10}" title="Veuillez rentrer un n° de téléphone correct"    placeholder=" " value="<?php if(isset($error)){echo $text_tarif;}?>" /><br>
-			</fieldset>
+			</fieldset> <br>
 		</div> <!-- form-group  Formulaire principal --> 
 
 		<div class="form-group">

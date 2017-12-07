@@ -78,6 +78,7 @@
 		<title>Supprimer un service</title>
 		<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
 		<link rel="stylesheet" href="../Config/Style.css" type="text/css">
+		<link href="https://fonts.googleapis.com/css?family=Josefin+Slab" rel="stylesheet">	
 	</head>
 	
 	<body>
@@ -125,17 +126,19 @@
 					
 					</fieldset> <br>
 				</div>
+				
 				<div class="form-group">
 					<button type="submit" class="btn btn-primary" name="btn-supprimerActe"> Valider </button>
 				</div>
 			</form> <!-- form-signin -->
 		
 		</div> <!-- containerFormu -->
+
 		<div class="abandon">
-			<?php quitter1();
-			include ('../Config/Footer.php'); //menu de navigation
-			?>
+			<?php quitter1(); ?>
 		</div>
+
+		<?php include ('../Config/Footer2.php'); //menu de navigation ?>
 	
 	</body>
 </html>
