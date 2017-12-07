@@ -1,5 +1,3 @@
-
-
 <?php
 
 	if(isset($_POST['btn-planning'])) // action du bouton btn_facture
@@ -13,32 +11,29 @@
 
 ?>
 
- <form method="post" >
-	<fieldset>
- 	<legend> Choisir une date et/ou un service </legend> 
+<div class="containerFormu">
 
-	<CENTER>
-		<table>
-		<tr>
-			<td width=33%>
+ 	<form method="post" >
+
+		<fieldset>
+ 		<legend> Choisir une date et/ou un service </legend> 
+
+				<label for="text_date">Date  </label>
 				<input type="date" class="" name="text_date" placeholder="<?php echo $_SESSION['dateModifier'];?>" value="<?php echo $_SESSION['dateModifier'];?>" /><br>
+			
+				<label for="text_nomservice">Service </label>
+				<input list="text_nomservice" name="text_nomservice" size='85'>
+				<datalist id="text_nomservice">
+					<?php liste_Services($auth_user) ?> <!-- valeurs par defaut -->
+				</datalist><br>
 
-			</td>
-			<td width=33%>
-				Service : <?php liste_Services($auth_user) ?> <!-- valeurs par defaut -->
-			</td>
-		</tr>
-		<tr>
-		<td>
-			<div class="form-group">
-			<button type="submit" class="btn btn-primary" name="btn-planning">
-				<i class=""></i>Valider
-			</button>
-		</td>
-			</div>
-			</table></CENTER>
+		</fieldset>	<br>
 
-	</fieldset>					
+		<div class="form-group">
+			<button type="submit" class="btn btn-primary" name="btn-planning"> Valider </button>
+		</div> 
+
 	</form>
 
+</div>
 

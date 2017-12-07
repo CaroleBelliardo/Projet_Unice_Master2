@@ -3,7 +3,7 @@
 - requete = tableau
 - nomattribut = creneau.incomp
 - rendez-vous annulés 
-- ajour header 
+- ajout header 
 -->
 <?php
 	include ('../Config/Menupage.php'); //menu de navigation
@@ -68,75 +68,95 @@ if (isset ($_POST["btn-Modifier"]))
 <!DOCTYPE html>
 <html>
 	<head>
+		<title>Planning</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<link rel="stylesheet" href="Style.css" type="text/css"  />  
-		<title>Bonjour</title>
+		<link rel="stylesheet" href="Style.css" type="text/css" />  
+		<link href="https://fonts.googleapis.com/css?family=Josefin+Slab" rel="stylesheet">
 	</head>
-	<?php
-	if(isset($error)) // affichage messages erreurs si valeurs != format attendu
-	{
-	foreach($error as $error) // pour chaque champs
-	{
-	?>
-	<div class="alert alert-danger">
-		<i class=""></i> &nbsp; <?php echo $error; ?>
-	</div>
-	<?php
-		}
-	}
-	 if(isset($_GET['Valide']))
-	{
-				 	?>
-                 <div id="valide"> <!-- Alert alert-info-->
-                      L'intervention a été réalisée !
-					  <a href='../Pages/RDVDemande.php'>Demande de rendez-vous avec ce nouveau patient ?</a>
-                 </div>
-                 <?php
-	}
-	if(isset($_GET['?Suppression']))
-			{
-				 	?>
-                 <div id="valide"> <!-- Alert alert-info-->
-                    Le RDV a été annulé !
-                 </div>
-                 <?php
-			}
-			?>
-							
 
 	<body>
-	<?php include ("../Formulaires/RechercheServiceDate.php"); ?>	
+		
+		<?php
+			if(isset($error)) // affichage messages erreurs si valeurs != format attendu
+			{
+			foreach($error as $error) // pour chaque champs
+			{
+		?>
+
+		<div class="error"> <?php echo $error; ?> </div>
+	
+		<?php
+			}
+			}
+	 	if(isset($_GET['Valide']))
+			{
+		?>
+                 
+        <div id="valide"> <!-- Alert alert-info-->
+            L'intervention a été réalisée !
+			<a href='../Pages/RDVDemande.php'>Demande de rendez-vous avec ce patient ?</a>
+        </div>
+
+        <?php
+			}
+			if(isset($_GET['?Suppression']))
+			{
+		?>
+                 
+        <div id="valide"> Le RDV a été annulé ! </div>
+
+        <?php
+			}
+		?>
+							
+		<?php include ("../Formulaires/RechercheServiceDate.php"); ?>	
+		<br>
+		
+	 	<div class="containerTab">
+
+			<table id="synthese" border="1",ALIGN="CENTER", VALIGN="MIDDLE " >
+			<caption> Planning de service </caption>
+
+			<tr>
+
+				<th>Heure</th>
 		 
-	<br> 
-	 
-		<CENTER> <table  BORDER="1",ALIGN="CENTER", VALIGN="MIDDLE " >
-		 <tr><th>Heure</th>
-		 <?php 
-			 foreach ($a_idActes as $idx=>$acte) // affichage de l'en-tete
-			 {
-		 ?>
-				 <th> <?php echo $acte ?></th> 
-		 <?php
-			 }
-		 ?>
-		 </tr>	
-		 <?php							// affichage du tableau
-			 foreach ($a_heures as $idx=>$h) // Pour chaque ligne
-			 {
-		 ?>
-			 <tr><th><?php echo $h ?></th> 
-		 <?php 
-				 foreach ($a_idActes as $idx=>$acte) // Pou chaque colonne
-				 {
+		 		<?php 
+					foreach ($a_idActes as $idx=>$acte) // affichage de l'en-tete
+			 		{
+		 		?>
+				 
+				<th> <?php echo $acte ?></th> 
+
+		 		<?php
+				 	}
+				?>
+		 
+		 	</tr>
+
+		 	<?php							// affichage du tableau
+			 	foreach ($a_heures as $idx=>$h) // Pour chaque ligne
+			 	{
+		 	?>
+			
+			<tr>
+
+				<th> <?php echo $h ?> </th> 
+		 
+		 		<?php 
+				 	foreach ($a_idActes as $idx=>$acte) // Pou chaque colonne
+				 	{
 					 if (array_key_exists($h,$infoServiceJours))
 					 {
 						 if (array_key_exists($acte,$infoServiceJours[$h]))
 						 {
-		 ?>
-							<td class= $infoServiceJours[$h][$acte]["statut"]>
-												<form method="post" >
-		<?php
-							echo $infoServiceJours[$h][$acte]["nom"]." ".$infoServiceJours[$h][$acte]["prenom"]."</br>";
+		 		?>
+							
+				<td class= $infoServiceJours[$h][$acte]["statut"]>
+
+					<form method="post" >
+					
+						<?php echo $infoServiceJours[$h][$acte]["nom"]." ".$infoServiceJours[$h][$acte]["prenom"]."</br>";
 							
 							//bouton modifier -- annuler
 							// s'affiche si l'utilisateur est chef du service consulté ou la personne qui a effectué la requete
@@ -179,33 +199,45 @@ if (isset ($_POST["btn-Modifier"]))
 						}
 						else
 						{
-		 ?>
-							 <td class="pasRDV">
-		 <?php
-							 echo "Libre";
-						}
-					 }
-					 else
-					 {
-		 ?>
-					 <td class="pasRDV">
-		 <?php
-					 echo "Libre";
-					 }
-		 ?> 
-				 </td>
-		 <?php
-				 } 
-		 ?>		
-			 </tr>
-		 <?php
-			 } 
-		 ?>
-		 </table></CENTER>
-		 <?php 	quitter1();
-		include ('../Config/Footer.php'); //menu de navigation
-	?>	
-	
+
+						?>
+							 
+				<td class="pasRDV">
+		 
+		 			<?php echo "Libre";
+							}
+					 		}
+							else
+					 		{
+		 			?>
+
+				<td class="pasRDV">
+
+		 			<?php echo "Libre";
+							 }
+		 			?>
+
+				</td>
+
+		 		<?php
+				 	} 
+		 		?>	
+
+			</tr>
+
+		 	<?php
+			 	} 
+			?>
+
+			</table>
+
+		</div>
+
+		<button class="abandon"> <!-- bouton abandon redirection Page principale -->
+			<?php quitter1() ?>
+		</button>
+
+		<?php include ('../Config/Footer.php'); //menu de navigation ?>
 		 
 		
 	</body>
