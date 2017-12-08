@@ -52,7 +52,7 @@
 					$req_archiverActe->execute(array('idIntervention'=>$text_idIntervention,
 													 'tarif'=>$archivertarif));
 					$req_archiverActe->closeCursor();
-					
+
 					//supprime l'intervention
 					$req_supprimerActe = $auth_user->conn->prepare("DELETE FROM Interventions
 																	WHERE idIntervention=:idIntervention;");
@@ -80,8 +80,15 @@
 		<link rel="stylesheet" href="../Config/Style.css" type="text/css">
 		<link href="https://fonts.googleapis.com/css?family=Josefin+Slab" rel="stylesheet">	
 	</head>
-	
-	<body>
+	<?php
+			if ($_SESSION["idEmploye"] != 'admin00')
+			{
+				$auth_user->redirect('../PagePrincipale.php');
+			}
+			else
+			{
+	?>
+			<body>
 		<div class="containerFormu">
 			<form method="post" class="form-signin">
 				<h2 class="form-signin-heading">Supprimer un acte médical</h2><hr />
@@ -107,8 +114,7 @@
 				<div class="form-group" >
 					<fieldset>
 						<legend> Rechercher un acte médical </legend><br> <!-- Titre du fieldset --> 		
-			
-			
+
 					<!-- Affichage formulaire : moteur recherche-->
 						<label for="text_numSS">Interventions <em>* </em> </label>
 						<input list="text_idIntervention" name="text_idIntervention" size='1000'> 
@@ -123,22 +129,20 @@
 								}
 							?>
 						</datalist> </br >
-					
 					</fieldset> <br>
 				</div>
-				
 				<div class="form-group">
 					<button type="submit" class="btn btn-primary" name="btn-supprimerActe"> Valider </button>
 				</div>
 			</form> <!-- form-signin -->
-		
 		</div> <!-- containerFormu -->
-
 		<div class="abandon">
 			<?php quitter1(); ?>
 		</div>
-
-		<?php include ('../Config/Footer2.php'); //menu de navigation ?>
-	
+		<?php include ('../Config/Footer2.php'); //menu de navigation ?>	
 	</body>
+	<?php	
+				include ('../Config/Footer2.php'); //menu de navigation
+			}
+	?>
 </html>

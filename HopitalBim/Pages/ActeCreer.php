@@ -31,9 +31,9 @@
 					include ('../Formulaires/Formulaire_AjoutActe.php');
 			
 				}
-				
+				include ('../Config/Footer2.php'); //menu de navigation
+			
 			}
-			include ('../Config/Footer2.php'); //menu de navigation
 		?>
 
 	</body>
