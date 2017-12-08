@@ -135,6 +135,7 @@ $_SESSION['service']=$a_utilisateur['service'];
 	<div id=PagePrincipale>
 		<p class="Bienvenue">Bienvenue sur votre espace personnel ! </p>
 
+		<!-- 
     	<div class="profile">
   			<div class="photo">
   			<img src="Images/User.png" alt="Image utilisateur"/>
@@ -152,14 +153,12 @@ $_SESSION['service']=$a_utilisateur['service'];
 		</p>
 
     	<img name="stetho" src="Images/stetho.png" alt="Image stethoscope bleu" height="30%" width="30%">
-     </div>
+     </div> -->
 
-    </div> <!-- Page -->
+    </div> <!-- Page --> 
 
-    <div id="footer"> 
-    <a href="<?php echo $LienSite ?>Pages/readme.php"> Conditions d'utilisation </a> |
-    <a href="<?php echo $LienSite ?>Pages/contact.php"> Contact </a> | © 2017
-    </div>
+<?php include ('Config/Footer2.php'); //menu de navigation ?>
+   
 
 	</body>
 </html>
