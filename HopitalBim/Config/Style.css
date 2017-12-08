@@ -465,6 +465,26 @@ caption {
   margin-bottom: 8px;
 }
 
+#legendPlanning{
+  display: inline-block;
+  float:right;
+}
+
+td .legendPlanning{
+  border:none;
+}
+
+tr .legendPlanning{
+  border:none;
+}
+
+fieldset .contourPlanning{
+  width: 20%;
+  float:right;
+  margin:0;
+  padding: 0;
+}
+
 #synthese {
   border: medium solid #000000; 
   background-color: white;
