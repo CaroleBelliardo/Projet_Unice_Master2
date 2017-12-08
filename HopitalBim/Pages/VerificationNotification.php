@@ -11,24 +11,28 @@
 	
 	if (isset ($_POST["btn-Accepter"]))
 	{
-		////recup info rdv en question
-		//$req_info = $auth_user->runQuery(" SELECT Pathologies.nomPathologie, CreneauxInterventions.InterventionsidIntervention, niveauUrgence,
-		//								niveauUrgenceMax, niveauUrgenceMin
-		//								FROM InterventionsPatho JOIN CreneauxInterventions JOIN Pathologies
-		//								WHERE id_rdv = :idrdv
-		//								AND CreneauxInterventions.PathologiesidPatho = Pathologies.idPatho
-		//								AND CreneauxInterventions.PathologiesidPatho = InterventionsPatho.PathologiesidPatho
-		//								AND CreneauxInterventions.InterventionsidIntervention = InterventionsPatho.InterventionsidIntervention" );
 		//recup info rdv en question
-		$req_info = $auth_user->runQuery(" SELECT CreneauxInterventions.PathologiesidPatho, CreneauxInterventions.InterventionsidIntervention, niveauUrgence
-										FROM CreneauxInterventions 
-										WHERE id_rdv = :idrdv" ); 
+		$req_info = $auth_user->runQuery(" SELECT Pathologies.nomPathologie, CreneauxInterventions.InterventionsidIntervention, niveauUrgence,
+										niveauUrgenceMax, niveauUrgenceMin
+										FROM InterventionsPatho JOIN CreneauxInterventions JOIN Pathologies
+										WHERE id_rdv = :idrdv
+										AND CreneauxInterventions.PathologiesidPatho = Pathologies.idPatho
+										AND CreneauxInterventions.PathologiesidPatho = InterventionsPatho.PathologiesidPatho
+										AND CreneauxInterventions.InterventionsidIntervention = InterventionsPatho.InterventionsidIntervention" );
+		//recup info rdv en question
+		$req_info = $auth_user->runQuery(" SELECT CreneauxInterventions.PathologiesidPatho, CreneauxInterventions.InterventionsidIntervention,
+										 CreneauxInterventions.niveauUrgence,
+										 InterventionsPatho.niveauUrgenceMin, InterventionsPatho.niveauUrgenceMax
+										FROM CreneauxInterventions JOIN InterventionsPatho
+										WHERE id_rdv = :idrdv
+										AND CreneauxInterventions.InterventionsidIntervention = InterventionsPatho.InterventionsidIntervention
+										AND CreneauxInterventions.PathologiesidPatho = InterventionsPatho.PathologiesidPatho
+										" ); 
 		$req_info->execute(array('idrdv'=> $_POST["btn-Accepter"]));
 		$a_infoo= $req_info-> fetch(PDO::FETCH_ASSOC);
 		$req_info->closeCursor();
-		
-		//if($a_infoo["niveauUrgence"] > $a_infoo["niveauUrgenceMax"])
-		//{
+		if($a_infoo["niveauUrgence"] > $a_infoo["niveauUrgenceMax"])
+		{ 
 			$req_realiseRDV = $auth_user-> runQuery(" UPDATE InterventionsPatho
 													SET niveauUrgenceMax = :nu 
 													WHERE PathologiesidPatho =:patho
@@ -36,23 +40,21 @@
 			$req_realiseRDV->execute(array('nu'=>$a_infoo["niveauUrgence"],
 										   'patho'=>$a_infoo["PathologiesidPatho"],
 										   'inter'=>$a_infoo["InterventionsidIntervention"]));
-		//}
-		//else
-		//{
-		//	$req_realiseRDV = $auth_user-> runQuery(" UPDATE InterventionsPatho
-		//											SET niveauUrgenceMin = :nu 
-		//											WHERE PathologiesidPatho =:patho
-		//											AND InterventionsidIntervention =:inter");
-		//	$req_realiseRDV->execute(array('nu'=>$a_infoo["niveauUrgence"],
-		//								   'patho'=>$a_infoo["PathologiesidPatho"],
-		//								   'inter'=>$a_infoo["InterventionsidIntervention"]));
-		//}
-		
+		}
+		else 
+		{
+			$req_realiseRDV = $auth_user-> runQuery(" UPDATE InterventionsPatho
+													SET niveauUrgenceMin = :nu 
+													WHERE PathologiesidPatho =:patho
+													AND InterventionsidIntervention =:inter");
+			$req_realiseRDV->execute(array('nu'=>$a_infoo["niveauUrgence"],
+										   'patho'=>$a_infoo["PathologiesidPatho"],
+										   'inter'=>$a_infoo["InterventionsidIntervention"]));
+		}
 		//suppr.Notif
 		$req_notifVu = $auth_user-> runQuery("DELETE FROM Notifications WHERE 
 											CreneauxInterventionsidRdv=:id_rdv");
 		$req_notifVu->execute(array('id_rdv'=>$_POST["btn-Accepter"]));
-		
 		$auth_user->redirect('VerificationNotification.php?Valide');
 	}
 	if (isset($_POST["btn-Refuser"]) )
@@ -62,6 +64,7 @@
 											CreneauxInterventionsidRdv=:id_rdv");
 		$req_notifVu->execute(array('id_rdv'=>$_POST["btn-Refuser"]));
 		$auth_user->redirect('VerificationNotification.php?Valide');
+		
 	}
 	if ((isset ($_POST["btn-Vu"])) or (isset($_POST["btn-Refuser"]))) //suppr.Notif
 	{ 
@@ -70,9 +73,10 @@
 		$req_notifVu->execute(array('id_rdv'=>$_POST["btn-Vu"]));
 		$auth_user->redirect('VerificationNotification.php?Valide');
 	}
-	
-	
 ?>	
+
+
+
 
 <!DOCTYPE html PUBLIC >
 <html>
@@ -120,12 +124,12 @@
 			}
 			if ($_SESSION['idEmploye'] == 'admin00') 
 			{
-				$req_notif= $auth_user->runQuery("SELECT DISTINCT id_rdv , niveauUrgence, niveauUrgenceMax as NuUMax, niveauUrgenceMin as NU_Min,
-											 Employes.ServicesnomService as Service_demande, Interventions.ServicesnomService as Service_Accueil, 
-											 date_rdv as Date, heure_rdv as Heure, InterventionsPatho.InterventionsidIntervention as Intervention,
-											 Interventions.acte as Intervention_demande,
+				$req_notif= $auth_user->runQuery("SELECT DISTINCT id_rdv as id, niveauUrgence as NU, niveauUrgenceMax as Max, niveauUrgenceMin as Min,
+											 Employes.ServicesnomService as Service_demande, Interventions.ServicesnomService as Service_accueil, 
+											 date_rdv as Date, heure_rdv as Heure, 
+											 Interventions.acte as Interv_demande,
 											 statut as Statut, EmployesCompteUtilisateursidEmploye as Employe, Patients.nom as Nom,
-											 Patients.prenom as Prenom, CreneauxInterventions.commentaires as Commentaires
+											 Patients.prenom as Prenom, CreneauxInterventions.commentaires as Comm
 											 
 											 FROM Notifications JOIN CreneauxInterventions JOIN Patients JOIN Employes JOIN InterventionsPatho
 											 JOIN Interventions
@@ -143,10 +147,10 @@
 			}
 			else // notif chef de service
 			{
-				$req_notif= $auth_user->runQuery("SELECT DISTINCT id_rdv, date_rdv as Date, heure_rdv as Heure,
-											 Employes.ServicesnomService as Service_demande, Interventions.acte as Intervention_demande
+				$req_notif= $auth_user->runQuery("SELECT DISTINCT id_rdv as id, date_rdv as Date, heure_rdv as Heure,
+											 Employes.ServicesnomService as Service_demande,
 											 niveauUrgence, statut as Statut, EmployesCompteUtilisateursidEmploye as Employe, Patients.nom as Nom,
-											 Patients.prenom as Prenom, CreneauxInterventions.commentaires as Commentaires
+											 Patients.prenom as Prenom, CreneauxInterventions.commentaires as Comm
 											 FROM Notifications JOIN CreneauxInterventions JOIN Patients JOIN Employes  JOIN Interventions
 											 WHERE Notifications.CreneauxInterventionsidRdv = CreneauxInterventions.id_rdv
 											 AND Patients.numSS=CreneauxInterventions.PatientsnumSS
@@ -187,7 +191,7 @@
 			</tr>
 	
 			<?php
-			$nb_notifs= count($a_infoNotif["id_rdv"]);
+			$nb_notifs= count($a_infoNotif["id"]);
 			for ($i = 0; $i < $nb_notifs; $i++)
 			{ 
 			?>
@@ -197,14 +201,13 @@
 			<td > <?php
 				if ($_SESSION['idEmploye'] == 'admin00') 
 				{
-					 echo "<button type='submit' class='btn btn-primary' value=".$a_infoNotif["id_rdv"][$i]." name='btn-Accepter'> A </button>";
-					 echo "<button type='submit' class='btn btn-primary' value=".$a_infoNotif["id_rdv"][$i]." name='btn-Refuser'> R </button>";
+					 echo "<button type='submit' class='btn btn-primary' value=".$a_infoNotif["id"][$i]." name='btn-Accepter'> A </button>";
+					 echo "<button type='submit' class='btn btn-primary' value=".$a_infoNotif["id"][$i]." name='btn-Refuser'> R </button>";
 				}
 				else
 				{
-					echo "<button type='submit' class='btn btn-primary' value=".$a_infoNotif["id_rdv"][$i]." name='btn-Vu'>   Vu   </button>";
+					echo "<button type='submit' class='btn btn-primary' value=".$a_infoNotif["id"][$i]." name='btn-Vu'>   Vu   </button>";
 				}
-				
 			?>
 				</td>
 			<?php
@@ -217,15 +220,11 @@
 			?>
 			</form>
 		</tr>
-
 			<?php						
 				}
-
 			?>				
-					
 		</table>
 		</CENTER>
-
 		<?php
 			}
 		?>
