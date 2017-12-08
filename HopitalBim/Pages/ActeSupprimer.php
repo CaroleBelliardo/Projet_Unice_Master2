@@ -8,7 +8,7 @@
 <!DOCTYPE html PUBLIC >
 <html>
 	<head>
-		<title>Supprimer un service</title>
+		<title>Archiver un service</title>
 		<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
 		<link rel="stylesheet" href="../Config/Style.css" type="text/css">
 		<link href="https://fonts.googleapis.com/css?family=Josefin+Slab" rel="stylesheet">	
@@ -21,7 +21,6 @@
 			else
 			{
 				include ('../Formulaires/Formulaire_ActeSupprimer.php');  
-				include ('../Config/Footer2.php');
 	?>	
 	<body>
 	<?php	

@@ -49,7 +49,7 @@
 <!DOCTYPE html PUBLIC >
 <html>
 	<head>
-		<title>Supprimer un service</title>
+		<title>Archiver un service</title>
 		<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
 		<link rel="stylesheet" href="../Config/Style.css" type="text/css">
 		<link href="https://fonts.googleapis.com/css?family=Josefin+Slab" rel="stylesheet">
@@ -60,7 +60,7 @@
 				
 			<form method="post" class="form-signin">
 
-				<h2 class="form-signin-heading">Supprimer un service</h2><hr />
+				<h2 class="form-signin-heading">Archiver un service</h2><hr />
 
 				<?php
 					if(isset($error))
@@ -79,7 +79,7 @@
 				?>
 					
 				<div id="valide"> <!-- Alert alert-danger-->
-					Service supprimé avec succés ! <a href='../Pageprincipale.php'>Page principale</a>
+					Service archivé avec succés ! <a href='../Pageprincipale.php'>Page principale</a>
 				</div>
 			
 				<?php
