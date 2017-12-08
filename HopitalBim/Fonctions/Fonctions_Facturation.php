@@ -60,11 +60,15 @@
         $req_facturation->execute(); // remplacer par $_SESSION['patient']
         $idfacture = $req_facturation->fetchColumn()  ;
         $req_facturation->closeCursor();
-        
+    if ($idfacture = '')
+    {
+        $idfacture = 1;
+    }       
         
 //insert num facture
     $req_insertFacturation= $auth_user->runQuery("INSERT INTO Facturation (idFacture,CreneauxInterventionsidRdv) 
-                                                    VALUES (:idfacture, :idRdv)");    
+                                                    VALUES (:idfacture, :idRdv)");
+
     foreach ($a_infoInterv["id_rdv"] as $cle=>$id) 
     {
         $req_insertFacturation->execute(array("idfacture"=> $idfacture,
@@ -231,12 +235,6 @@
 					
 					
 					
-					
-					
-					
-					
-					
-					
                     <br>
                 </td>
             </tr>
@@ -251,7 +249,10 @@ td    { vertical-align: top; }
 
 </style>-->
 
-    <?php } else echo  "Pas de facture disponible pour ce patient actuellement !" ;?> <br>
+    <?php
+        }
+        else echo  "Pas de facture disponible pour ce patient actuellement !"
+    ;?> <br>
         
 
  <!-- bouton abandon redirection Page principale -->
