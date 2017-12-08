@@ -55,9 +55,7 @@
 							<button type="submit" class="btn btn-primary" name="btn_facturation">
 								<i class=""></i>Valider
 							</button>
-	<?php
-						quitter1()
-	?>	
+	
 						</div>
 					</form>
 			</p>

@@ -110,6 +110,6 @@
 
 </div> <!-- containerFormu -->
 
-<button class="abandon"> <!-- bouton abandon redirection Page principale -->
+ <!-- bouton abandon redirection Page principale -->
 <?php quitter1() ?>
-</button>
+

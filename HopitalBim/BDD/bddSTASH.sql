@@ -170,22 +170,7 @@ CREATE TABLE Notifications (
   FOREIGN KEY (ServicesnomService) REFERENCES Services (nomService) ON DELETE CASCADE ON UPDATE CASCADE);
 
 
-# Table regroupant les informations relatives aux patients de l hopital  
-CREATE TABLE PatientsArchive (  
-  numSS             char(15) NOT NULL,  # Numéro sécurité sociale  
-  nom               varchar(25) NOT NULL, # 1ère lettre Maj 
-  prenom            varchar(25) NOT NULL, # 1ère lettre Maj 
-  dateNaissance     date NOT NULL,  
-  telephone         varchar(15),  
-  mail              varchar(60),   
-  sexe              char(1) NOT NULL,  # F / M 
-  taille_cm         int(3),  
-  poids_kg          int(3),  
-  commentaires      text,  
-  AdressesidAdresse int(8),  # Numéro de l adresse du patient  
-  PRIMARY KEY (numSS),  
-  FOREIGN KEY (AdressesidAdresse) REFERENCES Adresses (idAdresse) ON DELETE SET NULL ON UPDATE CASCADE, 
-  INDEX (nom, prenom)); 
+
     
 # Table regroupant tous les services présents dans l hôpital 
 CREATE TABLE ServicesArchive (   

@@ -288,6 +288,4 @@
 
 		</div> <!-- containeFormu --> 
 
-		<button class="abandon">
 			<?php quitter1(); ?>
-		</button>

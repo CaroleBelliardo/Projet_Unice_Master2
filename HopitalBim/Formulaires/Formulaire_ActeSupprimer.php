@@ -111,6 +111,6 @@
         </div>
     </form> <!-- form-signin -->
 </div> <!-- containerFormu -->
-<div class="abandon">
-    <?php quitter1(); ?>
-</div>
+
+<?php quitter1(); ?>
+

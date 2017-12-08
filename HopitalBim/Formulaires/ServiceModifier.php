@@ -90,8 +90,8 @@
 
 </div> <!-- containerFormu -->
 
-<button class="abandon">
+
 <?php quitter1() ?>
-</button>
+
 
 <?php include ('../Config/Footer.php'); //menu de navigation ?>

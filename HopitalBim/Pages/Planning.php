@@ -233,9 +233,9 @@ if (isset ($_POST["btn-Modifier"]))
 
 		</div>
 
-		<button class="abandon"> <!-- bouton abandon redirection Page principale -->
+ <!-- bouton abandon redirection Page principale -->
 			<?php quitter1() ?>
-		</button>
+
 
 		<?php include ('../Config/Footer.php'); //menu de navigation ?>
 		 

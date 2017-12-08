@@ -95,12 +95,9 @@ if(isset($_POST['btn_facturation'])) // action du bouton btn_facture
 					
 			</form>
 		</div> <!-- containerFormu -->
-
-		<button class="abandon">
-			<?php
-				quitter1($auth_user)
-			?>	
-		</button> <!-- abandon -->
+		
+			<?php quitter1($auth_user) ?>
+			<!-- abandon -->
 
 		<?php include ('../Config/Footer2.php'); //menu de navigation ?> <!-- petit footer -->
 

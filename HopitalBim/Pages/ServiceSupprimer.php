@@ -5,6 +5,8 @@
 		- les includes a faire.
 	*/
 	include ('../Config/Menupage.php');
+	
+	if ($_SESSION["idEmploye"] != 'admin00')
 	{
 		$auth_user->redirect('../PagePrincipale.php');
 	}
@@ -115,9 +117,9 @@
 		
 		</div> <!-- containerFormu -->
 
-		<button class="abandon">
+
 			<?php quitter1(); ?>
-		</button>
+
 
 		<?php include ('../Config/Footer2.php'); //menu de navigation ?>
 	
