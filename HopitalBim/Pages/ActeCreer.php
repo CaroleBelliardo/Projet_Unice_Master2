@@ -24,15 +24,12 @@
 				If (!array_key_exists("serviceModifier",$_SESSION )) 
 				{ 
 					include ('../Formulaires/Formulaire_RechercheService.php');; // recherche le service
-		
 				}
 				else
 				{
-					include ('../Formulaires/Formulaire_AjoutActe.php');
-			
+					include ('../Formulaires/Formulaire_acteCreer.php');
 				}
 				include ('../Config/Footer2.php'); //menu de navigation
-			
 			}
 		?>
 
