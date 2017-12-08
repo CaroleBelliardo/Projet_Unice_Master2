@@ -167,7 +167,7 @@ if(isset($_POST['btn_demandeRDV'])) // si utilisateur clique sur le bouton deman
 			Eval_notif_incompUrgence($auth_user,$niveauUrgence,$a_niveauUrgence);	
 		}	// si tous les champs du formulaire sont renseignés et valide
 	} // fin des instructions realisées si niveauUrgence !=0
-	//$auth_user->redirect('RDVDemande.php?Valide');
+	$auth_user->redirect('RDVDemande.php?Valide');
 } // tout ce qui est fait par le bouton
 
 
