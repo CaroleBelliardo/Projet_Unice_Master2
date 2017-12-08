@@ -55,7 +55,7 @@ function quitter1()
 	{
 ?>	
 	<div class= "form-group"> 
-	<a href="<?php echo 'http://'.$_SERVER['HTTP_HOST'].'/projetm2/HopitalBim/PagePrincipale.php';?> "><button class="abandon">Abandonner</button></a>
+	<a href="<?php echo 'http://'.$_SERVER['HTTP_HOST'].'/projetm2/HopitalBim/Pageprincipale.php';?> "><button class="abandon">Abandonner</button></a>
 	</div>
 <?php 
 	}

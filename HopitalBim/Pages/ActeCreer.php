@@ -17,7 +17,7 @@
 		<?php // affichage
 			if ($_SESSION["idEmploye"] != 'admin00')
 			{
-				$auth_user->redirect('../PagePrincipale.php');
+				$auth_user->redirect('../Pageprincipale.php');
 			}
 			else
 			{

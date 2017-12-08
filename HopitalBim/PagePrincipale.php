@@ -13,7 +13,14 @@
 	unset($_SESSION["dateModifier"]);
 	unset($_SESSION["servicePlanning"]);
 	unset($_SESSION["rdvModifier"]);
-
+	if ($_SESSION["contact"] = TRUE )
+	{
+		unset($_SESSION["rdvModifier"]);
+	}
+	if ($_SESSION["conditionsUtilisation"] = TRUE )
+	{
+		unset($_SESSION["ConditionUtilisation"]);
+	}
 	//variables Globales
 	$auth_user = new Systeme(); // Connection bdd	
 	$user_id = $_SESSION['idEmploye']; // IDENTIFIANT compte utilisateur !!!!!
