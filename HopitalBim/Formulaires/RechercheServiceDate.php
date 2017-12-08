@@ -18,14 +18,13 @@
 		<fieldset>
  		<legend> Choisir une date et/ou un service </legend> 
 
-				<label for="text_date">Date  </label>
-				<input type="date" class="" name="text_date" placeholder="<?php echo $_SESSION['dateModifier'];?>" value="<?php echo $_SESSION['dateModifier'];?>" /><br>
-			
-				<label for="text_nomservice">Service </label>
-				<input list="text_nomservice" name="text_nomservice" size='85'>
-				<datalist id="text_nomservice">
-					<?php liste_Services($auth_user) ?> <!-- valeurs par defaut -->
-				</datalist><br>
+ 			<label for="text_date">Date  </label>
+ 			<input type="date" class="" name="text_date" placeholder="<?php echo $_SESSION['dateModifier'];?>" value="<?php echo $_SESSION['dateModifier'];?>" /> <br>
+
+ 			<label for="text_nomservice">Service </label> 
+ 			<div class="recherchePlanning">
+ 			<?php liste_Services($auth_user) ?>
+			</div>
 
 		</fieldset>	<br>
 
