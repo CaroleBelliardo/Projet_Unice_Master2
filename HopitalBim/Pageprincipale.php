@@ -125,6 +125,73 @@ $_SESSION['service']=$a_utilisateur['service'];
 	<div id=PagePrincipale>
 		<p class="Bienvenue">Bienvenue sur votre espace personnel ! </p>
 
+		<?php 
+			if (($_SESSION["idEmploye"]== "admin00") and (!array_key_exists("contact",$_SESSION)) and (!array_key_exists("conditionsUtilisation",$_SESSION)))
+			{
+
+		?>
+			<p class="infoUser"> Bonjour <?php  echo($a_utilisateur['prenom']." ".$a_utilisateur['nom']); ?>, <br><br>
+				 Nous sommes aujourd'hui le <?php echo($today=date("j / m / Y")) ?>, <br><br>
+				 Vous êtes connecté en tant qu’administrateur du système. <br><br>
+
+				Vous serez informé des incompatibilités détectées par le système entre les interventions et les niveaux d’urgence demandées par les utilisateurs : <br> 
+				- En cliquant sur « Notification » dans l’onglet « Vérification ». A partir de ce même onglet, vous pouvez aussi avoir accès au tableau de synthèse des demandes d’interventions enregistrées par le système. <br><br>
+
+				L’onglet « Services » vous permet de créer, modifier ou supprimer un service de l’hôpital. A partir de cet onglet, vous pouvez aussi ajouter ou supprimer un acte médical réalisé par l’un de ces services. <br><br>
+
+				L’onglet « Compte utilisateur » vous permet de créer, modifier ou supprimer un compte d’un utilisateur. A partir de cet onglet, vous pouvez aussi ajouter ou supprimer un acte médical réalisé par l’un de ces services. <br><br>
+
+				Enfin, vous pouvez tester n’importe quelle fonctionnalité disponibles pour tous les utilisateurs du système (gestion du planning, demande de rendez-vous, gestion des fiches patients et facturation). <br>
+			</p>
+				
+		<?php 
+			}
+		if (($_SESSION["chefService"] == TRUE ) and ($_SESSION["idEmploye"] != "admin00") and (!array_key_exists("contact",$_SESSION)) and (!array_key_exists("conditionsUtilisation",$_SESSION)))
+			{
+		?>
+
+			<p class="infoUser"> Bonjour <?php  echo($a_utilisateur['prenom']." ".$a_utilisateur['nom']); ?>, <br><br>
+				Nous sommes aujourd'hui le <?php echo($today=date("j / m / Y")) ?>, <br><br>
+				Vous êtes connecté en tant que chef du service <?php echo($a_utilisateur['service']); ?>. <br><br>
+
+				Vous pouvez consultez le planning de votre service en cliquant sur l’onglet Planning. <br>
+
+				Vous pouvez demander une intervention pour un patient enregistré dans la base de données du système en cliquant sur l’onglet « Demande de rendez-vous ». <br>
+
+				Si vous souhaitez demander un rendez-vous sur un nouveau patient, vous devez lui créer une fiche en cliquant sur « Création » dans l’onglet « Patient ». Vous pouvez également sur cet onglet modifier les informations d’un patient. <br>
+
+				En tant que chef de service, vous pouvez imprimer les factures des actes médicaux effectués au sein de votre service pour chacun des patients en cliquant sur « Facturation ». <br>
+
+				En cliquant sur l’onglet « Notification », vous serez informé des interventions qui nécessitent un surbooking du planning. Pour gérer ce surbooking, vous pouvez modifier le planning en cliquant sur l’onglet « Planning ». <br>
+
+				Si vous rencontrez un problème, veuillez contacter l’administrateur du site via l’adresse : admin00@hopitalbim.fr <br>
+
+			</p>
+
+		<?php
+			}
+		if (($_SESSION["chefService"] != TRUE ) and (!array_key_exists("contact",$_SESSION)) and (!array_key_exists("conditionsUtilisation",$_SESSION)))
+			{
+		?>
+
+			<p class="infoUser"> Bonjour <?php  echo($a_utilisateur['prenom']." ".$a_utilisateur['nom']); ?>, <br><br>
+				Nous sommes aujourd'hui le <?php echo($today=date("j / m / Y")) ?>, <br><br>
+				Vous êtes connecté en tant que médecin de l’hôpital. <br><br>
+
+				Vous pouvez consultez le planning de votre service en cliquant sur l’onglet Planning. <br>
+
+				Vous pouvez demander une intervention pour un patient enregistré dans la base de données du système en cliquant sur l’onglet « Demande de rendez-vous ». <br>
+
+				Si vous souhaitez demander un rendez-vous sur un nouveau patient, vous devez lui créer une fiche en cliquant sur « Création » dans l’onglet « Patient ». Vous pouvez également sur cet onglet modifier les informations d’un patient. <br>
+
+				Si vous rencontrez un problème, veuillez contacter l’administrateur du site via l’adresse : admin00@hopitalbim.fr <br>
+
+				</p>
+
+		<?php
+			}
+		?>
+
 		<!-- 
     	<div class="profile">
   			<div class="photo">
