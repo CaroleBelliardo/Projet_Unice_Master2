@@ -4,7 +4,7 @@
 	$lien ='ServiceModifier.php';
 	if ($_SESSION["idEmploye"] != 'admin00')
 	{
-		$auth_user->redirect('../PagePrincipale.php');
+		$auth_user->redirect('../Pageprincipale.php');
 	}
 	if(isset($_POST['btn-modifier']))
 {

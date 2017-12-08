@@ -5,7 +5,7 @@ $login = new Systeme();
 
 if($login->is_loggedin()!="")
 {
-	$login->redirect('Pageprincipale.php');
+	$login->redirect('PagePrincipale.php');
 }
 
 if(isset($_POST['btn-login']))
@@ -15,7 +15,7 @@ if(isset($_POST['btn-login']))
 		
 	if($login->authentification($uname,$upass))
 	{
-		$login->redirect('Pageprincipale.php');
+		$login->redirect('Pagerincipale.php');
 	}
 	else
 	{
