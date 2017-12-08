@@ -1,4 +1,43 @@
 <?php
+	function endKey($array)
+	{
+	end($array);
+	return key($array);
+	}
+	
+	function extractReq ($inReq,$manip,$att1,$att2){ //TODO : recupere les valeurs de la première variable = > a supprimant en creant le tableau avant 
+		$a_temp=[];
+		while ($temp =  $inReq-> fetch(PDO::FETCH_ASSOC))
+		{
+			$a_temp[$temp[$att1]] = [$manip=>$temp[$att2]];
+		}
+		return($a_temp);
+	}   
+	function extractReq2 ($intab,$inReq,$manip,$att1,$att2){ // recupère les valeurs des exp
+		while ($temp2 =  $inReq-> fetch(PDO::FETCH_ASSOC))
+		{
+			$tempo=$intab[$temp2[$att1]];
+			$tempo[$manip] = $temp2[$att2];
+			$intab[$temp2[$att1]] = $tempo;
+		}
+		return($intab);
+	
+	}
+	function extractReq3 ($intab,$inReq){
+		while ($temp2 =  $inReq-> fetch(PDO::FETCH_ASSOC))
+		{
+			if ($temp2["ServicesnomService"] != 'Informatique')
+			{
+				$tempo=$intab[$temp2["ServicesnomService"]]; //stock le tableau des stats du service  
+				$a_info= ["idEmploye" => $temp2["EmployesCompteUtilisateursidEmploye"],  
+				"Patient" => $temp2["numSS"]]; 
+				array_push($tempo,["Med_Patient-MultiUrgence"=>$a_info]); 
+				$intab[$temp2["ServicesnomService"]] = $tempo;
+			}
+		}
+		return($intab);
+	} 
+	
 	function reqToArray1Att($requete) //  une requete qui retroune plusieurs tuples (plusieurs lignes) 1 attribut (1 colonne)  -- retourne un tableau contenant toutes les valeurs d'un attribut, tableau 1D
 	{
 		$a_out_reqToArray=[];
