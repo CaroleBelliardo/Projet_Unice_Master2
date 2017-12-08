@@ -75,9 +75,6 @@
 	}
 ?>	
 
-
-
-
 <!DOCTYPE html PUBLIC >
 <html>
 	<head>
@@ -229,9 +226,47 @@
 			}
 		?>
 
-		</div> <!-- div containerTab -->
+		</div> <!-- div containerTab --> 
 
-	<?php include ('../Config/Footer2.php'); //menu de navigation ?>
+		<div id="legendNotif">
+
+			<table id="legendNotifTab" border="1", ALIGN="CENTER", VALIGN="MIDDLE">
+
+			<tr class="haut">
+				<th colspan="2" class="Totalth"> Légende tableau</th>
+				
+			</tr>
+
+			<tr>
+				<td class="infoUser"> <button> A </button> </td> 
+				<td> Annulé ! </td>
+			</tr>
+
+			<tr>
+				<td class="infoUser"> <button> R </button> </td>
+				<td> Réalisé !  </td>
+			</tr>
+
+			<tr>
+				<td class="infoUser"> NU </td> 
+				<td> Niveau d'urgence </td>
+			</tr>
+
+			<tr>
+				<td class="infoUser"> Max </td>
+				<td> Niveau Maximal d'urgence </td>
+			</tr>
+
+			<tr>
+				<td class="infoUser"> Min </td> 
+				<td> Niveau Minimal d'urgance </td>
+			</tr>
+
+			</table> <!--legendNotif-->
+
+		</div> <br> <br> <br> <br>
+
+	<?php include ('../Config/Footer.php'); //menu de navigation ?>
 
 	</body>
 

@@ -367,7 +367,6 @@ h6 {
   font-style: normal;
   font-weight: 900;
   color: #00688B;
-
  }
 
 /*                 */
@@ -471,11 +470,11 @@ caption {
 }
 
 td .legendPlanning{
-  border:none;
+  border: none;
 }
 
 tr .legendPlanning{
-  border:none;
+  border: none;
 }
 
 fieldset .contourPlanning{
@@ -537,6 +536,22 @@ td:hover {
 
 .recherchePlanning{
   display: inline-block;
+}
+
+/*                                 */
+/*       Vérification Notif        */
+/*                                 */   
+
+#legendNotif{
+ margin-top: 20px;
+ margin-bottom: 10px;
+ margin-left: auto;
+ margin-right: auto;
+ width: 25%;
+}
+
+#legendNotif p.infoUser{
+  
 }
 
 
