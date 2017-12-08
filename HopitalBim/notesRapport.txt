@@ -16,7 +16,6 @@ Aussi, phpMyadmin nous a permis de tester l'opérabilité des formulaire réalis
 
 nous vont aussi testé les test conditionnel et le parcours des boucles ¶
 
-nous avons testé les sorties lors de nouvelles fonction php, html et sql pour bien comprendre le fonctionnement de ces instruction 
 
 
 
