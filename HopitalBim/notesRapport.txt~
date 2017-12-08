@@ -1,0 +1,23 @@
+Organisation du code :
+Convention de nomage
+
+Le code et fichiers annexes sont majoritairement organisés en packages. 
+
+
+
+Pour les tests unitaires : 
+
+Pour évaluer l'intégrité fonctionnelle de notre projet, des tests unitairs ont été réalisés à chaque étape d'implémentation. De manière systèmatique, Lorsque nous avont utilisé de nouvelle fonction html,php ou htlm, nous avons consulté le résultat retourné par celle-ci pour bien évaluer ce que fait réellement la fonction avant de l'utiliser à de multiple repise, de la reprendre à plusieurs étape du code ou de la réutiliser. 
+
+On a systématiquement consulté le contenu des variables et des retour de requete pour bien comprendre la structure de celle-ci et pouvoir les traiter de manière adapté. 
+
+nous avont aussi testé les test conditionnel  et le parcours des boucles 
+
+nous avons testé les sorties lors de nouvelles fonction php, html et sql pour bien comprendre le fonctionnement de ces instruction 
+
+
+
+
+
+
+
