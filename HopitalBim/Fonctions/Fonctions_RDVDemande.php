@@ -76,8 +76,6 @@
 		$req_infoDateHeure->execute(array('idIntervention' => $idInterv)); // modifier variables
 		$a_infoDateHeure = reqToArrayPlusAttASSO($req_infoDateHeure); // retourne : [ MIN(dateR), MIN(heureR), statutR, idR ] heure = dernier rdv prevu ou premier rdv annulé 
 		$req_infoDateHeure->closeCursor();
-		    echo "titi :";
-	Dumper($a_infoDateHeure);
         return ($a_infoDateHeure);
     }
 
@@ -147,8 +145,6 @@ FROM
 											 'idIntervention'=>$idInterv)); // modifier variables
 		$a_infoDateHeureUrg = reqToArrayPlusAttASSO($req_infoDateHeureUrg); // retourne : [ MIN(dateR), MIN(heureR), statutR, idR ] heure = dernier rdv prevu ou premier rdv annulé 
 		$req_infoDateHeureUrg->closeCursor();
-		Dumper ($a_infoDateHeureUrg);
-		echo "****RDV DEMANDE a_infoDateHeureUrg";
         return ($a_infoDateHeureUrg);
     }
     
