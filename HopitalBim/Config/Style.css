@@ -271,10 +271,10 @@ form header {
 }
 
 #PagePrincipale p.Bienvenue{
-  color : #17202A; /*17202A,B3B6B7*/
+  color : white; /*17202A,B3B6B7*/
   font-size: 30px; 
   text-decoration : underline ;
-  text-decoration-color: #17202A;
+  text-decoration-color: #00688B;
 }
 
 .profile{               /* Boite profile */
@@ -358,6 +358,17 @@ h6 {
 #PagePrincipale img[name="stetho"]{
   float:right;
 }
+
+ .infoUser {
+  font-size: 17px;
+ }
+
+ .infoUser em{
+  font-style: normal;
+  font-weight: 900;
+  color: #00688B;
+
+ }
 
 /*                 */
 /*   Formulaires   */
