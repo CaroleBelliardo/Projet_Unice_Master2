@@ -137,19 +137,19 @@ $_SESSION['service']=$a_utilisateur['service'];
 			{
 
 		?>
-			<p class="infoUser"> Bonjour <?php  echo($a_utilisateur['prenom']." ".$a_utilisateur['nom']); ?>, <br><br>
+			<p class="infoUser"> Bonjour <em><?php  echo($a_utilisateur['prenom']." ".$a_utilisateur['nom']); ?></em>, <br><br>
 				 Nous sommes aujourd'hui le <?php echo($today=date("j / m / Y")) ?>, <br><br>
-				 Vous êtes connecté en tant qu’administrateur du système. <br><br>
+				 Vous êtes connecté en tant qu’<em>administrateur</em> du système. <br><br>
 
-				Vous serez informé des incompatibilités détectées par le système entre les interventions et les niveaux d’urgence demandées par les utilisateurs : <br> 
-				- En cliquant sur « Notification » dans l’onglet « Vérification ». A partir de ce même onglet, vous pouvez aussi avoir accès au tableau de synthèse des demandes d’interventions enregistrées par le système. <br><br>
+				Vous serez informé des incompatibilités détectées par le système entre les interventions et les niveaux d’urgence demandées par les utilisateurs : En cliquant sur « <em>Notification</em> » dans l’onglet « <em>Vérification</em> ». A partir de ce même onglet, vous pouvez aussi avoir accès au tableau de synthèse des demandes d’interventions enregistrées par le système. <br><br>
 
-				L’onglet « Services » vous permet de créer, modifier ou supprimer un service de l’hôpital. A partir de cet onglet, vous pouvez aussi ajouter ou supprimer un acte médical réalisé par l’un de ces services. <br><br>
+				L’onglet « <em>Services</em> » vous permet de créer, modifier ou supprimer un service de l’hôpital. A partir de cet onglet, vous pouvez aussi ajouter ou supprimer un acte médical réalisé par l’un de ces services. <br><br>
 
-				L’onglet « Compte utilisateur » vous permet de créer, modifier ou supprimer un compte d’un utilisateur. A partir de cet onglet, vous pouvez aussi ajouter ou supprimer un acte médical réalisé par l’un de ces services. <br><br>
+				L’onglet « <em>Compte utilisateur</em> » vous permet de créer, modifier ou supprimer un compte d’un utilisateur. A partir de cet onglet, vous pouvez aussi ajouter ou supprimer un acte médical réalisé par l’un de ces services. <br><br>
 
 				Enfin, vous pouvez tester n’importe quelle fonctionnalité disponibles pour tous les utilisateurs du système (gestion du planning, demande de rendez-vous, gestion des fiches patients et facturation). <br>
-			</p>
+
+			</p> <br> <br> <br>
 				
 		<?php 
 			}
@@ -157,23 +157,23 @@ $_SESSION['service']=$a_utilisateur['service'];
 			{
 		?>
 
-			<p class="infoUser"> Bonjour <?php  echo($a_utilisateur['prenom']." ".$a_utilisateur['nom']); ?>, <br><br>
+			<p class="infoUser"> Bonjour <em><?php  echo($a_utilisateur['prenom']." ".$a_utilisateur['nom']); ?></em>, <br><br>
 				Nous sommes aujourd'hui le <?php echo($today=date("j / m / Y")) ?>, <br><br>
-				Vous êtes connecté en tant que chef du service <?php echo($a_utilisateur['service']); ?>. <br><br>
+				Vous êtes connecté en tant que chef du service <em><?php echo($a_utilisateur['service']); ?></em>. <br><br>
 
-				Vous pouvez consultez le planning de votre service en cliquant sur l’onglet Planning. <br>
+				Vous pouvez consultez le planning de votre service en cliquant sur l’onglet Planning. <br><br>
 
-				Vous pouvez demander une intervention pour un patient enregistré dans la base de données du système en cliquant sur l’onglet « Demande de rendez-vous ». <br>
+				Vous pouvez demander une intervention pour un patient enregistré dans la base de données du système en cliquant sur l’onglet « <em>Demande de rendez-vous</em> ». <br><br>
 
-				Si vous souhaitez demander un rendez-vous sur un nouveau patient, vous devez lui créer une fiche en cliquant sur « Création » dans l’onglet « Patient ». Vous pouvez également sur cet onglet modifier les informations d’un patient. <br>
+				Si vous souhaitez demander un rendez-vous sur un nouveau patient, vous devez lui créer une fiche en cliquant sur « <em>Création</em> » dans l’onglet « <em>Patient</em> ». Vous pouvez également sur cet onglet modifier les informations d’un patient. <br><br>
 
-				En tant que chef de service, vous pouvez imprimer les factures des actes médicaux effectués au sein de votre service pour chacun des patients en cliquant sur « Facturation ». <br>
+				En tant que chef de service, vous pouvez imprimer les factures des actes médicaux effectués au sein de votre service pour chacun des patients en cliquant sur « <em>Facturation</em> ». <br><br>
 
-				En cliquant sur l’onglet « Notification », vous serez informé des interventions qui nécessitent un surbooking du planning. Pour gérer ce surbooking, vous pouvez modifier le planning en cliquant sur l’onglet « Planning ». <br>
+				En cliquant sur l’onglet « <em>Notification</em> », vous serez informé des interventions qui nécessitent un surbooking du planning. Pour gérer ce surbooking, vous pouvez modifier le planning en cliquant sur l’onglet « <em>Planning </em>». <br><br>
 
-				Si vous rencontrez un problème, veuillez contacter l’administrateur du site via l’adresse : admin00@hopitalbim.fr <br>
+				Si vous rencontrez un problème, veuillez contacter l’administrateur du site via l’adresse : <em>admin00@hopitalbim.fr</em> <br> <br>
 
-			</p>
+			</p> <br> <br> <br>
 
 		<?php
 			}
@@ -181,19 +181,19 @@ $_SESSION['service']=$a_utilisateur['service'];
 			{
 		?>
 
-			<p class="infoUser"> Bonjour <?php  echo($a_utilisateur['prenom']." ".$a_utilisateur['nom']); ?>, <br><br>
+			<p class="infoUser"> Bonjour <em><?php  echo($a_utilisateur['prenom']." ".$a_utilisateur['nom']); ?></em>, <br><br>
 				Nous sommes aujourd'hui le <?php echo($today=date("j / m / Y")) ?>, <br><br>
-				Vous êtes connecté en tant que médecin de l’hôpital. <br><br>
+				Vous êtes connecté en tant que médecin de l’hôpital, au sein du service <em><?php echo($a_utilisateur['service']); ?></em>. <br><br>
 
-				Vous pouvez consultez le planning de votre service en cliquant sur l’onglet Planning. <br>
+				Vous pouvez consultez le planning de votre service en cliquant sur l’onglet Planning. <br><br>
 
-				Vous pouvez demander une intervention pour un patient enregistré dans la base de données du système en cliquant sur l’onglet « Demande de rendez-vous ». <br>
+				Vous pouvez demander une intervention pour un patient enregistré dans la base de données du système en cliquant sur l’onglet « <em>Demande de rendez-vous</em> ». <br><br>
 
-				Si vous souhaitez demander un rendez-vous sur un nouveau patient, vous devez lui créer une fiche en cliquant sur « Création » dans l’onglet « Patient ». Vous pouvez également sur cet onglet modifier les informations d’un patient. <br>
+				Si vous souhaitez demander un rendez-vous sur un nouveau patient, vous devez lui créer une fiche en cliquant sur « <em>Création </em>» dans l’onglet « <em>Patient </em>». Vous pouvez également sur cet onglet modifier les informations d’un patient. <br><br>
 
-				Si vous rencontrez un problème, veuillez contacter l’administrateur du site via l’adresse : admin00@hopitalbim.fr <br>
+				Si vous rencontrez un problème, veuillez contacter l’administrateur du site via l’adresse : <em>admin00@hopitalbim.fr </em> <br> <br>
 
-				</p>
+				</p> <br> <br> <br>
 
 		<?php
 			}
