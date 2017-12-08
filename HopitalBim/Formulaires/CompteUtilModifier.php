@@ -273,9 +273,9 @@ if(isset($_POST['btn-modifierutilisateur']))
 
 </div>
 
-<div class="abandon">
+
 <?php quitter1() ?>
-</div>
+
 
 <div id="footer"> <!-- Faire les liens vers les documents  -->
     <a href="<?php echo $LienSite ?>../Pages/readme.php"> Conditions d'utilisation </a> |

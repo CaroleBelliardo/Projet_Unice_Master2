@@ -254,9 +254,9 @@ td    { vertical-align: top; }
     <?php } else echo  "Pas de facture disponible pour ce patient actuellement !" ;?> <br>
         
 
-        <button class="abandon"> <!-- bouton abandon redirection Page principale -->
+ <!-- bouton abandon redirection Page principale -->
             <?php quitter1() ?>
-        </button>
+
 
 
 

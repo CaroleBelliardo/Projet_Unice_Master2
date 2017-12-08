@@ -84,6 +84,6 @@
 
 </div> <!-- containerFormu -->
 
-<div class="abandon">
+
 <?php quitter1() ?>
-</div>
+

@@ -65,8 +65,7 @@ if(isset($_POST['btn_nomService'])) // action du bouton btn_facture
 	
 </div> <!-- containerFormu -->
 
-<button class="abandon">
-	<?php quitter1($auth_user) ?>
-</button>
+<?php quitter1($auth_user) ?>
+
 
 <?php include ('../Config/Footer2.php'); //menu de navigation?>

@@ -316,9 +316,9 @@ if(isset($_POST['btn-modifierutilisateur']))
 
 </div> <!-- containerFormu -->
 
-<button class="abandon">
+
 <?php quitter1() ?>	
-</button>
+
 
 <?php include ('../Config/Footer.php'); //menu de navigation ?> <!-- Footer grande page -->
 

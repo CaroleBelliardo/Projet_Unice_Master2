@@ -143,9 +143,9 @@
 
 		</div>
 
-		<button class="abandon">
+
 		<?php quitter1(); //menu de navigation ?>  
-		</button>
+
 
 		<?php include ('../Config/Footer2.php'); ?>
 

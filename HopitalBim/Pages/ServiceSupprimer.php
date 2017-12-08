@@ -117,9 +117,9 @@
 		
 		</div> <!-- containerFormu -->
 
-		<button class="abandon">
+
 			<?php quitter1(); ?>
-		</button>
+
 
 		<?php include ('../Config/Footer2.php'); //menu de navigation ?>
 	
