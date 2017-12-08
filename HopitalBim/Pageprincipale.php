@@ -13,11 +13,11 @@
 	unset($_SESSION["dateModifier"]);
 	unset($_SESSION["servicePlanning"]);
 	unset($_SESSION["rdvModifier"]);
-	if ($_SESSION["contact"] = TRUE )
+	if ($_SESSION["contact"] = 1 )
 	{
 		unset($_SESSION["rdvModifier"]);
 	}
-	if ($_SESSION["conditionsUtilisation"] = TRUE )
+	if ($_SESSION["conditionsUtilisation"] = 1 )
 	{
 		unset($_SESSION["ConditionUtilisation"]);
 	}
@@ -133,11 +133,11 @@ $_SESSION['service']=$a_utilisateur['service'];
 		<p class="Bienvenue">Bienvenue sur votre espace personnel ! </p>
 
 		<?php 
-			if (($_SESSION["idEmploye"]== "admin00") and (!array_key_exists("contact",$_SESSION)) and (!array_key_exists("conditionsUtilisation",$_SESSION)))
+			if (($_SESSION["idEmploye"]== "admin00") )
 			{
 
 		?>
-			<p class="infoUser"> Bonjour <em><?php  echo($a_utilisateur['prenom']." ".$a_utilisateur['nom']); ?></em>, <br><br>
+			<p class="infoUser"> Bonjour <em> <?php  echo($a_utilisateur['prenom']." ".$a_utilisateur['nom']); ?> </em>, <br><br>
 				 Nous sommes aujourd'hui le <?php echo($today=date("j / m / Y")) ?>, <br><br>
 				 Vous êtes connecté en tant qu’<em>administrateur</em> du système. <br><br>
 
@@ -153,8 +153,8 @@ $_SESSION['service']=$a_utilisateur['service'];
 				
 		<?php 
 			}
-		if (($_SESSION["chefService"] == TRUE ) and ($_SESSION["idEmploye"] != "admin00") and (!array_key_exists("contact",$_SESSION)) and (!array_key_exists("conditionsUtilisation",$_SESSION)))
-			{
+		elseif ($_SESSION["chefService"] == TRUE )
+		{			
 		?>
 
 			<p class="infoUser"> Bonjour <em><?php  echo($a_utilisateur['prenom']." ".$a_utilisateur['nom']); ?></em>, <br><br>
@@ -177,7 +177,7 @@ $_SESSION['service']=$a_utilisateur['service'];
 
 		<?php
 			}
-		if (($_SESSION["chefService"] != TRUE ) and (!array_key_exists("contact",$_SESSION)) and (!array_key_exists("conditionsUtilisation",$_SESSION)))
+		elseif ($_SESSION["chefService"] != TRUE ) 
 			{
 		?>
 
@@ -196,28 +196,8 @@ $_SESSION['service']=$a_utilisateur['service'];
 				</p> <br> <br> <br>
 
 		<?php
-			}
+		}
 		?>
-
-		<!-- 
-    	<div class="profile">
-  			<div class="photo">
-  			<img src="Images/User.png" alt="Image utilisateur"/>
-  			</div>
-
-			<div class="content">
-    			<div class="text">
-				<h3> <?php  echo($a_utilisateur['prenom']." ".$a_utilisateur['nom']); ?> </h3>
-      			<h6> Service : <?php echo($a_utilisateur['service']); ?> </h6>  			</div>
-  			</div>
-		</div>
-
-		<p class="infoUser"> Bonjour <?php  echo($a_utilisateur['prenom']); ?>, <br><br> 
-			Nous sommes aujourd'hui le <?php echo($today=date("j / m / Y")) ?>. 
-		</p>
-
-    	<img name="stetho" src="Images/stetho.png" alt="Image stethoscope bleu" height="30%" width="30%">
-     </div> -->
 
     </div> <!-- Page --> 
 
