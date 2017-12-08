@@ -1,8 +1,18 @@
 Pour les tests unitaires : 
 
-Pour évaluer l'intégrité fonctionnelle de notre projet, des tests unitaire ont été réalisés à chaque étape d'implémentation. De manière systématique, Lorsque nous vont utilisé de nouvelle fonction HTML,PHP ou HTML, nous avons consulté le résultat retourné par celle-ci pour bien évaluer ce que fait réellement la fonction avant de l'utiliser à de multiple relise, de la reprendre à plusieurs étape du code ou de la réutiliser. 
+Pour garantir la fonctionnalité du notre projet, des tests unitaire ont été réalisés à chaque étape d'implémentation. Lors de l'utilisation de nouvelles fonction native, nous avons consulté le résultat retourné par celle-ci pour bien évaluer ce que fait concrètement la fonction avant de multiplier son utilisation. Aussi, durant l'implémentation de nouvelles fonctions ou procédures, nous avons testé pas à pas les effets de chaque instruction utilisée. 
 
-On a systématiquement consulté le contenu des variables et des retour de requête pour bien comprendre la structure de celle-ci et pouvoir les traiter de manière adapté. 
+Pour visualisé de manière formatée la structure des données de type tableau, nous avons créer la fonction Dumper() basé sur l'instruction var_dump. En effet, nous avons aussi consulter le contenu des différentes variables manipulées et ce particulièrement dans le cas de retour de requête SQL. En effet, l'existance de différent type d'instruction et d'options pour le 'Fetch' est pratique et permet d'adapter la structure de la variable de retour en fonction du résultat attendu. Cependant lors des premières utilisations, il est assez difficile  de reelement appréhender le retour de la requête et d'évaluer comment traiter la traiter. On peut noter cette difficulté notamment lors de l'élaboration de test conditionnel pour la gestion d'erreur relative au retour de requête vide. Par exemple, l'instruction Fetch(PDO::FETCH_ASSOC) retour un tableau dont les clefs sont les attributs sélectionnés ou un booléen 'FALSE' s'il n'y a pas de correspondance dans la table. En revanche, l'instruction fetchColumn() retourne une chaîne de caractère correspondant à la valeur d'attribut ou une chaîne vide s'il n'y a pas de correspondance. Ainsi, les tests conditionnels a mettre en place peuvent être très variable selon le mode de traitement des retours de requête. Le parcours des différents blocs d'instructions lors de l'élaboration de test, nous a permis d'évaluer la pertinance des test établit. 
+
+Aussi, lors de l'emploi de structures de contrôle de type boucle, utilisées pour automatiser certaine procédures telles que la réitération de requêtes ou la génération dynamique de code HTML, nous avons évalué le comportement de celle-ci pour contrôler que le nombre d'itération correspondent à celui attendu. 
+La structure des formulaires et du CSS a été évalué de manière visuelle sur les pages associées.  On a aussi testé les valeurs des variables associées code HTML de type 'form'  et les instruction associées aux boutons inclue dans ce type de code. 
+
+L'intégrité de la structure de la base de donnée à été testé de manière visuelle sur l'interface phpMyadmin ( clés, nombre de colonnes, typage des attributs...). L'interface à aussi été utilisée lors de la conception des requêtes nécéssaire au fonctionnement de la plateforme. En effet, cette interface présente trop avantages à nos yeux, elle permet l'éxecution individuelle de la requête, le retour est consultable immédiatement et enfin elle offre une option de complémentation des noms d'attributs.
+Aussi, phpMyadmin nous a permis de tester l'opérabilité des formulaire réalisés à l'heure ou notre interface ne le permettait pas encore mais aussi pour les données qui ne sont pas visualisable ( pas exemple, les données de la table Pathologies ).
+
+
+
+
 
 nous vont aussi testé les test conditionnel et le parcours des boucles ¶
 
