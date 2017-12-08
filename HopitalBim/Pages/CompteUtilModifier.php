@@ -3,7 +3,10 @@
 	include ('../Config/Menupage.php');
 	$lien ='CompteUtilModifier.php';
 
-
+	if ($_SESSION["idEmploye"] != 'admin00')
+{
+	$auth_user->redirect('../PagePrincipale.php');
+}
 ?>	
 
 <!DOCTYPE html PUBLIC >

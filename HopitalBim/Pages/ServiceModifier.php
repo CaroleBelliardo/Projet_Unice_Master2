@@ -2,7 +2,10 @@
 
 	include ('../Config/Menupage.php');
 	$lien ='ServiceModifier.php';
-
+	if ($_SESSION["idEmploye"] != 'admin00')
+	{
+		$auth_user->redirect('../PagePrincipale.php');
+	}
 	if(isset($_POST['btn-modifier']))
 {
 

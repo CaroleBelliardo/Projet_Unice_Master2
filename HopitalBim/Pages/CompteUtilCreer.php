@@ -5,21 +5,26 @@
 		- les includes a faire.
 	*/
 
+	
 include ('../Config/Menupage.php');
+if ($_SESSION["idEmploye"] != 'admin00')
+{
+	$auth_user->redirect('../PagePrincipale.php');
+}
 	
 if(isset($_POST['btn-signup']))
 {	
 	$text_departement = trim($_POST['text_departement'], ' ' );
-	$text_pays = ucfirst(trim($_POST['text_pays'], ' '))	;
+	$text_pays = ucfirst(trim($_POST['text_pays'], ' '));
 
-	$text_ville = ucfirst(trim($_POST['text_ville'], ' '))	;
+	$text_ville = ucfirst(trim($_POST['text_ville'], ' '));
 	$text_codepostal = str_replace(' ','',$_POST['text_codepostal']);
 
 	$text_numero = trim($_POST['text_numero'], ' ' );
-	$text_rue = ucfirst(trim($_POST['text_rue'], ' '))	;
+	$text_rue = ucfirst(trim($_POST['text_rue'], ' '));
 
-	$text_nom =  ucfirst(trim($_POST['text_nom'], ' '))	;
-	$text_prenom = ucfirst(trim($_POST['text_prenom'], ' '))	;
+	$text_nom =  ucfirst(trim($_POST['text_nom'], ' '));
+	$text_prenom = ucfirst(trim($_POST['text_prenom'], ' '));
 
 	$text_telephone = trim($_POST['text_telephone'], ' ' );
 	$text_chef = strip_tags($_POST['text_chef']);

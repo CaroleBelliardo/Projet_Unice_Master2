@@ -5,6 +5,9 @@
 		- les includes a faire.
 	*/
 	include ('../Config/Menupage.php');
+	{
+		$auth_user->redirect('../PagePrincipale.php');
+	}
 	
 	if(isset($_POST['btn-supprimerService']))
 	{	 

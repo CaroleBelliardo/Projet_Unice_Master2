@@ -1,5 +1,9 @@
 <?php
 	include ('../Config/Menupage.php');
+	if ($_SESSION["idEmploye"] != 'admin00')
+	{
+	$auth_user->redirect('../PagePrincipale.php');
+	}
 
 	if(isset($_POST['btn-valider']))
 {
