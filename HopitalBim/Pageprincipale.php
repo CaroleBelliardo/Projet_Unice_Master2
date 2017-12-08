@@ -14,9 +14,6 @@
 	unset($_SESSION["servicePlanning"]);
 	unset($_SESSION["rdvModifier"]);
 
-	
-
-
 	//variables Globales
 	$auth_user = new Systeme(); // Connection bdd	
 	$user_id = $_SESSION['idEmploye']; // IDENTIFIANT compte utilisateur !!!!!
@@ -77,32 +74,29 @@ $_SESSION['service']=$a_utilisateur['service'];
 			  <a href="<?php echo $LienSite ?>Pages/FichePatientModifier.php">Modification</a>
 			</div>
 		</div>
-<?php
-		if ( $_SESSION["chefService"] == TRUE )
-		{
-		?>			
-			<a href="<?php echo $LienSite ?>Pages/Facturation.php">Facturation</a>
-		<?php
-			if ($_SESSION["idEmploye"] != "admin00")
+
+	<?php
+			if (( $_SESSION["chefService"] == TRUE ) and ($_SESSION["idEmploye"] != "admin00"))
 			{
-		?>
-			<a href="<?php echo $LienSite ?>Pages/VerificationNotification.php">Notifications</a>
-		<?php
+	?>			
+				<a href="<?php echo $LienSite ?>Pages/Facturation.php">Facturation</a>
+				<a href="<?php echo $LienSite ?>Pages/VerificationNotification.php">Notifications</a>
+	<?php
 			}
-			elseif ($_SESSION["idEmploye"]== "admin00")
+			if ($_SESSION["idEmploye"]== "admin00")
 			{
-?>
+	?>
 				<div class="dropdown">
 					<button class="dropbtn">Services </button>
 					<div class="dropdown-content">
 					  <a href="<?php echo $LienSite ?>Pages/ServiceCreer.php">Création</a>
 					  <a href="<?php echo $LienSite ?>Pages/ServiceModifier.php">Modification</a>
-					  <a href="<?php echo $LienSite ?>Pages/ServiceSupprimer.php">Suppression</a>
-					   <a href="<?php echo $LienSite ?>Pages/ActeCreer.php">Ajouter un acte</a>
-					  <a href="<?php echo $LienSite ?>Pages/ActeSupprimer.php">Supprimer un acte</a>
+					  <a href="<?php echo $LienSite ?>Pages/ServiceSupprimer.php">Archiver</a>
+					   <a href="<?php echo $LienSite ?>Pages/ActeCreer.php">Ajout un acte</a>
+					  <a href="<?php echo $LienSite ?>Pages/ActeSupprimer.php">Archiver un acte</a>
 					</div>
 				</div>
-
+			
 				<div class="dropdown">
 					<button class="dropbtn">Compte Utilisateur </button>
 					<div class="dropdown-content">
@@ -120,18 +114,14 @@ $_SESSION['service']=$a_utilisateur['service'];
 					</div>
 				</div>
 
+	
 <?php
 			}
-		
-?>
+	?>
 		<a name="Déco" href="<?php echo $LienSite ?>logout.php?logout=true"><img name="logout" src="Images/logout.png" alt="Logout logo" > Déconnexion</a>
-<?php
-
-		}
-?>
+	
 	
 </div>
-
 	<div id=PagePrincipale>
 		<p class="Bienvenue">Bienvenue sur votre espace personnel ! </p>
 

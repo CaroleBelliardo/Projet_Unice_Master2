@@ -162,10 +162,11 @@ CREATE TABLE Facturation (
 
 # Lie les tables Pathologies et Interventions  
 CREATE TABLE Notifications ( 
+  idNotification int(8) NOT NULL, 
   CreneauxInterventionsidRdv int(8) NOT NULL, 
   ServicesnomService                  varchar(20) NOT NULL, # Imagerie // Maj en 1ère lettre  
   indication                  varchar(10) , 
-  PRIMARY KEY (CreneauxInterventionsidRdv), 
+  PRIMARY KEY (idNotification), 
   FOREIGN KEY (CreneauxInterventionsidRdv) REFERENCES CreneauxInterventions (id_rdv) ON DELETE CASCADE ON UPDATE CASCADE,
   FOREIGN KEY (ServicesnomService) REFERENCES Services (nomService) ON DELETE CASCADE ON UPDATE CASCADE);
 
