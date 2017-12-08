@@ -20,7 +20,7 @@
     {
 	$req_infoDateHeure = $auth_user->runQuery(" SELECT *
                 FROM  (
-					SELECT dateR1 as dateR, heureR1 as heureR, statutR1 as statutR, idR1 as idR
+					(SELECT dateR1 as dateR, heureR1 as heureR, statutR1 as statutR, idR1 as idR
 					FROM  (
 						(SELECT date_rdv as dateR1, heure_rdv as heureR1, CreneauxInterventions.statut as statutR1, CreneauxInterventions.id_rdv as idR1       
 						FROM CreneauxInterventions JOIN Interventions  JOIN Services 
@@ -45,7 +45,7 @@
 						AND heure_rdv >= (SELECT horaire_ouverture FROM Interventions  JOIN Services WHERE idIntervention = :idIntervention AND Interventions.ServicesnomService = Services.nomService)
 						AND heure_rdv <= (SELECT horaire_fermeture FROM Interventions  JOIN Services WHERE idIntervention = :idIntervention  AND Interventions.ServicesnomService = Services.nomService)
                 			ORDER BY  date_rdv DESC, heure_rdv DESC LIMIT 1 
-) )as d
+) ORDER BY  dateR1 DESC, heureR1 DESC LIMIT 1  )as d  )
                 UNION
 					(SELECT date_rdv as dateR, heure_rdv  as heureR, CreneauxInterventions.statut as statutR, CreneauxInterventions.id_rdv as idR      
 					FROM CreneauxInterventions JOIN Interventions  JOIN Services 
@@ -96,7 +96,7 @@
                     AND CreneauxInterventions.statut = 'p'
                     AND CreneauxInterventions.niveauUrgence >= :niveauUrgence
                     AND heure_rdv >= (SELECT horaire_ouverture FROM Interventions  JOIN Services WHERE idIntervention = :idIntervention AND Interventions.ServicesnomService = Services.nomService) ORDER BY date_rdv DESC, heure_rdv DESC LIMIT 1
-                        ) 
+                        ) as t
                     UNION
                     (SELECT  date_rdv as dateR1, heure_rdv  as heureR1, CreneauxInterventions.statut as statutR1, CreneauxInterventions.id_rdv as idR1, niveauUrgence as niveauUrgenceR1  
 						FROM  CreneauxInterventions JOIN Interventions  JOIN Services 
@@ -107,7 +107,7 @@
                     AND CreneauxInterventions.statut = 'p'
                     AND CreneauxInterventions.niveauUrgence >= :niveauUrgence
                     AND heure_rdv >= (SELECT horaire_ouverture FROM Interventions  JOIN Services WHERE idIntervention = :idIntervention AND Interventions.ServicesnomService = Services.nomService)  ORDER BY date_rdv DESC, heure_rdv DESC LIMIT 1
-                    ) )as d 
+) ORDER BY  dateR1 DESC, heureR1 DESC LIMIT 1  ) as d  )
                     UNION
                     (SELECT date_rdv as dateR, heure_rdv  as heureR, CreneauxInterventions.statut as statutR, CreneauxInterventions.id_rdv as idR, niveauUrgence as niveauUrgenceR      
 					FROM CreneauxInterventions JOIN Interventions  JOIN Services 
@@ -119,8 +119,7 @@
                     AND InterventionsidIntervention = :idIntervention
                     AND heure_rdv >= (SELECT horaire_ouverture FROM Interventions  JOIN Services WHERE idIntervention = :idIntervention AND Interventions.ServicesnomService = Services.nomService) ORDER BY  date_rdv ASC , heure_rdv LIMIT 1
                     )
-                ) as dd WHERE dateR IS NOT NULL ORDER BY dateR DESC, heureR DESC
-            ");
+                ) as dd WHERE dateR IS NOT NULL ORDER BY dateR ASC, heureR ASC ");
         $req_infoDateHeureUrg->execute(array( 'niveauUrgence'=> $nivUrg,
 											 'idIntervention'=>$idInterv)); // modifier variables
 		$a_infoDateHeureUrg = reqToArrayPlusAttASSO($req_infoDateHeureUrg); // retourne : [ MIN(dateR), MIN(heureR), statutR, idR ] heure = dernier rdv prevu ou premier rdv annulé 

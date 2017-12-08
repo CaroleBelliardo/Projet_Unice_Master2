@@ -59,7 +59,7 @@ if(isset($_POST['btn_demandeRDV'])) // si utilisateur clique sur le bouton deman
 															WHERE Services.nomService = Interventions.ServicesnomService 
 															AND Interventions.idIntervention = :idIntervention   "); // Renseigne les valeurs de priorité = par default :0
 			$req_horraireFermeture->execute(array("idIntervention" => $idIntervention));
-			$a_horaireFermeture = $req_horraireFermeture->fetch(PDO::FETCH_ASSOC);
+			$a_horaireService = $req_horraireFermeture->fetch(PDO::FETCH_ASSOC);
 			$req_horraireFermeture->closeCursor();
 		
 		//-- recherche si l'association (nomPathologie -- indication) existe deja, si oui recupere la cle primaire sinon insert l'entree
@@ -69,9 +69,9 @@ if(isset($_POST['btn_demandeRDV'])) // si utilisateur clique sur le bouton deman
 												   And indication = :indication" ); 
 			$req_PathoExist->execute(array('nomPatho'=> $nomPathologie, 
 										   'indication'=> $indicationPathologie));
-			
 			$idPatho= $req_PathoExist-> fetchColumn();
 			$req_PathoExist->closeCursor();
+
 			if ($idPatho == "" ) // si (nomPathologie -- indication) n'existe pas dans bdd alors insertion
 			{
 			// Enregistre la pathologie
@@ -88,7 +88,6 @@ if(isset($_POST['btn_demandeRDV'])) // si utilisateur clique sur le bouton deman
 				$idPatho= $req_idPathoRecup-> fetchColumn(); // affecte l'id de ce dernier insert à la variable $PathoExist
 				$req_idPathoRecup->closeCursor();
 			}
-		
 		//-- recherche si l'association (nomPathologie -- intervention) existe deja, si oui recupere la cle primaire sinon insert l'entree
 			$req_pathoIntervExist = $auth_user->runQuery(" SELECT niveauUrgenceMax, niveauUrgenceMin 
 												   FROM InterventionsPatho
@@ -96,7 +95,7 @@ if(isset($_POST['btn_demandeRDV'])) // si utilisateur clique sur le bouton deman
 												   AND InterventionsidIntervention= :idInterv " ); 
 			$req_pathoIntervExist->execute(array('idPatho'=> $idPatho,
 											'idInterv'=> $idIntervention));
-			$a_niveauUrgence= $req_PathoExist-> fetch(PDO::FETCH_ASSOC);
+			$a_niveauUrgence= $req_pathoIntervExist-> fetch(PDO::FETCH_ASSOC);
 			$req_pathoIntervExist->closeCursor();
 			if ($a_niveauUrgence == FALSE ) // si (nomPathologie -- intervention) n'existe pas dans bdd alors insertion => Enregistre la les niveau d'urgence de référence
 			{
@@ -110,66 +109,19 @@ if(isset($_POST['btn_demandeRDV'])) // si utilisateur clique sur le bouton deman
 				$a_niveauUrgence = ["niveauUrgenceMax"=> 0,"niveauUrgenceMin"=>0];
 			}
 			
-		//
-		////-- recherche niveauUrgence de reference
-		//
-		//
-		////else assoc existe
-		//
-		//	$req_IntervPathoExist = $auth_user->runQuery(" SELECT niveauUrgenceMax, niveauUrgenceMin
-		//										   FROM InterventionsPatho
-		//										   WHERE PathologiesidPatho = :idPatho
-		//										   And InterventionsidIntervention = :idIntervention" ); 
-		//	$req_IntervPathoExist->execute(array('idPatho'=> $idPatho, 
-		//								   'idIntervention'=> $idIntervention));
-		//	$a_niveauUrgence= $req_IntervPathoExist-> fetch(PDO::FETCH_ASSOC);			
-		//	$req_IntervPathoExist->closeCursor();
-		//	
-		//// Si l'association interv--patho existe pas dans la bdd alors affecte des valeurs par defaut
-		//	if ( $a_niveauUrgence["niveauUrgenceMax"] == FALSE) // si patho existe pas dans bdd
-		//	{
-		//		
-		//		$req_refUrgence = $auth_user->runQuery("INSERT INTO InterventionsPatho (InterventionsidIntervention, PathologiesidPatho)
-		//												VALUES ( :idInter, :idPatho)"); // Renseigne les valeurs de priorité = par default :0
-		//		$req_refUrgence->execute(array('idInter'=> $idIntervention,
-		//									   'idPatho'=> $idPatho));
-		//		$req_refUrgence->closeCursor();
-		//		$a_niveauUrgence=array( "niveauUrgenceMax" => 0,"niveauUrgenceMin" =>0); // affectation niveauUrgence de reference pour test administrateur
-		//	}
 
 
 // **************************************          Recherche l'HEURE de creneau dispo la plus proche         *********************************
 		
 			// Recherche le prochain creneau disponible pour l'intervention demandé ( dernier creneaux enregistré +15 min ou premier creneau annulé)
 			$a_infoDateHeure=prochainCreneauxDispo($auth_user,$idIntervention);
-			if (!array_key_exists('heureR', $a_infoDateHeure )) // gestion erreur : si PAS DE RDV prevu pour ce service dans le planning, retour requete = null 
+			
+			// gestion horraire selon qu'il s'agit d'un remplacement de rdv annulé ou d'un ajout à la suite
+			if (((array_key_exists('heureR', $a_infoDateHeure )) and ($a_infoDateHeure["statutR"] == 'p')))
 			{
-				$a_infoDateHeure["heureR"] = ProchaineHeureArrondie(); //=> on affecte date & heure actuelles		
-				$a_infoDateHeure["dateR"] = date('Y-m-d');	
-				if ($a_infoDateHeure["heureR"] >= $a_horaireFermeture["horaire_fermeture"]  ) // gestion erreur : si service = ferme, avant minuit 
-				{
-					$a_infoDateHeure["heureR"] = $a_horaireFermeture["horaire_ouverture"]; //=> on affecte date & heure actuelles
-					$a_infoDateHeure["dateR"] = date('Y-m-d', strtotime('+1 day'));	
-				}
-				elseif (( $a_infoDateHeure["heureR"] < $a_horaireFermeture["horaire_ouverture"]  )  // gestion erreur : si service = ferme, après minuit  
-						and ( $a_infoDateHeure["heureR"] < $a_horaireFermeture["horaire_fermeture"]  )) 
-				{
-					$a_infoDateHeure["heureR"] = $a_horaireFermeture["horaire_ouverture"]; //=> on affecte date & heure actuelles
-				}				
-			}
-			elseif (((array_key_exists('heureR', $a_infoDateHeure )) and ($a_infoDateHeure["statutR"] == 'p')))//or ($a_infoDateHeure["heureR"] !=  $a_horaireFermeture["heure_ouverture"] )) // a verif si creneaux = prevu; alors ajoute  15 min pour obtenir l'heure de creneau a affecter au RDV 
-			{
-				if ($a_infoDateHeure["heureR"] >= $a_horaireFermeture["horaire_fermeture"])
-				{
-					$a_infoDateHeure["heureR"]= $a_horaireFermeture["horaire_ouverture"];
-					$a_infoDateHeure["dateR"] = date('Y-m-d', strtotime($a_infoDateHeure["dateR"] . ' +1 day'));
-				}
-				else
-				{
 				$a_infoDateHeure["heureR"]=heurePlus15($a_infoDateHeure["heureR"],'+15 minutes'); 					
-				}
 			}
-			elseif (((array_key_exists('heureR', $a_infoDateHeure )) and ($a_infoDateHeure["statutR"] == 'a')))
+			elseif (((array_key_exists('heureR', $a_infoDateHeure )) and ($a_infoDateHeure["statutR"] == 'a'))) // on garde la meme heure et on change le statut du rdv annulé
 			{
 				$req_rdvAnnule = $auth_user-> runQuery(" UPDATE CreneauxInterventions
 													SET statut = 's' 
@@ -177,15 +129,28 @@ if(isset($_POST['btn_demandeRDV'])) // si utilisateur clique sur le bouton deman
 				$req_rdvAnnule->execute(array('rdv'=>$a_infoDateHeure["idR"]));
 				$req_rdvAnnule->closeCursor();
 			}
-
-// **************************************          Recherche Horaire APPROPRIEE SI niveau urgence != 0         *********************************
-
-			$a_infoDateHeure=gestionUrgence($auth_user,$idIntervention,$niveauUrgence, $a_infoDateHeure,$a_horaireFermeture);
+			elseif (!array_key_exists('heureR', $a_infoDateHeure )) // gestion erreur : si PAS DE RDV prevu pour ce service dans le planning, retour requete = null 
+			{
+				$a_infoDateHeure["heureR"] = ProchaineHeureArrondie(); //=> on affecte date & heure actuelles		
+				$a_infoDateHeure["dateR"] = date('Y-m-d');				
+			}
 			
+			if  ( $a_infoDateHeure["heureR"] < $a_horaireService["horaire_ouverture"]  )  // gestion erreur : si service = ferme, après minuit
+			{
+				$a_infoDateHeure["heureR"] = $a_horaireService["horaire_ouverture"];
+			}
+			elseif	($a_infoDateHeure["heureR"] >= $a_horaireService["horaire_fermeture"]  ) // gestion erreur : si service = ferme, avant minuit 
+			{
+				$a_infoDateHeure["heureR"] = $a_horaireService["horaire_ouverture"]; //=> on affecte date & heure actuelles
+				$a_infoDateHeure["dateR"] = date('Y-m-d', strtotime('+1 day'));	
+			}
+// **************************************          Recherche Horaire APPROPRIEE SI niveau urgence != 0         *********************************
+			If ($niveauUrgence !=0) //  determine le delais a respecter
+			{
+				$a_infoDateHeure=gestionUrgence($auth_user,$idIntervention,$niveauUrgence, $a_infoDateHeure,$a_horaireService);
+			}
 // *************************************************           INSERTION rdv         **********************************************************************************
 
-				//
-				
 			$ajoutRDV = $auth_user->runQuery("INSERT INTO CreneauxInterventions (date_rdv, heure_rdv, InterventionsidIntervention,
 										niveauUrgence, PathologiesidPatho, commentaires, PatientsnumSS, EmployesCompteUtilisateursIdEmploye) 
 										VALUES (:date_rdv, :heure_rdv, :InterventionsidIntervention, :niveauUrgence, :pathologie,
@@ -202,7 +167,7 @@ if(isset($_POST['btn_demandeRDV'])) // si utilisateur clique sur le bouton deman
 			Eval_notif_incompUrgence($auth_user,$niveauUrgence,$a_niveauUrgence);	
 		}	// si tous les champs du formulaire sont renseignés et valide
 	} // fin des instructions realisées si niveauUrgence !=0
-	//$auth_user->redirect('RDVDemande.php?Valide');
+	$auth_user->redirect('RDVDemande.php?Valide');
 } // tout ce qui est fait par le bouton
 
 

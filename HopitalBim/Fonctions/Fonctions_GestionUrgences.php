@@ -3,129 +3,125 @@
     {
     // Si la demande respect un certain delais (specifique a chaque niveau d'urgence) alors on ne perturbe pas le planning et on insert le rdv à la suite du planning ou a la place d'un rdv annule
     // Sinon on place le rdv à la suite des rendez vous de même niveau et on décale les suivants au risque de dépasser les horraires d'ouverture du service
-        If ($niveauUrgence !=0) //  determine le delais a respecter
-        {
-            $now=ProchaineHeureArrondie();  // si rdv = urgent -> determine le delais relatif au niveau d'urgence
-            $day = date('Y-m-d');
-            
-            switch ($niveauUrgence) // fixe un delais selon niveau urgence
-            {
-                case 3:
-                    $heureDelais=heurePlus15($now,'+180 minutes');
-                    if ($heureDelais < $now)
-                    {
-                        $dateDelais = date('Y-m-d', strtotime('+1 day'));
-                    }else {$dateDelais= date('Y-m-d');}
-                    break;//alors on insert à la suite
-                
-                case 2:
-                    $heureDelais=heurePlus15($now,'+360 minutes');
-                    if ($heureDelais < $now)
-                    {
-                        $dateDelais = date('Y-m-d', strtotime('+1 day'));
-                    }else {$day= date('Y-m-d');}
-                    break;
-            
-                case 1:
-                    $day = date('Y-m-d', strtotime('+1 day'));
-                    $heureDelais=$now;
-                    break;
-            }
-       
-       // delais pas respecté mais le service est fermé
-       
-       
-       
-       
-            if (($a_infoDateHeure["dateR"] >  $day   )
-                or (($a_infoDateHeure["dateR"] =  $day ) and  ($a_infoDateHeure["heureR"] > $heureDelais))) // si premier creneau dispo est hors delais on recherche un autre creneaux dont rdv < urgent et on decale les rendez-vous suivant
+   
+        $now=ProchaineHeureArrondie();  // si rdv = urgent -> determine le delais relatif au niveau d'urgence
+        $day = date('Y-m-d');
         
-            {
-                $a_infoDateHeureUrgence=CreneauxUrgent($auth_user,$niveauUrgence,$idIntervention ); 
-       
-            //-- Recherche le dernier creneau dont niveau d'urgence >= au niveau d'urgence
-                Dumper($a_infoDateHeureUrgence);
-                if ($a_infoDateHeureUrgence != FALSE)
+        switch ($niveauUrgence) // fixe un delais selon niveau urgence
+        {
+            case 3:
+                $heureDelais=heurePlus15($now,'+180 minutes');
+                if ($heureDelais < $now)
                 {
+                    $dateDelais = date('Y-m-d', strtotime('+1 day'));
+                }else {$dateDelais= date('Y-m-d');}
+                break;//alors on insert à la suite
+            
+            case 2:
+                $heureDelais=heurePlus15($now,'+360 minutes');
+                if ($heureDelais < $now)
+                {
+                    $dateDelais = date('Y-m-d', strtotime('+1 day'));
+                }else {$day= date('Y-m-d');}
+                break;
+        
+            case 1:
+                $day = date('Y-m-d', strtotime('+1 day'));
+                $heureDelais=$now;
+                break;
+        }
+   
+   // delais pas respecté mais le service est fermé
+   
+   
+   
+   
+        if (($a_infoDateHeure["dateR"] >  $day   )
+            or (($a_infoDateHeure["dateR"] =  $day ) and  ($a_infoDateHeure["heureR"] > $heureDelais))) // si premier creneau dispo est hors delais on recherche un autre creneaux dont rdv < urgent et on decale les rendez-vous suivant
+    
+        {
+            $a_infoDateHeureUrgence=CreneauxUrgent($auth_user,$niveauUrgence,$idIntervention ); 
+   
+        //-- Recherche le dernier creneau dont niveau d'urgence >= au niveau d'urgence
+            if ($a_infoDateHeureUrgence != FALSE)
+            {
 
-                    //$a_infoDateHeureUrgence = ["dateR"=>" ", "heureR"=>" ",  "statutR"=>"p",    "niveauUrgenceR"=>$nivUrg];
-                    Dumper ($a_infoDateHeureUrgence);
-                    if ($a_infoDateHeureUrgence['statutR'] == 'p')
-                    {
-                        $a_infoDateHeure["heureR"]= heurePlus15($a_infoDateHeureUrgence["heureR"],'+15 minutes');					
-                    }
-                    else
-                    {
-                        $a_infoDateHeure["heureR"]= $a_infoDateHeureUrgence["heureR"];					
-                    } 
+                //$a_infoDateHeureUrgence = ["dateR"=>" ", "heureR"=>" ",  "statutR"=>"p",    "niveauUrgenceR"=>$nivUrg];
+                if ($a_infoDateHeureUrgence['statutR'] == 'p')
+                {
+                    $a_infoDateHeure["heureR"]= heurePlus15($a_infoDateHeureUrgence["heureR"],'+15 minutes');					
                 }
                 else
                 {
-                   if (($now > $a_horaireFermeture['horaire_fermeture']) and ($now > $a_horaireFermeture['horaire_ouverture']))
-                   {
-                        $a_infoDateHeureUrgence['dateR']= date('Y-m-d', strtotime('+1 day')); /// $day + 1 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                        $a_infoDateHeureUrgence['heureR']= $a_horaireFermeture['horaire_ouverture'];
-                   }
-                   elseif (($now <  $a_horaireFermeture['horaire_fermeture']) and ($now < $a_horaireFermeture['horaire_ouverture']))
-                   {
-                        $a_infoDateHeureUrgence['dateR']= $day; 
-                        $a_infoDateHeureUrgence['heureR']= $a_horaireFermeture['horaire_ouverture'];
-                   }
-                   else
-                        $a_infoDateHeureUrgence['dateR']= $day; 
-                        $a_infoDateHeureUrgence['heureR']= $now;
+                    $a_infoDateHeure["heureR"]= $a_infoDateHeureUrgence["heureR"];					
+                } 
+            }
+            else
+            {
+               if (($now > $a_horaireFermeture['horaire_fermeture']) and ($now > $a_horaireFermeture['horaire_ouverture']))
+               {
+                    $a_infoDateHeureUrgence['dateR']= date('Y-m-d', strtotime('+1 day')); /// $day + 1 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                    $a_infoDateHeureUrgence['heureR']= $a_horaireFermeture['horaire_ouverture'];
                }
-                
-                
+               elseif (($now <  $a_horaireFermeture['horaire_fermeture']) and ($now < $a_horaireFermeture['horaire_ouverture']))
+               {
+                    $a_infoDateHeureUrgence['dateR']= $day; 
+                    $a_infoDateHeureUrgence['heureR']= $a_horaireFermeture['horaire_ouverture'];
+               }
+               else
+                    $a_infoDateHeureUrgence['dateR']= $day; 
+                    $a_infoDateHeureUrgence['heureR']= $now;
+           }
             
-                
+            
+        
+            
 
 
-            //-- Decale rdv suivant  SI niveau urgence != 0
-                //recupere tous les creneaux suivant
-                $req_CreneauSuivant = $auth_user->runQuery(" Select id_rdv, heure_rdv, statut FROM CreneauxInterventions 
-                                                        WHERE InterventionsidIntervention = :idIntervention
-                                                        AND date_rdv = :date
-                                                        AND heure_rdv >= :heure" ); 
-                $req_CreneauSuivant->execute(array('idIntervention'=> $idIntervention,
-                                                    'date'=> $a_infoDateHeureUrgence["dateR"] ,
-                                                    'heure'=> $a_infoDateHeure["heureR"]));
-                
-                $a_creneauSuiv= reqToArrayPlusligne($req_CreneauSuivant);
-                $req_CreneauSuivant->closeCursor(); 
+        //-- Decale rdv suivant  SI niveau urgence != 0
+            //recupere tous les creneaux suivant
+            $req_CreneauSuivant = $auth_user->runQuery(" Select id_rdv, heure_rdv, statut FROM CreneauxInterventions 
+                                                    WHERE InterventionsidIntervention = :idIntervention
+                                                    AND date_rdv = :date
+                                                    AND heure_rdv >= :heure" ); 
+            $req_CreneauSuivant->execute(array('idIntervention'=> $idIntervention,
+                                                'date'=> $a_infoDateHeureUrgence["dateR"] ,
+                                                'heure'=> $a_infoDateHeure["heureR"]));
             
+            $a_creneauSuiv= reqToArrayPlusligne($req_CreneauSuivant);
+            $req_CreneauSuivant->closeCursor(); 
+        
+        
+        // upDate toutes les heures suivantes 
             
-            // upDate toutes les heures suivantes 
-                
-            
-                if (array_key_exists("id_rdv",$a_creneauSuiv))
+        
+            if (array_key_exists("id_rdv",$a_creneauSuiv))
+            {
+            $req_upDateHoraire = $auth_user->runQuery(" UPDATE CreneauxInterventions
+                                                        SET heure_rdv = :newHeure,
+                                                        niveauUrgence = (niveauUrgence + '1') 
+                                                        WHERE id_rdv = :id_rdv" );
+                echo " pour chaque id_rdv : ";
+                foreach($a_creneauSuiv["id_rdv"] as $k=>$v) /////  ???  faire le while sur le fetch ??????????????????????????????????????
                 {
-                $req_upDateHoraire = $auth_user->runQuery(" UPDATE CreneauxInterventions
-                                                            SET heure_rdv = :newHeure,
-                                                            niveauUrgence = (niveauUrgence + '1') 
-                                                            WHERE id_rdv = :id_rdv" );
-                    echo " pour chaque id_rdv : ";
-                    foreach($a_creneauSuiv["id_rdv"] as $k=>$v) /////  ???  faire le while sur le fetch ??????????????????????????????????????
+                    
+                    if ($a_creneauSuiv["statut"][$k]  == 'a')
                     {
-                        
-                        if ($a_creneauSuiv["statut"][$k]  == 'a')
-                        {
-                            break;
-                        }
-                        else
-                        {
-                            $newHeure= heurePlus15($a_creneauSuiv["heure_rdv"][$k],'+15 minutes');
-                            $req_upDateHoraire->execute(array("id_rdv" => $a_creneauSuiv["id_rdv"][$k],
-                                                              "newHeure" =>$newHeure
-                                                              ));
-                            $req_upDateHoraire->closeCursor();
-                        }
+                        break;
                     }
-                }// fin d'instruction si dispo = hors delais
-                // test si il y a surbooking	
-                Eval_notif_Surbooking ($auth_user,$idIntervention,$a_infoDateHeureUrgence,$a_horaireFermeture);
-            } 
-        } // fin instruction si urgence !=0
+                    else
+                    {
+                        $newHeure= heurePlus15($a_creneauSuiv["heure_rdv"][$k],'+15 minutes');
+                        $req_upDateHoraire->execute(array("id_rdv" => $a_creneauSuiv["id_rdv"][$k],
+                                                          "newHeure" =>$newHeure
+                                                          ));
+                        $req_upDateHoraire->closeCursor();
+                    }
+                }
+            }// fin d'instruction si dispo = hors delais
+            // test si il y a surbooking	
+            Eval_notif_Surbooking ($auth_user,$idIntervention,$a_infoDateHeureUrgence,$a_horaireFermeture);
+        } 
     return ($a_infoDateHeure);
     }
 ?>

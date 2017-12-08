@@ -147,11 +147,10 @@ CREATE TABLE CreneauxInterventions (
  
 # Lie les tables Pathologies et Interventions  
 CREATE TABLE InterventionsPatho (
-  PathologiesidPatho       int(8) NOT NULL AUTO_INCREMENT, # 1  
+  PathologiesidPatho       int(8) NOT NULL, # 1  
   InterventionsidIntervention int(8) NOT NULL,  
   niveauUrgenceMax            tinyint(1) DEFAULT 0,    # on ne rentre rien  
   niveauUrgenceMin            tinyint(1) DEFAULT 0,     #  
-  PRIMARY KEY (PathologiesidPatho, InterventionsidIntervention), 
   FOREIGN KEY (InterventionsidIntervention) REFERENCES Interventions (idIntervention) ON DELETE CASCADE ON UPDATE CASCADE, 
   FOREIGN KEY (PathologiesidPatho) REFERENCES Pathologies (idPatho) ON DELETE CASCADE ON UPDATE CASCADE ); 
 
