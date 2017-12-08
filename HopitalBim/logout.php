@@ -5,7 +5,7 @@
 	
 	if($user_logout->is_loggedin()!="")
 	{
-		$user_logout->redirect('Pageprincipale.php');
+		$user_logout->redirect('PagePrincipale.php');
 	}
 	if(isset($_GET['logout']) && $_GET['logout']=="true")
 	{

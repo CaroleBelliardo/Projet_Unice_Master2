@@ -2,7 +2,7 @@
 	include ('../Config/Menupage.php');
 	if ($_SESSION["idEmploye"] != 'admin00')
 	{
-		$auth_user->redirect('../PagePrincipale.php');
+		$auth_user->redirect('../Pageprincipale.php');
 	}
 ?>
 
@@ -20,7 +20,7 @@
 		<?php
 		if ($_SESSION["idEmploye"] != 'admin00')
 		{
-		$auth_user->redirect('../PagePrincipale.php');
+		$auth_user->redirect('../Pageprincipale.php');
 		}
 		include ('../Formulaires/Formulaire_CompteUtilCreer.php'); //menu de navigation 
 		include ('../Config/Footer.php'); //menu de navigation ?>
