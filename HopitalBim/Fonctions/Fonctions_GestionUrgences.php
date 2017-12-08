@@ -122,6 +122,8 @@
             // test si il y a surbooking	
             Eval_notif_Surbooking ($auth_user,$idIntervention,$a_infoDateHeureUrgence,$a_horaireFermeture);
         } 
+		Dumper ($a_infoDateHeure);
+		echo "a info date heure ";
     return ($a_infoDateHeure);
     }
 ?>
