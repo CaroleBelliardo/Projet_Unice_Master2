@@ -1,0 +1,16 @@
+Pour les tests unitaires : 
+
+Pour évaluer l'intégrité fonctionnelle de notre projet, des tests unitaire ont été réalisés à chaque étape d'implémentation. De manière systématique, Lorsque nous vont utilisé de nouvelle fonction HTML,PHP ou HTML, nous avons consulté le résultat retourné par celle-ci pour bien évaluer ce que fait réellement la fonction avant de l'utiliser à de multiple relise, de la reprendre à plusieurs étape du code ou de la réutiliser. 
+
+On a systématiquement consulté le contenu des variables et des retour de requête pour bien comprendre la structure de celle-ci et pouvoir les traiter de manière adapté. 
+
+nous vont aussi testé les test conditionnel et le parcours des boucles ¶
+
+nous avons testé les sorties lors de nouvelles fonction php, html et sql pour bien comprendre le fonctionnement de ces instruction 
+
+
+
+
+
+
+

@@ -75,10 +75,6 @@
             {
                 $a_infoDateHeure['dateR']= date('Y-m-d', strtotime('+1 day'));
             }
-               
-               
-
-        }
 
         //-- Decale rdv suivant  SI niveau urgence != 0
             //recupere tous les creneaux suivant
@@ -94,31 +90,32 @@
             $req_CreneauSuivant->closeCursor(); 
         
         // upDate toutes les heures suivantes 
-        if (array_key_exists("id_rdv",$a_creneauSuiv))
-        {
-        $req_upDateHoraire = $auth_user->runQuery(" UPDATE CreneauxInterventions
-                                                    SET heure_rdv = :newHeure,
-                                                    niveauUrgence = (niveauUrgence + '1') 
-                                                    WHERE id_rdv = :id_rdv" );
-            foreach($a_creneauSuiv["id_rdv"] as $k=>$v) /////  ???  faire le while sur le fetch ??????????????????????????????????????
+            if (array_key_exists("id_rdv",$a_creneauSuiv))
             {
-                
-                if ($a_creneauSuiv["statut"][$k]  == 'a')
+            $req_upDateHoraire = $auth_user->runQuery(" UPDATE CreneauxInterventions
+                                                        SET heure_rdv = :newHeure,
+                                                        niveauUrgence = (niveauUrgence + '1') 
+                                                        WHERE id_rdv = :id_rdv" );
+                foreach($a_creneauSuiv["id_rdv"] as $k=>$v) /////  ???  faire le while sur le fetch ??????????????????????????????????????
                 {
-                    break;
+                    
+                    if ($a_creneauSuiv["statut"][$k]  == 'a')
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        $newHeure= heurePlus15($a_creneauSuiv["heure_rdv"][$k],'+15 minutes');
+                        $req_upDateHoraire->execute(array("id_rdv" => $a_creneauSuiv["id_rdv"][$k],
+                                                          "newHeure" =>$newHeure
+                                                          ));
+                        $req_upDateHoraire->closeCursor();
+                    }
                 }
-                else
-                {
-                    $newHeure= heurePlus15($a_creneauSuiv["heure_rdv"][$k],'+15 minutes');
-                    $req_upDateHoraire->execute(array("id_rdv" => $a_creneauSuiv["id_rdv"][$k],
-                                                      "newHeure" =>$newHeure
-                                                      ));
-                    $req_upDateHoraire->closeCursor();
-                }
-            }
-        }// fin d'instruction si dispo = hors delais
-        // test si il y a surbooking	
-    Eval_notif_Surbooking ($auth_user,$idIntervention,$a_infoDateHeureUrgence,$a_horaireService);
+            }// fin d'instruction si dispo = hors delais
+         // puis on test s'il y a surbooking	
+        Eval_notif_Surbooking ($auth_user,$idIntervention,$a_infoDateHeureUrgence,$a_horaireService);
+        }
     return ($a_infoDateHeure);
     }
 ?>

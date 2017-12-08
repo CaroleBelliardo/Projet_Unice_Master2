@@ -8,12 +8,11 @@
 		$auth_user->redirect('../Pageprincipale.php'); // recherche le service
 	}
 
-	
 	if (isset ($_POST["btn-Accepter"]))
 	{
 		//recup info rdv en question
 		$req_info = $auth_user->runQuery(" SELECT Pathologies.nomPathologie, CreneauxInterventions.InterventionsidIntervention, niveauUrgence,
-										niveauUrgenceMax, niveauUrgenceMin
+										InterventionsPatho.niveauUrgenceMax, InterventionsPatho.niveauUrgenceMin
 										FROM InterventionsPatho JOIN CreneauxInterventions JOIN Pathologies
 										WHERE id_rdv = :idrdv
 										AND CreneauxInterventions.PathologiesidPatho = Pathologies.idPatho
@@ -31,6 +30,7 @@
 		$req_info->execute(array('idrdv'=> $_POST["btn-Accepter"]));
 		$a_infoo= $req_info-> fetch(PDO::FETCH_ASSOC);
 		$req_info->closeCursor();
+		
 		if($a_infoo["niveauUrgence"] > $a_infoo["niveauUrgenceMax"])
 		{ 
 			$req_realiseRDV = $auth_user-> runQuery(" UPDATE InterventionsPatho
