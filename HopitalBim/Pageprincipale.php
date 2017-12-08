@@ -14,9 +14,6 @@
 	unset($_SESSION["servicePlanning"]);
 	unset($_SESSION["rdvModifier"]);
 
-	
-
-
 	//variables Globales
 	$auth_user = new Systeme(); // Connection bdd	
 	$user_id = $_SESSION['idEmploye']; // IDENTIFIANT compte utilisateur !!!!!
@@ -77,32 +74,29 @@ $_SESSION['service']=$a_utilisateur['service'];
 			  <a href="<?php echo $LienSite ?>Pages/FichePatientModifier.php">Modification</a>
 			</div>
 		</div>
-<?php
-		if ( $_SESSION["chefService"] == TRUE )
-		{
-		?>			
-			<a href="<?php echo $LienSite ?>Pages/Facturation.php">Facturation</a>
-		<?php
-			if ($_SESSION["idEmploye"] != "admin00")
+
+	<?php
+			if (( $_SESSION["chefService"] == TRUE ) and ($_SESSION["idEmploye"] != "admin00"))
 			{
-		?>
-			<a href="<?php echo $LienSite ?>Pages/VerificationNotification.php">Notifications</a>
-		<?php
+	?>			
+				<a href="<?php echo $LienSite ?>Pages/Facturation.php">Facturation</a>
+				<a href="<?php echo $LienSite ?>Pages/VerificationNotification.php">Notifications</a>
+	<?php
 			}
-			elseif ($_SESSION["idEmploye"]== "admin00")
+			if ($_SESSION["idEmploye"]== "admin00")
 			{
-?>
+	?>
 				<div class="dropdown">
 					<button class="dropbtn">Services </button>
 					<div class="dropdown-content">
 					  <a href="<?php echo $LienSite ?>Pages/ServiceCreer.php">Création</a>
 					  <a href="<?php echo $LienSite ?>Pages/ServiceModifier.php">Modification</a>
-					  <a href="<?php echo $LienSite ?>Pages/ServiceSupprimer.php">Suppression</a>
-					   <a href="<?php echo $LienSite ?>Pages/ActeCreer.php">Ajouter un acte</a>
-					  <a href="<?php echo $LienSite ?>Pages/ActeSupprimer.php">Supprimer un acte</a>
+					  <a href="<?php echo $LienSite ?>Pages/ServiceSupprimer.php">Archiver</a>
+					   <a href="<?php echo $LienSite ?>Pages/ActeCreer.php">Ajout un acte</a>
+					  <a href="<?php echo $LienSite ?>Pages/ActeSupprimer.php">Archiver un acte</a>
 					</div>
 				</div>
-
+			
 				<div class="dropdown">
 					<button class="dropbtn">Compte Utilisateur </button>
 					<div class="dropdown-content">
@@ -120,21 +114,85 @@ $_SESSION['service']=$a_utilisateur['service'];
 					</div>
 				</div>
 
+	
 <?php
 			}
-		
-?>
+	?>
 		<a name="Déco" href="<?php echo $LienSite ?>logout.php?logout=true"><img name="logout" src="Images/logout.png" alt="Logout logo" > Déconnexion</a>
-<?php
-
-		}
-?>
+	
 	
 </div>
-
 	<div id=PagePrincipale>
 		<p class="Bienvenue">Bienvenue sur votre espace personnel ! </p>
 
+		<?php 
+			if (($_SESSION["idEmploye"]== "admin00") and (!array_key_exists("contact",$_SESSION)) and (!array_key_exists("conditionsUtilisation",$_SESSION)))
+			{
+
+		?>
+			<p class="infoUser"> Bonjour <?php  echo($a_utilisateur['prenom']." ".$a_utilisateur['nom']); ?>, <br><br>
+				 Nous sommes aujourd'hui le <?php echo($today=date("j / m / Y")) ?>, <br><br>
+				 Vous êtes connecté en tant qu’administrateur du système. <br><br>
+
+				Vous serez informé des incompatibilités détectées par le système entre les interventions et les niveaux d’urgence demandées par les utilisateurs : <br> 
+				- En cliquant sur « Notification » dans l’onglet « Vérification ». A partir de ce même onglet, vous pouvez aussi avoir accès au tableau de synthèse des demandes d’interventions enregistrées par le système. <br><br>
+
+				L’onglet « Services » vous permet de créer, modifier ou supprimer un service de l’hôpital. A partir de cet onglet, vous pouvez aussi ajouter ou supprimer un acte médical réalisé par l’un de ces services. <br><br>
+
+				L’onglet « Compte utilisateur » vous permet de créer, modifier ou supprimer un compte d’un utilisateur. A partir de cet onglet, vous pouvez aussi ajouter ou supprimer un acte médical réalisé par l’un de ces services. <br><br>
+
+				Enfin, vous pouvez tester n’importe quelle fonctionnalité disponibles pour tous les utilisateurs du système (gestion du planning, demande de rendez-vous, gestion des fiches patients et facturation). <br>
+			</p>
+				
+		<?php 
+			}
+		if (($_SESSION["chefService"] == TRUE ) and ($_SESSION["idEmploye"] != "admin00") and (!array_key_exists("contact",$_SESSION)) and (!array_key_exists("conditionsUtilisation",$_SESSION)))
+			{
+		?>
+
+			<p class="infoUser"> Bonjour <?php  echo($a_utilisateur['prenom']." ".$a_utilisateur['nom']); ?>, <br><br>
+				Nous sommes aujourd'hui le <?php echo($today=date("j / m / Y")) ?>, <br><br>
+				Vous êtes connecté en tant que chef du service <?php echo($a_utilisateur['service']); ?>. <br><br>
+
+				Vous pouvez consultez le planning de votre service en cliquant sur l’onglet Planning. <br>
+
+				Vous pouvez demander une intervention pour un patient enregistré dans la base de données du système en cliquant sur l’onglet « Demande de rendez-vous ». <br>
+
+				Si vous souhaitez demander un rendez-vous sur un nouveau patient, vous devez lui créer une fiche en cliquant sur « Création » dans l’onglet « Patient ». Vous pouvez également sur cet onglet modifier les informations d’un patient. <br>
+
+				En tant que chef de service, vous pouvez imprimer les factures des actes médicaux effectués au sein de votre service pour chacun des patients en cliquant sur « Facturation ». <br>
+
+				En cliquant sur l’onglet « Notification », vous serez informé des interventions qui nécessitent un surbooking du planning. Pour gérer ce surbooking, vous pouvez modifier le planning en cliquant sur l’onglet « Planning ». <br>
+
+				Si vous rencontrez un problème, veuillez contacter l’administrateur du site via l’adresse : admin00@hopitalbim.fr <br>
+
+			</p>
+
+		<?php
+			}
+		if (($_SESSION["chefService"] != TRUE ) and (!array_key_exists("contact",$_SESSION)) and (!array_key_exists("conditionsUtilisation",$_SESSION)))
+			{
+		?>
+
+			<p class="infoUser"> Bonjour <?php  echo($a_utilisateur['prenom']." ".$a_utilisateur['nom']); ?>, <br><br>
+				Nous sommes aujourd'hui le <?php echo($today=date("j / m / Y")) ?>, <br><br>
+				Vous êtes connecté en tant que médecin de l’hôpital. <br><br>
+
+				Vous pouvez consultez le planning de votre service en cliquant sur l’onglet Planning. <br>
+
+				Vous pouvez demander une intervention pour un patient enregistré dans la base de données du système en cliquant sur l’onglet « Demande de rendez-vous ». <br>
+
+				Si vous souhaitez demander un rendez-vous sur un nouveau patient, vous devez lui créer une fiche en cliquant sur « Création » dans l’onglet « Patient ». Vous pouvez également sur cet onglet modifier les informations d’un patient. <br>
+
+				Si vous rencontrez un problème, veuillez contacter l’administrateur du site via l’adresse : admin00@hopitalbim.fr <br>
+
+				</p>
+
+		<?php
+			}
+		?>
+
+		<!-- 
     	<div class="profile">
   			<div class="photo">
   			<img src="Images/User.png" alt="Image utilisateur"/>
@@ -152,14 +210,12 @@ $_SESSION['service']=$a_utilisateur['service'];
 		</p>
 
     	<img name="stetho" src="Images/stetho.png" alt="Image stethoscope bleu" height="30%" width="30%">
-     </div>
+     </div> -->
 
-    </div> <!-- Page -->
+    </div> <!-- Page --> 
 
-    <div id="footer"> 
-    <a href="<?php echo $LienSite ?>Pages/readme.php"> Conditions d'utilisation </a> |
-    <a href="<?php echo $LienSite ?>Pages/contact.php"> Contact </a> | © 2017
-    </div>
+<?php include ('Config/Footer2.php'); //menu de navigation ?>
+   
 
 	</body>
 </html>

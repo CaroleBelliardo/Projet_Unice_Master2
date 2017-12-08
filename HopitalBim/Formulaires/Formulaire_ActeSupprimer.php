@@ -66,7 +66,7 @@
 
 <div class="containerFormu">
     <form method="post" class="form-signin">
-        <h2 class="form-signin-heading">Supprimer un acte médical</h2><hr />
+        <h2 class="form-signin-heading">Archiver un acte médical</h2><hr />
     <?php
         if(isset($error))
         {
@@ -81,7 +81,7 @@
         {
     ?>
             <div id="valide"> <!-- Alert alert-danger-->
-                Acte supprimé avec succés ! <a href='../Pageprincipale.php'>Page principale</a>
+                Acte archivé avec succés ! <a href='../Pageprincipale.php'>Page principale</a>
             </div>
     <?php
         }

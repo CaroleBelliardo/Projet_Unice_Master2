@@ -66,54 +66,49 @@
 					  <a href="<?php echo $LienSite ?>Pages/FichePatientCreer.php">Création</a>
 					  <a href="<?php echo $LienSite ?>Pages/FichePatientModifier.php">Modification</a>
 					</div>
-				</div>
-				
+				</div>				
 	<?php
-			if ( $_SESSION["chefService"] == TRUE )
+			if (( $_SESSION["chefService"] == TRUE ) and ($_SESSION["idEmploye"] != "admin00"))
 			{
 	?>			
 				<a href="<?php echo $LienSite ?>Pages/Facturation.php">Facturation</a>
-	<?php
-				if ($_SESSION["idEmploye"] != "admin00")
-				{
-	?>
 				<a href="<?php echo $LienSite ?>Pages/VerificationNotification.php">Notifications</a>
 	<?php
-				}
-				elseif ($_SESSION["idEmploye"]== "admin00")
-				{
+			}
+			if ($_SESSION["idEmploye"]== "admin00")
+			{
 	?>
-		<div class="dropdown">
-			<button class="dropbtn">Services </button>
-			<div class="dropdown-content">
-			  <a href="<?php echo $LienSite ?>Pages/ServiceCreer.php">Création</a>
-			  <a href="<?php echo $LienSite ?>Pages/ServiceModifier.php">Modification</a>
-			  <a href="<?php echo $LienSite ?>Pages/ServiceSupprimer.php">Suppression</a>
-			   <a href="<?php echo $LienSite ?>Pages/ActeCreer.php">Ajout un acte</a>
-			  <a href="<?php echo $LienSite ?>Pages/ActeSupprimer.php">Suppression un acte</a>
-			</div>
-		</div>
-	
-		<div class="dropdown">
-			<button class="dropbtn">Compte Utilisateur </button>
-			<div class="dropdown-content">
-			  <a href="<?php echo $LienSite ?>Pages/CompteUtilCreer.php">Création</a>
-			  <a href="<?php echo $LienSite ?>Pages/CompteUtilModifier.php">Modification</a>
-			  <a href="<?php echo $LienSite ?>Pages/CompteUtilSupprimer.php">Suppression</a>
-			</div>
-		</div>
-	
-		<div class="dropdown">
-			<button class="dropbtn">Vérification </button>
-			<div class="dropdown-content">
-			  <a href="<?php echo $LienSite ?>Pages/VerificationSynthese.php">Synthèse des demandes</a>
-			  <a href="<?php echo $LienSite ?>Pages/VerificationNotification.php">Notifications</a>
-			</div>
-		</div>
+				<div class="dropdown">
+					<button class="dropbtn">Services </button>
+					<div class="dropdown-content">
+					  <a href="<?php echo $LienSite ?>Pages/ServiceCreer.php">Création</a>
+					  <a href="<?php echo $LienSite ?>Pages/ServiceModifier.php">Modification</a>
+					  <a href="<?php echo $LienSite ?>Pages/ServiceSupprimer.php">Archiver</a>
+					   <a href="<?php echo $LienSite ?>Pages/ActeCreer.php">Ajout un acte</a>
+					  <a href="<?php echo $LienSite ?>Pages/ActeSupprimer.php">Archiver un acte</a>
+					</div>
+				</div>
+			
+				<div class="dropdown">
+					<button class="dropbtn">Compte Utilisateur </button>
+					<div class="dropdown-content">
+					  <a href="<?php echo $LienSite ?>Pages/CompteUtilCreer.php">Création</a>
+					  <a href="<?php echo $LienSite ?>Pages/CompteUtilModifier.php">Modification</a>
+					  <a href="<?php echo $LienSite ?>Pages/CompteUtilSupprimer.php">Suppression</a>
+					</div>
+				</div>
+			
+				<div class="dropdown">
+					<button class="dropbtn">Vérification </button>
+					<div class="dropdown-content">
+					  <a href="<?php echo $LienSite ?>Pages/VerificationSynthese.php">Synthèse des demandes</a>
+					  <a href="<?php echo $LienSite ?>Pages/VerificationNotification.php">Notifications</a>
+					</div>
+				</div>
 
 <?php
-				}
 			}
+			
 ?>
 		<a name="Déco" href="<?php echo $LienSite ?>logout.php?logout=true"><img name="logout" src="../Images/logout.png" alt="Logout logo" > Déconnexion</a>
 <?php

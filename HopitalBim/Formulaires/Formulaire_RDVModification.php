@@ -1,11 +1,7 @@
 <?php
 	$lien ='ServiceModifier.php';
 
-	$req_utilisateur = $auth_user->runQuery("SELECT CreneauxInterventions.date_rdv,  CreneauxInterventions.heure_rdv,
-											 CreneauxInterventions.niveauUrgence, CreneauxInterventions.PatientsnumSS,
-											Pathologies.nomPathologie, Pathologies.indication,
-											CreneauxInterventions.commentaires, CreneauxInterventions.InterventionsidIntervention
-											
+	$req_utilisateur = $auth_user->runQuery("SELECT *
 											FROM CreneauxInterventions Join Pathologies
 											WHERE  CreneauxInterventions.PathologiesidPatho = Pathologies.idPatho
 											AND CreneauxInterventions.id_rdv = :idr");
@@ -13,7 +9,7 @@
 	$req_utilisateur->execute(array("idr"=>$_SESSION['rdvModifier']));
 	$utilisateurInfo=$req_utilisateur -> fetch(PDO::FETCH_ASSOC);
 	$req_utilisateur->closeCursor();
-	
+	Dumper($utilisateurInfo);
 	
 	if(isset($_POST['btn-modifier']))
 {
@@ -125,7 +121,7 @@
  <!--Formulaire-->
 	<div class="signin-form">
 		<form method="post" class="form-signin">
-					<h2 class="form-signin-heading">Demande de rendez-vour le patient <?php echo $_SESSION["patient"]; ?></h2><hr /> <!--nom patient !!!!!!!!-->
+					<h2 class="form-signin-heading">Demande de rendez-vour le patient <?php echo $utilisateurInfo["PatientsnumSS"]; ?></h2><hr /> <!--nom patient !!!!!!!!-->
 					<?php
 					if(isset($error)) // affichage messages erreurs si valeurs != format attendu
 					{
@@ -153,7 +149,7 @@
 										
 					<!-- Affichage formulaire : moteur recherche du patient-->
 					<label for="text_patient"> Patient </label>
-					<input list="text_patient" name="text_patient" size='85'> 
+					<input list="text_patient" name="text_patient" size='85' placeholder="<?php echo $utilisateurInfo["PatientsnumSS"] ;?>" value="<?php if(isset($error)){echo $text_patient;}else {echo $utilisateurInfo["PatientsnumSS"];}?>">
 					<datalist id="text_patient" >
 	
 						<?php 
@@ -184,8 +180,8 @@
 					<fieldset>
 						<legend> Pathologie du patient </legend> <!-- Titre du fieldset --> 
 							<p>
-							<input type="text" class="" name="text_nomPathologie"  pattern="[a-zA-Z]{1-100}" title="Caractère alphabetique, 100 caractères maximum"  placeholder=" <?php $utilisateurInfo["nomPathologie"] ;?>"  value="<?php if(isset($error)){echo $utilisateurInfo["nomPathologie"] ;}?>" /><br><br>
-							<input type="text" class="" name="text_indicationPathologie" pattern="[a-zA-Z]{0-30}" title="Caractère alphabetique, 30 caractères maximum"       placeholder=" <?php echo $utilisateurInfo["indication"] ;?>" value="<?php if(isset($error)){echo $indicationPathologie;}?>" /><br><br>
+							<input type="text" class="" name="text_nomPathologie"  pattern="{1-100}" title="Caractère alphabetique, 100 caractères maximum"  placeholder=" <?php echo $utilisateurInfo["nomPathologie"] ;?>"  value="<?php if(isset($error)){echo $text_nomPathologie;}else {echo $utilisateurInfo['nomPathologie'];}?>" /><br><br>
+							<input type="text" class="" name="text_indicationPathologie" pattern="{0-30}" title="Caractère alphabetique, 30 caractères maximum"       placeholder=" <?php echo $utilisateurInfo["indication"] ;?>" value="<?php if(isset($error)){echo $text_indicationPathologie;}else {echo $utilisateurInfo['indication'];}?>" /><br><br>
  
 							</p>
 					</fieldset>
@@ -193,18 +189,18 @@
 						<legend> Intervention demandée </legend> <!-- Titre du fieldset --> 
 							<p>
 								<!-- Affichage formulaire : moteur recherche-->
-								<input list="text_idIntervention" name="text_idIntervention" size='35'> 
-								<datalist id="text_idIntervention" >
+								<input list="text_idIntervention" name="text_idIntervention" size='35' placeholder="<?php echo $utilisateurInfo["InterventionsidIntervention"] ;?>" value="<?php if(isset($error)){echo $text_idIntervention;}else {echo $utilisateurInfo["InterventionsidIntervention"];}?>"> 
+								<datalist id="text_idIntervention"  >
 <?php 
 									$req_serviceacte = $auth_user->runQuery("SELECT idIntervention, acte, ServicesnomService FROM Interventions"); // permet de rechercher le nom d utilisateur 
 									$req_serviceacte->execute(); // la meme 
-									//while ($row_serviceacte = $req_serviceacte->fetch(PDO::FETCH_ASSOC))
-									//{
-									//	echo "<option label='".$row_serviceacte['acte']." ".$row_serviceacte['ServicesnomService']."' 
-									//	value='"."(".$row_serviceacte['idIntervention'].")"."  ".$row_serviceacte['acte']." -- ".$row_serviceacte['ServicesnomService']."'>".$row_serviceacte['acte']." ".$row_serviceacte['ServicesnomService']."</option>" placeholder="<?php echo $utilisateurInfo['idIntervention'] ;?>";
-									//
-									//}
-?>
+									while ($row_serviceacte = $req_serviceacte->fetch(PDO::FETCH_ASSOC))
+									{
+										echo "<option label='".$row_serviceacte['acte']." ".$row_serviceacte['ServicesnomService']."' 
+										value='"."(".$row_serviceacte['idIntervention'].")"."  ".$row_serviceacte['acte']." -- ".$row_serviceacte['ServicesnomService']."'>".$row_serviceacte['acte']." ".$row_serviceacte['ServicesnomService']."</option>";
+									
+									}
+								?>
 								</datalist>
 								</br >
 
@@ -220,7 +216,7 @@
 					<fieldset>
 						<legend> Commentaires </legend> <!-- Titre du fieldset --> 
 							<p>
-								<textarea type="text" class="" name="text_commentaires"   value="<?php if(isset($error)){echo $commentaires;}?>" ></textarea><br>
+								<textarea type="text" class="" name="text_commentaires"   placeholder=" <?php echo $utilisateurInfo["commentaires"] ;?>" value="<?php if(isset($error)){echo $text_commentaires;}else {echo $utilisateurInfo['commentaires'];}?>"></textarea><br>
 							</p>
 						
 					</fieldset>
@@ -235,7 +231,6 @@
 					<button type="submit" class="btn btn-primary" name="btn_demandeRDV">
 						<i class=""></i>Valider
 					</button>
-				<?php quitter1() ?>	
 				</div>
 		</form>
-
+		<?php quitter1() ?>
