@@ -39,7 +39,7 @@
             $a_infoDateHeureUrgence=CreneauxUrgent($auth_user,$niveauUrgence,$idIntervention ); 
    
         //-- Recherche le dernier creneau dont niveau d'urgence >= au niveau d'urgence
-            if (array_key_exists(['heureR'],$a_infoDateHeureUrgence))
+            if (array_key_exists('heureR',$a_infoDateHeureUrgence))
             {
 
                 //$a_infoDateHeureUrgence = ["dateR"=>" ", "heureR"=>" ",  "statutR"=>"p",    "niveauUrgenceR"=>$nivUrg];
@@ -77,17 +77,7 @@
             }
                
                
-            //$a_infoDateHeureUrgence = ["dateR"=>" ", "heureR"=>" ",  "statutR"=>"p",    "niveauUrgenceR"=>$nivUrg];
-            if ($a_infoDateHeureUrgence['statutR'] == 'p')
-            {
-                $a_infoDateHeure["heureR"]= heurePlus15($a_infoDateHeureUrgence["heureR"],'+15 minutes');
-                $a_infoDateHeure["dateR"]= $a_infoDateHeureUrgence["dateR"];	
-            }
-            else
-            {
-                $a_infoDateHeure["heureR"]= $a_infoDateHeureUrgence["heureR"];
-                $a_infoDateHeure["dateR"]= $a_infoDateHeureUrgence["dateR"];	
-            } 
+
         }
 
         //-- Decale rdv suivant  SI niveau urgence != 0
@@ -97,7 +87,7 @@
                                                     AND date_rdv = :date
                                                     AND heure_rdv >= :heure" ); 
             $req_CreneauSuivant->execute(array('idIntervention'=> $idIntervention,
-                                                'date'=> $a_infoDateHeureUrgence["dateR"] ,
+                                                'date'=> $a_infoDateHeure["dateR"] ,
                                                 'heure'=> $a_infoDateHeure["heureR"]));
             
             $a_creneauSuiv= reqToArrayPlusligne($req_CreneauSuivant);
