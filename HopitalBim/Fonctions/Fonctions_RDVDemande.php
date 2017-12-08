@@ -76,9 +76,11 @@
 		$req_infoDateHeure->execute(array('idIntervention' => $idInterv)); // modifier variables
 		$a_infoDateHeure = reqToArrayPlusAttASSO($req_infoDateHeure); // retourne : [ MIN(dateR), MIN(heureR), statutR, idR ] heure = dernier rdv prevu ou premier rdv annulé 
 		$req_infoDateHeure->closeCursor();
+		    echo "titi :";
+	Dumper($a_infoDateHeure);
         return ($a_infoDateHeure);
     }
-    
+
 	
     function CreneauxUrgent($auth_user, $nivUrg, $idInterv) // recherche le dernier creneau occupé ou le premier creneau annulé avec nivUrgence 
     {
@@ -100,10 +102,7 @@ FROM
 				AND InterventionsidIntervention = :idIntervention
 				AND CreneauxInterventions.statut = 'p'
 				AND CreneauxInterventions.niveauUrgence >= :niveauUrgence
-				AND heure_rdv >= 
-				(
-					SELECT horaire_ouverture FROM Interventions  JOIN Services WHERE idIntervention = :idIntervention AND Interventions.ServicesnomService = Services.nomService
-				) ORDER BY date_rdv DESC, heure_rdv DESC LIMIT 1
+				 ORDER BY date_rdv DESC, heure_rdv DESC LIMIT 1
 			)
 			UNION
 			(
@@ -115,11 +114,7 @@ FROM
 				AND InterventionsidIntervention = :idIntervention
 				AND CreneauxInterventions.statut = 'p'
 				AND CreneauxInterventions.niveauUrgence >= :niveauUrgence
-				AND heure_rdv >= 
-				(
-					SELECT horaire_ouverture FROM Interventions  JOIN Services WHERE idIntervention = :idIntervention AND Interventions.ServicesnomService = Services.nomService
-				)  
-					ORDER BY date_rdv DESC, heure_rdv DESC LIMIT 1
+				ORDER BY date_rdv DESC, heure_rdv DESC LIMIT 1
 			) 
 				ORDER BY  dateR1 DESC, heureR1 DESC LIMIT 1  
 		) as d  
@@ -134,10 +129,17 @@ FROM
 		AND heure_rdv > CURRENT_TIMESTAMP() 
 		AND CreneauxInterventions.statut = 'a'
 		AND InterventionsidIntervention = :idIntervention
-		AND heure_rdv >= 
-		(
-			SELECT horaire_ouverture FROM Interventions  JOIN Services WHERE idIntervention = :idIntervention AND Interventions.ServicesnomService = Services.nomService
-		) 
+		ORDER BY  date_rdv ASC , heure_rdv LIMIT 1
+	)
+	UNION 
+	(
+		SELECT date_rdv as dateR, heure_rdv  as heureR, CreneauxInterventions.statut as statutR, CreneauxInterventions.id_rdv as idR, niveauUrgence as niveauUrgenceR      
+		FROM CreneauxInterventions JOIN Interventions  JOIN Services 
+		WHERE CreneauxInterventions.InterventionsidIntervention = Interventions.idIntervention
+		AND Interventions.ServicesnomService = Services.nomService
+		AND date_rdv > CURDATE() 
+		AND CreneauxInterventions.statut = 'a'
+		AND InterventionsidIntervention = :idIntervention
 		ORDER BY  date_rdv ASC , heure_rdv LIMIT 1
 	)
 ) as dd WHERE dateR IS NOT NULL ORDER BY dateR ASC, heureR ASC");
