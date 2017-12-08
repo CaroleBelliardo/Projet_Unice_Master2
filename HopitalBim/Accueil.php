@@ -15,7 +15,7 @@ if(isset($_POST['btn-login']))
 		
 	if($login->authentification($uname,$upass))
 	{
-		$login->redirect('Pagerincipale.php');
+		$login->redirect('PagePrincipale.php');
 	}
 	else
 	{
