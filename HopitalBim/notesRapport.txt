@@ -1,4 +1,4 @@
-#-- Spécif. générale ou cas utilisation 
+﻿#-- Spécif. générale ou cas utilisation 
 Lors de l'enregistrement d'un service seule les information générale sur le service ( tables 'Services' et 'Localisation' ) sont renseignée. On peut supposer que chaque service peut dispenser un nombre variable d'intervention et qu'il est plus pertinent de géré la liste des actes médicaux de manière indépendante. 
 
 
@@ -22,7 +22,7 @@ Aussi, phpMyadmin nous a permis de tester l'opérabilité des formulaire réalis
 
 #-- Spécifications détaillées : 
 1. Hypothèses : 
-- tous les services travailles 7/7, pas de weed-end
+- tous les services travaillent 7/7, pas de weed-end
 - il ne peux pas y avoir deux services avec le même nom
 - chaque acte à un tarif unique, pas de prix spéciaux pour les urgences
 - l'administrateur est un informaticien qui ne prends pas partie aux transactions de rdv au sein de l'hôpital. Cependant, il a accès aux fonctionalitées des autres utilisateurs pour facilité l'évaluation de la plateforme et le débuggage  tous les services de l'hôpital se situe à la même adresse 
