@@ -5,7 +5,7 @@
 
 	If ($_SESSION['chefService'] != TRUE) 
 	{
-		$auth_user->redirect('../PagePrincipale.php'); // recherche le service
+		$auth_user->redirect('../Pageprincipale.php'); // recherche le service
 	}
 	else
 	{

@@ -85,7 +85,7 @@ La première étape de cette fonction vise à établir l'heure et la date de fin
 -le dernier créneaux du planning dont le niveau d'urgence est >= au niveau demandé
 -le premier créneaux annulé
 Min(Max(Max(rdv prévu auj.) + Max(rdv prévu>auj)) + Min(rdv annulé auj.) + Min(rdv annulé>auj.)) + pas de contraintes relative aux niveaux d'urgences
-S'il n'y a pas de créneaux de même niveau d'urgence déjà présent dans le planning est que le retour de la requête est un tableau vide, on attribut alors le rendez-vous immédiatement ( avec comme créneaux le jour d'aujourdhui et l'heure arrondie à la prochaine quinzaine). Tous les rendez-vous suivant sont décalées de 15 minutes jusqu'a ce que la boucle rencontre un rendez-vous dont le statut est annulé. 
+S'il n'y a pas de créneaux de même niveau d'urgence déjà présent dans le planning est que le retour de la requête est un tableau vide, on attribut alors le rendez-vous immédiatement ( avec comme créneaux le jour d'aujourdhui et l'heure arrondie à la prochaine quinzaine).
 
 
 b6. Enregistrement des notifications

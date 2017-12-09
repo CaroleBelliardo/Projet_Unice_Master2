@@ -8,11 +8,12 @@
 		$auth_user->redirect('../Pageprincipale.php'); // recherche le service
 	}
 
+	
 	if (isset ($_POST["btn-Accepter"]))
 	{
 		//recup info rdv en question
 		$req_info = $auth_user->runQuery(" SELECT Pathologies.nomPathologie, CreneauxInterventions.InterventionsidIntervention, niveauUrgence,
-										InterventionsPatho.niveauUrgenceMax, InterventionsPatho.niveauUrgenceMin
+										niveauUrgenceMax, niveauUrgenceMin
 										FROM InterventionsPatho JOIN CreneauxInterventions JOIN Pathologies
 										WHERE id_rdv = :idrdv
 										AND CreneauxInterventions.PathologiesidPatho = Pathologies.idPatho
@@ -30,7 +31,6 @@
 		$req_info->execute(array('idrdv'=> $_POST["btn-Accepter"]));
 		$a_infoo= $req_info-> fetch(PDO::FETCH_ASSOC);
 		$req_info->closeCursor();
-		
 		if($a_infoo["niveauUrgence"] > $a_infoo["niveauUrgenceMax"])
 		{ 
 			$req_realiseRDV = $auth_user-> runQuery(" UPDATE InterventionsPatho
@@ -74,6 +74,9 @@
 		$auth_user->redirect('VerificationNotification.php?Valide');
 	}
 ?>	
+
+
+
 
 <!DOCTYPE html PUBLIC >
 <html>
@@ -226,47 +229,9 @@
 			}
 		?>
 
-		</div> <!-- div containerTab --> 
+		</div> <!-- div containerTab -->
 
-		<div id="legendNotif">
-
-			<table id="legendNotifTab" border="1", ALIGN="CENTER", VALIGN="MIDDLE">
-
-			<tr class="haut">
-				<th colspan="2" class="Totalth"> Légende tableau</th>
-				
-			</tr>
-
-			<tr>
-				<td class="infoUser"> <button> A </button> </td> 
-				<td> Annulé ! </td>
-			</tr>
-
-			<tr>
-				<td class="infoUser"> <button> R </button> </td>
-				<td> Réalisé !  </td>
-			</tr>
-
-			<tr>
-				<td class="infoUser"> NU </td> 
-				<td> Niveau d'urgence </td>
-			</tr>
-
-			<tr>
-				<td class="infoUser"> Max </td>
-				<td> Niveau Maximal d'urgence </td>
-			</tr>
-
-			<tr>
-				<td class="infoUser"> Min </td> 
-				<td> Niveau Minimal d'urgance </td>
-			</tr>
-
-			</table> <!--legendNotif-->
-
-		</div> <br> <br> <br> <br>
-
-	<?php include ('../Config/Footer.php'); //menu de navigation ?>
+	<?php include ('../Config/Footer2.php'); //menu de navigation ?>
 
 	</body>
 

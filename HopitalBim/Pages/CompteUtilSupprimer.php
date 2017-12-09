@@ -7,7 +7,7 @@
 	include ('../Config/Menupage.php');
 	if ($_SESSION["idEmploye"] != 'admin00')
 	{
-		$auth_user->redirect('../PagePrincipale.php');
+		$auth_user->redirect('../Pageprincipale.php');
 	}
 
 	if(isset($_POST['btn-suppr_CU']))
