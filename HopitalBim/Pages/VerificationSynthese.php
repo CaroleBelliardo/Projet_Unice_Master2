@@ -200,7 +200,7 @@
 					{
 					?>
 			
-				<td> <!-- le corps du tableau (sauf colonne/ligne : Total ) -->
+				<td class="tdsynthese"> <!-- le corps du tableau (sauf colonne/ligne : Total ) -->
 
 					<?php
 						if (array_key_exists($nomService,$a_info))

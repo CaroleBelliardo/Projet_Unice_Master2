@@ -477,6 +477,7 @@ tr .legendPlanning{
   border: none;
 }
 
+
 fieldset .contourPlanning{
   width: 20%;
   float:right;
@@ -529,11 +530,6 @@ td { /* Cellules de contenu */
   background-color: #bdcbdb;
 }
 
-td:hover {
- background-color: #17202A;
- color: white;
-}
-
 .recherchePlanning{
   display: inline-block;
 }
@@ -550,10 +546,7 @@ td:hover {
  width: 25%;
 }
 
-#legendNotif p.infoUser{
   
-}
-
 
 /*                 */
 /*      FOOTER     */

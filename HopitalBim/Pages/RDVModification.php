@@ -10,9 +10,10 @@
 <!DOCTYPE html PUBLIC >
 <html>
 	<head>
-		<title>Modifier un utilisateur</title>
+		<title>Modifier un rdv</title>
 		<link rel="stylesheet" href="Style.css">
 		<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+		<link href="https://fonts.googleapis.com/css?family=Josefin+Slab" rel="stylesheet">
 		</head>
 
 	<body>

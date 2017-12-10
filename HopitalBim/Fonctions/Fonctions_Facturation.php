@@ -52,7 +52,7 @@
     $req_intervention->closeCursor();
     
 
-// numero de facture
+// numero de facture 
     if (array_key_exists( "id_rdv", $a_infoInterv))
     { 
         $req_facturation= $auth_user->runQuery("SELECT MAX(idFacture) +1
@@ -101,12 +101,13 @@
 // ************************************************** REQUETES ******************
 ?>
     <!--logo-->
+<div class="containerFormu">
     <table cellspacing="0" style="width: 80%; text-align: center; font-size: 14px">
         <tr>
-            <td style="width: 75%;"></td>
             <td style="width: 25%; color: #444444;">
-                <img style="width: 70%;" src="../Images/logoFacture2.png" alt="Logo"><br>
+                <img style="width: 70%; " src="../Images/logoFacture2.png" alt="Logo"><br>
             </td>
+            <td style="width: 75%;"></td>
         </tr>
     </table>
     
@@ -224,21 +225,22 @@
                 <td style="width:40%; ">
                     <?php echo $a_utilisateur['prenom']." ".$a_utilisateur['nom']." <br> Responsable du service ".$_SESSION['service'] ?> <br>
 					<?php  $a_service ?> 
-                    <?php echo 'tel. : '.$a_service["telephone"]."<br>".
-'mail : '.$a_service["mail"]."<br>".
-'ouvert de '.$a_service["horaire_ouverture"].
-'à '.$a_service["horaire_fermeture"]."<br>".
-'batiement '.$a_service["batiment"].
+                    <?php echo 'Tel : '.$a_service["telephone"]."<br>".
+'Mail : '.$a_service["mail"]."<br>".
+'Ouvert de '.$a_service["horaire_ouverture"].
+' à '.$a_service["horaire_fermeture"]."<br>".
+'Batiment '.$a_service["batiment"].
 ', aile '.$a_service["aile"].
-', au '.$a_service["etage"].'étage'
-?>
-					
-					
+', étage '.$a_service["etage"]
+?>	
 					
                     <br>
                 </td>
             </tr>
         </table>
+</div> 
+
+<?php quitter1() ?> <br> <br> <br> <br>
 
 
 <!--<style type="text/css">
@@ -246,17 +248,17 @@
 table { vertical-align: top; }
 tr    { vertical-align: top; }
 td    { vertical-align: top; }
-
 </style>-->
 
     <?php
         }
-        else echo  "Pas de facture disponible pour ce patient actuellement !"
-    ;?> <br>
-        
+        else echo  "Pas de facture disponible pour ce patient actuellement !"; ?>  
+               
+
 
  <!-- bouton abandon redirection Page principale -->
-            <?php quitter1() ?>
+     <?php quitter1() ?>
+
 
 
 

@@ -161,9 +161,17 @@
 
 		//Dumper($a_infoNotif);
 			if($a_infoNotif == FALSE)
-				{
-				echo "Aucune notifications";
-				}
+				{ 
+			?>
+
+			<div class="containerFormu">
+				<?php echo "Aucune notification";
+				
+				?> 
+			</div>
+
+			<?php 
+		}
 				else
 				{
 
@@ -239,12 +247,12 @@
 
 			<tr>
 				<td class="infoUser"> <button> A </button> </td> 
-				<td> Annulé ! </td>
+				<td> Accepté ! <br> Mise à jour du NU </td>
 			</tr>
 
 			<tr>
 				<td class="infoUser"> <button> R </button> </td>
-				<td> Réalisé !  </td>
+				<td> Refusé !  </td>
 			</tr>
 
 			<tr>

@@ -230,7 +230,7 @@
 						<label for="text_telephone">Téléphone </label>
 						<input type="tel" class="form-control" name="text_telephone" pattern="[0-9]{1-15}" title="Caractère numérique, 15 caractères acceptés"    placeholder=" 06xxxxxxxx" value="<?php if(isset($error)){echo $text_telephone;}?>" /><br>
 
-						<label for="text_nomService"> Service </label>
+						<label for="text_nomService"> Service <em>* </em></label>
 							<input list="text_nomService" name="text_nomService" size='85'> 
 							<datalist id="text_nomService" >
 								<?php 
@@ -268,10 +268,10 @@
 						<label for="text_ville">Ville <em>* </em></label>
 						<input type="text" class="form-control" name="text_ville"  pattern="[A-Za-z]{1-150}" title="Caractère alphabetique, 150 caractères maximum" placeholder=" Ville" value="<?php if(isset($error)){echo $text_ville;}?>"/><br>
 
-						<label for="text_codepostal">Code Postal </label>
+						<label for="text_codepostal">Code Postal <em>* </em></label>
 						<input type="text" class="form-control" name="text_codepostal" pattern="{5}" title="Caractère numérique, 5 caractères maximum" placeholder=" Code Postal" value="<?php if(isset($error)){echo $text_codepostal;}?>" /><br>
 
-						<label for="text_departement">Département </label>
+						<label for="text_departement">Département <em>* </em></label>
 						<input type="text" class="form-control" name="text_departement" pattern="{3}" title="Caractère numérique, 5 caractères maximum" placeholder=" Département" value="<?php if(isset($error)){echo $text_departement;}?>" /><br>
 
 						<label for="text_pays">Pays <em>* </em></label>
