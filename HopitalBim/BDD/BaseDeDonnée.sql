@@ -173,7 +173,7 @@ CREATE TABLE Notifications (
 
 
     
-# Table regroupant tous les services présents dans l hôpital 
+# Table qui contient les services archivés par l'administrateur s'ils n'existent plus à l'hopital
 CREATE TABLE ServicesArchive (   
   nomService                  varchar(20) NOT NULL, # Imagerie // Maj en 1ère lettre 
   telephone                   varchar(15),  
@@ -184,7 +184,7 @@ CREATE TABLE ServicesArchive (
   PRIMARY KEY (nomService), 
   FOREIGN KEY (LocalisationServicesidLocalisation) REFERENCES LocalisationServices (idLocalisation) ON DELETE SET NULL ON UPDATE CASCADE ); 
   
-# Table regroupant tous les employés travaillant au sein de l hopital 
+#  Table qui contient les employés qui ne sont plus membre de l'hopital, dont les infos sont archivées par l'administrateur
 CREATE TABLE EmployesArchive ( 
   idEmploye int(8) NOT NULL AUTO_INCREMENT, # 1
   CompteUtilisateursidEmploye char(7) , # cf idEmployé 
@@ -200,7 +200,7 @@ CREATE TABLE EmployesArchive (
   FOREIGN KEY (CompteUtilisateursidEmploye) REFERENCES CompteUtilisateurs (idEmploye) ON DELETE SET NULL ON UPDATE CASCADE,
   INDEX (nom)); 
   
-# Table regroupant toutes les interventions  
+#  Table qui contient les actes médicaux archivés par l'administrateur s'ils ne sont plus réalisés
 CREATE TABLE InterventionsArchive (   
   idIntervention                       int(8) NOT NULL AUTO_INCREMENT,  
   acte                                 varchar(15) NOT NULL, # 1ere lettre Maj : Radio 
