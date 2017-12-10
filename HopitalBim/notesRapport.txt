@@ -33,13 +33,30 @@ Chaque acte n'est pas rattaché à un médecin en particulier. Le personnel méd
 
 
 2. L'organisation du code :
-Le script étant assez long, il a été décomposé en plusieurs fichiers. Ces nombreux fichiers ont été répartis dans plusieurs répertoires organisés selon leurs types et fonctions. De plus, cette architecture du code, nous a permis de factoriser certaines parties en individualisant les blocs d'instructions réutilisés sous forme de fonctions. 
+Le script étant assez long, il a été décomposé en plusieurs fichiers. Ces nombreux fichiers ont été répartis dans plusieurs répertoires organisés selon leurs types et fonctions. De plus, cette architecture du code, nous a permis de factoriser certaines parties du code en individualisant les blocs d'instructions réutilisés sous forme de fonctions.
+
+Dans “htdocs” se trouve :
+Un fichier “404.php” et un fichier “.htaccess”. Ils permettent la gestion d’erreur de type 404 renvoyé par le serveur HTTP pour indiquer que la ressource demandée ou une page web n’existe pas. Lorsqu’un utilisateur tente d'accéder à une ressource inexistante, il est automatique renvoyer vers la page d’accueil du site.
+Dans chaque sous dossier de “htdocs” se trouve un fichier “index.php”. Celui ci permet la redirection de l’utilisateur vers l’accueil dans le cas où l’utilisateur souhaiterait voir le contenu d’un dossier.
+
 Ainsi, à la racine se trouve :
-- le fichier index correspondant à la page d'accueil du site qui permet de se connecter à celui-ci et d'accéder aux données de la base
-- la classe Systeme: ...
-- bdConfig : ...
-- loggout qui permet de se déconnecter du site
-- PagePrincipale sur laquelle l'utilisateur est redirigé une fois connecté et qui propose l'accès aux différentes fonctionnalités selon les droits d'accès de l'utilisateur 
+- le fichier “Accueil.php” correspondant à la page d'accueil du site qui permet de se connecter et d'accéder à l’ensemble des services proposés par notre site web.
+- le fichier “dbconfig.php” qui contient la classe “Basededonnee”. Cette classe permet de récupérer de façon privé l’ensemble des informations permettant l'établissement de la connection avec la base de donnée. La localisation, le nom, le nom d’utilisateur et le mot de passe sont déclaré dans cette classe. La fonction “bddConnection()” permet de réaliser la connection à la base de donnée. De plus, les erreurs de connection sont récupérées et peuvent être affichées.
+
+- Le fichier “Classe.Systeme.php” qui contient la classe Systeme. Cette classe qui compose notre site web possède 8 fonctions essentiels à la bonne exécution de l’ensemble des services proposés par le site. Elle permet d'ouvrir une connexion au serveur MySQL et possède plusieurs fonctions.
+    Une fonction “__construct() ” de construction de la classe Systeme est appelé à chaque création d’une nouvelle instance de l’objet. Cette fonction est nécessaire pour toutes les initialisations dont l'objet a besoin avant d'être utilisé. De cet façon, à chaque utilisation des fonctions associés à cette classe, la fonction “__construct() ” va établir la bonne connection à la base de donnée en appelant la classe “Basededonnee”. 
+    La fonction “runQuery()” qui permet de préparer le requetes SQL tout en s’assurant la bonne connection à la base de donnée.
+    La fonction “creerUtilisateur()” permet de récupérer en entrée le nom d’utilisateur et son mot de passe. Le mot de passe sera alors crypté grâce à une clé de qui utilise un hachage fort et irréversible. Seul le résultat est stocké dans la base de donnée. 
+    La fonction “authentification()” permet de s’authentifier au site. Elle vérifie que le mot de passe correspond à l’utilisateur qui souhaite s’identifier. 
+    La fonction “estConnecté()” permet de tester si l’utilisateur est bien connecté.
+    La fonction “redirect” permet de rediriger vers une autre page qui peut être donnée en argument.
+    La fonction “viderSession()” qui permet de supprimer des variables associé à la session en cours.  Principalement utilisé lorsque l’utilisateur souhaite abandonner une action entreprise.
+    La fonction “seDeconnecter()” qui permet à l’utilisateur de se déconnecter en toute sécurité
+
+-Le fichier “session.php” permet d’initialiser la session pour l’utilisateur qui vient de se connecter.
+- Le fichier “deconnection.php” qui permet de déconnecter un utilisateur de sa session et de le rediriger vers la page d’accueil.
+
+- PagePrincipale est la page sur laquelle l'utilisateur est redirigé une fois qu’il est connecté ou à chaque fois qu’il clique sur le bouton abandonner affiché en fin de formulaire. Elle propose l'accès aux différentes fonctionnalités selon les droits d'accès de l'utilisateur.
 
 On trouve aussi 6 répertoires : 
 - BDD :  Le fichier de structuration de la base de donnée, ainsi qu'un fichier comportant quelques insertions pour permettre les tests
