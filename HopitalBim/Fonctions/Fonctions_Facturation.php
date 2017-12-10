@@ -52,7 +52,7 @@
     $req_intervention->closeCursor();
     
 
-// numero de facture
+// numero de facture 
     if (array_key_exists( "id_rdv", $a_infoInterv))
     { 
         $req_facturation= $auth_user->runQuery("SELECT MAX(idFacture) +1
@@ -104,10 +104,10 @@
 <div class="containerFormu">
     <table cellspacing="0" style="width: 80%; text-align: center; font-size: 14px">
         <tr>
-            <td style="width: 75%;"></td>
             <td style="width: 25%; color: #444444;">
-                <img style="width: 70%;" src="../Images/logoFacture2.png" alt="Logo"><br>
+                <img style="width: 70%; " src="../Images/logoFacture2.png" alt="Logo"><br>
             </td>
+            <td style="width: 75%;"></td>
         </tr>
     </table>
     
@@ -231,16 +231,16 @@
 ' à '.$a_service["horaire_fermeture"]."<br>".
 'Batiment '.$a_service["batiment"].
 ', aile '.$a_service["aile"].
-', au '.$a_service["etage"]
+', étage '.$a_service["etage"]
 ?>	
 					
                     <br>
                 </td>
             </tr>
         </table>
-</div> <br> <br> <br>
+</div> 
 
-<?php quitter1() ?>
+<?php quitter1() ?> <br> <br> <br> <br>
 
 
 <!--<style type="text/css">
@@ -248,19 +248,13 @@
 table { vertical-align: top; }
 tr    { vertical-align: top; }
 td    { vertical-align: top; }
-
 </style>-->
+
     <?php
         }
-        else 
-            ?>
-<div class="containerFormu">
-    <?php
-        echo  "Pas de facture disponible pour ce patient actuellement !";
-?>  
-</div> 
+        else echo  "Pas de facture disponible pour ce patient actuellement !"; ?>  
+               
 
-        
 
  <!-- bouton abandon redirection Page principale -->
      <?php quitter1() ?>
