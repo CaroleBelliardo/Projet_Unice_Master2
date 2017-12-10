@@ -8,10 +8,10 @@ class Systeme
 	public $conn; //	private $conn; # acces bdd -- dbconfig.php
 
 	
-	public function __construct()# construction -- 1 instance de USER pour acces a bdd **** A Suppr. ****
+	public function __construct()# construction -- 1 instance de USER pour acces a bdd **** NE PAS SUPPRIMER ***
 	{
-		$database = new Database();
-		$db = $database->dbConnection();
+		$database = new Basededonnee();
+		$db = $database->bddConnection();
 		$this->conn = $db;
     }
 			public function runQuery($sql) ## verifie connection avant requete 
@@ -69,7 +69,7 @@ class Systeme
 		}
 	}
 	
-	public function is_loggedin()
+	public function estConnecte()
 	{
 		if(isset($_SESSION['idEmploye']))
 		{
@@ -82,11 +82,28 @@ class Systeme
 		header("Location: $url");
 	}
 	
-	public function doLogout()
+	public function seDeconnecter()
 	{
 		session_destroy();
 		unset($_SESSION['idEmploye']);
 		return true;
+	}
+		public function viderSession()
+	{
+		unset($_SESSION["patient"]);
+		unset($_SESSION["serviceModifier"]);
+		unset($_SESSION['utilisateurModifier']);
+		unset($_SESSION["dateModifier"]);
+		unset($_SESSION["servicePlanning"]);
+		unset($_SESSION["rdvModifier"]);
+		if ($_SESSION["contact"] = 1 )
+		{
+			unset($_SESSION["rdvModifier"]);
+		}
+		if ($_SESSION["conditionsUtilisation"] = 1 )
+		{
+			unset($_SESSION["ConditionUtilisation"]);
+		}
 	}
 }
 ?>

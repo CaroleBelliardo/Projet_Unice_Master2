@@ -1,5 +1,5 @@
 <?php
-class Database
+class Basededonnee
 {   
     private $host = "localhost";
     private $db_name = "bdd";
@@ -7,7 +7,7 @@ class Database
     private $password = "";
     public $conn;
      
-    public function dbConnection()
+    public function bddConnection()
 	{
      
 	    $this->conn = null;    

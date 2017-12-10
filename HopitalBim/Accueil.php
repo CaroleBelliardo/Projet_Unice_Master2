@@ -3,7 +3,7 @@ session_start();
 require_once("classe.Systeme.php");
 $login = new Systeme();
 
-if($login->is_loggedin()!="")
+if($login->estConnecte()!="")
 {
 	$login->redirect('Pageprincipale.php');
 }

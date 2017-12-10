@@ -13,27 +13,27 @@ Pour visualiser de manière formatée la structure des données de type tableau,
 Aussi, lors de l'emploi de structures de contrôle de type boucle, utilisées pour automatiser certaines procédures telles que la réitération de requêtes ou la génération dynamique de code HTML, nous avons évalué le comportement de celle-ci pour contrôler que le nombre d'itération correspondent à celui attendu. 
 La structure des formulaires et du CSS a été évalué directement manière visuelle sur les pages associées.  On a aussi évalué le bon déroulement de l'ensemble des instructions associées aux boutons et consulté les valeurs des variables retourné par les code HTML de type 'form' . 
 
-L'intégrité structurelle de la base de données a été évalué sur l'interface phpMyadmin ( clés, nombre de colonnes, typage des attributs...). Cette interface a aussi été utilisée lors de la conception des requêtes. En effet, cette interface présente trois avantages à nos yeux, elle permet l'exécution individuelle de la requête, le retour est consultable immédiatement et enfin, l'implémentation sur cette interface  plus de confort avec la complémentation automatique en accord avec la strucure. PhpMyadmin a permis l'observabilité des tests concernant les requêtes SQL et l'opérabitlité des tests portant sur les formulaires d'insertion de valeurs notamment lors des étapes préliminaires de développement (par ex. insertion de rendez-vous mais pas encore d'affichage du planning). 
+L'intégrité structurelle de la base de données a été évalué sur l'interface phpMyadmin ( clés, nombre de colonnes, typage des attributs...). Cette interface a aussi été utilisée lors de la conception des requêtes. En effet, cette interface présente trois avantages à nos yeux, elle permet l'exécution individuelle de la requête, le retour est consultable immédiatement et enfin, l'implémentation sur cette interface  plus de confort avec la complémentation automatique en accord avec la structure. PhpMyadmin a permis l'observabilité des tests concernant les requêtes SQL et l'opérabilité des tests portant sur les formulaires d'insertion de valeurs notamment lors des étapes préliminaires de développement (par ex. insertion de rendez-vous mais pas encore d'affichage du planning). 
 
 
 #-- Spécifications détaillées : 
 1. Hypothèses : 
 - Chaque service propose un ensemble d'actes médicaux, chaque acte médical dispose d'un créneau toutes les 15 minutes entre l'heure d'ouverture et l'heure de fermeture.
-Chaque acte n'est pas rattaché à un médecin en particulier, mais le personnel médical se répartit pour assurer ces tâches en continue et en parallèle. Ainsi, le planning est affiché pour chaque service, l'ensemble des actes médicaux proposé sous forme de listes successives de créneaux  pour chaque service . ???! mal dit  ***********
+Chaque acte n'est pas rattaché à un médecin en particulier. Le personnel médical du service se répartit donc les interventions pour s'assurer que ces tâches soient réalisées en continue et en parallèle. Ainsi, pour chaque service un planning est affiché avec l'ensemble des actes médicaux qu’il propose. Une liste des créneaux successives est donc affiché pour chaque acte de ce service.
 - Un rendez-vous n'est pas pris avec un médecin mais avec un service et plus précisément pour une intervention. 
-- Tous les services travaillent 7/7 jours, il n'y a pas de Week-end
-- Il ne peut pas y avoir deux services avec le même nom
-- Chaque acte a un tarif unique, pas de prix spéciaux pour les urgences
-- L'administrateur est un informaticien qui ne prends pas parti aux transactions de rendez-vous au sein de l'hôpital. Cependant, il a accès aux fonctionnalités des autres utilisateurs pour faciliter l'évaluation de la plateforme et le débuggage. Tous les services de l'hôpital se situent à la même adresse.
-- Il n'y a qu'un administrateur, du moins qu'un compte utilisateur d'administration de la plateforme
-- Chaque intervention a des niveaux d'urgences (minimum et maximum) de référence relatifs à la pathologie associée
-- Les niveaux d'urgence minimums sont préétablis dans la base de données
+- Tous les services travaillent 7/7 jours, il n'y a pas de week-end
+- Il ne peut pas y avoir deux services portant le même nom
+- Chaque acte a un tarif unique. Aucun prix spécifique est attribué aux urgences.
+- L'administrateur est un informaticien qui ne prends pas parti aux transactions de rendez-vous au sein de l'hôpital. Cependant, il a accès aux fonctionnalités des autres utilisateurs pour faciliter l'évaluation de la plateforme et le débuggage. Les services de l'hôpital peuvent disposer de differentes localisations (batiment, étage, aile).
+- Il n'y a qu'un administrateur, du moins qu'un compte utilisateur d'administration de la plateforme.
+- Chaque intervention a des niveaux d'urgences (minimum et maximum) de référence relatifs à la pathologie associée.
+- Les niveaux d'urgence minimums sont préétablis dans la base de données.
 - Pour tous services, les rendez-vous durent 15 minutes. 
 
 
 
 2. L'organisation du code :
-Le script étant assez long, il a été décomposé en plusieurs fichiers. Ces nombreux fichiers ont été répartis dans plusieurs répertoires organisés selon leurs types et fonctions. De plus, cette architecture du code, nous a permis de factoriser certaines parties du code en individualisant les blocs d'instructions réutilisés sous forme de fonctions. 
+Le script étant assez long, il a été décomposé en plusieurs fichiers. Ces nombreux fichiers ont été répartis dans plusieurs répertoires organisés selon leurs types et fonctions. De plus, cette architecture du code, nous a permis de factoriser certaines parties en individualisant les blocs d'instructions réutilisés sous forme de fonctions. 
 Ainsi, à la racine se trouve :
 - le fichier index correspondant à la page d'accueil du site qui permet de se connecter à celui-ci et d'accéder aux données de la base
 - la classe Systeme: ...
