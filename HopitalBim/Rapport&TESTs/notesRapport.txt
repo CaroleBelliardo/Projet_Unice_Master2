@@ -1,22 +1,211 @@
-Pour les tests unitaires : 
-
-Pour garantir la fonctionnalité du notre projet, des tests unitaire ont été réalisés à chaque étape d'implémentation. Lors de l'utilisation de nouvelles fonction native, nous avons consulté le résultat retourné par celle-ci pour bien évaluer ce que fait concrètement la fonction avant de multiplier son utilisation. Aussi, durant l'implémentation de nouvelles fonctions ou procédures, nous avons testé pas à pas les effets de chaque instruction utilisée. 
-
-Pour visualisé de manière formatée la structure des données de type tableau, nous avons créer la fonction Dumper() basé sur l'instruction var_dump. En effet, nous avons aussi consulter le contenu des différentes variables manipulées et ce particulièrement dans le cas de retour de requête SQL. En effet, l'existance de différent type d'instruction et d'options pour le 'Fetch' est pratique et permet d'adapter la structure de la variable de retour en fonction du résultat attendu. Cependant lors des premières utilisations, il est assez difficile  de reelement appréhender le retour de la requête et d'évaluer comment traiter la traiter. On peut noter cette difficulté notamment lors de l'élaboration de test conditionnel pour la gestion d'erreur relative au retour de requête vide. Par exemple, l'instruction Fetch(PDO::FETCH_ASSOC) retour un tableau dont les clefs sont les attributs sélectionnés ou un booléen 'FALSE' s'il n'y a pas de correspondance dans la table. En revanche, l'instruction fetchColumn() retourne une chaîne de caractère correspondant à la valeur d'attribut ou une chaîne vide s'il n'y a pas de correspondance. Ainsi, les tests conditionnels a mettre en place peuvent être très variable selon le mode de traitement des retours de requête. Le parcours des différents blocs d'instructions lors de l'élaboration de test, nous a permis d'évaluer la pertinance des test établit. 
-
-Aussi, lors de l'emploi de structures de contrôle de type boucle, utilisées pour automatiser certaine procédures telles que la réitération de requêtes ou la génération dynamique de code HTML, nous avons évalué le comportement de celle-ci pour contrôler que le nombre d'itération correspondent à celui attendu. 
-La structure des formulaires et du CSS a été évalué de manière visuelle sur les pages associées.  On a aussi testé les valeurs des variables associées code HTML de type 'form'  et les instruction associées aux boutons inclue dans ce type de code. 
-
-L'intégrité de la structure de la base de donnée à été testé de manière visuelle sur l'interface phpMyadmin ( clés, nombre de colonnes, typage des attributs...). L'interface à aussi été utilisée lors de la conception des requêtes nécéssaire au fonctionnement de la plateforme. En effet, cette interface présente trop avantages à nos yeux, elle permet l'éxecution individuelle de la requête, le retour est consultable immédiatement et enfin elle offre une option de complémentation des noms d'attributs.
-Aussi, phpMyadmin nous a permis de tester l'opérabilité des formulaire réalisés à l'heure ou notre interface ne le permettait pas encore mais aussi pour les données qui ne sont pas visualisable ( pas exemple, les données de la table Pathologies ).
+#-- Spécif. générale ou cas utilisation 
+Lors de l'enregistrement d'un service seules les informations générales sur le service ( tables 'Services' et 'Localisation' ) sont renseignées. On peut supposer que chaque service peut dispenser un nombre variable d'intervention et qu'il est plus pertinent de gérer la liste des actes médicaux de manière indépendante. 
 
 
 
 
+#-- Pour les tests unitaires : 
+
+Pour garantir la fonctionnalité de notre projet, des tests unitaires ont été réalisés à chaque étape d'implémentation. Lors de l'utilisation de nouvelles fonctions natives, nous avons consulté le résultat retourné par celle-ci pour bien évaluer ce que fait concrètement la fonction avant de multiplier son utilisation. Aussi, durant l'implémentation de nouvelles fonctions ou procédures, nous avons testé pas à pas les effets de chaque instruction utilisée. 
+
+Pour visualiser de manière formatée la structure des données de type tableau, nous avons créer la fonction Dumper() basée sur l'instruction 'var_dump'. En effet, nous avons aussi consulté le contenu des différentes variables manipulées, particulièrement dans le cas de retour de requête SQL. En effet, l'existence de différents types d'instructions et d'options pour le 'Fetch' est pratique et permet d'adapter la structure de la variable de retour en fonction du résultat attendu. Cependant lors des premières utilisations, il est assez difficile d'appréhender la structure des données retournées par la requête et d'évaluer comment le traiter. On peut noter cette difficulté notamment lors de l'élaboration de test conditionnel pour la gestion d'erreurs relatives au retour de requête vide. Par exemple, l'instruction Fetch(PDO::FETCH_ASSOC) retour un tableau dont les clefs sont les attributs sélectionnés ou un booléen 'FALSE' si il n'y a pas de correspondances dans la table. En revanche, l'instruction fetchColumn() retourne une chaîne de caractères correspondant à la valeur d'attribut ou une chaîne vide s'il n'y a pas de correspondances. Ainsi, les tests conditionnels à mettre en place peuvent être très variables selon le mode de traitement des retours de requête. Le parcours des différents blocs d'instructions lors de l'élaboration de test, nous a permis d'évaluer la pertinence des tests établis. 
+
+Aussi, lors de l'emploi de structures de contrôle de type boucle, utilisées pour automatiser certaines procédures telles que la réitération de requêtes ou la génération dynamique de code HTML, nous avons évalué le comportement de celle-ci pour contrôler que le nombre d'itération correspondent à celui attendu. 
+La structure des formulaires et du CSS a été évalué directement manière visuelle sur les pages associées.  On a aussi évalué le bon déroulement de l'ensemble des instructions associées aux boutons et consulté les valeurs des variables retourné par les code HTML de type 'form' . 
+
+L'intégrité structurelle de la base de données a été évalué sur l'interface phpMyadmin ( clés, nombre de colonnes, typage des attributs...). Cette interface a aussi été utilisée lors de la conception des requêtes. En effet, cette interface présente trois avantages à nos yeux, elle permet l'exécution individuelle de la requête, le retour est consultable immédiatement et enfin, l'implémentation sur cette interface  plus de confort avec la complémentation automatique en accord avec la structure. PhpMyadmin a permis l'observabilité des tests concernant les requêtes SQL et l'opérabilité des tests portant sur les formulaires d'insertion de valeurs notamment lors des étapes préliminaires de développement (par ex. insertion de rendez-vous mais pas encore d'affichage du planning). 
+
+
+#-- Spécifications détaillées : 
+1. Hypothèses : 
+- Chaque service propose un ensemble d'actes médicaux, chaque acte médical dispose d'un créneau toutes les 15 minutes entre l'heure d'ouverture et l'heure de fermeture.
+Chaque acte n'est pas rattaché à un médecin en particulier. Le personnel médical du service se répartit donc les interventions pour s'assurer que ces tâches soient réalisées en continue et en parallèle. Ainsi, pour chaque service un planning est affiché avec l'ensemble des actes médicaux qu’il propose. Une liste des créneaux successives est donc affiché pour chaque acte de ce service.
+- Un rendez-vous n'est pas pris avec un médecin mais avec un service et plus précisément pour une intervention. 
+- Tous les services travaillent 7/7 jours, il n'y a pas de week-end
+- Il ne peut pas y avoir deux services portant le même nom
+- Chaque acte a un tarif unique. Aucun prix spécifique est attribué aux urgences.
+- L'administrateur est un informaticien qui ne prends pas parti aux transactions de rendez-vous au sein de l'hôpital. Cependant, il a accès aux fonctionnalités des autres utilisateurs pour faciliter l'évaluation de la plateforme et le débuggage. Les services de l'hôpital peuvent disposer de differentes localisations (batiment, étage, aile).
+- Il n'y a qu'un administrateur, du moins qu'un compte utilisateur d'administration de la plateforme.
+- Chaque intervention a des niveaux d'urgences (minimum et maximum) de référence relatifs à la pathologie associée.
+- Les niveaux d'urgence minimums sont préétablis dans la base de données.
+- Pour tous services, les rendez-vous durent 15 minutes. 
+
+
+
+2. L'organisation du code :
+Le script étant assez long, il a été décomposé en plusieurs fichiers. Ces nombreux fichiers ont été répartis dans plusieurs répertoires organisés selon leurs types et fonctions. De plus, cette architecture du code, nous a permis de factoriser certaines parties du code en individualisant les blocs d'instructions réutilisés sous forme de fonctions.
+
+Dans “htdocs” se trouve :
+Un fichier “404.php” et un fichier “.htaccess”. Ils permettent la gestion d’erreur de type 404 renvoyé par le serveur HTTP pour indiquer que la ressource demandée ou une page web n’existe pas. Lorsqu’un utilisateur tente d'accéder à une ressource inexistante, il est automatique renvoyer vers la page d’accueil du site.
+Dans chaque sous dossier de “htdocs” se trouve un fichier “index.php”. Celui ci permet la redirection de l’utilisateur vers l’accueil dans le cas où l’utilisateur souhaiterait voir le contenu d’un dossier.
+
+Ainsi, à la racine se trouve :
+- le fichier “Accueil.php” correspondant à la page d'accueil du site qui permet de se connecter et d'accéder à l’ensemble des services proposés par notre site web.
+- le fichier “dbconfig.php” qui contient la classe “Basededonnee”. Cette classe permet de récupérer de façon privé l’ensemble des informations permettant l'établissement de la connection avec la base de donnée. La localisation, le nom, le nom d’utilisateur et le mot de passe sont déclaré dans cette classe. La fonction “bddConnection()” permet de réaliser la connection à la base de donnée. De plus, les erreurs de connection sont récupérées et peuvent être affichées.
+
+- Le fichier “Classe.Systeme.php” qui contient la classe Systeme. Cette classe qui compose notre site web possède 8 fonctions essentiels à la bonne exécution de l’ensemble des services proposés par le site. Elle permet d'ouvrir une connexion au serveur MySQL et possède plusieurs fonctions.
+    Une fonction “__construct() ” de construction de la classe Systeme est appelé à chaque création d’une nouvelle instance de l’objet. Cette fonction est nécessaire pour toutes les initialisations dont l'objet a besoin avant d'être utilisé. De cet façon, à chaque utilisation des fonctions associés à cette classe, la fonction “__construct() ” va établir la bonne connection à la base de donnée en appelant la classe “Basededonnee”. 
+    La fonction “runQuery()” qui permet de préparer le requetes SQL tout en s’assurant la bonne connection à la base de donnée.
+    La fonction “creerUtilisateur()” permet de récupérer en entrée le nom d’utilisateur et son mot de passe. Le mot de passe sera alors crypté grâce à une clé de qui utilise un hachage fort et irréversible. Seul le résultat est stocké dans la base de donnée. 
+    La fonction “authentification()” permet de s’authentifier au site. Elle vérifie que le mot de passe correspond à l’utilisateur qui souhaite s’identifier. 
+    La fonction “estConnecté()” permet de tester si l’utilisateur est bien connecté.
+    La fonction “redirect” permet de rediriger vers une autre page qui peut être donnée en argument.
+    La fonction “viderSession()” qui permet de supprimer des variables associé à la session en cours.  Principalement utilisé lorsque l’utilisateur souhaite abandonner une action entreprise.
+    La fonction “seDeconnecter()” qui permet à l’utilisateur de se déconnecter en toute sécurité
+
+-Le fichier “session.php” permet d’initialiser la session pour l’utilisateur qui vient de se connecter.
+- Le fichier “deconnection.php” qui permet de déconnecter un utilisateur de sa session et de le rediriger vers la page d’accueil.
+
+- PagePrincipale est la page sur laquelle l'utilisateur est redirigé une fois qu’il est connecté ou à chaque fois qu’il clique sur le bouton abandonner affiché en fin de formulaire. Elle propose l'accès aux différentes fonctionnalités selon les droits d'accès de l'utilisateur.
+
+On trouve aussi 6 répertoires : 
+- BDD :  Le fichier de structuration de la base de donnée, ainsi qu'un fichier comportant quelques insertions pour permettre les tests
+- Images :  l'ensemble des images libres de droits et logo réalisé pour les aspects visuels
+- Config : 
+  		> Style.css qui structure l'ensemble des pages du site,
+  		> MenuPage.php qui correspond au menu de navigation de l'ensemble des pages. Après validation de l'authentification, cette page permet aussi de gérer les droits d'accès des utilisateurs aux pages en disposant d'un affichage différentielle en fonction de la qualité de l'utilisateur (pour gérer le cas ou l'utilisateur saisit l'adresse dans la barre pour une page à laquelle il n'a pas de droits d'accès, la restriction d'accès est aussi renforcée sur chaque page par un test conditionnel évaluant le niveau de restriction de l'utilisateur lors de l'arrivée sur la page, et une redirection si nécessaire ), 
+  		> Footer : le pied de page permettant d'accéder aux contacts des développeurs et aux conditions d'utilisation.
+-  Formulaires : comporte l'ensemble des formulaires nécessaires au fonctionnement du site dont certains sont appelés par plusieurs pages telles que la recherche de patients, de services ou d'actes médicaux. 
+ - Page : comporte 1 fichier pour chaque cas d'utilisation. Chacun de ces fichiers gèrent les redirections nécéssaires, renforcements de sécurité selon droits d'utilisation ou encore redirections vers la sélection d'un patient pour pouvoir demander un rendez-vous ou sélectionner un service pour une suppression.  
+ - Fonction : comporte 10 modules différents regroupant chacun un ensemble de fonctions organisé au sein de ses fichiers de manière thématique.
+ 
+ 
+ 
+ 3.Détails implémentation des cas d'utilisation 
+
+a. Généralités sur les formulaires  
+Les formulaires permettent à l'utilisateur de dialoguer avec la base de données, et ainsi d'insérer ou d'identifier et d'afficher des informations. Pour l'ensemble des formulaires établis, un bouton de validation permet de récupérer les valeurs saisies dans la variable '$_POST'. Différents traitements sont imposés à chaque éléments de ce tableau pour faciliter la gestion d'erreur et limiter la redondance des données. Par exemple, la suppression des espaces ou encore le formatage des chaînes de caractères en minuscule avec la première lettre en majuscule. Si le format accepté par la base de données ou si l'un des champs qui doit être renseigné est vide (champ 'not null' dans la base de données), la gestion d'erreurs prévoit l'interruption de la procédure et l'envoi d'un message à l'utilisateur pour l'informer du type d'erreurs détectées. Pour les entrées dans des tables qui comportent des clés étrangères, soit la clé est récupérée dans la table parent, si il y a un tuple correspondant, soit, à défaut, elle est créée.
+
+b. Insertion d'entrées dans la base de données
+b1. Création de patient 
+Cette page affiche un unique formulaire structuré selon la quantité et la qualité des informations nécessaires pour réaliser une nouvelle entrée sur la table 'Patients'. En effet pour cela, il faut au préalable avoir renseigné la table 'Villes' et l'ensemble des attributs qu'elle contient; ou bien récupérer la clé primaire d'un tuple dont l'ensemble des champs correspond aux informations de l'utilisateur ( ex: même ville, même code postal, même département, même pays). Ensuite, il faut renseigner la table 'Adresse' où la clé étrangère pointant sur la ville est alors fournie par l'étape précédente. De même que pour l'étape précédente, le site vérifie si un tuple comporte un ensemble de valeurs d'attributs associé correspondant à l'entrée et récupère la clé primaire de celui-ci, ou effectue une nouvelle entrée, si ce n'est pas le cas en récupérant la clef étrangère de celle-ci. Enfin, les données relatives à la table patient sont insérées, ici encore, en utilisant entre autre les données du formulaire d'une part et la clé primaire de la table parent récupérée à l'étape précédente. Le numéro de sécurité sociale étant unique, il garantit l'intégrité référentielle de cette table. 
+
+b2. Création de compte utilisateur
+Si l'utilisateur est l'administrateur, alors il a accès à l'onglet permettant d'accéder directement à cette page et le test d'identité est validé. Le formulaire est alors généré et traité en cas de validation de manière similaire au cas de création de patient. Ici, la spécificité est que la clé primaire de la table Compte Utilisateur est généré automatiquement, en fonction des initiales de l'utilisateur et de 5 chiffres 'aléatoires' (basés sur la date courante).
+
+b3. Création de services
+Si l'utilisateur est l'administrateur, alors il a accès à l'onglet permettant d'accéder directement à cette page et le test d'identité est validé. Comme pour les formulaires précédents, la structure est basée sur les informations à collecter pour réaliser l'entrée. La gestion d'erreurs prévoit de tester l'existence ou, le cas échéant, l'ajout de la localisation du service qui représente une clé étrangère sur la table 'Services'. 
+
+b4. Création d'une intervention
+De manière similaire aux cas précédents, la page fait appel au formulaire 'recherche de service', si aucun service n'a été sélectionné au préalable, ou affiche après sélection un formulaire.
+
+b5.Demande de rendez-vous
+Lorsqu'un utilisateur clique sur demande de rendez-vous, si aucun patient n'est sélectionné alors le formulaire de sélection de patients est appelé. Après validation, l'identifiant est stocké dans la variable '$_SESSION' et l'utilisateur est redirigé sur la même page. Lorsque cette variable est renseignée, alors la page appelle un formulaire comportant les informations nécessaires pour réaliser l'entrée. Après validation, tous les cas de gestion d'erreurs liés au formulaire sont vérifiés. Si tous ces cas sont négatifs, alors la fonction ProchainCréneaux(), dont l'algorithme est basé sur l'utilistation d'un mélange de langage php est mySQL, est appelée. 
+La fonction de recherche de créneaux lance une requête sql composée de 4 parties : 
+Min(Max(Max(rdv prévu auj.) + Max(rdv prévu>auj)) + Min(rdv annulé auj.) + Min(rdv annulé>auj.)) + une contrainte relative aux horaires du service
+Cette requête retourne ainsi le dernier créneau occupé ou le prochain créneau disponible. Ainsi, selon le statut de ce créneau, 15 min si prévu (durée standard d'un rendez-vous). 
+Si aucun retour n'est renvoyé par cette requête, alors, si cette heure est inférieure à l'heure d'ouverture, on écrase l'heure du créneau par l'heure d'ouverture du service. En revanche, si l' heure est supérieure ou égale à l'heure d'ouverture alors on écrase l'heure par l'heure d'ouverture et on écrase la date en la remplaçant par celle du lendemain. Sinon on attribue au créneau, l'heure et la date actuelle. Si le niveau d'urgence est <, alors on appel la fonction de gestionUrgence(). Enfin, on teste la compatibilité du niveau d'urgence et on insère le rendez-vous dans la table 'CreneauxIntervention'.
+
+b6. Gestion des urgences
+La première étape de cette fonction vise à établir l'heure et la date de fin du délai à compter de maintenant. Ensuite, si le créneau retourné par la fonction ProchainCréneaux() est compatible (<) avec le niveau d'urgence demandé alors la procédure se termine et le rendez-vous s'insère de manière classique. Si ce n'est pas le cas, une nouvelle requête est lancé pour rechercher 
+-le dernier créneau du planning dont le niveau d'urgence est supérieur ou égale au niveau demandé
+-le premier créneau annulé
+Min(Max(Max(rdv prévu auj.) + Max(rdv prévu>auj)) + Min(rdv annulé auj.) + Min(rdv annulé>auj.)) + pas de contraintes relatives aux niveaux d'urgence.
+S'il n'y a pas de créneaux de même niveau d'urgence déjà présent dans le planning est que le retour de la requête est un tableau vide, on attribue alors le rendez-vous immédiatement ( avec comme créneaux le jour d'aujourd'hui et l'heure arrondie à la prochaine quinzaine). Tous les rendez-vous suivants sont décalés de 15 minutes jusqu'à ce que la boucle rencontre un rendez-vous dont le statut est annulé. 
+
+
+b6. Enregistrement des notifications
+Lorsqu'une intervention est demandée, la fonction de gestion d'attribution des créneaux appelle deux fonctions relatives aux envois de notifications.
+1. Elle teste systématiquement ( car il y a un niveau minimum aussi ), s'il le niveau d'urgence demandé est compatible avec les niveaux de références. Si une incompatibilité est détectée, une notification est ajoutée sur la Table notification. 
+2. En cas de niveau d'urgence >0 , elle appelle la fonction de vérification de surbooking. Si le dernier rendez vous de la journée du créneau attribué est >= à l'heure de fermeture alors une notification est ajouté sur la Table de notification. 
+Chaque notification comporte l'identifiant du créneaux concerné ainsi que le nom du service auquel elle est attribuée ( ex. informatique adressée à l'administrateur dans le cas des notif 1., et cardiologie pour le chef de cardiologie dans le cas des notif 2)
+
+C. Généralités sur l'affichage des pages
+Plusieurs pages proposent un affichage dynamique pour permettre, entre autre, la sélection de pré-requis pour accéder aux étapes suivantes. Cette fonctionnalité est basée sur la pérennité des informations contenues dans le  '$_SESSION' tout au long de la session d'utilisation. Pour assurer la modularité de cette dynamique, les clés générées pour l'affichage des pages sont systématiquement supprimées lors du retour sur la page d'accueil ( redirection assurée par bouton 'abandonner'). D'autres associations clé-valeur sont stockées dans cette variable tels que les noms, prénoms et identifiants de l'utilisateur, ou encore ses droits d'utilisateur ( bool '$_SESSION['chef']').  D'autres valeurs de la base de données sont récupérées ponctuellement selon les besoins, comme lors des cas de modification. 
+
+D. Mises à jour des entrées de la base de données 
+d1. Modification des fiches patient
+Cette page permet de mettre à jour les informations d'une ou des tables associées à l'enregistrement d'un patient ( tables : 'Patients', 'Villes', 'Adresses' ), L'affichage se fait de manière différentielle selon le contenu de '$_SESSION'. Si ce tableau ne comporte pas de clé nommée 'patient' alors la page appelle un formulaire ( du répertoire formulaire ), qui permet d'identifier un patient présent dans la base de donnée selon ses noms et prénoms. Lors de la validation de la sélection, si aucune erreur n'est identifiée, alors la clé primaire identifiant le patient est affectée à  '$_SESSION['patient']' et l'utilisateur est alors redirigé vers cette même page. 
+Quand cette variable existe alors la page affiche un formulaire de même structure que pour l'ajout d'un nouveau patient. Cependant, ici le formulaire affiche comme valeur par défaut, dans chaque champ, l'ensemble des informations associées au patient. Lors de la validation, les instructions de validation sont semblables concernant la gestion d'erreur au cas d'utilisation 'Ajout de patient', en revanche la requête ne correspondant plus à une insertion mais à une mise à jour.
+
+d2. Modification du compte utilisateur
+Si l'utilisateur est l'administrateur, alors il a accès à l'onglet permettant d'accéder directement à cette page et le test d'identité est validé. Avec un affichage différentiel, le comportement de la page est identique à celui du cas précédent. De même, comme pour le cas de modification patient, le formulaire est généré selon la structure de création de compte utilisateur additionné de valeurs par défaut correspondant aux valeurs pré-existantes dans la base de données pour le compte sélectionné. Il est à noter que l'utilisateur ne peut modifier son identifiant. 
+
+d3.  Modification Service
+Si l'utilisateur est l'administrateur, alors il a accès à l'onglet permettant d'accéder directement à cette page et le test d'identité est validé. La logique de conception et d'implémentation de ce cas d'utilisation est identique aux deux précédents cas de modification. 
+
+d4. mises à jour des niveaux d'urgence de référence et gestion des notifications
+Les notifications stockées lors de la prise de l'attribution de créneaux, peuvent être consulté par les chefs de service. Ainsi lors de l'ouverture de la page, la fonction d'affichage recherche si l'utilisateur est chef pour restreindre l'accès, mais recherche aussi le service concerné pour afficher les notifications spécifiques. 
+Si il existe des notifications, alors, un tableau dynamique est généré en fonction du nombre de notifications mais aussi du nombre d'attributs. Des boutons sont aussi générés dynamiquement pour chaque intervention de manière à permettre de garantir la possibilité d'une interaction indépendante de l'utilisateur avec chaque notification. 
+Comme vu précédemment, l'administrateur reçoit des notifications en cas d'incompatibilité. Celui-ci peut choisir de mettre à niveau de la valeur de référence selon la demande de l'utilisateur, et ainsi supprimer la notification. Cependant, il peut aussi refuser la mise à jour et simplement supprimer la notification.
+Les chefs de services ont accès aux notifications de surbooking prévu dans leur service d'affectation, ils peuvent consulter cette notification et la déclarer comme vue pour l'effacer. 
+
+E. Généralités sur l'archivage 
+Certaines tables ont été dédoublées avec l'appellation 'TableArchive' pour permettre de basculer des informations dans ces nouvelles tables. Cette manipulation permet de restreindre l'accès des utilisateurs à l'information mais de conserver une trace des informations relatives aux échanges d'intervention entre les services. En effet, si, par exemple, un service est définitivement fermé ou arrête de dispenser un acte alors, les utilisateurs ne pourront pas demander de rendez-vous pour celui-ci. 
+
+F. Suppression et archivage des données
+f1. Suppression de compte utilisateur
+Seul l'administrateur a accès à cette fonctionnalité. Il peut ainsi supprimer un utilisateur de la table 'Compte Utilisateur', cependant les données de la table 'employé' sont conservées. 
+
+f2. Archivage d'actes médicaux
+L'identité de l'utilisateur est testé, si celle ci correpond à l'administrateur alors la page archivage d'actes médicaux s'affiche de manière dynamique. Si aucun service n'est identifié dans '$_SESSION', alors il y a une redirection vers le formulaire de recherche d'actes. 
+Si un acte est identifié dans cette variable,  alors l'acte en question est basculé vers une table d'archive et l'utilisateur est redirigé vers la même page comportant un message de validation. Plusieurs gestions d'erreurs garantissent encore ici le bon déroulement de la procédure ( variables non vides, idIntervention existant ...ect). 
+Il est à noter, que cette table est la table parent de 'Tarification'. Ainsi, une table d'archivage a été créée. Les informations relatives aux tarifs sont stockées dans une variable temporaire, l'intervention est déplacée dans la table d'archivage et le nouvel identifiant attribué par auto-incrémentation est alors récupéré. Ainsi, l'étape final correspond à l'entrée du tarif sur la table TarificationArchivage avec comme valeurs de clé étrangère, la nouvelle clé primaire de l'acte.
+
+D. Le traitement des requêtes 
+Après exécution d'une requête mySQL, il est parfois nécessaire d'appliquer un traitement particulier pour accéder et manipuler les données retournées. La structure de ces données peut varier de la valeur d'un unique attribut à plusieurs de plusieurs attributs. Pour cela, le module 'Fonctions_reqTraitement.php' comporte l'implémentation de plusieurs fonctions de récupération (boucle while) et de réorganisation des retours de requêtes. Chaque fonction, parcours la requête et stocke les informations dans des tableaux de 1, 2 ou 3 dimensions selon les nécessités. 
+
+E. Planning
+Lorsque l'utilisateur arrive sur le planning, la page appelle la fonction planning() pour récupérer l'ensemble des informations nécessaires. Cette fonction récupère les heures de début et de fin de service théoriques et réelles, ainsi, l'affichage permet un nombre de lignes minimums en accord avec les horaires théoriques du service, ou un ajustement à l'heure réelle en cas de surbooking. 
+Le premier affichage est celui du planning du jour du service auquel l'utilisateur est rattaché. Cependant, l'utilisateur peut sélectionner un autre jour et une autre date pour naviguer dans le planning. De plus, l'affichage du planning peut générer un ensemble de boutons en fonction des caractéristiques du rendez-vous, de l'heure de la date actuelle, et de l'utilisateur. En effet, pour un rendez-vous dont le statut est 'prévu' et dont la date/heure sont passés. Un bouton 'R' apparaît, en cas de clique, le statut du créneau correspondant est mis à jour et devient 'réalisé' permettant ainsi l'édition d'une facture.
+Si l'utilisateur est le chef du service en question ou l'utilisateur ayant demandé le rendez-vous et que le créneau n'est pas encore passé, alors des boutons annulé et modifié apparaissent. 
+Le bouton supprimé 'X' , après confirmation, lance une requête de mise à jour du créneau correspondant en modifiant le statut en 'annulé'. En revanche, le bouton mettre a jour individuellement les autres champs de la base de données relatif à ce rendez-vous. 
+
+
+F. Visualisation des statistiques de demande de rendez-vous
+Les données à afficher sont évaluées grâce à l'utilisation de la fonction SQL d'agrégation. De plus, des structures de contrôle de type boucle ont permis d'itérer les requêtes, par exemple, pour compter le nombre de demandes pour chaque niveau d'urgence. L'ensemble des données collectées sont stockées dans un tableau à 3 dimensions. Les informations ainsi stockées sont ensuite retournées dans un tableau généré de manière dynamique grâce à des boucles en language php, qui produit les balises php nécessaires. 
+
+E Facturation
+Si l'utilisateur est un chef, et qu'aucun patient n'est associé à la variable '$_SESSION' alors, un formulaire de sélection de patients est affiché. Après validation du choix du patient, si toutes les étapes de gestion d'erreurs se déroulent bien alors une facture comportant l'ensemble des actes réalisées s'affiche. Une requête recherche alors tous les rendez-vous dont le statut est 'réalisé' associés au patient sélectionné et au service de rattachement de l'utilisateur. Si des créneaux remplissant ces conditions sont sélectionnés, alors une facture apparaît. Sinon, un message informe l'utilisateur qu'aucune intervention ne peut être facturé pour ce patient. L'utilisation de requête avec opérateurs arithmétiques permet d'afficher les tarifs TTC et HT. 
 
 
 
 
+
+interventions demandées pour la pathologie en question et 
+
+voir une vision d'ensemble des différentes opérations réalisées en relation avec les demandes d'interventions,
+
+
+
+
+
+
+4. Conventions de nommage : 
+Avant de passer à l'étape d'implémentation, quelques points ont été fixé pour faciliter la collaboration.
+
+a.base de données
+-les noms de table en majuscule avec un 's' à la fin 
+-les noms d'attribut en minuscule sans 's', formatés selon la convention 'CamelCase' pour les noms composés de plusieurs mots
+-les noms des clefs étrangères sont composés du nom de la table parent (même format de nommage), suivi du nom de l'attribut sur lequel il pointe (même format de nommage) 
+
+b.Le code php : 
+Les variables ont été nommées en relation avec leur typage et selon les conventions 'CamelCase' pour les variables php. Les requêtes SQL ont été mise en évidence en utilisant les conventions 'SnakeCase'.
+- les chaînes de caractères : $variable
+- les tableau : $a_tableau
+- les requêtes = $req_'nomObjet'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#-- !!!! Si c'était à refaire : 
+- convention de nommage : nombre de a correspondant au nombre de dimensions de tableau (ex : $aa_tableaux pour un tableau donc les valeurs sont des tableaux) 
+- approche moins exploratoire dans un cadre professionnel, améliorer la logique et l'homogénéité  d'implémentation, ici on a surtout essayé de multiplier les méthodes pour arriver à nos fins afin d'explorer les ressources de ces langages de programmation que de réaliser une implémentation efficace. 
+
+# !!! ajouter les cas utilisation : 
+- notification : 1 pour tout le monde 
+- ajout acte
+ - archivage acte
 
 
 
