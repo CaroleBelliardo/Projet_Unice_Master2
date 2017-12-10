@@ -165,9 +165,11 @@ if(isset($_POST['btn_demandeRDV'])) // si utilisateur clique sur le bouton deman
 								'EmployesCompteUtilisateursIdEmploye'=> $user_id));
 			$ajoutRDV->closeCursor();
 			Eval_notif_incompUrgence($auth_user,$niveauUrgence,$a_niveauUrgence);	
-		}	// si tous les champs du formulaire sont renseignés et valide
-	} // fin des instructions realisées si niveauUrgence !=0
+		}
 	$auth_user->redirect('RDVDemande.php?Valide');
+	// si tous les champs du formulaire sont renseignés et valide
+	} // fin des instructions realisées si niveauUrgence !=0
+	
 } // tout ce qui est fait par le bouton
 
 

@@ -99,10 +99,5 @@
  <!-- bouton abandon redirection Page principale -->
 <?php quitter1() ?>
 
-<?php 
-$h="23:45";
-$temps=date('Y-m-d');
-?>
-
 <?php include ('../Config/Footer.php'); //menu de navigation ?> <!-- Footer grande page -->
 

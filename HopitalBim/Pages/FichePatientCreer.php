@@ -68,9 +68,9 @@ if(isset($_POST['btn-signup']))
 		$error[] = "Il faut entrer un nom de rue valide !"; }
 	else if($text_ville=="" )	{
 		$error[] = "Veuillez entrer le nom d'une ville valide !"; }
-	else if((strlen($text_codepostal) > 5) or  ($text_codepostal==""))	{
+	else if(strlen($text_codepostal) > 5)	{
 		$error[] = "Il faut entrer un code postal valide !"; }
-	else if((strlen($text_departement) > 3)or  ($text_departement=="")) 	{
+	else if(strlen($text_departement) > 3) 	{
 		$error[] = "Veuillez entrer un numéro de département de maximum 3 caractères alphanumériques (entrez 99 si le patient réside à l'étranger) !"; }
 	else if ((preg_match('/[0-9]+/',$text_pays) == 1)or ($text_pays=="") or (strlen($text_pays) > 25))	{
 		$error[] = "Veuillez entrer un pays (caractères numériques non acceptés)!"; }
