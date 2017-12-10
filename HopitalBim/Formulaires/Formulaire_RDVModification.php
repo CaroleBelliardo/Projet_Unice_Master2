@@ -145,7 +145,7 @@
 
 <!-- test -->
 <?php
-	}Dumper($utilisateurInfo);
+	}
 ?>
 
 		<div class="form-group" >
