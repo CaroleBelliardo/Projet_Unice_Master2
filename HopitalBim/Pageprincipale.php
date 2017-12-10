@@ -7,22 +7,11 @@
 	require_once("classe.Systeme.php"); // va permettre d'effectuer les requêtes sql en orienté objet.
 	
 	// reinitialise les variables d'utilisation
-	unset($_SESSION["patient"]);
-	unset($_SESSION["serviceModifier"]);
-	unset($_SESSION['utilisateurModifier']);
-	unset($_SESSION["dateModifier"]);
-	unset($_SESSION["servicePlanning"]);
-	unset($_SESSION["rdvModifier"]);
-	if ($_SESSION["contact"] = 1 )
-	{
-		unset($_SESSION["rdvModifier"]);
-	}
-	if ($_SESSION["conditionsUtilisation"] = 1 )
-	{
-		unset($_SESSION["ConditionUtilisation"]);
-	}
+	
 	//variables Globales
 	$auth_user = new Systeme(); // Connection bdd	
+	$auth_user->viderSession();
+	
 	$user_id = $_SESSION['idEmploye']; // IDENTIFIANT compte utilisateur !!!!!
 	//info identité utilisateur
 	$Req_utilisateur = $auth_user->runQuery("SELECT  CompteUtilisateursidEmploye, Employes.ServicesnomService as service,nom, prenom, EmployesCompteUtilisateursidEmploye as chef
@@ -125,7 +114,7 @@ $_SESSION['service']=$a_utilisateur['service'];
 <?php
 			}
 	?>
-		<a name="Déco" href="<?php echo $LienSite ?>logout.php?logout=true"><img name="logout" src="Images/logout.png" alt="Logout logo" > Déconnexion</a>
+		<a name="Déco" href="<?php echo $LienSite ?>deconnection.php?logout=true"><img name="logout" src="Images/logout.png" alt="Logout logo" > Déconnexion</a>
 	
 	
 </div>

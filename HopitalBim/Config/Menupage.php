@@ -110,7 +110,7 @@
 			}
 			
 ?>
-		<a name="Déco" href="<?php echo $LienSite ?>logout.php?logout=true"><img name="logout" src="../Images/logout.png" alt="Logout logo" > Déconnexion</a>
+		<a name="Déco" href="<?php echo $LienSite ?>deconnection.php?logout=true"><img name="logout" src="../Images/logout.png" alt="Logout logo" > Déconnexion</a>
 <?php
 
 	
