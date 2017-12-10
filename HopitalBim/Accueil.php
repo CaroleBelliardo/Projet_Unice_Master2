@@ -6,7 +6,7 @@ $login = new Systeme();
 if($login->estConnecte()!="")
 {
 	$login->redirect('Pageprincipale.php');
-}
+} // verifie que l on est bien connecté, sinon l utilisateur est reirigé 
 
 if(isset($_POST['btn-login']))
 {

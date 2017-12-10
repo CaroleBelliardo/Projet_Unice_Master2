@@ -1,4 +1,5 @@
 <?php
+//permet de déconnecter un utilisateur de sa session et de le rediriger vers la page d’accueil.
 	require_once('session.php');
 	require_once('classe.Systeme.php');
 	$utilisateurDeconnection = new Systeme();
