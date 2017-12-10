@@ -81,10 +81,10 @@
 				<label for="text_ville"> Ville <em>* </em></label>
 				<input type="text" class="" name="text_ville"  pattern="{1-150}" title="Caractère alphabetique, 150 caractères maximum" placeholder=" Ville" value="<?php if(isset($error)){echo $text_ville;}?>" /><br>
 
-				<label for="text_codepostal"> Code Postal </label>
+				<label for="text_codepostal"> Code Postal <em>* </em></label>
 				<input type="text" class="" name="text_codepostal" pattern="[0-9]{5}" title="Caractère numérique, 5 caractères maximum"       placeholder=" Code postal" value="<?php if(isset($error)){echo $text_codepostal;}?>" /><br>
 
-				<label for="text_departement"> Département </label>
+				<label for="text_departement"> Département <em>* </em></label>
 				<input type="text" class="" name="text_departement"   pattern="{1-3}" title="3 caractères maximum"   placeholder=" Département" value="<?php if(isset($error)){echo $text_departement;}?>" /><br>
 
 				<label for="text_pays"> Pays <em>* </em></label>

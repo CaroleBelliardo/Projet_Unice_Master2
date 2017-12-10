@@ -259,7 +259,7 @@ if(isset($_POST['btn-modifierutilisateur']))
 					<label for="text_mail">Mail </label>
 					<input type="text" class="form-control" name="text_mail" placeholder="<?php echo $utilisateurInfo['mail'];?>" value="<?php $utilisateurInfo['mail'];?>" disabled><br>			
 
-					<label for="text_nomService"> Service </label>
+					<label for="text_nomService"> Service <em>* </em></label>
 						<input list="text_nomService" name="text_nomService" size='85'> 
 						<datalist id="text_nomService" >
 							<?php 
@@ -295,10 +295,10 @@ if(isset($_POST['btn-modifierutilisateur']))
 					<label for="text_numSS">Ville <em>* </em></label>
 					<input type="text" class="form-control" name="text_ville"  pattern="[A-Za-z]{1-150}" title="Caractère alphabetique, 150 caractères maximum" placeholder="<?php echo $utilisateurInfo['nomVilles'] ;?>" value="<?php if(isset($error)){echo $text_ville;}else {echo $utilisateurInfo['nomVilles'];}?>" /><br>
 
-					<label for="text_numSS">Code Postal </label>
+					<label for="text_numSS">Code Postal <em>* </em></label>
 					<input type="text" class="form-control" name="text_codepostal" pattern="{5}" title="Caractère numérique, 5 caractères maximum"         placeholder="<?php echo $utilisateurInfo['codepostal'] ;?>" value="<?php if(isset($error)){echo $text_codepostal;}else {echo $utilisateurInfo['codepostal'];}?>" /><br>
 
-					<label for="text_numSS">Département </label>
+					<label for="text_numSS">Département <em>* </em></label>
 					<input type="text" class="form-control" name="text_departement" pattern="{3}" title="Caractère numérique, 5 caractères maximum"        placeholder="<?php echo $utilisateurInfo['departement'] ;?>" value="<?php if(isset($error)){echo $text_departement;}else {echo $utilisateurInfo['departement'];}?>" /><br>
 
 					<label for="text_numSS">Pays <em>* </em></label>

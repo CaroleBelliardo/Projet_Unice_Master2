@@ -7,7 +7,7 @@
 		<?php
 		if(isset($error)) // affichage messages erreurs si valeurs != format attendu
 		{
-			foreach($error as $error) // pour chaque champs
+			foreach($error as $error) // pour chaque champ
 		{
 		?>
 		
@@ -19,8 +19,7 @@
 			else if(isset($_GET['Valide'])) // si toutes les valeurs de champs ok et que bouton valider
 			{
 		?>
-
- <!-- N'apparait pas !!! a faire !!!  --> 						
+						
 		<div id="valide">
 			Rendez-vous fixé pour le patient <?php  
 			$req_dateHeureRDV = $auth_user->runQuery("SELECT * FROM CreneauxInterventions 
@@ -99,10 +98,10 @@
 
  <!-- bouton abandon redirection Page principale -->
 <?php quitter1() ?>
+
 <?php 
 $h="23:45";
 $temps=date('Y-m-d');
-Dumper (heurePlus15($h,$temps));
 ?>
 
 <?php include ('../Config/Footer.php'); //menu de navigation ?> <!-- Footer grande page -->
