@@ -101,6 +101,7 @@
 // ************************************************** REQUETES ******************
 ?>
     <!--logo-->
+<div class="containerFormu">
     <table cellspacing="0" style="width: 80%; text-align: center; font-size: 14px">
         <tr>
             <td style="width: 75%;"></td>
@@ -224,21 +225,22 @@
                 <td style="width:40%; ">
                     <?php echo $a_utilisateur['prenom']." ".$a_utilisateur['nom']." <br> Responsable du service ".$_SESSION['service'] ?> <br>
 					<?php  $a_service ?> 
-                    <?php echo 'tel. : '.$a_service["telephone"]."<br>".
-'mail : '.$a_service["mail"]."<br>".
-'ouvert de '.$a_service["horaire_ouverture"].
-'à '.$a_service["horaire_fermeture"]."<br>".
-'batiement '.$a_service["batiment"].
+                    <?php echo 'Tel : '.$a_service["telephone"]."<br>".
+'Mail : '.$a_service["mail"]."<br>".
+'Ouvert de '.$a_service["horaire_ouverture"].
+' à '.$a_service["horaire_fermeture"]."<br>".
+'Batiment '.$a_service["batiment"].
 ', aile '.$a_service["aile"].
-', au '.$a_service["etage"].'étage'
-?>
-					
-					
+', au '.$a_service["etage"]
+?>	
 					
                     <br>
                 </td>
             </tr>
         </table>
+</div> <br> <br> <br>
+
+<?php quitter1() ?>
 
 
 <!--<style type="text/css">
@@ -248,15 +250,21 @@ tr    { vertical-align: top; }
 td    { vertical-align: top; }
 
 </style>-->
-
     <?php
         }
-        else echo  "Pas de facture disponible pour ce patient actuellement !"
-    ;?> <br>
+        else 
+            ?>
+<div class="containerFormu">
+    <?php
+        echo  "Pas de facture disponible pour ce patient actuellement !";
+?>  
+</div> 
+
         
 
  <!-- bouton abandon redirection Page principale -->
-            <?php quitter1() ?>
+     <?php quitter1() ?>
+
 
 
 
