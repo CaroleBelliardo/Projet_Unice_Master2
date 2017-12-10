@@ -473,8 +473,16 @@ td .legendPlanning{
   border: none;
 }
 
+td .tabFacture{
+  border:none;
+}
+
 tr .legendPlanning{
   border: none;
+}
+
+tr .tabFacture{
+  border:none;
 }
 
 
@@ -546,7 +554,6 @@ td { /* Cellules de contenu */
  width: 25%;
 }
 
-  
 
 /*                 */
 /*      FOOTER     */
