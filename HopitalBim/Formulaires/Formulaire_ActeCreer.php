@@ -1,12 +1,13 @@
 <?php // action quand valide le formulaire 
 	if(isset($_POST['btn-ajoutActe']))
 	{
-		$text_nomActe = ucfirst(trim($_POST['text_nomActe']));	
-		$text_tarif = trim($_POST['text_tarif']);	
-
+		$text_nomActe = ucfirst(trim($_POST['text_nomActe'], ' '));
+		$text_tarif = preg_replace("/[^0-9]/", "",trim($_POST['text_tarif'], ' '));
 	// Gestion des erreurs : 
 		if ($text_nomActe==""){$error[] = "Il faut un entrer le nom de l'acte !"; }
-		elseif ($text_tarif==""){$error[] = "Il faut un entrer le tarif !"; }	
+		
+		elseif (($text_tarif=="")or (preg_match('/[0-9]+/',$text_tarif) == 0))
+			{$error[] = "Il faut un entrer un tarif valide!"; }	
 		else 
 		{ 
 			$req_existeActe = $auth_user->runQuery("SELECT idIntervention 
@@ -67,13 +68,13 @@
 		<p><i>Complétez le formulaire. Les champs marqués par </i><em>*</em> sont <em>obligatoires.</em></p>
 		<div class="form-group">
 			<fieldset>
-			<legend> L'acte médical </legend> <!-- Titre du fieldset --> 
+			<legend> L'acte médical pour le service <?php echo $_SESSION['serviceModifier'] ?> </legend> <!-- Titre du fieldset --> 
 
 				<label for="text_nomActe">Nom de l'acte <em>* </em> </label>
-				<input type="text" class="form-control" name="text_nomActe" pattern="[A-Za-z]{1-35}" title="Majuscule en première lettre"        placeholder=" Service" value="<?php if(isset($error)){echo $text_nomActe;}?>" /><br>
+				<input type="text" class="form-control" name="text_nomActe" pattern="[A-Za-z]{1-35}" title="Majuscule en première lettre"        placeholder="Acte" value="<?php if(isset($error)){echo $text_nomActe;}?>" /><br>
 
 				<label for="text_tarif">Tarif (en €)  <em>* </em></label>
-				<input type="tel" class="form-control" name="text_tarif" pattern="[0-9]{1-10}" title="Veuillez rentrer un n° de téléphone correct"    placeholder=" " value="<?php if(isset($error)){echo $text_tarif;}?>" /><br>
+				<input type="tel" class="form-control" name="text_tarif" pattern="[0-9]{1-10}" title="Charactere numerique uniquement"    placeholder=" " value="<?php if(isset($error)){echo $text_tarif;}?>" /><br>
 			</fieldset> <br>
 		</div> <!-- form-group  Formulaire principal --> 
 
