@@ -1,7 +1,7 @@
 <?php
 //-- Notification de Surbooking **********************************************************************************			
 					// recup horraire de fin de service reel pour le jour ou l'intervention demandée est insérée
-    function Eval_notif_Surbooking ($auth_user,$idIntervention,$a_infoDateHeure,$a_horaireFermeture)
+    function Eval_notif_Surbooking ($auth_user,$idIntervention,$a_infoDateHeure,$a_horaireFermeture,$idR)
     {
         $req_heureFinJour = $auth_user->runQuery(" SELECT MAX(heure_rdv)
                                                     FROM CreneauxInterventions
@@ -17,7 +17,7 @@
         {
             $req_notifService = $auth_user->runQuery(" INSERT INTO Notifications (CreneauxInterventionsidRdv, ServicesnomService, indication)
                                                                 VALUES ( :idCreneau, :service, 'Surbooking')"); // Renseigne les valeurs de priorité = par default :0
-            $req_notifService->execute(array('idCreneau'=> $a_infoDateHeure["idR"],
+            $req_notifService->execute(array('idCreneau'=> $idR,
 											 'service'=> $a_horaireFermeture["nomService"]));
             $req_notifService->closeCursor();
         }

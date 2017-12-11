@@ -157,6 +157,7 @@ if (isset ($_POST["btn-Modifier"]))
 					<form method="post" >
 					
 						<?php echo $infoServiceJours[$h][$acte]["nom"]." ".$infoServiceJours[$h][$acte]["prenom"]."</br>";
+							echo "statut : ".$infoServiceJours[$h][$acte]["statut"]."<br> NU : ".$infoServiceJours[$h][$acte]["niveauUrgence"]."</br>";
 							
 							//bouton modifier -- annuler
 							// s'affiche si l'utilisateur est chef du service consulté ou la personne qui a effectué la requete

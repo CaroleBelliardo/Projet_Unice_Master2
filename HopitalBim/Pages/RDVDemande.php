@@ -61,7 +61,7 @@ if(isset($_POST['btn_demandeRDV'])) // si utilisateur clique sur le bouton deman
 			$req_horraireFermeture->execute(array("idIntervention" => $idIntervention));
 			$a_horaireService = $req_horraireFermeture->fetch(PDO::FETCH_ASSOC);
 			$req_horraireFermeture->closeCursor();
-		
+
 		//-- recherche si l'association (nomPathologie -- indication) existe deja, si oui recupere la cle primaire sinon insert l'entree
 			$req_PathoExist = $auth_user->runQuery(" SELECT idPatho 
 												   FROM Pathologies
@@ -167,6 +167,13 @@ if(isset($_POST['btn_demandeRDV'])) // si utilisateur clique sur le bouton deman
 			$ajoutRDV->closeCursor();
 			Eval_notif_incompUrgence($auth_user,$niveauUrgence,$a_niveauUrgence);	
 		}
+	$req_idCreneaux = $auth_user->runQuery(" SELECT MAX(id_rdv) 
+											FROM CreneauxInterventions" ); 
+	$req_idCreneaux->execute();
+	$a_infoDateHeure['idR']= $req_idCreneaux-> fetchColumn();
+	$req_idCreneaux->closeCursor();
+
+	Eval_notif_Surbooking ($auth_user,$idIntervention,$a_infoDateHeure,$a_horaireService, $a_infoDateHeure['idR']);
 	$auth_user->redirect('RDVDemande.php?Valide');
 	// si tous les champs du formulaire sont renseignés et valide
 	} // fin des instructions realisées si niveauUrgence !=0

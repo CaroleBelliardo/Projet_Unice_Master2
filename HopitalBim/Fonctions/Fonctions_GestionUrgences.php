@@ -116,7 +116,6 @@
                 }
             }// fin d'instruction si dispo = hors delais
          // puis on test s'il y a surbooking	
-        Eval_notif_Surbooking ($auth_user,$idIntervention,$a_infoDateHeure,$a_horaireService);
         }
     return ($a_infoDateHeure);
     }

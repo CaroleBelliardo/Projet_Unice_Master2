@@ -144,17 +144,20 @@
 			}
 			else // notif chef de service
 			{
-				$req_notif= $auth_user->runQuery("SELECT DISTINCT id_rdv as id, date_rdv as Date, heure_rdv as Heure, 
-											 Employes.ServicesnomService as Service_demande,
-											 niveauUrgence, statut as Statut, EmployesCompteUtilisateursidEmploye as Employe, Patients.nom as Nom,
-											 Patients.prenom as Prenom, CreneauxInterventions.commentaires as Comm
-											 FROM Notifications JOIN CreneauxInterventions JOIN Patients JOIN Employes  JOIN Interventions
+				$req_notif= $auth_user->runQuery("SELECT  Notifications.ServicesnomService as Service_recu, id_rdv as id, date_rdv as Date, heure_rdv as Heure, 
+											 EmployesCompteUtilisateursidEmploye as Employe, Employes.ServicesnomService as Service_demande,
+											 niveauUrgence, statut as Statut,  Patients.nom as Patient_Nom,
+											 Patients.prenom as Patient_Prenom, CreneauxInterventions.commentaires as Comm
+											 FROM Notifications JOIN CreneauxInterventions JOIN Patients JOIN Employes JOIN Interventions
+											
 											 WHERE Notifications.CreneauxInterventionsidRdv = CreneauxInterventions.id_rdv
+											
 											 AND Patients.numSS=CreneauxInterventions.PatientsnumSS
 											 AND Interventions.idIntervention=CreneauxInterventions.InterventionsidIntervention
 											 AND Employes.CompteUtilisateursidEmploye =CreneauxInterventions.EmployesCompteUtilisateursidEmploye
-											 AND Notifications.ServicesnomService = :service GROUP BY id_rdv");
-			$req_notif->execute(array("service"=>$_SESSION['service']));
+											
+											 AND Notifications.ServicesnomService = :service ");
+			$req_notif->execute(array('service'=>$_SESSION['service']));
 			$a_infoNotif=reqToArrayPlusligne($req_notif) ;
 			}
 		//AND WEEK(CreneauxInterventions.date_rdv) = WEEK( CURRENT_DATE)  // affichage à la semaine
