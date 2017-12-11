@@ -173,7 +173,7 @@ if(isset($_POST['btn_demandeRDV'])) // si utilisateur clique sur le bouton deman
 	$a_infoDateHeure['idR']= $req_idCreneaux-> fetchColumn();
 	$req_idCreneaux->closeCursor();
 
-	Eval_notif_Surbooking ($auth_user,$idIntervention,$a_infoDateHeure,$a_horaireService, $a_infoDateHeure['idR']);
+	Eval_notif_Surbooking ($auth_user,$idIntervention,$a_infoDateHeure,$a_horaireService);
 	$auth_user->redirect('RDVDemande.php?Valide');
 	// si tous les champs du formulaire sont renseignés et valide
 	} // fin des instructions realisées si niveauUrgence !=0
