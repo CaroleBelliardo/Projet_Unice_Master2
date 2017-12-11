@@ -30,7 +30,7 @@
 	elseif ($date=="")	{
 		$error[] = "Il faut ajouter une date"; }
 	elseif ($patient=="")	{
-		$error[] = "Il faut ajouter un numero le securité sociale du patient";}
+		$error[] = "Il faut ajouter un numéro de sécurité sociale pour le patient";}
 	elseif ($nomPathologie=="")	{
 		$error[] = "Il faut ajouter un nom de pathologie"; }
 	elseif ($idIntervention=="")	{
@@ -43,7 +43,7 @@
 		$req_patient->closeCursor();
 		if( $existnumSS == FALSE )
 		{
-			$error[] = "Il faut saisir un numéro de sécurité socile valide"; }	
+			$error[] = "Il faut saisir un numéro de sécurité sociale valide"; }	
 		else
 		{
 			$req_dateheure = $auth_user->runQuery("SELECT id_rdv FROM CreneauxInterventions WHERE date_rdv=:date and heure_rdv = :heure and statut = 'p'  ");
@@ -52,7 +52,7 @@
 			$req_dateheure->closeCursor();
 			if( $dateheure != FALSE )
 			{
-				$error[] = "Ce créneaux est déjà occupé par un autre rendez-vous, il faut modifier la date ou l'heure"; }	
+				$error[] = "Ce créneaux est déjà occupé par un autre rendez-vous, veuillez modifier la date ou l'heure"; }	
 			else
 			{
 				$req_interv = $auth_user->runQuery("SELECT idIntervention FROM Interventions WHERE idIntervention=:idIntervention ");
@@ -150,10 +150,10 @@
 
 		<div class="form-group" >
 		<fieldset>
-		<legend> Nom et prénom patient </legend> <!-- Titre du fieldset --> 
+		<legend> Patient </legend> <!-- Titre du fieldset --> 
 										
 					<!-- Affichage formulaire : moteur recherche du patient-->
-					<label for="text_patient"> Patient </label>
+					<label for="text_patient"> Numéro sécu </label>
 					<input list="text_patient" name="text_patient" size='85' placeholder="<?php echo $utilisateurInfo["PatientsnumSS"] ;?>" value="<?php if(isset($error)){echo $patient;}else {echo $utilisateurInfo["PatientsnumSS"];}?>">
 					<datalist id="text_patient" >
 	
@@ -172,7 +172,7 @@
 		</fieldset>	</br >
 
 		<fieldset>
-		<legend> Pathologie du patient </legend> <!-- Titre du fieldset --> 
+		<legend> Créneau rendez-vous </legend> <!-- Titre du fieldset --> 
 							
 			<label for="text_date">Date </label>
 			<input type="date" class="form-control" name="text_date" value="<?php if(isset($error)){echo $date;}else {echo $utilisateurInfo['date_rdv'];}?>" /><br>
@@ -186,18 +186,12 @@
 		<legend> Pathologie du patient </legend> <!-- Titre du fieldset --> 
 			
 			<label for="text_nomPathologie">Pathologie </label>				
-			<input type="text" class="" name="text_nomPathologie"  pattern="{1-100}" title="Caractère alphabétique, 100 caractères maximum"  placeholder=" <?php echo $utilisateurInfo["nomPathologie"] ;?>"  value="<?php if(isset($error)){echo $text_nomPathologie;}else {echo $utilisateurInfo['nomPathologie'];}?>" /><br>
+			<input type="text" class="" name="text_nomPathologie"  pattern="{1-100}" title="Caractère alphabétique, 100 caractères maximum"  placeholder=" <?php echo $utilisateurInfo["nomPathologie"] ;?>"  value="<?php if(isset($error)){echo $text_nomPathologie;}else {echo $utilisateurInfo['nomPathologie'];}?>" /> <br>
 
-							</p>
-					</fieldset>	
-					<fieldset>
-						<legend> Pathologie du patient </legend> <!-- Titre du fieldset --> 
-							<p>
-							<input type="text" class="" name="text_nomPathologie"  pattern="{1-100}" title="Caractère alphabetique, 100 caractères maximum"  placeholder=" <?php echo $utilisateurInfo["nomPathologie"] ;?>"  value="<?php if(isset($error)){echo $nomPathologie;}else {echo $utilisateurInfo['nomPathologie'];}?>" /><br><br>
-							<input type="text" class="" name="text_indicationPathologie" pattern="{0-30}" title="Caractère alphabetique, 30 caractères maximum"       placeholder=" <?php echo $utilisateurInfo["indication"] ;?>" value="<?php if(isset($error)){echo $indicationPathologie;}else {echo $utilisateurInfo['indication'];}?>" /><br><br>
- 
-							
-		</fieldset> <br>
+			<label for="text_indicationPathologie"> Indications </label>		
+			<input type="text" class="" name="text_indicationPathologie" pattern="{0-30}" title="Caractère alphabetique, 30 caractères maximum"       placeholder=" <?php echo $utilisateurInfo["indication"] ;?>" value="<?php if(isset($error)){echo $indicationPathologie;}else {echo $utilisateurInfo['indication'];}?>" /><br>
+
+		</fieldset>	<br>
 
 		<fieldset>
 		<legend> Intervention demandée </legend> <!-- Titre du fieldset --> 
@@ -219,19 +213,19 @@
 				?>
 				</datalist> </br >
 
-								<label   class="form-control" > Niveau d'urgence :&nbsp;&nbsp;      
+								<label   class="form-control" > Niveau d'urgence   </label>    
 									<input type="radio"  name="text_urgence" value="0" checked="checked"/>0
 									<input type="radio"  name="text_urgence" value="1"/>1
 									<input type="radio"  name="text_urgence" value="2" />2
-									<input type="radio"  name="text_urgence" value="3" />3
-								</label><br><br>		
-							</p>
-					</fieldset>
+									<input type="radio"  name="text_urgence" value="3" />3 	
+							
+					</fieldset> <br>
+
 					<fieldset>
 						<legend> Commentaires </legend> <!-- Titre du fieldset --> 
-							<p>
+							
 								<textarea type="text" class="" name="text_commentaires"   placeholder=" <?php echo $utilisateurInfo["commentaires"] ;?>" value="<?php if(isset($error)){echo $commentaires;}else {echo $utilisateurInfo['commentaires'];}?>"></textarea><br>
-							</p>
+							
 						
 		</fieldset>	<br>
 							
@@ -244,6 +238,8 @@
 				</div>
 
 		</form>
+</div>
+
 		<?php 
 		quitter1();
 		?>

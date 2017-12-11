@@ -162,7 +162,7 @@ CREATE TABLE Facturation (
 
 # Lie les tables Pathologies et Interventions  
 CREATE TABLE Notifications ( 
-  idNotification int(8) NOT NULL AUTO_INCREMENT, 
+  idNotification int(8) NOT NULL, 
   CreneauxInterventionsidRdv int(8) NOT NULL, 
   ServicesnomService                  varchar(20) NOT NULL, # Imagerie // Maj en 1ère lettre  
   indication                  varchar(10) , 
@@ -208,3 +208,4 @@ CREATE TABLE InterventionsArchive (
   PRIMARY KEY (idIntervention), 
   FOREIGN KEY (ServicesnomService) REFERENCES Services (nomService) ON DELETE SET NULL ON UPDATE CASCADE, 
   INDEX (ServicesnomService)); 
+nomService)); 

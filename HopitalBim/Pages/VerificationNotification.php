@@ -148,7 +148,7 @@
 											 EmployesCompteUtilisateursidEmploye as Employe, Employes.ServicesnomService as Service_demande,
 											 niveauUrgence, statut as Statut,  Patients.nom as Patient_Nom,
 											 Patients.prenom as Patient_Prenom, CreneauxInterventions.commentaires as Comm
-											 FROM Notifications JOIN CreneauxInterventions JOIN Patients JOIN Employes JOIN Interventions
+											 FROM Notifications JOIN CreneauxInterventions JOIN Patients JOIN Employes JOIN Interventions");
 											
 				$req_notif= $auth_user->runQuery("SELECT DISTINCT id_rdv as id, date_rdv as Date, heure_rdv as Heure, 
 											 Employes.ServicesnomService as Service_demande,

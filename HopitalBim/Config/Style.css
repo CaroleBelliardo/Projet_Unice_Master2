@@ -542,6 +542,11 @@ td { /* Cellules de contenu */
   display: inline-block;
 }
 
+.pasRDV {
+  background-color: #d3dcde;
+  border: 1px solid white;
+}
+
 /*                                 */
 /*       Vérification Notif        */
 /*                                 */   
