@@ -29,7 +29,7 @@
 						AND date_rdv = CURDATE() 
 						AND heure_rdv > CURRENT_TIMESTAMP()
 						AND InterventionsidIntervention = :idIntervention
-						AND CreneauxInterventions.statut = 'p'
+						AND CreneauxInterventions.statut != 'a'
 						AND heure_rdv >= (SELECT horaire_ouverture FROM Interventions  JOIN Services WHERE idIntervention = :idIntervention AND Interventions.ServicesnomService = Services.nomService)
 						AND heure_rdv <= (SELECT horaire_fermeture FROM Interventions  JOIN Services WHERE idIntervention = :idIntervention  AND Interventions.ServicesnomService = Services.nomService)
 						ORDER BY  date_rdv DESC, heure_rdv DESC LIMIT 1 
@@ -41,7 +41,7 @@
 						AND Interventions.ServicesnomService = Services.nomService
 						AND date_rdv > CURDATE() 
 						AND InterventionsidIntervention = :idIntervention
-						AND CreneauxInterventions.statut = 'p'
+						AND CreneauxInterventions.statut != 'a'
 						AND heure_rdv >= (SELECT horaire_ouverture FROM Interventions  JOIN Services WHERE idIntervention = :idIntervention AND Interventions.ServicesnomService = Services.nomService)
 						AND heure_rdv <= (SELECT horaire_fermeture FROM Interventions  JOIN Services WHERE idIntervention = :idIntervention  AND Interventions.ServicesnomService = Services.nomService)
                 			ORDER BY  date_rdv DESC, heure_rdv DESC LIMIT 1 
@@ -98,7 +98,7 @@ FROM
 				AND date_rdv = CURDATE() 
 				AND heure_rdv > CURRENT_TIMESTAMP()
 				AND InterventionsidIntervention = :idIntervention
-				AND CreneauxInterventions.statut = 'p'
+				AND CreneauxInterventions.statut != 'a'
 				AND CreneauxInterventions.niveauUrgence >= :niveauUrgence
 				 ORDER BY date_rdv DESC, heure_rdv DESC LIMIT 1
 			)
@@ -110,7 +110,7 @@ FROM
 				AND Interventions.ServicesnomService = Services.nomService
 				AND date_rdv > CURDATE() 
 				AND InterventionsidIntervention = :idIntervention
-				AND CreneauxInterventions.statut = 'p'
+				AND CreneauxInterventions.statut != 'a'
 				AND CreneauxInterventions.niveauUrgence >= :niveauUrgence
 				ORDER BY date_rdv DESC, heure_rdv DESC LIMIT 1
 			) 

@@ -144,7 +144,7 @@
 			}
 			else // notif chef de service
 			{
-				$req_notif= $auth_user->runQuery("SELECT DISTINCT id_rdv as id, date_rdv as Date, heure_rdv as Heure,
+				$req_notif= $auth_user->runQuery("SELECT DISTINCT id_rdv as id, date_rdv as Date, heure_rdv as Heure, 
 											 Employes.ServicesnomService as Service_demande,
 											 niveauUrgence, statut as Statut, EmployesCompteUtilisateursidEmploye as Employe, Patients.nom as Nom,
 											 Patients.prenom as Prenom, CreneauxInterventions.commentaires as Comm
