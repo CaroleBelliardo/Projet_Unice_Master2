@@ -46,7 +46,7 @@
 
 	<!-- ne pas mettre type="email", type non supporté par I.E et safari -->
 				<label for="text_mail">Mail </label>
-				<input type="text" class="" name="text_mail" placeholder="<?php echo $patientInfo['mail'] ;?>" value="<?php if(isset($error)){echo $text_mail;}else {echo $patientInfo['mail'];}?>" /><br>
+				<input type="text" class="" name="text_mail" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" placeholder="<?php echo $patientInfo['mail'] ;?>" value="<?php if(isset($error)){echo $text_mail;}else {echo $patientInfo['mail'];}?>" /><br>
 
 				<label for="text_sexe" >Sexe </label>
 				<input type="radio"  name="text_sexe" value="M" checked="checked"/> Masculin

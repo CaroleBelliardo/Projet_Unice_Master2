@@ -155,9 +155,73 @@ if (isset ($_POST["btn-Modifier"]))
 				<td class= $infoServiceJours[$h][$acte]["statut"]>
 
 					<form method="post" >
-					
+
 						<?php echo $infoServiceJours[$h][$acte]["nom"]." ".$infoServiceJours[$h][$acte]["prenom"]."</br>";
-							echo "statut : ".$infoServiceJours[$h][$acte]["statut"]."<br> NU : ".$infoServiceJours[$h][$acte]["niveauUrgence"]."</br>";
+						?>
+
+	<?php 
+	$NU = $infoServiceJours[$h][$acte]["niveauUrgence"];
+	if ($NU==0)
+	{
+		 
+	?> 	 
+		 <div class="NU_0">
+		 NU : 0 
+		 </div>
+
+	<?php 
+	} 
+	elseif ($NU==1) {
+	?>
+
+		<div class="NU_1">
+		NU : 1 
+		</div>
+
+	<?php 
+	}
+	elseif ($NU==2) {
+	?>
+	
+		<div class="NU_2">
+		NU : 2
+		</div> 
+
+	<?php
+	}
+	elseif ($NU ==3) {
+	?>
+
+		<div class="NU_3">
+		NU : 3
+		</div>
+
+	<?php 
+	}
+	?>
+
+	<?php 
+	$Statut = $infoServiceJours[$h][$acte]["statut"];
+	if ($Statut == 'p') {
+	?>
+
+		<div class="Statut_p">
+		Prévue
+		</div>
+
+	<?php 
+	}
+	elseif ($Statut== 'r') {
+	?>
+
+		<div class="Statut_r">
+		Réalisée
+		</div>
+
+	<?php } ?>
+		
+
+						<?php
 							
 							//bouton modifier -- annuler
 							// s'affiche si l'utilisateur est chef du service consulté ou la personne qui a effectué la requete
@@ -202,6 +266,7 @@ if (isset ($_POST["btn-Modifier"]))
 						{
 
 						?>
+	}
 							 
 				<td class="pasRDV">
 		 

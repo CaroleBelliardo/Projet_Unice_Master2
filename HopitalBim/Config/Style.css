@@ -544,7 +544,64 @@ td { /* Cellules de contenu */
 
 .pasRDV {
   background-color: #d3dcde;
-  border: 1px solid white;
+  border: 1px solid #5D6D7E;
+}
+
+.Planning_NP{
+  text-align: center;
+}
+
+.NU_0 {
+  background-color: none;
+  border-radius: 5px;
+  border : 1px solid #5D6D7E;
+  padding-right: 2px;
+  width: 60%;
+  margin : auto;
+  text-align: center;
+
+}
+
+.NU_1 {
+  background: -webkit-linear-gradient(#999900, #ffff00); /*foncé,clair*/
+  background:    -moz-linear-gradient(#999900, #ffff00);
+  border-radius: 5px;
+  padding-right: 2px;
+  width: 60%;
+  margin : auto;
+  text-align: center;
+}
+
+.NU_2 {
+  background: -webkit-linear-gradient(#b36b00, #ffb833); /*foncé,clair*/
+  background:    -moz-linear-gradient(#b36b00, #ffb833);
+  border-radius: 5px;
+  padding-right: 2px;
+  width: 60%;
+  margin : auto;
+  text-align: center;
+}
+
+.NU_3 {
+  background: -webkit-linear-gradient(#cc3300, #ff8c66); /*foncé,clair*/
+  background:    -moz-linear-gradient(#cc3300, #ff8c66);
+  border-radius: 5px;
+  padding-right: 2px;
+  width: 60%;
+  margin : auto;
+  text-align: center;
+}
+
+.Statut_p{
+  text-align: center;
+  font-weight: 900;
+
+}
+
+.Statut_r{
+  color : #32CD32;
+  text-align: center;
+  font-weight: 900;
 }
 
 /*                                 */
@@ -605,4 +662,8 @@ td { /* Cellules de contenu */
 
 #footer2 a:hover{
     color: #87CEFA;
+}
+
+.contactFooter{
+  text-align: center;
 }
