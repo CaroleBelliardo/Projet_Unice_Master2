@@ -32,19 +32,19 @@
         }
    
    // delais pas respecté mais le service est fermé 
-        if (($a_infoDateHeure["dateR"] >  $daydelais   )
+        if (($a_infoDateHeure["dateR"] >  $daydelais  )
             or (($a_infoDateHeure["dateR"] =  $daydelais ) and  ($a_infoDateHeure["heureR"] > $heureDelais))) // si premier creneau dispo est hors delais on recherche un autre creneaux dont rdv < urgent et on decale les rendez-vous suivant
     
         {
             $a_infoDateHeureUrgence=CreneauxUrgent($auth_user,$niveauUrgence,$idIntervention ); 
-   
+
         //-- Recherche le dernier creneau dont niveau d'urgence >= au niveau d'urgence
             if (array_key_exists('heureR',$a_infoDateHeureUrgence))
             {
 
                 //$a_infoDateHeureUrgence = ["dateR"=>" ", "heureR"=>" ",  "statutR"=>"p",    "niveauUrgenceR"=>$nivUrg];
-                if ($a_infoDateHeureUrgence['statutR'] == 'p')
-                {
+                if ($a_infoDateHeureUrgence['statutR'] != 'a')
+                { 
                     $a_infoDateHeure["heureR"]= heurePlus15($a_infoDateHeureUrgence["heureR"],'+15 minutes');
                     $a_infoDateHeure["dateR"]= $a_infoDateHeureUrgence["dateR"];	
                 }
@@ -57,19 +57,21 @@
             else
             {
                if ($now > $a_horaireService['horaire_fermeture'])
-               {
+               { echo 'if';
                     $a_infoDateHeure['dateR']= date('Y-m-d', strtotime('+1 day')); /// $daydelais + 1 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                     $a_infoDateHeure['heureR']= $a_horaireService['horaire_ouverture'];
                }
                elseif ($now <  $a_horaireService['horaire_ouverture'])
-               {
+               { echo 'elseif';
                     $a_infoDateHeure['dateR']= $daydelais; 
                     $a_infoDateHeure['heureR']= $a_horaireService['horaire_ouverture'];
                }
                else
+               {
                     $a_infoDateHeure['dateR']= $daydelais; 
                     $a_infoDateHeure['heureR']= $now;
-           }
+                }
+            }
             
             if ($a_infoDateHeure['heureR'] == '00:00')
             {
@@ -114,7 +116,7 @@
                 }
             }// fin d'instruction si dispo = hors delais
          // puis on test s'il y a surbooking	
-        Eval_notif_Surbooking ($auth_user,$idIntervention,$a_infoDateHeureUrgence,$a_horaireService);
+        Eval_notif_Surbooking ($auth_user,$idIntervention,$a_infoDateHeure,$a_horaireService);
         }
     return ($a_infoDateHeure);
     }

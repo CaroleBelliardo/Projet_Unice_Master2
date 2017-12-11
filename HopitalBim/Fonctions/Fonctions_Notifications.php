@@ -18,7 +18,7 @@
             $req_notifService = $auth_user->runQuery(" INSERT INTO Notifications (CreneauxInterventionsidRdv, ServicesnomService, indication)
                                                                 VALUES ( :idCreneau, :service, 'Surbooking')"); // Renseigne les valeurs de priorité = par default :0
             $req_notifService->execute(array('idCreneau'=> $a_infoDateHeure["idR"],
-											 'service'=> $horraireFermeture["nomService"]));
+											 'service'=> $a_horaireFermeture["nomService"]));
             $req_notifService->closeCursor();
         }
     }              
