@@ -117,7 +117,7 @@ if(isset($_POST['btn_demandeRDV'])) // si utilisateur clique sur le bouton deman
 			$a_infoDateHeure=prochainCreneauxDispo($auth_user,$idIntervention);
 			
 			// gestion horraire selon qu'il s'agit d'un remplacement de rdv annulé ou d'un ajout à la suite
-			if (((array_key_exists('heureR', $a_infoDateHeure )) and ($a_infoDateHeure["statutR"] == 'p')))
+			if (((array_key_exists('heureR', $a_infoDateHeure )) and ($a_infoDateHeure["statutR"] != 'a')))
 			{
 				$a_infoDateHeure["heureR"]=heurePlus15($a_infoDateHeure["heureR"],'+15 minutes'); 					
 			}
@@ -135,6 +135,7 @@ if(isset($_POST['btn_demandeRDV'])) // si utilisateur clique sur le bouton deman
 				$a_infoDateHeure["dateR"] = date('Y-m-d');				
 			}
 			
+		// heure de fermeture
 			if  ( $a_infoDateHeure["heureR"] < $a_horaireService["horaire_ouverture"]  )  // gestion erreur : si service = ferme, après minuit
 			{
 				$a_infoDateHeure["heureR"] = $a_horaireService["horaire_ouverture"];
@@ -142,7 +143,7 @@ if(isset($_POST['btn_demandeRDV'])) // si utilisateur clique sur le bouton deman
 			elseif	($a_infoDateHeure["heureR"] >= $a_horaireService["horaire_fermeture"]  ) // gestion erreur : si service = ferme, avant minuit 
 			{
 				$a_infoDateHeure["heureR"] = $a_horaireService["horaire_ouverture"]; //=> on affecte date & heure actuelles
-				$a_infoDateHeure["dateR"] = date('Y-m-d', strtotime('+1 day'));	
+				$a_infoDateHeure["dateR"] = date("Y-m-d", strtotime($a_infoDateHeure['dateR']." +1 day"));	
 			}
 // **************************************          Recherche Horaire APPROPRIEE SI niveau urgence != 0         *********************************
 			If ($niveauUrgence !=0) //  determine le delais a respecter

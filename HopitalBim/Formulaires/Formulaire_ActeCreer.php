@@ -44,7 +44,7 @@
 <!--mise en page du formulaire-->
 <div class="containerFormu">
         <form method="post" class="form-signin">
-            <h2 class="form-signin-heading">Ajouter un nouvel acte médical pour le service ????  </h2> <hr />
+            <h2 class="form-signin-heading">Ajouter un nouvel acte médical  </h2> <hr />
         <?php
 		if(isset($error))
 		{
@@ -68,7 +68,7 @@
 		<p><i>Complétez le formulaire. Les champs marqués par </i><em>*</em> sont <em>obligatoires.</em></p>
 		<div class="form-group">
 			<fieldset>
-			<legend> L'acte médical pour le service <?php echo $_SESSION['serviceModifier'] ?> </legend> <!-- Titre du fieldset --> 
+			<legend> Ajout acte pour le service <?php echo $_SESSION['serviceModifier'] ?> </legend> <!-- Titre du fieldset --> 
 
 				<label for="text_nomActe">Nom de l'acte <em>* </em> </label>
 				<input type="text" class="form-control" name="text_nomActe" pattern="[A-Za-z]{1-35}" title="Majuscule en première lettre"        placeholder=" Acte" value="<?php if(isset($error)){echo $text_nomActe;}?>" /><br>

@@ -103,11 +103,11 @@
     <!--logo-->
 <div class="containerFormu">
     <table cellspacing="0" style="width: 80%; text-align: center; font-size: 14px">
-        <tr>
-            <td style="width: 25%; color: #444444;">
+        <tr class="tabFacture">
+            <td class="tabFacture" style="width: 25%; color: #444444;">
                 <img style="width: 70%; " src="../Images/logoFacture2.png" alt="Logo"><br>
             </td>
-            <td style="width: 75%;"></td>
+            <td class="tabFacture" style="width: 75%;"></td>
         </tr>
     </table>
     
@@ -115,30 +115,30 @@
     <br>
     <!--info patient-->
     <table cellspacing="0" style="width: 100%; text-align: left; font-size: 11pt;">
-        <tr>
-            <td style="width:50%;"></td>
-            <td style="width:14%; ">Client : </td>
-            <td style="width:36%"> <?php echo $a_patient['prenom']." ".$a_patient['nom'] ?> </td>
+        <tr class="tabFacture">
+            <td class="tabFacture" style="width:50%;"></td>
+            <td class="tabFacture" style="width:14%; ">Patient : </td>
+            <td class="tabFacture" style="width:36%"> <?php echo $a_patient['prenom']." ".$a_patient['nom'] ?> </td>
         </tr>
-        <tr>
-            <td style="width:50%;"></td>
-            <td style="width:14%; ">Adresse :</td>
-            <td style="width:36%">
+        <tr class="tabFacture">
+            <td class="tabFacture" style="width:50%;"></td>
+            <td class="tabFacture" style="width:14%; ">Adresse :</td>
+            <td class="tabFacture" style="width:36%">
                 <?php echo $a_patient['numero']." ".$a_patient['rue'] ?><br>
                 <?php echo $a_patient['codepostal']." ".$a_patient['nomVilles'] ?><br>
                 <?php echo $a_patient['pays'] ?><br>
 
             </td>
         </tr>
-        <tr>
-            <td style="width:50%;"></td>
-            <td style="width:14%; ">Email :  </td>
-            <td style="width:36%"> <?php echo $a_patient['mail'] ?> </td>
+        <tr class="tabFacture">
+            <td class="tabFacture" style="width:50%;"></td>
+            <td class="tabFacture" style="width:14%; ">Email :  </td>
+            <td class="tabFacture" style="width:36%"> <?php echo $a_patient['mail'] ?> </td>
         </tr>
-        <tr>
-            <td style="width:50%;"></td>
-            <td style="width:14%; ">Tel :</td>
-            <td style="width:36%"> <?php echo $a_patient['telephone'] ?> </td>
+        <tr class="tabFacture">
+            <td class="tabFacture" style="width:50%;"></td>
+            <td class="tabFacture" style="width:14%; ">Tel :</td>
+            <td class="tabFacture" style="width:36%"> <?php echo $a_patient['telephone'] ?> </td>
         </tr>
     </table>
     
@@ -146,9 +146,9 @@
     <br>
     <!--info hopital-->
     <table cellspacing="0" style="width: 100%; text-align: left;font-size: 10pt">
-        <tr>
-            <td style="width:50%;"></td>
-            <td style="width:50%; "><?php echo $a_hopital['nomVilles'] ?>, le <?php echo date('d/m/Y'); ?></td>
+        <tr class="tabFacture">
+            <td class="tabFacture" style="width:50%;"></td>
+            <td class="tabFacture" style="width:50%; "><?php echo $a_hopital['nomVilles'] ?>, le <?php echo date('d/m/Y'); ?>,</td>
         </tr>
     </table>
     
@@ -220,9 +220,9 @@
     </table>
         <br>
         <table cellspacing="0" style="width: 100%; text-align: left;">
-            <tr>
-                <td style="width:65%;"></td>
-                <td style="width:40%; ">
+            <tr class="tabFacture">
+                <td class="tabFacture" style="width:65%;"></td>
+                <td class="tabFacture" style="width:40%; ">
                     <?php echo $a_utilisateur['prenom']." ".$a_utilisateur['nom']." <br> Responsable du service ".$_SESSION['service'] ?> <br>
 					<?php  $a_service ?> 
                     <?php echo 'Tel : '.$a_service["telephone"]."<br>".
