@@ -1,7 +1,7 @@
 <?php
 //-- Notification de Surbooking **********************************************************************************			
 					// recup horraire de fin de service reel pour le jour ou l'intervention demandée est insérée
-    function Eval_notif_Surbooking ($auth_user,$idIntervention,$a_infoDateHeure,$a_horaireFermeture,$idR)
+    function Eval_notif_Surbooking ($auth_user,$idIntervention,$a_infoDateHeure,$a_horaireFermeture)
     {
         $req_heureFinJour = $auth_user->runQuery(" SELECT MAX(heure_rdv)
                                                     FROM CreneauxInterventions
