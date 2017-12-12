@@ -80,6 +80,8 @@
 			WHERE CreneauxInterventions.InterventionsidIntervention = Interventions.idIntervention
 			AND CreneauxInterventions.PatientsnumSS = Patients.numSS
 			AND CreneauxInterventions.statut != 'a'
+			AND CreneauxInterventions.statut != 'm'
+			AND CreneauxInterventions.statut != 's'
 			AND date_rdv= :date
 			AND ServicesnomService = :service ");
 		$infoServiceJour->execute(array('date' => $dateCourant,
