@@ -9,7 +9,7 @@
 	$req_utilisateur->execute(array("idr"=>$_SESSION['rdvModifier']));
 	$utilisateurInfo=$req_utilisateur -> fetch(PDO::FETCH_ASSOC);
 	$req_utilisateur->closeCursor();
-	Dumper($utilisateurInfo);
+
 	
 	if(isset($_POST['btn_demandeRDV']))
 {
