@@ -37,9 +37,9 @@ if(isset($_POST['btn-modifierutilisateur']))
 		$error[] = "Il faut entrer un nom de rue valide !"; }
 	else if($text_ville=="" )	{
 		$error[] = "Veuillez entrer le nom d'une ville valide !"; }
-	else if((strlen($text_codepostal) > 5) or  ($text_codepostal==""))	{
+	else if((strlen($text_codepostal) > 5))	{
 		$error[] = "Il faut entrer un code postal valide !"; }
-	else if((strlen($text_departement) > 3)or  ($text_departement=="")) 	{
+	else if((strlen($text_departement) > 3)) 	{
 		$error[] = "Veuillez entrer un numéro de département de maximum 3 caractères alphanumériques (entrez 99 si le patient réside à l'étranger) !"; }
 	else if ((preg_match('/[0-9]+/',$text_pays) == 1)or ($text_pays=="") or (strlen($text_pays) > 25))	{
 		$error[] = "Veuillez entrer un pays (caractères numériques non acceptés)!"; }
@@ -295,10 +295,10 @@ if(isset($_POST['btn-modifierutilisateur']))
 					<label for="text_numSS">Ville <em>* </em></label>
 					<input type="text" class="form-control" name="text_ville"  pattern="[A-Za-z]{1-150}" title="Caractère alphabetique, 150 caractères maximum" placeholder="<?php echo $utilisateurInfo['nomVilles'] ;?>" value="<?php if(isset($error)){echo $text_ville;}else {echo $utilisateurInfo['nomVilles'];}?>" /><br>
 
-					<label for="text_numSS">Code Postal <em>* </em></label>
+					<label for="text_numSS">Code Postal </label>
 					<input type="text" class="form-control" name="text_codepostal" pattern="{5}" title="Caractère numérique, 5 caractères maximum"         placeholder="<?php echo $utilisateurInfo['codepostal'] ;?>" value="<?php if(isset($error)){echo $text_codepostal;}else {echo $utilisateurInfo['codepostal'];}?>" /><br>
 
-					<label for="text_numSS">Département <em>* </em></label>
+					<label for="text_numSS">Département </label>
 					<input type="text" class="form-control" name="text_departement" pattern="{3}" title="Caractère numérique, 5 caractères maximum"        placeholder="<?php echo $utilisateurInfo['departement'] ;?>" value="<?php if(isset($error)){echo $text_departement;}else {echo $utilisateurInfo['departement'];}?>" /><br>
 
 					<label for="text_numSS">Pays <em>* </em></label>
