@@ -17,7 +17,38 @@
 
 		<fieldset>
  		<legend> Choisir une date et/ou un service </legend> 
+	<?php
+			if(isset($error)) // affichage messages erreurs si valeurs != format attendu
+			{
+			foreach($error as $error) // pour chaque champs
+			{
+		?>
 
+		<div class="error"> <?php echo $error; ?> </div>
+	
+		<?php
+			}
+			}
+	 	if(isset($_GET['Valide']))
+			{
+		?>
+                 
+        <div id="valide"> <!-- Alert alert-info-->
+            L'intervention a été réalisée !
+			<a href='../Pages/RDVDemande.php'>Demande de rendez-vous avec ce patient ?</a>
+        </div>
+
+        <?php
+			}
+			if(isset($_GET['?Suppression']))
+			{
+		?>
+                 
+        <div id="valide"> Le RDV a été annulé ! </div>
+
+        <?php
+			}
+		?>
  			<table id="legendPlanning">
  			
 				<tr class="legendPlanning">
