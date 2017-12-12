@@ -9,6 +9,7 @@
 	$req_utilisateur->execute(array("idr"=>$_SESSION['rdvModifier']));
 	$utilisateurInfo=$req_utilisateur -> fetch(PDO::FETCH_ASSOC);
 	$req_utilisateur->closeCursor();
+	Dumper($utilisateurInfo);
 	
 	if(isset($_POST['btn_demandeRDV']))
 {
@@ -88,30 +89,33 @@
 					{
 						$idPatho= $a_idPatho["idPatho"];
 					}
-					
-					$req_modifRDV = $auth_user->runQuery("UPDATE CreneauxInterventions
-													SET
-														date_rdv= :date_rdv,
-														heure_rdv= :heure_rdv,
-														InterventionsidIntervention= :InterventionsidIntervention,
-														niveauUrgence= :niveauUrgence,
-														PathologiesidPatho= :pathologie,
-														commentaires= :commentaires,
-														PatientsnumSS= :PatientsnumSS");
-
-					$req_modifRDV->execute(array('date_rdv'=> $date,
+					$req_ajouter= $auth_user->runQuery(
+					"INSERT INTO CreneauxInterventions (date_rdv,heure_rdv, InterventionsidIntervention, niveauUrgence, PathologiesidPatho, commentaires, PatientsnumSS,EmployesCompteUtilisateursidEmploye) 
+					VALUES (:date_rdv, :heure_rdv, :InterventionsidIntervention, :niveauUrgence, :pathologie, :commentaires, :PatientsnumSS, :UtilisateurActuel)");
+					$req_ajouter->execute(array('date_rdv'=> $date,
 										'heure_rdv'=> $heure,
 										'InterventionsidIntervention'=> $idIntervention,
 										'niveauUrgence'=> $niveauUrgence,
 										'pathologie'=> $idPatho, 
 										'commentaires'=> $commentaires,
-										'PatientsnumSS'=> $patient));
+										'PatientsnumSS'=> $patient,
+										':UtilisateurActuel'=>$utilisateurInfo['EmployesCompteUtilisateursidEmploye']));
+					
+					
+					$req_modifRDV = $auth_user->runQuery("UPDATE CreneauxInterventions
+													SET
+														statut= 'm'
+													
+														WHERE id_rdv=:idRDV");
+	
+					$req_modifRDV->execute(array('idRDV'=>$utilisateurInfo['id_rdv']));
 					$req_modifRDV->closeCursor();
 				}
 			}
 		}
 
 	}
+	$auth_user->redirect('RDVModification.php?Valide');
 }
 ?>
 
@@ -140,7 +144,7 @@
 			?>
 						
 			<div id="valide">
-				Rendez-vous fixé le (date) à (heure) <a href='../Pageprincipale.php'>Page principale</a>
+				La modification a été effectuée avec succès <a href='../Pageprincipale.php'>Page principale</a>
 			</div>
 
 <!-- test -->
@@ -186,7 +190,7 @@
 		<legend> Pathologie du patient </legend> <!-- Titre du fieldset --> 
 			
 			<label for="text_nomPathologie">Pathologie </label>				
-			<input type="text" class="" name="text_nomPathologie"  pattern="{1-100}" title="Caractère alphabétique, 100 caractères maximum"  placeholder=" <?php echo $utilisateurInfo["nomPathologie"] ;?>"  value="<?php if(isset($error)){echo $text_nomPathologie;}else {echo $utilisateurInfo['nomPathologie'];}?>" /> <br>
+			<input type="text" class="" name="text_nomPathologie"  pattern="{1-100}" title="Caractère alphabétique, 100 caractères maximum"  placeholder=" <?php echo $utilisateurInfo["nomPathologie"] ;?>"  value="<?php if(isset($error)){echo $nomPathologie;}else {echo $utilisateurInfo['nomPathologie'];}?>" /> <br>
 
 			<label for="text_indicationPathologie"> Indications </label>		
 			<input type="text" class="" name="text_indicationPathologie" pattern="{0-30}" title="Caractère alphabetique, 30 caractères maximum"       placeholder=" <?php echo $utilisateurInfo["indication"] ;?>" value="<?php if(isset($error)){echo $indicationPathologie;}else {echo $utilisateurInfo['indication'];}?>" /><br>
@@ -198,7 +202,7 @@
 							
 			<!-- Affichage formulaire : moteur recherche-->
 			<label for="text_idIntervention">Identifiant </label>
-			<input list="text_idIntervention" name="text_idIntervention" size='35' placeholder="<?php echo $utilisateurInfo["InterventionsidIntervention"] ;?>" value="<?php if(isset($error)){echo $text_idIntervention;}else {echo $utilisateurInfo["InterventionsidIntervention"];}?>"> 
+			<input list="text_idIntervention" name="text_idIntervention" size='35' placeholder="<?php echo $utilisateurInfo["InterventionsidIntervention"] ;?>" value="<?php if(isset($error)){echo $idIntervention;}else {echo $utilisateurInfo["InterventionsidIntervention"];}?>"> 
 				
 				<datalist id="text_idIntervention"  >
 				<?php 
