@@ -76,10 +76,10 @@
 				<input type="text" class="" name="text_ville"  pattern="[A-Za-z]{1-150}" title="Caractère alphabétique, 150 caractères maximum" placeholder="<?php echo $patientInfo['nomVilles'] ;?>" value="<?php if(isset($error)){echo $text_ville;}else {echo $patientInfo['nomVilles'];}?>" /><br>
 
 				<label for="text_codepostal"> Code Postal </label>
-				<input type="text" class="" name="text_codepostal" pattern="{5}" title="Caractère numérique, 5 caractères maximum"         placeholder="<?php echo $patientInfo['codepostal'] ;?>" value="<?php if(isset($error)){echo $text_codepostal;}else {echo $patientInfo['codepostal'];}?>" /><br>
+				<input type="text" class="" name="text_codepostal"  placeholder="<?php echo $patientInfo['codepostal'] ;?>" value="<?php if(isset($error)){echo $text_codepostal;}else {echo $patientInfo['codepostal'];}?>" /><br>
 
 				<label for="text_departement"> Département </label>
-				<input type="text" class="" name="text_departement"   pattern="{1-3}" title="3 caractères maximum"                              placeholder="<?php echo $patientInfo['departement'] ;?>" value="<?php if(isset($error)){echo $text_departement;}else {echo $patientInfo['departement'];}?>" /><br>
+				<input type="text" class="" name="text_departement" placeholder="<?php echo $patientInfo['departement'] ;?>" value="<?php if(isset($error)){echo $text_departement;}else {echo $patientInfo['departement'];}?>" /><br>
 
 				<label for="text_pays"> Pays <em>* </em></label>
 				<input type="text" class="" name="text_pays"   pattern="[A-Za-z]{1-25}" title="Caractère alphabétique, 25 caractères maximum"   placeholder="<?php echo $patientInfo['pays'] ;?>" value="<?php if(isset($error)){echo $text_pays;}else {echo $patientInfo['pays'];}?>" /><br>

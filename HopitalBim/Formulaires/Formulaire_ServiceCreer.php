@@ -34,13 +34,13 @@
 				<label for="text_nomService">Nom du service <em>* </em> </label>
 				<input type="text" class="form-control" name="text_nomService" pattern="[A-Za-z]{1-20}" title="Majuscule en première lettre"        placeholder=" Service" value="<?php if(isset($error)){echo $text_nomService;}?>" /><br>
 
-				<label for="text_telephone">Téléphone </label>
+				<label for="text_telephone">Téléphone <em>*</em></label>
 				<input type="tel" class="form-control" name="text_telephone" pattern="[0-9]{1-15}" title="Veuillez rentrer un n° de téléphone correct"    placeholder=" 06xxxxxxxx " value="<?php if(isset($error)){echo $text_telephone;}?>" /><br>
 
-				<label for="text_ouverture">Horaire d'ouverture </label>
+				<label for="text_ouverture">Horaire d'ouverture<em>*</em></label>
 				<input type="time" step="900" class="form-control" name="text_ouverture" value="<?php if(isset($error)){echo $text_ouverture;}?>" /><br>
 
-				<label for="text_fermeture">Horaire de fermeture </label>
+				<label for="text_fermeture">Fermeture <em>* </em> </label>
 				<input type="time" step="900" class="form-control" name="text_fermeture" value="<?php if(isset($error)){echo $text_fermeture;}?>" /><br>
 
 			</fieldset> <br>
