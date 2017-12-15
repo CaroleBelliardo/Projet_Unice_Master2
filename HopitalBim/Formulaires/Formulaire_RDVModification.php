@@ -104,7 +104,7 @@
 					
 					$req_modifRDV = $auth_user->runQuery("UPDATE CreneauxInterventions
 													SET
-														statut= 'm'
+														statut= 'a'
 													
 														WHERE id_rdv=:idRDV");
 	
