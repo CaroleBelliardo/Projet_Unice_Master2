@@ -82,7 +82,6 @@ $_SESSION['service']=$a_utilisateur['service'];
 			if ($_SESSION["idEmploye"]== "admin00")
 			{
 	?>
-				<a href="<?php echo $LienSite ?>Pages/Facturation.php">Facturation</a>
 				<div class="dropdown">
 					<button class="dropbtn">Services </button>
 					<div class="dropdown-content">
