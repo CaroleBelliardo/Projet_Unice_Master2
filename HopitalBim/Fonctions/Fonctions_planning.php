@@ -58,9 +58,6 @@
 		$horraireTravail['horaire_ouverture']= $a_heureMinMax[1];
 	}
 
-	//echo "heure debut".$heureDebut[1];
-	//echo "heure fin".$heureDebut[1];
-	//
 	 //-- liste des creneaux à afficher 
 	$a_heures=[]; // liste des créneaux  
 	$range_heure=range(strtotime($horraireTravail['horaire_ouverture']),strtotime($horraireTravail['horaire_fermeture']),15*60);
@@ -72,7 +69,6 @@
 	// PLANNING du service ***
 	//-- horaires de début et fin de rendez-vous Pour la journée 
 	
-		
 	$infoServiceJour = $auth_user->runQuery("SELECT TIME_FORMAT(CreneauxInterventions.heure_rdv,'%H:%i'),
 			Interventions.acte, Patients.nom, Patients.prenom, Patients.numSS, id_rdv,  CreneauxInterventions.EmployesCompteUtilisateursidEmploye as idEmploye ,
 			CreneauxInterventions.niveauUrgence, CreneauxInterventions.statut
@@ -97,7 +93,7 @@
 																													"idEmploye"=>$row["idEmploye"],
 																													"statut"=>$row["statut"]];
 				}	
-				else
+				else // si l'heure existe dejà
 				{
 					$infoServiceJours[$row["TIME_FORMAT(CreneauxInterventions.heure_rdv,'%H:%i')"]]=array($row["acte"] => ["nom"=>$row["nom"],
 																															"prenom"=>$row["prenom"],
