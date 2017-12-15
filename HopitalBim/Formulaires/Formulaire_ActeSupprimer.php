@@ -25,7 +25,7 @@
 					$archivertarif=$req_archivertarif-> fetchColumn();
 					$req_archivertarif->closeCursor();
 					
-					// supprime tarif
+					// supprime tarif 
 					$req_supprimerActeTarif = $auth_user->conn->prepare("DELETE FROM Tarifications
 															   WHERE InterventionsidIntervention=:idIntervention");
 					$req_supprimerActeTarif->execute(array('idIntervention'=>$text_idIntervention));
@@ -49,7 +49,7 @@
 					//supprime l'intervention
 					$req_supprimerActe = $auth_user->conn->prepare("DELETE FROM Interventions
 																	WHERE idIntervention=:idIntervention;");
-											$req_supprimerActe->execute(array('idIntervention'=>$text_idIntervention));
+					$req_supprimerActe->execute(array('idIntervention'=>$text_idIntervention));
 					$req_supprimerActe->closeCursor();
 					
 					$auth_user->redirect('ActeSupprimer.php?Valide');

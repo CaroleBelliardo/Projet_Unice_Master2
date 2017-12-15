@@ -23,8 +23,7 @@
 		else if ($text_nomService==""){
 			$error[] = "Il faut un sélectionner un service !"; }
 		else 
-		{ 
-			
+		{ 	
 			try 
 			{
 				$archiverService = $auth_user->runQuery("INSERT INTO ServicesArchive 
@@ -32,8 +31,20 @@
 															FROM Services
 															WHERE nomService=:nomService");
 				$archiverService->execute(array('nomService'=>$text_nomService));
+				
+				$req_archiverActe = $auth_user->runQuery("INSERT INTO InterventionsArchive 
+																SELECT *   
+																FROM Interventions
+																WHERE ServicesnomService=:nomService");
+				$req_archiverActe->execute(array('nomService'=>$text_nomService));
+				$req_archiverActe->closeCursor();
+			
+				$supprimerinterv = $auth_user->conn->prepare("DELETE FROM Interventions WHERE 
+		 										ServicesnomService=:nomService");					
+				$supprimerinterv->execute(array('nomService'=>$text_nomService));	
+				
 				$supprimerService = $auth_user->conn->prepare("DELETE FROM Services WHERE 
-														nomService=:nomService");
+												nomService=:nomService");
 				$supprimerService->execute(array('nomService'=>$text_nomService));
 				$auth_user->redirect('ServiceSupprimer.php?Valide');
 			}
