@@ -84,7 +84,7 @@ if(isset($_POST['btn-login']))
     </div> <!-- Page -->
 
     <div id="footer"> <!-- Faire les liens vers les documents  -->
-    <a href="<?php echo $LienSite ?>Pages/Contact.php"> Contact </a> | © 2017
+     © 2017
     </div>
 
     </body>
