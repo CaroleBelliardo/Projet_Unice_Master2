@@ -110,7 +110,6 @@
 		$totaldemande=extractReq2($totaldemande,$req_nbDemandeStatutParService,$k,"ServicesnomService","COUNT(*)");
 	}
 	
-	
 	//incompatibilité
 	$req_nbDemandeINCParServiceMax=$auth_user->runQuery('SELECT Interventions.ServicesnomService, COUNT(*)
 			FROM CreneauxInterventions JOIN Interventions JOIN InterventionsPatho
@@ -132,7 +131,7 @@
 	
 	//retourne liste (medecin + patient) pour lequels il a plus d'une demande ( ligne avec h ou j dif)
 	//avec niveau urgent
-	$reqMedPatient = $auth_user->runQuery('SELECT ServicesnomService, EmployesCompteUtilisateursidEmploye, Patients.numSS, COUNT(*)
+	$reqMedPatient = $auth_user->runQuery('SELECT Employes.ServicesnomService, EmployesCompteUtilisateursidEmploye, Patients.numSS, COUNT(*)
 			FROM Employes  JOIN CreneauxInterventions t1 JOIN Patients
 			WHERE niveauUrgence != 0
 			AND t1.EmployesCompteUtilisateursidEmploye = Employes.CompteUtilisateursidEmploye
@@ -145,9 +144,19 @@
 			AND t1.EmployesCompteUtilisateursidEmploye = t2.EmployesCompteUtilisateursidEmploye)
 			Group by EmployesCompteUtilisateursidEmploye');
 	$reqMedPatient->execute();
-	$a_info=extractReq3($totaldemande,$reqMedPatient);
+	$a_info=$totaldemande;
+	while ($temp2 =  $reqMedPatient-> fetch(PDO::FETCH_ASSOC))
+		{
+			//if ($temp2["ServicesnomService"] != 'Informatique')
+			//{
+				$a_info[$temp2['ServicesnomService']]['Med_Patient-MultiUrgence']=["idEmploye" => $temp2["EmployesCompteUtilisateursidEmploye"],  
+				"Patient" => $temp2["numSS"],"nb_demandes" => $temp2["COUNT(*)"]]; 
+			//}
+		}	
 	
+	//extractReq3($totaldemande,$reqMedPatient);
 	
+Dumper($a_info);	
 	$last_key = endKey($a_total);
 
 ?>

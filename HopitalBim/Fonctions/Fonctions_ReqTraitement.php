@@ -23,20 +23,7 @@
 		return($intab);
 	
 	}
-	function extractReq3 ($intab,$inReq){
-		while ($temp2 =  $inReq-> fetch(PDO::FETCH_ASSOC))
-		{
-			if ($temp2["ServicesnomService"] != 'Informatique')
-			{
-				$tempo=$intab[$temp2["ServicesnomService"]]; //stock le tableau des stats du service  
-				$a_info= ["idEmploye" => $temp2["EmployesCompteUtilisateursidEmploye"],  
-				"Patient" => $temp2["numSS"]]; 
-				array_push($tempo,["Med_Patient-MultiUrgence"=>$a_info]); 
-				$intab[$temp2["ServicesnomService"]] = $tempo;
-			}
-		}
-		return($intab);
-	} 
+
 	
 	function reqToArray1Att($requete) //  une requete qui retroune plusieurs tuples (plusieurs lignes) 1 attribut (1 colonne)  -- retourne un tableau contenant toutes les valeurs d'un attribut, tableau 1D
 	{
