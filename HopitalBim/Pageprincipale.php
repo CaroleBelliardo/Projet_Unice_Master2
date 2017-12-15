@@ -17,7 +17,7 @@
 	$Req_utilisateur = $auth_user->runQuery("SELECT  CompteUtilisateursidEmploye, Employes.ServicesnomService as service,nom, prenom, EmployesCompteUtilisateursidEmploye as chef
 											FROM Employes LEFT JOIN ChefServices ON Employes.CompteUtilisateursidEmploye  = ChefServices.EmployesCompteUtilisateursidEmploye
 											WHERE Employes.CompteUtilisateursidEmploye = :user_name
-											"); /
+											"); 
 	$Req_utilisateur->execute(array("user_name"=>$user_id)); 
 	$a_utilisateur= reqToArrayPlusAttASSO($Req_utilisateur);  // Nom prénom et service utilisateur 	
 	$Req_utilisateur->closeCursor();
