@@ -2,11 +2,11 @@
 	if(isset($_POST['btn-ajoutActe']))
 	{
 		$text_nomActe = ucfirst(trim($_POST['text_nomActe'], ' '));
-		$text_tarif = preg_replace("/[^0-9]/", "",trim($_POST['text_tarif'], ' '));
+		$text_tarif = preg_replace("/[A-Za-z]/", "",trim($_POST['text_tarif'], ' '));
 	// Gestion des erreurs : 
 		if ($text_nomActe==""){$error[] = "Il faut un entrer le nom de l'acte !"; }
 		
-		elseif (($text_tarif=="")or (preg_match('/[0-9]+/',$text_tarif) == 0))
+		elseif ($text_tarif=="")
 			{$error[] = "Il faut un entrer un tarif valide!"; }	
 		else 
 		{ 
