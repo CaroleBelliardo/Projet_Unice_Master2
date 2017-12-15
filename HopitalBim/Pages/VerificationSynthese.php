@@ -216,7 +216,7 @@ Dumper($a_info);
 						{
 							if (array_key_exists($colonne,$a_info[$nomService]))
 							{
-								if($valueTotal == $last_key)
+								if($colonne == $last_key)
 								{
 									if(array_key_exists("COUNT(*)",$a_info[$nomService][$last_key]))
 									{
@@ -231,7 +231,7 @@ Dumper($a_info);
 								}
 								else
 								{
-									echo $a_info[$nomService][$colonne];
+									 echo $a_info[$nomService][$colonne];
 								}
 							}
 							else
