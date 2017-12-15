@@ -11,14 +11,14 @@
 	
 // --- Entete = nb TOTAL : recupere toutes les lignes correspondant dans la bdd puis compte le nombre de ligne
 	$a_total= [];
-    $totalInterv = $auth_user->runQuery('SELECT * FROM CreneauxInterventions'); //total demandes tt services confondu
+    $totalInterv = $auth_user->runQuery('SELECT * FROM CreneauxInterventions WHERE YEAR(CreneauxInterventions.date_rdv) = YEAR(CURRENT_DATE)'); //total demandes tt services confondu
     $totalInterv->execute();
 	$a_total["Total demandé"] = $totalInterv->rowCount();
 	$totalInterv->closeCursor();	
 
 	for ($i=0; $i<=3; $i++)
 	{  
-		$totalIntervUrg0 = $auth_user->runQuery('SELECT * FROM CreneauxInterventions WHERE niveauUrgence = :NU'); 
+		$totalIntervUrg0 = $auth_user->runQuery('SELECT * FROM CreneauxInterventions WHERE niveauUrgence = :NU AND YEAR(CreneauxInterventions.date_rdv) = YEAR(CURRENT_DATE)'); 
 		$totalIntervUrg0->execute(array('NU'=>$i));
 		$a_total["Urgence ".$i] = $totalIntervUrg0->rowCount();
 		$totalIntervUrg0->closeCursor();
@@ -28,7 +28,7 @@
 	$liste=['Prévu'=>'p','Réalisé'=>'r','Annulé'=>'a','Remplacé'=>'s','Facturé'=>'f'];
 	foreach ($liste as $k=>$v)
 	{
-		$totalIntervPrePrevu = $auth_user->runQuery("SELECT * FROM CreneauxInterventions WHERE statut = :statut"); 
+		$totalIntervPrePrevu = $auth_user->runQuery("SELECT * FROM CreneauxInterventions WHERE statut = :statut AND YEAR(CreneauxInterventions.date_rdv) = YEAR(CURRENT_DATE)"); 
 		$totalIntervPrePrevu->execute(array('statut'=>$v));
 		$a_total[$k] = $totalIntervPrePrevu->rowCount();
 		$totalIntervPrePrevu->closeCursor();
@@ -43,6 +43,7 @@
 			FROM CreneauxInterventions JOIN Interventions JOIN InterventionsPatho
 			WHERE CreneauxInterventions.InterventionsidIntervention = Interventions.idIntervention
 			AND Interventions.idIntervention = InterventionsPatho.InterventionsidIntervention
+			AND YEAR(CreneauxInterventions.date_rdv) = YEAR(CURRENT_DATE)
 			AND CreneauxInterventions.niveauUrgence > InterventionsPatho.niveauUrgenceMax');
 	$req_nbDemandeINCMax->execute();
 	$a_total["Incomp. nUrg Max"] = $req_nbDemandeINCMax->rowCount();
@@ -52,6 +53,7 @@
 			FROM CreneauxInterventions JOIN Interventions JOIN InterventionsPatho
 			WHERE CreneauxInterventions.InterventionsidIntervention = Interventions.idIntervention
 			AND Interventions.idIntervention = InterventionsPatho.InterventionsidIntervention
+			AND YEAR(CreneauxInterventions.date_rdv) = YEAR(CURRENT_DATE)
 			AND CreneauxInterventions.niveauUrgence < InterventionsPatho.niveauUrgenceMin');
 	$req_nbDemandeINCMax->execute();
 	$a_total["Incomp. nUrg Min"] = $req_nbDemandeINCMax->rowCount();
@@ -63,10 +65,12 @@
 			WHERE niveauUrgence != 0
 			AND t1.EmployesCompteUtilisateursidEmploye = Employes.CompteUtilisateursidEmploye
 			AND t1.PatientsnumSS= Patients.numSS
+			AND YEAR(t1.date_rdv) = YEAR(CURRENT_DATE)
 			AND EXISTS (
 			SELECT *
 			FROM CreneauxInterventions t2
 			WHERE   t1.heure_rdv <> t2.heure_rdv
+			AND YEAR(t2.date_rdv) = YEAR(CURRENT_DATE)
 			AND   t1.PatientsnumSS = t2.PatientsnumSS
 			AND t1.EmployesCompteUtilisateursidEmploye = t2.EmployesCompteUtilisateursidEmploye)');
 	$reqMedPatientTotal->execute();
@@ -131,7 +135,8 @@
 	
 	//retourne liste (medecin + patient) pour lequels il a plus d'une demande ( ligne avec h ou j dif)
 	//avec niveau urgent
-	$reqMedPatient = $auth_user->runQuery('SELECT Employes.ServicesnomService, EmployesCompteUtilisateursidEmploye, Patients.numSS, COUNT(*)
+	$reqMedPatient = $auth_user->runQuery('SELECT Employes.ServicesnomService, EmployesCompteUtilisateursidEmploye, Patients.numSS, Patients.nom as pnom,Patients.prenom as pprenom, COUNT(*)
+			, Employes.nom as Enom,  Employes.prenom as Eprenom
 			FROM Employes  JOIN CreneauxInterventions t1 JOIN Patients
 			WHERE niveauUrgence != 0
 			AND t1.EmployesCompteUtilisateursidEmploye = Employes.CompteUtilisateursidEmploye
@@ -149,16 +154,13 @@
 		{
 			//if ($temp2["ServicesnomService"] != 'Informatique')
 			//{
-				$a_info[$temp2['ServicesnomService']]['Med_Patient-MultiUrgence']=["idEmploye" => $temp2["EmployesCompteUtilisateursidEmploye"],  
-				"Patient" => $temp2["numSS"],"nb_demandes" => $temp2["COUNT(*)"]]; 
+				$a_info[$temp2['ServicesnomService']]['Med_Patient-MultiUrgence'][$temp2["EmployesCompteUtilisateursidEmploye"]]=  
+				["Patient" => $temp2["numSS"],  "patientprenom" => $temp2["pprenom"], "patientnom" => $temp2["pnom"],
+				  "Eprenom" => $temp2["Eprenom"], "Enom" => $temp2["Enom"],
+				 "nb_demandes" => $temp2["COUNT(*)"]]; 
 			//}
 		}	
-	
-	//extractReq3($totaldemande,$reqMedPatient);
-	
-Dumper($a_info);	
 	$last_key = endKey($a_total);
-
 ?>
 	
 
@@ -217,12 +219,22 @@ Dumper($a_info);
 							if (array_key_exists($colonne,$a_info[$nomService]))
 							{
 								if($colonne == $last_key)
-								{
-									if(array_key_exists("COUNT(*)",$a_info[$nomService][$last_key]))
+								{ 
+									if(array_key_exists($last_key,$a_info[$nomService]))
 									{
-										echo $a_info[$nomService][$last_key]["COUNT(*)"]."<br>";
-										echo $a_info[$nomService][$last_key]["EmployesCompteUtilisateursidEmploye"]."<br>".
-										$a_info[$nomService][$last_key]["PatientsnumSS"]."<br>";
+										$flag=0;
+										foreach  ($a_info[$nomService][$last_key] as $id=>$inf)
+										{
+											if ($flag > 0){ echo '------------<br>';}
+											echo 'L\'employé '.$inf["Enom"].' '.$inf["Eprenom"]."<br>".
+											'a fait '.$inf["nb_demandes"].' demandes urgentes'."<br>".
+											'pour  '.$inf["patientnom"].' '.$inf["patientprenom"].'<br>'
+											.'n° SS : '.$inf["Patient"]."<br>";
+											
+											
+											$flag=$flag+1;
+											
+										}
 									}
 									else
 									{
