@@ -1,80 +1,77 @@
-# projetm2
-ProjetM2S1
+README du projet HOPITAL BIM
+* * * Gestion des échanges d’interventions médicales au sein d’un hôpital * * *
 
-#TODO 
-#-- CSS
-btn
-champ
-radio
-chekbox
-background
-fond formulaire
-facturation
-police
-logo
-menu couleur
-forme table planning (code couleur)
-forme table notification - synthèse
-couleur pour urgence (code couleur)
+-- Résumé –-
+	Vous trouverez ci-joint l’ensemble des informations nécessaires pour la bonne mise en place du site web. La plateforme gère les échanges de demandes d’interventions au sein d’un hôpital. 
+Pour une description complète, veuillez-vous rediriger vers : https://github.com/CaroleBelliardo/projetm2
+Pour soumettre un bug ou suivre l’évolution de la plateforme : https://github.com/CaroleBelliardo/projetm2/issues
 
-faire un Edito sur la page principale spécifique aux droits d'utilisateurs reprenant les idées principales
+-- Requis –-
 
-Rediger une page d'aide 
-Fichier READ ME -- comment installer le serveur, le site, et rajouter les info de la page d'aide (copier coller)
+  1 - Un système d’exploitation Windows, Mac ou Linux. Cependant Ubuntu ou Mageia sont recommandés.
 
-#-- Rapport
-Adapter base de donnée ( modif pk, table facturation, tables archive ) 
-cas d'utilisateur graph ou schéma de page 
-lister et expliquer les fonctions
-matrice de test = faire une partie test 
-	-> sous partie pour chaque cas d'utilisation ( ou page reprendre page a page )
-	-> paragraphe test fonctionnel ( reprendre cas utilisations ) + paragraphe test unitaires
-pb rencontrées
-avis personnels
-Améliorations
-remerciements
-# -- Code
-FINI : (renommer fichier accueil = index) il est pas renommé mais index redirige vers Accueil.php
-	FINI : une redirection vers accueil que l'on soit connecté ou pas, et si l'utilisateur est perdu dans le site ex : hopitalbim/Pages/
+  2 - Un navigateur web, la dernière version fonctionnelle de Chrome, Safari ou Mozilla Firefox. Cependant Mozilla Firefox est recommandé. 
 
-redirection selon droit utilisateurs pour chaque page privée
-menu selon droit utilisateurs
+  3 - Il est nécessaire d’avoir un environnement de développement PHP. La distribution Apache, XAMPP est recommandé. Les paquets Php et MySQL doivent être activés et fonctionnels. 
+ 
+  4 - Il est nécessaire de télécharger tous les fichiers qui composent la plateforme web.
 
-planning 
-- choix service 
-- choix heure
-- affichage prenom - nom 
-- supprimer 
-- modifier
-
-tableau de synthèse
--ajouter req. red annulés
--affichage incompatibilité
--notification
-
-demande rdv 
-- Modifier le nom des variables pour les relier au formulaire
-FINI - ecrire la fonction des verif des incompatibilités
-- ecrire la fonctin de la notification
-
-FINI :modifier 
-FINI : -service
-FINI : -compte utilisateur
-FINI : -patient
-
-supprimer 
--Creer table archive dans la structure bdd // copier coller table.archive
--Requete pour transferer les donner copier coller dans archive
----service 
----compte utilisateur
----patient
+  5 - Il faut réaliser l'installation en locale
 
 
-reprendre structure fiche patient
-ajouter btn facturation sur modification patient
+-- Installation –-
+1 - Activer les paquets MySQL et Php à partir de XAMPP.
 
-Page contact
+2 - Extraire les fichiers dans "htdocs" de façon à avoir dans "htdocs" le dossier "projetm2" et dans se dossier l’ensemble des sous dossiers et fichiers. 
+	- Exemple d’arborescence acceptée pour le fichier Accueil.php "../htdocs/projetm2/HopitalBim/Accueil.php".
 
-Page Notification : 
-	- Ajouter une table "notification"
+3 - Mettre dans le dossier "htdocs" le fichier ".htaccess" et le fichier "404.php".
 
+4 - Ouvrir PhpMyAdmin et aller sur le menu principal. Il faut importer la base de données. Pour cela il faut importer le fichier "BaseDeDonnée.sql".
+	- Le fichier "BaseDeDonnée.sql" est localisé dans "../projetm2". Il permet d'importer la base de données.
+	- Vérifier que l'identifiant permettant de se connecter à la base de données situé en localhost est bien "root" et le mot de passe est "". 
+	- Le nom d'utilisateur et le mot de passe peuvent être changé. Voir la FAQ.
+
+5 - Ouvrir l'explorateur web et se diriger vers : "http://localhost/projetm2/HopitalBim/Accueil.php"
+
+6 - Pour votre première connexion, connectez-vous en tant que Admin, le nom d'utilisateur est "admin00" et le mot de passe est "123456789". 
+	- Il est recommandé de modifier le mot de passe. Voir FAQ.
+
+	
+-- CONFIGURATION --
+
+-- FAQ --
+ 1 - J'ai modifié le mot de passe et l’identifiant de la base de données que faire pour que le site puisse se connecter à celle-ci ?
+		- Vous pouvez modifier l'identifiant et le mot de passe. 
+			Il faut cependant modifier dans le fichier "htdocs\projetm2\HopitalBim\dbconfig.php" les paramétres suivants :
+			    private $username = "Nouveau nom utilisateur"; 
+				private $password = "Nouveau mot de passe";
+			La modification du mot de passe et du nom d'utilisateur est recommandée.
+
+2 - J'ai modifié le nom de la base de données que faire pour que le site puisse se connecter à celle-ci ?
+		- Vous pouvez modifier le nom de la base de données. 
+			Il faut cependant modifier dans le fichier "htdocs\projetm2\HopitalBim\dbconfig.php" les paramètres suivants :
+				private $db_name = "nouveau nom de la base";
+			La modification du nom de la base de données n'est recommandée.
+
+3 - Je souhaite modifier le mot de passe de l'admin. Comment faire ? 
+	- Il faut se connecter dans un premier temps comme Admin. 
+		Lors de votre première connexion, l'identifiant est "admin00" et le mot de passe est "123456789".
+		Ensuite se diriger vers la page "http://localhost/projetm2/HopitalBim/Pages/CompteUtilModifier.php"
+		Il faut ensuite sélectionner l'utilisateur "admin00".
+		Vous pourrez alors modifier tous informations relatives à l'admin, y-compris le mot de passe.
+		Il est recommandé de changer le mot de passe de l'admin. Un mot de passe de plus de 10 caractères est recommandé.
+		
+				
+-- CONTACT –
+Liste de diffusion : 
+	-	Collaboration :
+	Hussam Nachabe : hussamnachabe@gmail.com ; 
+	Marine Poullet : poullet.m@hotmail.fr ; 
+	Marin Truchi : marint06@laposte.net ;
+	Carole Belliardo : carole.belliardo@etu.unice.fr ;
+
+	-	Validation :
+	Jean-Paul Comet : comet@unice.fr; 
+	Gilles Bernot : bernot@unice.fr; 
+	Ingrid Grenet : grenet@unice.fr;
