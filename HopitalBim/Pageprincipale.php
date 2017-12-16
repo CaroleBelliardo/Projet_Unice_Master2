@@ -1,5 +1,5 @@
 <?php
-	 $LienSite = 'http://'.$_SERVER['HTTP_HOST'].'/projetm2/HopitalBim/';
+	$LienSite = 'http://'.$_SERVER['HTTP_HOST'].'/projetm2/HopitalBim/';
 	
 	include ('Fonctions/Fonctions_Affichage.php');
 	include ('Fonctions/Fonctions_ReqTraitement.php');
@@ -17,7 +17,7 @@
 	$Req_utilisateur = $auth_user->runQuery("SELECT  CompteUtilisateursidEmploye, Employes.ServicesnomService as service,nom, prenom, EmployesCompteUtilisateursidEmploye as chef
 											FROM Employes LEFT JOIN ChefServices ON Employes.CompteUtilisateursidEmploye  = ChefServices.EmployesCompteUtilisateursidEmploye
 											WHERE Employes.CompteUtilisateursidEmploye = :user_name
-											"); // NOM utilisateur = >> à mettre dans menuPage !!!!!!!!!!!! TOUTES PAGES 
+											"); /
 	$Req_utilisateur->execute(array("user_name"=>$user_id)); 
 	$a_utilisateur= reqToArrayPlusAttASSO($Req_utilisateur);  // Nom prénom et service utilisateur 	
 	$Req_utilisateur->closeCursor();
@@ -183,14 +183,13 @@ $_SESSION['service']=$a_utilisateur['service'];
 				Si vous rencontrez un problème, veuillez contacter l’administrateur du site via l’adresse : <em>admin00@hopitalbim.fr </em> <br> <br>
 
 				</p> <br> <br> <br>
-
 		<?php
 		}
 		?>
 
     </div> <!-- Page --> 
 
-<?php include ('Config/Footer2.php'); //menu de navigation ?>
+<?php include ('Config/Footer2.php'); ?>
    
 
 	</body>
