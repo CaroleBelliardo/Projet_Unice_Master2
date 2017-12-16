@@ -1,14 +1,3 @@
-<!-- Chose a faire : 
-		- Regarder la gestion des maj et des minuscules des entrées dans la base de donnée
-		   proposition : nom de famille tout en majuscule et prenom tout en minuscule.
-		   ou : ucfirst() - Make a string's first character uppercase
-		   
-		-// si $patient = "" alors redirect vers page principale
-		- Afficher d'autre info relatif au patient : comme le nom et le prenom, date de naissance etc ..
-		
-		-- utiliser explode pour transfo string to array
-		-- implode array to string
-		-->
 <?php
 include ('../Config/Menupage.php'); //menu de navigation
 include ('../Fonctions/Fonctions_RDVDemande.php'); // fonctions specifiques à demande RDV
@@ -154,6 +143,26 @@ if(isset($_POST['btn_demandeRDV'])) // si utilisateur clique sur le bouton deman
 				$a_infoDateHeure["heureR"] = $a_horaireService["horaire_ouverture"]; //=> on affecte date & heure actuelles
 				$a_infoDateHeure["dateR"] = date("Y-m-d", strtotime($a_infoDateHeure['dateR']." +1 day"));	
 			}
+		// recherche s'il y a des rdv modifiés à la même heure
+			$req_rdvmodifie = $auth_user-> runQuery(" SELECT CreneauxInterventions.id_rdv
+													FROM CreneauxInterventions
+													WHERE statut ='m'
+													AND date_rdv = :date
+													AND heure_rdv = :heure
+													AND InterventionsidIntervention = :idInt
+													");
+			$req_rdvmodifie->execute(array('date'=>$a_infoDateHeure["dateR"],
+										   'heure'=>$a_infoDateHeure["heureR"],
+										   'idInt'=>$idIntervention
+										   ));
+			$existModif= $req_rdvmodifie-> fetchColumn();
+			$req_rdvmodifie->closeCursor();
+			if ($existModif != "" )
+			{
+				$a_infoDateHeure["heureR"]=heurePlus15($a_infoDateHeure["heureR"],'+15 minutes');  // on met le rdv juste après
+			}
+
+			
 			
 			$ajoutRDV = $auth_user->runQuery("INSERT INTO CreneauxInterventions (date_rdv, heure_rdv, InterventionsidIntervention,
 										niveauUrgence, PathologiesidPatho, commentaires, PatientsnumSS, EmployesCompteUtilisateursIdEmploye) 

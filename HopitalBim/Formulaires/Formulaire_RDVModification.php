@@ -13,9 +13,6 @@
 	
 	if(isset($_POST['btn_demandeRDV']))
 {
-	
-
-	
 	//traitement des sorti
 	$heure=trim($_POST['text_heure'], ' ');
 	$date=trim($_POST['text_date'], ' ');
@@ -102,12 +99,39 @@
 										':UtilisateurActuel'=>$utilisateurInfo['EmployesCompteUtilisateursidEmploye']));
 					
 					
+
+				// recherche s'il y a des rdv annulé au nouvel horaire : met a jour la valeur du statut
+					$req_rdvAnnule = $auth_user-> runQuery(" SELECT CreneauxInterventions.id_rdv
+															FROM CreneauxInterventions
+															WHERE statut ='a'
+															AND date_rdv = :date
+															AND heure_rdv = :heure
+															AND InterventionsidIntervention = :idInt
+															");
+					$req_rdvAnnule->execute(array('date'=>$date,
+												   'heure'=>$heure,
+												   'idInt'=>$idIntervention
+												   ));
+					$existAnnule= $req_rdvAnnule-> fetchColumn();
+					$req_rdvAnnule->closeCursor();
+					if ($existAnnule != "" )
+					{
+						$req_modifAn = $auth_user->runQuery("UPDATE CreneauxInterventions
+															SET
+																statut= 's'
+																WHERE id_rdv=:idRDV");
+
+						$req_modifAn->execute(array('idRDV'=>$existAnnule));
+						$req_modifAn->closeCursor();
+					}					
+							
+							
+				//	met a jour la valeur de l'ancien rdv
 					$req_modifRDV = $auth_user->runQuery("UPDATE CreneauxInterventions
-													SET
-														statut= 'a'
-													
-														WHERE id_rdv=:idRDV");
-	
+															SET
+																statut= 'a'
+																WHERE id_rdv=:idRDV");
+
 					$req_modifRDV->execute(array('idRDV'=>$utilisateurInfo['id_rdv']));
 					$req_modifRDV->closeCursor();
 				}

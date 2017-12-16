@@ -21,10 +21,9 @@
 			$intab[$temp2[$att1]] = $tempo;
 		}
 		return($intab);
-	
 	}
 
-	
+
 	function reqToArray1Att($requete) //  une requete qui retroune plusieurs tuples (plusieurs lignes) 1 attribut (1 colonne)  -- retourne un tableau contenant toutes les valeurs d'un attribut, tableau 1D
 	{
 		$a_out_reqToArray=[];
@@ -92,18 +91,11 @@
 		{
 			foreach ( $row as $attribut=>$col)
 			{
-				//Dumper($row); echo $row[$attribut]."<br>";
 					echo $attribut."<br>";
-					//echo $col."<br>";
-					//echo $v."<br>";
-					
-					//$a_out_reqToArray[$attribut]=$col;
-				
+	
 			}
-		
 		}
 		return ($a_out_reqToArray);
 	}
-	
 	
 ?>
