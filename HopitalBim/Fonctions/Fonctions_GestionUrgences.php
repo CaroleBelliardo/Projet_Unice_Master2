@@ -116,7 +116,6 @@
                     }
                 }
             }// fin d'instruction si dispo = hors delais
-         // puis on test s'il y a surbooking	
         }
 	
     return ($a_infoDateHeure);

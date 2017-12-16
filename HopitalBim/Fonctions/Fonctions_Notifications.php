@@ -12,7 +12,7 @@
         $a_horaireFermeture["horaire_reel"] = $req_heureFinJour->fetchColumn();
         $req_heureFinJour->closeCursor();
         
-        // Enregistre la notif              
+    // Enregistre la notif              
         if ($a_horaireFermeture["horaire_reel"]> $a_horaireFermeture["horaire_fermeture"]) 
         {
             $req_notifService = $auth_user->runQuery(" INSERT INTO Notifications (CreneauxInterventionsidRdv, ServicesnomService, indication)
@@ -34,7 +34,7 @@
 		$idCreneau = $req_idCreneau->fetchColumn();
 		$req_idCreneau->closeCursor();
 		
-		// Enregistre la notif
+	// Enregistre la notif
 		if ($niveauUrgence > $a_niveauUrgence["niveauUrgenceMax"])
 		{
 			$req_notif = $auth_user->runQuery(" INSERT INTO Notifications (CreneauxInterventionsidRdv, ServicesnomService, indication)

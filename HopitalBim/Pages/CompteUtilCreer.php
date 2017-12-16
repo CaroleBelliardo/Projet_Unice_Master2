@@ -16,14 +16,9 @@
 	</head>
 
 	<body>
-		
 		<?php
-		if ($_SESSION["idEmploye"] != 'admin00')
-		{
-		$auth_user->redirect('../Pageprincipale.php');
-		}
-		include ('../Formulaires/Formulaire_CompteUtilCreer.php'); //menu de navigation 
-		include ('../Config/Footer.php'); //menu de navigation ?>
+		include ('../Formulaires/Formulaire_CompteUtilCreer.php');  
+		include ('../Config/Footer.php'); //pied de page ?>
 	</body>
 	
 </html>

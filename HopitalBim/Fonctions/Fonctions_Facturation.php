@@ -1,7 +1,6 @@
 <?php
 
 // -- requetes
-
 // info coordonnees patient
     $req_adressePatient= $auth_user->runQuery("SELECT DISTINCT nom, prenom, numSS, telephone, mail,
                                                 numero, rue, nomVilles, departement , codepostal, pays
@@ -242,20 +241,10 @@
 
 <?php quitter1() ?> <br> <br> <br> <br>
 
-
-<!--<style type="text/css">
-
-table { vertical-align: top; }
-tr    { vertical-align: top; }
-td    { vertical-align: top; }
-</style>-->
-
     <?php
         }
         else echo  "Pas de facture disponible pour ce patient actuellement !"; ?>  
-               
-
-
+            
  <!-- bouton abandon redirection Page principale -->
      <?php quitter1() ?>
 

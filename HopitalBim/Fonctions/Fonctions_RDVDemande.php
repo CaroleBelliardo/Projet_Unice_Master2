@@ -147,8 +147,5 @@ FROM
 		$req_infoDateHeureUrg->closeCursor();
         return ($a_infoDateHeureUrg);
     }
-    
-
-	
-    
+  
 ?>

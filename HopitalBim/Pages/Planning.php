@@ -25,13 +25,7 @@
 	
 	if (isset($_POST['btn-supp'])=="suppr_rdv")
 	{
-	//substr($_POST['btn-supp'],-15);
-	//$req_supprimerRDV = $auth_user->runQuery("UPDATE CreneauxInterventions 
-	//										SET statut = 'a'
-	//										WHERE idCreneau=:$num");
-	//$req_supprimerRDV->execute(array('idCreneau'=>$_POST["idCrenaux_supp"]));
-	//$auth_user->redirect('Planning.php');
-	echo ' Rendez-vous supprimé';
+		echo ' Rendez-vous supprimé';
 	}
 	
 	if (isset ($_POST["btn-AnnulerOui"]))
@@ -43,6 +37,7 @@
 		$auth_user->redirect('Planning.php?Suppression');
 
 	}
+	
 	if (isset ($_POST["btn-AnnulerNon"]))
 	{
 		$auth_user->redirect('Planning.php');
@@ -56,7 +51,7 @@
 		$auth_user->redirect('Planning.php?Valide');
 	}
 
-if (isset ($_POST["btn-Modifier"]))
+	if (isset ($_POST["btn-Modifier"]))
 	{
 		$_SESSION['rdvModifier']= $_POST["btn-Modifier"];
 		$auth_user->redirect('RDVModification.php');
@@ -76,29 +71,23 @@ if (isset ($_POST["btn-Modifier"]))
 	</head>
 
 	<body>
-					
 		<?php include ("../Formulaires/RechercheServiceDate.php"); ?>	
 		<br>
-		
 	 	<div class="containerTab">
-
 			<CENTER><table id="synthese" border="1", ALIGN="CENTER", VALIGN="MIDDLE " >
 			<caption> Planning de service </caption>
-
 			<tr>
-
 				<th class="haut">Heure</th>
-		 
-		 		<?php 
+	<?php 
 					foreach ($a_idActes as $idx=>$acte) // affichage de l'en-tete
 			 		{
-		 		?>
+	?>
 				 
 				<th class="haut"> <?php echo $acte ?></th> 
 
-		 		<?php
+	<?php
 				 	}
-				?>
+	?>
 		 
 		 	</tr>
 
@@ -172,8 +161,6 @@ if (isset ($_POST["btn-Modifier"]))
 								Facturé
 								</div>
 	<?php					}
-	?>
-						<?php
 						//bouton modifier -- annuler
 							// s'affiche si l'utilisateur est chef du service consulté ou la personne qui a effectué la requete
 							// et si si la date d'auj < date rdv

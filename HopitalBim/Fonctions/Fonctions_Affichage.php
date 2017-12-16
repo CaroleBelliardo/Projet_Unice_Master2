@@ -19,8 +19,6 @@ function Affiche_dateFr($d) // AFFICHE la date au format francais (ex : jeudi 2 
     echo $intl_date_formatter->format($date_time); 
   } 
  
- 
- 
 
 function quitter1()
 	{

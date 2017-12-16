@@ -1,8 +1,5 @@
 <?php
 	include ('../Config/Menupage.php');
-	
-
-
 ?>
 
 <!DOCTYPE html PUBLIC >

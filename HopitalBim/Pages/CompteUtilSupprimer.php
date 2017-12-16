@@ -130,23 +130,15 @@
 								}
 								?>
 							</datalist>
-								 
 						</fieldset></br >
-					
 					 </div>
 						
 					<div class="form-group">
 						<button type="submit" class="btn btn-primary" name="btn-suppr_CU">Valider</button>
 					</div>
-
 			</form>
-
 		</div>
-
-
-		<?php quitter1(); //menu de navigation ?>  
-
-
+		<?php quitter1();  ?>  
 		<?php include ('../Config/Footer2.php'); ?>
 
 	</body>

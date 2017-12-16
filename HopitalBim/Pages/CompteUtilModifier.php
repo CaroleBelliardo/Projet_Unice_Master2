@@ -4,9 +4,9 @@
 	$lien ='CompteUtilModifier.php';
 
 	if ($_SESSION["idEmploye"] != 'admin00')
-{
-	$auth_user->redirect('../Pageprincipale.php');
-}
+	{
+		$auth_user->redirect('../Pageprincipale.php');
+	}
 ?>	
 
 <!DOCTYPE html PUBLIC >
@@ -31,13 +31,10 @@
 														WHERE Employes.AdressesidAdresse = Adresses.idAdresse
 														AND Adresses.VillesidVilles = Villes.idVilles
 														AND  CompteUtilisateursidEmploye = :utilisateur");
-				
 				$req_utilisateur->execute(array("utilisateur"=>$_SESSION['utilisateurModifier']));
 				$utilisateurInfo=$req_utilisateur -> fetch(PDO::FETCH_ASSOC);
 				include ('../Formulaires/Formulaire_CompteUtilModifier.php');; // recherche patient existe pas (redirection fiche patient)
 			}
-
 		?>
-
 	</body>
 </html>

@@ -1,9 +1,7 @@
-
  <?php
 
 	include ('../Config/Menupage.php');
 	$lien ='RDVModification.php';
-
 
 ?>	
 
@@ -26,7 +24,7 @@
 			{	
 				include ('../Formulaires/Formulaire_RDVModification.php');; // recherche patient existe pas (redirection fiche patient)
 			}
-			include ('../Config/Footer.php'); //menu de navigation
+			include ('../Config/Footer.php'); 
 		?>
 
 	</body>
