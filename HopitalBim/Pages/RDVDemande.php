@@ -123,16 +123,6 @@ if(isset($_POST['btn_demandeRDV'])) // si utilisateur clique sur le bouton deman
 				$a_infoDateHeure["heureR"] = ProchaineHeureArrondie(); //=> on affecte date & heure actuelles		
 				$a_infoDateHeure["dateR"] = date('Y-m-d');				
 			}
-
-// **************************************          Recherche Horaire APPROPRIEE SI niveau urgence != 0         *********************************
-			If ($niveauUrgence !=0) //  determine le delais a respecter
-			{
-				$a_infoDateHeure=gestionUrgence($auth_user,$idIntervention,$niveauUrgence, $a_infoDateHeure,$a_horaireService);
-			}
-// *************************************************           INSERTION rdv         **********************************************************************************
-			
-			
-			
 		// heure de fermeture
 			if  ( $a_infoDateHeure["heureR"] < $a_horaireService["horaire_ouverture"]  )  // gestion erreur : si service = ferme, après minuit
 			{
@@ -143,6 +133,15 @@ if(isset($_POST['btn_demandeRDV'])) // si utilisateur clique sur le bouton deman
 				$a_infoDateHeure["heureR"] = $a_horaireService["horaire_ouverture"]; //=> on affecte date & heure actuelles
 				$a_infoDateHeure["dateR"] = date("Y-m-d", strtotime($a_infoDateHeure['dateR']." +1 day"));	
 			}
+// **************************************          Recherche Horaire APPROPRIEE SI niveau urgence != 0         *********************************
+			If ($niveauUrgence !=0) //  determine le delais a respecter
+			{
+				$a_infoDateHeure=gestionUrgence($auth_user,$idIntervention,$niveauUrgence, $a_infoDateHeure,$a_horaireService);
+			}
+// *************************************************           INSERTION rdv         **********************************************************************************
+			
+			
+			
 		// recherche s'il y a des rdv modifiés à la même heure
 			$req_rdvmodifie = $auth_user-> runQuery(" SELECT CreneauxInterventions.id_rdv
 													FROM CreneauxInterventions

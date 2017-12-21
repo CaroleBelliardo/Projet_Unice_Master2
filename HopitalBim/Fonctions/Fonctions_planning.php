@@ -1,5 +1,12 @@
 <?php	// Requetes ---
 		// -- Service à affiché, par defaut celui du service d'appartenance de l'utilisateur
+	 function heurePlus15($h,$temps) // prend en entrée une string h:m et renvoye l'heure + 15minutes
+	{
+		$heure = strtotime($h);
+		$heurePlus15 =date("H:i", strtotime( $temps,$heure));
+		return ($heurePlus15);
+	}
+	
 	function infoPlanning ($auth_user,$a_utilisateur,$dateCourant,$heureCourante)
 	{
 		if (!array_key_exists('servicePlanning',$_SESSION))
@@ -47,6 +54,8 @@
 
 	//-- Gestion erreur : aucun rdv prevu pour la journée
 	//fermeture
+		$horraireTravail['horaire_fermeture'] = heurePlus15($horraireTravail['horaire_fermeture'],'- 15 min');
+
 	if ( ($a_heureMinMax[1] != null ) and ($a_heureMinMax[1] >= $horraireTravail['horaire_fermeture'] ) )
 	{
 		$horraireTravail['horaire_fermeture'] = $a_heureMinMax[1];
