@@ -190,7 +190,12 @@
                 { 
     ?>
                     <td>
-                        <?php echo $line[$i] ?>
+                        <?php 
+						if ( ( $col == "Tarif TTC" ) or ($col == "Tarif HT") or ($col == "Prise en charge SS") or ($col == "Part mutuelle") )  {
+							echo round($line[$i],2);
+						}else {
+						echo $line[$i];
+						} ?>
                     </td>
     <?php		}
     ?>
@@ -210,7 +215,7 @@
     <?php 
                 foreach ($tot as $col=>$line) // $col = colonne
                         {
-    ?>		<th style="width:9.2%;"><?php echo $line ?> &euro;</th>
+    ?>		<th style="width:9.2%;"><?php echo round( $line ,2);?> &euro;</th>
     <?php							
                         }
     ?>
