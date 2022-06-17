@@ -1,3 +1,5 @@
 # Projet Master BIM
 
-Planning management tool in a hostpital environment
+Planning management webpage dedicated  to a hostpital environment
+
+
